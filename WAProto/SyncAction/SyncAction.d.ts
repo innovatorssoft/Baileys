@@ -4297,7 +4297,8 @@ export namespace SyncAction {
                 SERVER_ASSIGNED = 7,
                 DRAFTED = 8,
                 AI_HANDOFF = 9,
-                CHANNELS = 10
+                CHANNELS = 10,
+                AI_RESPONDING = 11
             }
         }
 
@@ -7624,6 +7625,12 @@ export namespace SyncAction {
 
             /** SettingsSyncAction shouldPlaySoundForCallNotification */
             shouldPlaySoundForCallNotification?: (boolean|null);
+
+            /** SettingsSyncAction chatThemeId */
+            chatThemeId?: (string|null);
+
+            /** SettingsSyncAction colorSchemeId */
+            colorSchemeId?: (string|null);
         }
 
         /** Represents a SettingsSyncAction. */
@@ -7727,6 +7734,12 @@ export namespace SyncAction {
 
             /** SettingsSyncAction shouldPlaySoundForCallNotification. */
             public shouldPlaySoundForCallNotification?: (boolean|null);
+
+            /** SettingsSyncAction chatThemeId. */
+            public chatThemeId?: (string|null);
+
+            /** SettingsSyncAction colorSchemeId. */
+            public colorSchemeId?: (string|null);
 
             /**
              * Creates a new SettingsSyncAction instance using the specified properties.
@@ -7856,7 +7869,9 @@ export namespace SyncAction {
                 IS_GROUP_REACTIONS_NOTIFICATION_ENABLED = 28,
                 IS_STATUS_NOTIFICATION_ENABLED = 29,
                 STATUS_NOTIFICATION_TONE_ID = 30,
-                SHOULD_PLAY_SOUND_FOR_CALL_NOTIFICATION = 31
+                SHOULD_PLAY_SOUND_FOR_CALL_NOTIFICATION = 31,
+                CHAT_THEME_ID = 32,
+                COLOR_SCHEME_ID = 33
             }
 
             /** SettingPlatform enum. */

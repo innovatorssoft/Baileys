@@ -161692,6 +161692,7 @@ $root.SyncAction = (function() {
                     case 8:
                     case 9:
                     case 10:
+                    case 11:
                         break;
                     }
                 }
@@ -161782,6 +161783,10 @@ $root.SyncAction = (function() {
                 case "CHANNELS":
                 case 10:
                     message.type = 10;
+                    break;
+                case "AI_RESPONDING":
+                case 11:
+                    message.type = 11;
                     break;
                 }
                 if (object.isImmutable != null)
@@ -161903,6 +161908,7 @@ $root.SyncAction = (function() {
              * @property {number} DRAFTED=8 DRAFTED value
              * @property {number} AI_HANDOFF=9 AI_HANDOFF value
              * @property {number} CHANNELS=10 CHANNELS value
+             * @property {number} AI_RESPONDING=11 AI_RESPONDING value
              */
             LabelEditAction.ListType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -161917,6 +161923,7 @@ $root.SyncAction = (function() {
                 values[valuesById[8] = "DRAFTED"] = 8;
                 values[valuesById[9] = "AI_HANDOFF"] = 9;
                 values[valuesById[10] = "CHANNELS"] = 10;
+                values[valuesById[11] = "AI_RESPONDING"] = 11;
                 return values;
             })();
 
@@ -169945,6 +169952,8 @@ $root.SyncAction = (function() {
              * @property {boolean|null} [isStatusNotificationEnabled] SettingsSyncAction isStatusNotificationEnabled
              * @property {number|null} [statusNotificationToneId] SettingsSyncAction statusNotificationToneId
              * @property {boolean|null} [shouldPlaySoundForCallNotification] SettingsSyncAction shouldPlaySoundForCallNotification
+             * @property {string|null} [chatThemeId] SettingsSyncAction chatThemeId
+             * @property {string|null} [colorSchemeId] SettingsSyncAction colorSchemeId
              */
 
             /**
@@ -170210,6 +170219,22 @@ $root.SyncAction = (function() {
              */
             SettingsSyncAction.prototype.shouldPlaySoundForCallNotification = null;
 
+            /**
+             * SettingsSyncAction chatThemeId.
+             * @member {string|null|undefined} chatThemeId
+             * @memberof SyncAction.SyncActionValue.SettingsSyncAction
+             * @instance
+             */
+            SettingsSyncAction.prototype.chatThemeId = null;
+
+            /**
+             * SettingsSyncAction colorSchemeId.
+             * @member {string|null|undefined} colorSchemeId
+             * @memberof SyncAction.SyncActionValue.SettingsSyncAction
+             * @instance
+             */
+            SettingsSyncAction.prototype.colorSchemeId = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -170399,6 +170424,18 @@ $root.SyncAction = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(SettingsSyncAction.prototype, "_chatThemeId", {
+                get: $util.oneOfGetter($oneOfFields = ["chatThemeId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(SettingsSyncAction.prototype, "_colorSchemeId", {
+                get: $util.oneOfGetter($oneOfFields = ["colorSchemeId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new SettingsSyncAction instance using the specified properties.
              * @function create
@@ -170485,6 +170522,10 @@ $root.SyncAction = (function() {
                     writer.uint32(/* id 30, wireType 0 =*/240).int32(message.statusNotificationToneId);
                 if (message.shouldPlaySoundForCallNotification != null && Object.hasOwnProperty.call(message, "shouldPlaySoundForCallNotification"))
                     writer.uint32(/* id 31, wireType 0 =*/248).bool(message.shouldPlaySoundForCallNotification);
+                if (message.chatThemeId != null && Object.hasOwnProperty.call(message, "chatThemeId"))
+                    writer.uint32(/* id 32, wireType 2 =*/258).string(message.chatThemeId);
+                if (message.colorSchemeId != null && Object.hasOwnProperty.call(message, "colorSchemeId"))
+                    writer.uint32(/* id 33, wireType 2 =*/266).string(message.colorSchemeId);
                 return writer;
             };
 
@@ -170643,6 +170684,14 @@ $root.SyncAction = (function() {
                         }
                     case 31: {
                             message.shouldPlaySoundForCallNotification = reader.bool();
+                            break;
+                        }
+                    case 32: {
+                            message.chatThemeId = reader.string();
+                            break;
+                        }
+                    case 33: {
+                            message.colorSchemeId = reader.string();
                             break;
                         }
                     default:
@@ -170856,6 +170905,16 @@ $root.SyncAction = (function() {
                     if (typeof message.shouldPlaySoundForCallNotification !== "boolean")
                         return "shouldPlaySoundForCallNotification: boolean expected";
                 }
+                if (message.chatThemeId != null && message.hasOwnProperty("chatThemeId")) {
+                    properties._chatThemeId = 1;
+                    if (!$util.isString(message.chatThemeId))
+                        return "chatThemeId: string expected";
+                }
+                if (message.colorSchemeId != null && message.hasOwnProperty("colorSchemeId")) {
+                    properties._colorSchemeId = 1;
+                    if (!$util.isString(message.colorSchemeId))
+                        return "colorSchemeId: string expected";
+                }
                 return null;
             };
 
@@ -170995,6 +171054,10 @@ $root.SyncAction = (function() {
                     message.statusNotificationToneId = object.statusNotificationToneId | 0;
                 if (object.shouldPlaySoundForCallNotification != null)
                     message.shouldPlaySoundForCallNotification = Boolean(object.shouldPlaySoundForCallNotification);
+                if (object.chatThemeId != null)
+                    message.chatThemeId = String(object.chatThemeId);
+                if (object.colorSchemeId != null)
+                    message.colorSchemeId = String(object.colorSchemeId);
                 return message;
             };
 
@@ -171166,6 +171229,16 @@ $root.SyncAction = (function() {
                     if (options.oneofs)
                         object._shouldPlaySoundForCallNotification = "shouldPlaySoundForCallNotification";
                 }
+                if (message.chatThemeId != null && message.hasOwnProperty("chatThemeId")) {
+                    object.chatThemeId = message.chatThemeId;
+                    if (options.oneofs)
+                        object._chatThemeId = "chatThemeId";
+                }
+                if (message.colorSchemeId != null && message.hasOwnProperty("colorSchemeId")) {
+                    object.colorSchemeId = message.colorSchemeId;
+                    if (options.oneofs)
+                        object._colorSchemeId = "colorSchemeId";
+                }
                 return object;
             };
 
@@ -171265,6 +171338,8 @@ $root.SyncAction = (function() {
              * @property {number} IS_STATUS_NOTIFICATION_ENABLED=29 IS_STATUS_NOTIFICATION_ENABLED value
              * @property {number} STATUS_NOTIFICATION_TONE_ID=30 STATUS_NOTIFICATION_TONE_ID value
              * @property {number} SHOULD_PLAY_SOUND_FOR_CALL_NOTIFICATION=31 SHOULD_PLAY_SOUND_FOR_CALL_NOTIFICATION value
+             * @property {number} CHAT_THEME_ID=32 CHAT_THEME_ID value
+             * @property {number} COLOR_SCHEME_ID=33 COLOR_SCHEME_ID value
              */
             SettingsSyncAction.SettingKey = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -171300,6 +171375,8 @@ $root.SyncAction = (function() {
                 values[valuesById[29] = "IS_STATUS_NOTIFICATION_ENABLED"] = 29;
                 values[valuesById[30] = "STATUS_NOTIFICATION_TONE_ID"] = 30;
                 values[valuesById[31] = "SHOULD_PLAY_SOUND_FOR_CALL_NOTIFICATION"] = 31;
+                values[valuesById[32] = "CHAT_THEME_ID"] = 32;
+                values[valuesById[33] = "COLOR_SCHEME_ID"] = 33;
                 return values;
             })();
 
