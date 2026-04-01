@@ -253,6 +253,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast insightsSyncEnabled */
             insightsSyncEnabled?: (boolean|null);
+
+            /** BusinessBroadcast recipientLimit */
+            recipientLimit?: (number|null);
         }
 
         /** Represents a BusinessBroadcast. */
@@ -275,6 +278,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast insightsSyncEnabled. */
             public insightsSyncEnabled?: (boolean|null);
+
+            /** BusinessBroadcast recipientLimit. */
+            public recipientLimit?: (number|null);
 
             /**
              * Creates a new BusinessBroadcast instance using the specified properties.

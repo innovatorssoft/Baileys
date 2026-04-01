@@ -2691,6 +2691,9 @@ export namespace AICommon {
         /** BotMetadata aiMediaCollectionMetadata */
         aiMediaCollectionMetadata?: (AICommon.IAIMediaCollectionMetadata|null);
 
+        /** BotMetadata commandMetadata */
+        commandMetadata?: (AICommon.IBotCommandMetadata|null);
+
         /** BotMetadata internalMetadata */
         internalMetadata?: (Uint8Array|null);
     }
@@ -2815,6 +2818,9 @@ export namespace AICommon {
         /** BotMetadata aiMediaCollectionMetadata. */
         public aiMediaCollectionMetadata?: (AICommon.IAIMediaCollectionMetadata|null);
 
+        /** BotMetadata commandMetadata. */
+        public commandMetadata?: (AICommon.IBotCommandMetadata|null);
+
         /** BotMetadata internalMetadata. */
         public internalMetadata?: (Uint8Array|null);
 
@@ -2890,6 +2896,115 @@ export namespace AICommon {
 
         /**
          * Gets the default type url for BotMetadata
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a BotCommandMetadata. */
+    interface IBotCommandMetadata {
+
+        /** BotCommandMetadata commandName */
+        commandName?: (string|null);
+
+        /** BotCommandMetadata commandDescription */
+        commandDescription?: (string|null);
+
+        /** BotCommandMetadata commandPrompt */
+        commandPrompt?: (string|null);
+    }
+
+    /** Represents a BotCommandMetadata. */
+    class BotCommandMetadata implements IBotCommandMetadata {
+
+        /**
+         * Constructs a new BotCommandMetadata.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: AICommon.IBotCommandMetadata);
+
+        /** BotCommandMetadata commandName. */
+        public commandName?: (string|null);
+
+        /** BotCommandMetadata commandDescription. */
+        public commandDescription?: (string|null);
+
+        /** BotCommandMetadata commandPrompt. */
+        public commandPrompt?: (string|null);
+
+        /**
+         * Creates a new BotCommandMetadata instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns BotCommandMetadata instance
+         */
+        public static create(properties?: AICommon.IBotCommandMetadata): AICommon.BotCommandMetadata;
+
+        /**
+         * Encodes the specified BotCommandMetadata message. Does not implicitly {@link AICommon.BotCommandMetadata.verify|verify} messages.
+         * @param message BotCommandMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: AICommon.IBotCommandMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified BotCommandMetadata message, length delimited. Does not implicitly {@link AICommon.BotCommandMetadata.verify|verify} messages.
+         * @param message BotCommandMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: AICommon.IBotCommandMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a BotCommandMetadata message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns BotCommandMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BotCommandMetadata;
+
+        /**
+         * Decodes a BotCommandMetadata message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns BotCommandMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BotCommandMetadata;
+
+        /**
+         * Verifies a BotCommandMetadata message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a BotCommandMetadata message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns BotCommandMetadata
+         */
+        public static fromObject(object: { [k: string]: any }): AICommon.BotCommandMetadata;
+
+        /**
+         * Creates a plain object from a BotCommandMetadata message. Also converts values to other types if specified.
+         * @param message BotCommandMetadata
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: AICommon.BotCommandMetadata, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this BotCommandMetadata to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for BotCommandMetadata
          * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns The default type url
          */
@@ -8304,7 +8419,8 @@ export namespace AICommon {
         WEB_INTRO_PANEL = 46,
         WEB_NAVIGATION_BAR = 47,
         GROUP_MEMBER = 54,
-        CHATLIST_SEARCH = 55
+        CHATLIST_SEARCH = 55,
+        NEW_CHAT_LIST = 56
     }
 }
 

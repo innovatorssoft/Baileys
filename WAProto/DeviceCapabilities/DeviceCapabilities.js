@@ -738,6 +738,7 @@ $root.DeviceCapabilities = (function() {
              * @property {boolean|null} [companionSupportEnabled] BusinessBroadcast companionSupportEnabled
              * @property {boolean|null} [campaignSyncEnabled] BusinessBroadcast campaignSyncEnabled
              * @property {boolean|null} [insightsSyncEnabled] BusinessBroadcast insightsSyncEnabled
+             * @property {number|null} [recipientLimit] BusinessBroadcast recipientLimit
              */
 
             /**
@@ -787,6 +788,14 @@ $root.DeviceCapabilities = (function() {
              */
             BusinessBroadcast.prototype.insightsSyncEnabled = null;
 
+            /**
+             * BusinessBroadcast recipientLimit.
+             * @member {number|null|undefined} recipientLimit
+             * @memberof DeviceCapabilities.DeviceCapabilities.BusinessBroadcast
+             * @instance
+             */
+            BusinessBroadcast.prototype.recipientLimit = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -811,6 +820,12 @@ $root.DeviceCapabilities = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(BusinessBroadcast.prototype, "_insightsSyncEnabled", {
                 get: $util.oneOfGetter($oneOfFields = ["insightsSyncEnabled"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessBroadcast.prototype, "_recipientLimit", {
+                get: $util.oneOfGetter($oneOfFields = ["recipientLimit"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -846,6 +861,8 @@ $root.DeviceCapabilities = (function() {
                     writer.uint32(/* id 3, wireType 0 =*/24).bool(message.campaignSyncEnabled);
                 if (message.insightsSyncEnabled != null && Object.hasOwnProperty.call(message, "insightsSyncEnabled"))
                     writer.uint32(/* id 4, wireType 0 =*/32).bool(message.insightsSyncEnabled);
+                if (message.recipientLimit != null && Object.hasOwnProperty.call(message, "recipientLimit"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).int32(message.recipientLimit);
                 return writer;
             };
 
@@ -896,6 +913,10 @@ $root.DeviceCapabilities = (function() {
                         }
                     case 4: {
                             message.insightsSyncEnabled = reader.bool();
+                            break;
+                        }
+                    case 5: {
+                            message.recipientLimit = reader.int32();
                             break;
                         }
                     default:
@@ -954,6 +975,11 @@ $root.DeviceCapabilities = (function() {
                     if (typeof message.insightsSyncEnabled !== "boolean")
                         return "insightsSyncEnabled: boolean expected";
                 }
+                if (message.recipientLimit != null && message.hasOwnProperty("recipientLimit")) {
+                    properties._recipientLimit = 1;
+                    if (!$util.isInteger(message.recipientLimit))
+                        return "recipientLimit: integer expected";
+                }
                 return null;
             };
 
@@ -977,6 +1003,8 @@ $root.DeviceCapabilities = (function() {
                     message.campaignSyncEnabled = Boolean(object.campaignSyncEnabled);
                 if (object.insightsSyncEnabled != null)
                     message.insightsSyncEnabled = Boolean(object.insightsSyncEnabled);
+                if (object.recipientLimit != null)
+                    message.recipientLimit = object.recipientLimit | 0;
                 return message;
             };
 
@@ -1012,6 +1040,11 @@ $root.DeviceCapabilities = (function() {
                     object.insightsSyncEnabled = message.insightsSyncEnabled;
                     if (options.oneofs)
                         object._insightsSyncEnabled = "insightsSyncEnabled";
+                }
+                if (message.recipientLimit != null && message.hasOwnProperty("recipientLimit")) {
+                    object.recipientLimit = message.recipientLimit;
+                    if (options.oneofs)
+                        object._recipientLimit = "recipientLimit";
                 }
                 return object;
             };

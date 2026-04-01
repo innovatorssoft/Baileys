@@ -117,6 +117,14 @@ message Account {
     optional bool isUsernameDeleted = 4;
 }
 
+message InlineContact {
+    optional string pnJid = 1;
+    optional string lidJid = 2;
+    optional string fullName = 3;
+    optional string firstName = 4;
+    optional string username = 5;
+}
+
 message PhoneNumberToLIDMapping {
     optional string pnJid = 1;
     optional string lidJid = 2;
@@ -207,6 +215,8 @@ message HistorySync {
     optional bytes shareableChatIdentifierEncryptionKey = 17;
     repeated Account accounts = 18;
     optional bytes nctSalt = 19;
+    repeated InlineContact inlineContacts = 20;
+    optional bool inlineContactsProvided = 21;
     enum BotAIWaitListState {
         IN_WAITLIST = 0;
         AI_AVAILABLE = 1;

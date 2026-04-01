@@ -1060,6 +1060,12 @@ export namespace CompanionReg {
 
             /** HistorySyncConfig supportHatchHistory */
             supportHatchHistory?: (boolean|null);
+
+            /** HistorySyncConfig supportedBotChannelFbids */
+            supportedBotChannelFbids?: (string[]|null);
+
+            /** HistorySyncConfig supportInlineContacts */
+            supportInlineContacts?: (boolean|null);
         }
 
         /** Represents a HistorySyncConfig. */
@@ -1136,6 +1142,12 @@ export namespace CompanionReg {
 
             /** HistorySyncConfig supportHatchHistory. */
             public supportHatchHistory?: (boolean|null);
+
+            /** HistorySyncConfig supportedBotChannelFbids. */
+            public supportedBotChannelFbids: string[];
+
+            /** HistorySyncConfig supportInlineContacts. */
+            public supportInlineContacts?: (boolean|null);
 
             /**
              * Creates a new HistorySyncConfig instance using the specified properties.

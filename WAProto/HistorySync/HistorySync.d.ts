@@ -1504,6 +1504,127 @@ export namespace HistorySync {
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
+    /** Properties of an InlineContact. */
+    interface IInlineContact {
+
+        /** InlineContact pnJid */
+        pnJid?: (string|null);
+
+        /** InlineContact lidJid */
+        lidJid?: (string|null);
+
+        /** InlineContact fullName */
+        fullName?: (string|null);
+
+        /** InlineContact firstName */
+        firstName?: (string|null);
+
+        /** InlineContact username */
+        username?: (string|null);
+    }
+
+    /** Represents an InlineContact. */
+    class InlineContact implements IInlineContact {
+
+        /**
+         * Constructs a new InlineContact.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: HistorySync.IInlineContact);
+
+        /** InlineContact pnJid. */
+        public pnJid?: (string|null);
+
+        /** InlineContact lidJid. */
+        public lidJid?: (string|null);
+
+        /** InlineContact fullName. */
+        public fullName?: (string|null);
+
+        /** InlineContact firstName. */
+        public firstName?: (string|null);
+
+        /** InlineContact username. */
+        public username?: (string|null);
+
+        /**
+         * Creates a new InlineContact instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns InlineContact instance
+         */
+        public static create(properties?: HistorySync.IInlineContact): HistorySync.InlineContact;
+
+        /**
+         * Encodes the specified InlineContact message. Does not implicitly {@link HistorySync.InlineContact.verify|verify} messages.
+         * @param message InlineContact message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: HistorySync.IInlineContact, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified InlineContact message, length delimited. Does not implicitly {@link HistorySync.InlineContact.verify|verify} messages.
+         * @param message InlineContact message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: HistorySync.IInlineContact, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an InlineContact message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns InlineContact
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): HistorySync.InlineContact;
+
+        /**
+         * Decodes an InlineContact message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns InlineContact
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): HistorySync.InlineContact;
+
+        /**
+         * Verifies an InlineContact message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an InlineContact message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns InlineContact
+         */
+        public static fromObject(object: { [k: string]: any }): HistorySync.InlineContact;
+
+        /**
+         * Creates a plain object from an InlineContact message. Also converts values to other types if specified.
+         * @param message InlineContact
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: HistorySync.InlineContact, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this InlineContact to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for InlineContact
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
     /** Properties of a PhoneNumberToLIDMapping. */
     interface IPhoneNumberToLIDMapping {
 
@@ -2107,6 +2228,12 @@ export namespace HistorySync {
 
         /** HistorySync nctSalt */
         nctSalt?: (Uint8Array|null);
+
+        /** HistorySync inlineContacts */
+        inlineContacts?: (HistorySync.IInlineContact[]|null);
+
+        /** HistorySync inlineContactsProvided */
+        inlineContactsProvided?: (boolean|null);
     }
 
     /** Represents a HistorySync. */
@@ -2171,6 +2298,12 @@ export namespace HistorySync {
 
         /** HistorySync nctSalt. */
         public nctSalt?: (Uint8Array|null);
+
+        /** HistorySync inlineContacts. */
+        public inlineContacts: HistorySync.IInlineContact[];
+
+        /** HistorySync inlineContactsProvided. */
+        public inlineContactsProvided?: (boolean|null);
 
         /**
          * Creates a new HistorySync instance using the specified properties.
@@ -2741,6 +2874,212 @@ export namespace UserPassword {
 
 /** Namespace E2E. */
 export namespace E2E {
+
+    /** Properties of a GroupRootKeyShareEntry. */
+    interface IGroupRootKeyShareEntry {
+
+        /** GroupRootKeyShareEntry groupRootKey */
+        groupRootKey?: (Uint8Array|null);
+
+        /** GroupRootKeyShareEntry keyId */
+        keyId?: (string|null);
+
+        /** GroupRootKeyShareEntry expiryTimestampMs */
+        expiryTimestampMs?: (number|Long|null);
+    }
+
+    /** Represents a GroupRootKeyShareEntry. */
+    class GroupRootKeyShareEntry implements IGroupRootKeyShareEntry {
+
+        /**
+         * Constructs a new GroupRootKeyShareEntry.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: E2E.IGroupRootKeyShareEntry);
+
+        /** GroupRootKeyShareEntry groupRootKey. */
+        public groupRootKey?: (Uint8Array|null);
+
+        /** GroupRootKeyShareEntry keyId. */
+        public keyId?: (string|null);
+
+        /** GroupRootKeyShareEntry expiryTimestampMs. */
+        public expiryTimestampMs?: (number|Long|null);
+
+        /**
+         * Creates a new GroupRootKeyShareEntry instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GroupRootKeyShareEntry instance
+         */
+        public static create(properties?: E2E.IGroupRootKeyShareEntry): E2E.GroupRootKeyShareEntry;
+
+        /**
+         * Encodes the specified GroupRootKeyShareEntry message. Does not implicitly {@link E2E.GroupRootKeyShareEntry.verify|verify} messages.
+         * @param message GroupRootKeyShareEntry message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: E2E.IGroupRootKeyShareEntry, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GroupRootKeyShareEntry message, length delimited. Does not implicitly {@link E2E.GroupRootKeyShareEntry.verify|verify} messages.
+         * @param message GroupRootKeyShareEntry message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: E2E.IGroupRootKeyShareEntry, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GroupRootKeyShareEntry message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GroupRootKeyShareEntry
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): E2E.GroupRootKeyShareEntry;
+
+        /**
+         * Decodes a GroupRootKeyShareEntry message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GroupRootKeyShareEntry
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): E2E.GroupRootKeyShareEntry;
+
+        /**
+         * Verifies a GroupRootKeyShareEntry message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a GroupRootKeyShareEntry message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GroupRootKeyShareEntry
+         */
+        public static fromObject(object: { [k: string]: any }): E2E.GroupRootKeyShareEntry;
+
+        /**
+         * Creates a plain object from a GroupRootKeyShareEntry message. Also converts values to other types if specified.
+         * @param message GroupRootKeyShareEntry
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: E2E.GroupRootKeyShareEntry, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this GroupRootKeyShareEntry to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for GroupRootKeyShareEntry
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a GroupRootKeyShare. */
+    interface IGroupRootKeyShare {
+
+        /** GroupRootKeyShare keys */
+        keys?: (E2E.IGroupRootKeyShareEntry[]|null);
+    }
+
+    /** Represents a GroupRootKeyShare. */
+    class GroupRootKeyShare implements IGroupRootKeyShare {
+
+        /**
+         * Constructs a new GroupRootKeyShare.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: E2E.IGroupRootKeyShare);
+
+        /** GroupRootKeyShare keys. */
+        public keys: E2E.IGroupRootKeyShareEntry[];
+
+        /**
+         * Creates a new GroupRootKeyShare instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GroupRootKeyShare instance
+         */
+        public static create(properties?: E2E.IGroupRootKeyShare): E2E.GroupRootKeyShare;
+
+        /**
+         * Encodes the specified GroupRootKeyShare message. Does not implicitly {@link E2E.GroupRootKeyShare.verify|verify} messages.
+         * @param message GroupRootKeyShare message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: E2E.IGroupRootKeyShare, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GroupRootKeyShare message, length delimited. Does not implicitly {@link E2E.GroupRootKeyShare.verify|verify} messages.
+         * @param message GroupRootKeyShare message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: E2E.IGroupRootKeyShare, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GroupRootKeyShare message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GroupRootKeyShare
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): E2E.GroupRootKeyShare;
+
+        /**
+         * Decodes a GroupRootKeyShare message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GroupRootKeyShare
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): E2E.GroupRootKeyShare;
+
+        /**
+         * Verifies a GroupRootKeyShare message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a GroupRootKeyShare message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GroupRootKeyShare
+         */
+        public static fromObject(object: { [k: string]: any }): E2E.GroupRootKeyShare;
+
+        /**
+         * Creates a plain object from a GroupRootKeyShare message. Also converts values to other types if specified.
+         * @param message GroupRootKeyShare
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: E2E.GroupRootKeyShare, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this GroupRootKeyShare to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for GroupRootKeyShare
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
 
     /** Properties of a AIQueryFanout. */
     interface IAIQueryFanout {
@@ -6415,6 +6754,9 @@ export namespace E2E {
 
         /** MessageContextInfo weblinkRenderConfig */
         weblinkRenderConfig?: (E2E.WebLinkRenderConfig|null);
+
+        /** MessageContextInfo teeBotMetadata */
+        teeBotMetadata?: (Uint8Array|null);
     }
 
     /** Represents a MessageContextInfo. */
@@ -6473,6 +6815,9 @@ export namespace E2E {
 
         /** MessageContextInfo weblinkRenderConfig. */
         public weblinkRenderConfig?: (E2E.WebLinkRenderConfig|null);
+
+        /** MessageContextInfo teeBotMetadata. */
+        public teeBotMetadata?: (Uint8Array|null);
 
         /**
          * Creates a new MessageContextInfo instance using the specified properties.
@@ -7811,6 +8156,18 @@ export namespace E2E {
 
             /** ExternalAdReplyInfo containsCtwaFlowsAutoReply */
             containsCtwaFlowsAutoReply?: (boolean|null);
+
+            /** ExternalAdReplyInfo agmThumbnailStrategy */
+            agmThumbnailStrategy?: (number|null);
+
+            /** ExternalAdReplyInfo agmTitleStrategy */
+            agmTitleStrategy?: (number|null);
+
+            /** ExternalAdReplyInfo agmSubtitleStrategy */
+            agmSubtitleStrategy?: (number|null);
+
+            /** ExternalAdReplyInfo agmHeaderInteractionStrategy */
+            agmHeaderInteractionStrategy?: (number|null);
         }
 
         /** Represents an ExternalAdReplyInfo. */
@@ -7905,6 +8262,18 @@ export namespace E2E {
 
             /** ExternalAdReplyInfo containsCtwaFlowsAutoReply. */
             public containsCtwaFlowsAutoReply?: (boolean|null);
+
+            /** ExternalAdReplyInfo agmThumbnailStrategy. */
+            public agmThumbnailStrategy?: (number|null);
+
+            /** ExternalAdReplyInfo agmTitleStrategy. */
+            public agmTitleStrategy?: (number|null);
+
+            /** ExternalAdReplyInfo agmSubtitleStrategy. */
+            public agmSubtitleStrategy?: (number|null);
+
+            /** ExternalAdReplyInfo agmHeaderInteractionStrategy. */
+            public agmHeaderInteractionStrategy?: (number|null);
 
             /**
              * Creates a new ExternalAdReplyInfo instance using the specified properties.
@@ -9145,6 +9514,9 @@ export namespace E2E {
 
         /** Message eventInviteMessage */
         eventInviteMessage?: (E2E.Message.IEventInviteMessage|null);
+
+        /** Message groupRootKeyShare */
+        groupRootKeyShare?: (E2E.IGroupRootKeyShare|null);
     }
 
     /** Represents a Message. */
@@ -9461,6 +9833,9 @@ export namespace E2E {
 
         /** Message eventInviteMessage. */
         public eventInviteMessage?: (E2E.Message.IEventInviteMessage|null);
+
+        /** Message groupRootKeyShare. */
+        public groupRootKeyShare?: (E2E.IGroupRootKeyShare|null);
 
         /**
          * Creates a new Message instance using the specified properties.
@@ -12034,7 +12409,8 @@ export namespace E2E {
             enum CloudAPIThreadControl {
                 UNKNOWN = 0,
                 CONTROL_PASSED = 1,
-                CONTROL_TAKEN = 2
+                CONTROL_TAKEN = 2,
+                INFO = 3
             }
 
             /** Properties of a CloudAPIThreadControlNotificationContent. */
@@ -23091,7 +23467,8 @@ export namespace E2E {
                     GENERIC_ERROR = 3,
                     ERROR_REQUEST_ON_NON_SMB_PRIMARY = 4,
                     ERROR_HOSTED_DEVICE_NOT_CONNECTED = 5,
-                    ERROR_HOSTED_DEVICE_LOGIN_TIME_NOT_SET = 6
+                    ERROR_HOSTED_DEVICE_LOGIN_TIME_NOT_SET = 6,
+                    ERROR_MULTI_PROVIDER_NOT_CONFIGURED = 7
                 }
 
                 /** Properties of a HistorySyncChunkRetryResponse. */
@@ -25854,8 +26231,7 @@ export namespace E2E {
                 AI_QUERY_FANOUT = 29,
                 GROUP_MEMBER_LABEL_CHANGE = 30,
                 AI_MEDIA_COLLECTION_MESSAGE = 31,
-                MESSAGE_UNSCHEDULE = 32,
-                BOT_UNLINK_MESSAGE = 33
+                MESSAGE_UNSCHEDULE = 32
             }
         }
 
@@ -27543,6 +27919,9 @@ export namespace E2E {
 
             /** StickerMessage premium */
             premium?: (number|null);
+
+            /** StickerMessage emojis */
+            emojis?: (string|null);
         }
 
         /** Represents a StickerMessage. */
@@ -27616,6 +27995,9 @@ export namespace E2E {
 
             /** StickerMessage premium. */
             public premium?: (number|null);
+
+            /** StickerMessage emojis. */
+            public emojis?: (string|null);
 
             /**
              * Creates a new StickerMessage instance using the specified properties.
@@ -35038,6 +35420,9 @@ export namespace AICommon {
         /** BotMetadata aiMediaCollectionMetadata */
         aiMediaCollectionMetadata?: (AICommon.IAIMediaCollectionMetadata|null);
 
+        /** BotMetadata commandMetadata */
+        commandMetadata?: (AICommon.IBotCommandMetadata|null);
+
         /** BotMetadata internalMetadata */
         internalMetadata?: (Uint8Array|null);
     }
@@ -35162,6 +35547,9 @@ export namespace AICommon {
         /** BotMetadata aiMediaCollectionMetadata. */
         public aiMediaCollectionMetadata?: (AICommon.IAIMediaCollectionMetadata|null);
 
+        /** BotMetadata commandMetadata. */
+        public commandMetadata?: (AICommon.IBotCommandMetadata|null);
+
         /** BotMetadata internalMetadata. */
         public internalMetadata?: (Uint8Array|null);
 
@@ -35237,6 +35625,115 @@ export namespace AICommon {
 
         /**
          * Gets the default type url for BotMetadata
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a BotCommandMetadata. */
+    interface IBotCommandMetadata {
+
+        /** BotCommandMetadata commandName */
+        commandName?: (string|null);
+
+        /** BotCommandMetadata commandDescription */
+        commandDescription?: (string|null);
+
+        /** BotCommandMetadata commandPrompt */
+        commandPrompt?: (string|null);
+    }
+
+    /** Represents a BotCommandMetadata. */
+    class BotCommandMetadata implements IBotCommandMetadata {
+
+        /**
+         * Constructs a new BotCommandMetadata.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: AICommon.IBotCommandMetadata);
+
+        /** BotCommandMetadata commandName. */
+        public commandName?: (string|null);
+
+        /** BotCommandMetadata commandDescription. */
+        public commandDescription?: (string|null);
+
+        /** BotCommandMetadata commandPrompt. */
+        public commandPrompt?: (string|null);
+
+        /**
+         * Creates a new BotCommandMetadata instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns BotCommandMetadata instance
+         */
+        public static create(properties?: AICommon.IBotCommandMetadata): AICommon.BotCommandMetadata;
+
+        /**
+         * Encodes the specified BotCommandMetadata message. Does not implicitly {@link AICommon.BotCommandMetadata.verify|verify} messages.
+         * @param message BotCommandMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: AICommon.IBotCommandMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified BotCommandMetadata message, length delimited. Does not implicitly {@link AICommon.BotCommandMetadata.verify|verify} messages.
+         * @param message BotCommandMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: AICommon.IBotCommandMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a BotCommandMetadata message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns BotCommandMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BotCommandMetadata;
+
+        /**
+         * Decodes a BotCommandMetadata message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns BotCommandMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BotCommandMetadata;
+
+        /**
+         * Verifies a BotCommandMetadata message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a BotCommandMetadata message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns BotCommandMetadata
+         */
+        public static fromObject(object: { [k: string]: any }): AICommon.BotCommandMetadata;
+
+        /**
+         * Creates a plain object from a BotCommandMetadata message. Also converts values to other types if specified.
+         * @param message BotCommandMetadata
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: AICommon.BotCommandMetadata, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this BotCommandMetadata to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for BotCommandMetadata
          * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns The default type url
          */
@@ -40651,7 +41148,8 @@ export namespace AICommon {
         WEB_INTRO_PANEL = 46,
         WEB_NAVIGATION_BAR = 47,
         GROUP_MEMBER = 54,
-        CHATLIST_SEARCH = 55
+        CHATLIST_SEARCH = 55,
+        NEW_CHAT_LIST = 56
     }
 }
 
@@ -42300,6 +42798,12 @@ export namespace CompanionReg {
 
             /** HistorySyncConfig supportHatchHistory */
             supportHatchHistory?: (boolean|null);
+
+            /** HistorySyncConfig supportedBotChannelFbids */
+            supportedBotChannelFbids?: (string[]|null);
+
+            /** HistorySyncConfig supportInlineContacts */
+            supportInlineContacts?: (boolean|null);
         }
 
         /** Represents a HistorySyncConfig. */
@@ -42376,6 +42880,12 @@ export namespace CompanionReg {
 
             /** HistorySyncConfig supportHatchHistory. */
             public supportHatchHistory?: (boolean|null);
+
+            /** HistorySyncConfig supportedBotChannelFbids. */
+            public supportedBotChannelFbids: string[];
+
+            /** HistorySyncConfig supportInlineContacts. */
+            public supportInlineContacts?: (boolean|null);
 
             /**
              * Creates a new HistorySyncConfig instance using the specified properties.
@@ -42715,6 +43225,115 @@ export namespace MmsRetry {
 
 /** Namespace Web. */
 export namespace Web {
+
+    /** Properties of a ScheduledMessageMetadata. */
+    interface IScheduledMessageMetadata {
+
+        /** ScheduledMessageMetadata revealKeyId */
+        revealKeyId?: (string|null);
+
+        /** ScheduledMessageMetadata revealKey */
+        revealKey?: (Uint8Array|null);
+
+        /** ScheduledMessageMetadata scheduledTime */
+        scheduledTime?: (number|Long|null);
+    }
+
+    /** Represents a ScheduledMessageMetadata. */
+    class ScheduledMessageMetadata implements IScheduledMessageMetadata {
+
+        /**
+         * Constructs a new ScheduledMessageMetadata.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: Web.IScheduledMessageMetadata);
+
+        /** ScheduledMessageMetadata revealKeyId. */
+        public revealKeyId?: (string|null);
+
+        /** ScheduledMessageMetadata revealKey. */
+        public revealKey?: (Uint8Array|null);
+
+        /** ScheduledMessageMetadata scheduledTime. */
+        public scheduledTime?: (number|Long|null);
+
+        /**
+         * Creates a new ScheduledMessageMetadata instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ScheduledMessageMetadata instance
+         */
+        public static create(properties?: Web.IScheduledMessageMetadata): Web.ScheduledMessageMetadata;
+
+        /**
+         * Encodes the specified ScheduledMessageMetadata message. Does not implicitly {@link Web.ScheduledMessageMetadata.verify|verify} messages.
+         * @param message ScheduledMessageMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: Web.IScheduledMessageMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ScheduledMessageMetadata message, length delimited. Does not implicitly {@link Web.ScheduledMessageMetadata.verify|verify} messages.
+         * @param message ScheduledMessageMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: Web.IScheduledMessageMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ScheduledMessageMetadata message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ScheduledMessageMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Web.ScheduledMessageMetadata;
+
+        /**
+         * Decodes a ScheduledMessageMetadata message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ScheduledMessageMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Web.ScheduledMessageMetadata;
+
+        /**
+         * Verifies a ScheduledMessageMetadata message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ScheduledMessageMetadata message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ScheduledMessageMetadata
+         */
+        public static fromObject(object: { [k: string]: any }): Web.ScheduledMessageMetadata;
+
+        /**
+         * Creates a plain object from a ScheduledMessageMetadata message. Also converts values to other types if specified.
+         * @param message ScheduledMessageMetadata
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: Web.ScheduledMessageMetadata, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ScheduledMessageMetadata to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ScheduledMessageMetadata
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
 
     /** Properties of a QuarantinedMessage. */
     interface IQuarantinedMessage {
@@ -46283,6 +46902,12 @@ export namespace Web {
 
         /** WebMessageInfo hsmTag */
         hsmTag?: (string|null);
+
+        /** WebMessageInfo ephemeralExpirationTimestamp */
+        ephemeralExpirationTimestamp?: (number|Long|null);
+
+        /** WebMessageInfo scheduledMessageMetadata */
+        scheduledMessageMetadata?: (Web.IScheduledMessageMetadata|null);
     }
 
     /** Represents a WebMessageInfo. */
@@ -46497,6 +47122,12 @@ export namespace Web {
 
         /** WebMessageInfo hsmTag. */
         public hsmTag?: (string|null);
+
+        /** WebMessageInfo ephemeralExpirationTimestamp. */
+        public ephemeralExpirationTimestamp?: (number|Long|null);
+
+        /** WebMessageInfo scheduledMessageMetadata. */
+        public scheduledMessageMetadata?: (Web.IScheduledMessageMetadata|null);
 
         /**
          * Creates a new WebMessageInfo instance using the specified properties.
@@ -46821,7 +47452,9 @@ export namespace Web {
             QUARANTINED_MESSAGE = 220,
             GROUP_MEMBER_SHARE_GROUP_HISTORY_MODE = 221,
             GROUP_OPEN_BOT_ADDED = 222,
-            GROUP_TEE_BOT_ADDED = 223
+            GROUP_TEE_BOT_ADDED = 223,
+            CONTACT_INFO = 224,
+            SCHEDULED_MESSAGE_CREATED = 225
         }
     }
 }
@@ -57574,6 +58207,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast insightsSyncEnabled */
             insightsSyncEnabled?: (boolean|null);
+
+            /** BusinessBroadcast recipientLimit */
+            recipientLimit?: (number|null);
         }
 
         /** Represents a BusinessBroadcast. */
@@ -57596,6 +58232,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast insightsSyncEnabled. */
             public insightsSyncEnabled?: (boolean|null);
+
+            /** BusinessBroadcast recipientLimit. */
+            public recipientLimit?: (number|null);
 
             /**
              * Creates a new BusinessBroadcast instance using the specified properties.

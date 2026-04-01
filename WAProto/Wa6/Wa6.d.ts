@@ -1659,6 +1659,9 @@ export namespace Wa6 {
 
             /** ClientHello pqMode */
             pqMode?: (Wa6.HandshakeMessage.HandshakePqMode|null);
+
+            /** ClientHello extendedEphemeral */
+            extendedEphemeral?: (Uint8Array|null);
         }
 
         /** Represents a ClientHello. */
@@ -1696,6 +1699,9 @@ export namespace Wa6 {
 
             /** ClientHello pqMode. */
             public pqMode?: (Wa6.HandshakeMessage.HandshakePqMode|null);
+
+            /** ClientHello extendedEphemeral. */
+            public extendedEphemeral?: (Uint8Array|null);
 
             /**
              * Creates a new ClientHello instance using the specified properties.
@@ -1805,6 +1811,9 @@ export namespace Wa6 {
 
             /** ServerHello paddingBytes */
             paddingBytes?: (Uint8Array|null);
+
+            /** ServerHello extendedCiphertext */
+            extendedCiphertext?: (Uint8Array|null);
         }
 
         /** Represents a ServerHello. */
@@ -1830,6 +1839,9 @@ export namespace Wa6 {
 
             /** ServerHello paddingBytes. */
             public paddingBytes?: (Uint8Array|null);
+
+            /** ServerHello extendedCiphertext. */
+            public extendedCiphertext?: (Uint8Array|null);
 
             /**
              * Creates a new ServerHello instance using the specified properties.

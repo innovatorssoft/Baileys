@@ -2863,6 +2863,7 @@ $root.AICommon = (function() {
                 case 47:
                 case 54:
                 case 55:
+                case 56:
                     break;
                 }
             }
@@ -3080,6 +3081,10 @@ $root.AICommon = (function() {
             case "CHATLIST_SEARCH":
             case 55:
                 message.botEntryPointOrigin = 55;
+                break;
+            case "NEW_CHAT_LIST":
+            case 56:
+                message.botEntryPointOrigin = 56;
                 break;
             }
             if (object.forwardScore != null)
@@ -7214,6 +7219,7 @@ $root.AICommon = (function() {
          * @property {AICommon.IBotRenderingConfigMetadata|null} [botRenderingConfigMetadata] BotMetadata botRenderingConfigMetadata
          * @property {AICommon.IBotInfrastructureDiagnostics|null} [botInfrastructureDiagnostics] BotMetadata botInfrastructureDiagnostics
          * @property {AICommon.IAIMediaCollectionMetadata|null} [aiMediaCollectionMetadata] BotMetadata aiMediaCollectionMetadata
+         * @property {AICommon.IBotCommandMetadata|null} [commandMetadata] BotMetadata commandMetadata
          * @property {Uint8Array|null} [internalMetadata] BotMetadata internalMetadata
          */
 
@@ -7529,6 +7535,14 @@ $root.AICommon = (function() {
         BotMetadata.prototype.aiMediaCollectionMetadata = null;
 
         /**
+         * BotMetadata commandMetadata.
+         * @member {AICommon.IBotCommandMetadata|null|undefined} commandMetadata
+         * @memberof AICommon.BotMetadata
+         * @instance
+         */
+        BotMetadata.prototype.commandMetadata = null;
+
+        /**
          * BotMetadata internalMetadata.
          * @member {Uint8Array|null|undefined} internalMetadata
          * @memberof AICommon.BotMetadata
@@ -7762,6 +7776,12 @@ $root.AICommon = (function() {
         });
 
         // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotMetadata.prototype, "_commandMetadata", {
+            get: $util.oneOfGetter($oneOfFields = ["commandMetadata"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
         Object.defineProperty(BotMetadata.prototype, "_internalMetadata", {
             get: $util.oneOfGetter($oneOfFields = ["internalMetadata"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -7865,6 +7885,8 @@ $root.AICommon = (function() {
                 $root.AICommon.BotInfrastructureDiagnostics.encode(message.botInfrastructureDiagnostics, writer.uint32(/* id 37, wireType 2 =*/298).fork()).ldelim();
             if (message.aiMediaCollectionMetadata != null && Object.hasOwnProperty.call(message, "aiMediaCollectionMetadata"))
                 $root.AICommon.AIMediaCollectionMetadata.encode(message.aiMediaCollectionMetadata, writer.uint32(/* id 38, wireType 2 =*/306).fork()).ldelim();
+            if (message.commandMetadata != null && Object.hasOwnProperty.call(message, "commandMetadata"))
+                $root.AICommon.BotCommandMetadata.encode(message.commandMetadata, writer.uint32(/* id 39, wireType 2 =*/314).fork()).ldelim();
             if (message.internalMetadata != null && Object.hasOwnProperty.call(message, "internalMetadata"))
                 writer.uint32(/* id 999, wireType 2 =*/7994).bytes(message.internalMetadata);
             return writer;
@@ -8049,6 +8071,10 @@ $root.AICommon = (function() {
                     }
                 case 38: {
                         message.aiMediaCollectionMetadata = $root.AICommon.AIMediaCollectionMetadata.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 39: {
+                        message.commandMetadata = $root.AICommon.BotCommandMetadata.decode(reader, reader.uint32());
                         break;
                     }
                 case 999: {
@@ -8366,6 +8392,14 @@ $root.AICommon = (function() {
                         return "aiMediaCollectionMetadata." + error;
                 }
             }
+            if (message.commandMetadata != null && message.hasOwnProperty("commandMetadata")) {
+                properties._commandMetadata = 1;
+                {
+                    var error = $root.AICommon.BotCommandMetadata.verify(message.commandMetadata);
+                    if (error)
+                        return "commandMetadata." + error;
+                }
+            }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 properties._internalMetadata = 1;
                 if (!(message.internalMetadata && typeof message.internalMetadata.length === "number" || $util.isString(message.internalMetadata)))
@@ -8552,6 +8586,11 @@ $root.AICommon = (function() {
                 if (typeof object.aiMediaCollectionMetadata !== "object")
                     throw TypeError(".AICommon.BotMetadata.aiMediaCollectionMetadata: object expected");
                 message.aiMediaCollectionMetadata = $root.AICommon.AIMediaCollectionMetadata.fromObject(object.aiMediaCollectionMetadata);
+            }
+            if (object.commandMetadata != null) {
+                if (typeof object.commandMetadata !== "object")
+                    throw TypeError(".AICommon.BotMetadata.commandMetadata: object expected");
+                message.commandMetadata = $root.AICommon.BotCommandMetadata.fromObject(object.commandMetadata);
             }
             if (object.internalMetadata != null)
                 if (typeof object.internalMetadata === "string")
@@ -8759,6 +8798,11 @@ $root.AICommon = (function() {
                 if (options.oneofs)
                     object._aiMediaCollectionMetadata = "aiMediaCollectionMetadata";
             }
+            if (message.commandMetadata != null && message.hasOwnProperty("commandMetadata")) {
+                object.commandMetadata = $root.AICommon.BotCommandMetadata.toObject(message.commandMetadata, options);
+                if (options.oneofs)
+                    object._commandMetadata = "commandMetadata";
+            }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 object.internalMetadata = options.bytes === String ? $util.base64.encode(message.internalMetadata, 0, message.internalMetadata.length) : options.bytes === Array ? Array.prototype.slice.call(message.internalMetadata) : message.internalMetadata;
                 if (options.oneofs)
@@ -8794,6 +8838,290 @@ $root.AICommon = (function() {
         };
 
         return BotMetadata;
+    })();
+
+    AICommon.BotCommandMetadata = (function() {
+
+        /**
+         * Properties of a BotCommandMetadata.
+         * @memberof AICommon
+         * @interface IBotCommandMetadata
+         * @property {string|null} [commandName] BotCommandMetadata commandName
+         * @property {string|null} [commandDescription] BotCommandMetadata commandDescription
+         * @property {string|null} [commandPrompt] BotCommandMetadata commandPrompt
+         */
+
+        /**
+         * Constructs a new BotCommandMetadata.
+         * @memberof AICommon
+         * @classdesc Represents a BotCommandMetadata.
+         * @implements IBotCommandMetadata
+         * @constructor
+         * @param {AICommon.IBotCommandMetadata=} [properties] Properties to set
+         */
+        function BotCommandMetadata(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BotCommandMetadata commandName.
+         * @member {string|null|undefined} commandName
+         * @memberof AICommon.BotCommandMetadata
+         * @instance
+         */
+        BotCommandMetadata.prototype.commandName = null;
+
+        /**
+         * BotCommandMetadata commandDescription.
+         * @member {string|null|undefined} commandDescription
+         * @memberof AICommon.BotCommandMetadata
+         * @instance
+         */
+        BotCommandMetadata.prototype.commandDescription = null;
+
+        /**
+         * BotCommandMetadata commandPrompt.
+         * @member {string|null|undefined} commandPrompt
+         * @memberof AICommon.BotCommandMetadata
+         * @instance
+         */
+        BotCommandMetadata.prototype.commandPrompt = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotCommandMetadata.prototype, "_commandName", {
+            get: $util.oneOfGetter($oneOfFields = ["commandName"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotCommandMetadata.prototype, "_commandDescription", {
+            get: $util.oneOfGetter($oneOfFields = ["commandDescription"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotCommandMetadata.prototype, "_commandPrompt", {
+            get: $util.oneOfGetter($oneOfFields = ["commandPrompt"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new BotCommandMetadata instance using the specified properties.
+         * @function create
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {AICommon.IBotCommandMetadata=} [properties] Properties to set
+         * @returns {AICommon.BotCommandMetadata} BotCommandMetadata instance
+         */
+        BotCommandMetadata.create = function create(properties) {
+            return new BotCommandMetadata(properties);
+        };
+
+        /**
+         * Encodes the specified BotCommandMetadata message. Does not implicitly {@link AICommon.BotCommandMetadata.verify|verify} messages.
+         * @function encode
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {AICommon.IBotCommandMetadata} message BotCommandMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BotCommandMetadata.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.commandName != null && Object.hasOwnProperty.call(message, "commandName"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.commandName);
+            if (message.commandDescription != null && Object.hasOwnProperty.call(message, "commandDescription"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.commandDescription);
+            if (message.commandPrompt != null && Object.hasOwnProperty.call(message, "commandPrompt"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.commandPrompt);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BotCommandMetadata message, length delimited. Does not implicitly {@link AICommon.BotCommandMetadata.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {AICommon.IBotCommandMetadata} message BotCommandMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BotCommandMetadata.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BotCommandMetadata message from the specified reader or buffer.
+         * @function decode
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {AICommon.BotCommandMetadata} BotCommandMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BotCommandMetadata.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AICommon.BotCommandMetadata();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.commandName = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.commandDescription = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.commandPrompt = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BotCommandMetadata message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {AICommon.BotCommandMetadata} BotCommandMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BotCommandMetadata.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BotCommandMetadata message.
+         * @function verify
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BotCommandMetadata.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.commandName != null && message.hasOwnProperty("commandName")) {
+                properties._commandName = 1;
+                if (!$util.isString(message.commandName))
+                    return "commandName: string expected";
+            }
+            if (message.commandDescription != null && message.hasOwnProperty("commandDescription")) {
+                properties._commandDescription = 1;
+                if (!$util.isString(message.commandDescription))
+                    return "commandDescription: string expected";
+            }
+            if (message.commandPrompt != null && message.hasOwnProperty("commandPrompt")) {
+                properties._commandPrompt = 1;
+                if (!$util.isString(message.commandPrompt))
+                    return "commandPrompt: string expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a BotCommandMetadata message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {AICommon.BotCommandMetadata} BotCommandMetadata
+         */
+        BotCommandMetadata.fromObject = function fromObject(object) {
+            if (object instanceof $root.AICommon.BotCommandMetadata)
+                return object;
+            var message = new $root.AICommon.BotCommandMetadata();
+            if (object.commandName != null)
+                message.commandName = String(object.commandName);
+            if (object.commandDescription != null)
+                message.commandDescription = String(object.commandDescription);
+            if (object.commandPrompt != null)
+                message.commandPrompt = String(object.commandPrompt);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BotCommandMetadata message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {AICommon.BotCommandMetadata} message BotCommandMetadata
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BotCommandMetadata.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.commandName != null && message.hasOwnProperty("commandName")) {
+                object.commandName = message.commandName;
+                if (options.oneofs)
+                    object._commandName = "commandName";
+            }
+            if (message.commandDescription != null && message.hasOwnProperty("commandDescription")) {
+                object.commandDescription = message.commandDescription;
+                if (options.oneofs)
+                    object._commandDescription = "commandDescription";
+            }
+            if (message.commandPrompt != null && message.hasOwnProperty("commandPrompt")) {
+                object.commandPrompt = message.commandPrompt;
+                if (options.oneofs)
+                    object._commandPrompt = "commandPrompt";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this BotCommandMetadata to JSON.
+         * @function toJSON
+         * @memberof AICommon.BotCommandMetadata
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BotCommandMetadata.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BotCommandMetadata
+         * @function getTypeUrl
+         * @memberof AICommon.BotCommandMetadata
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BotCommandMetadata.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/AICommon.BotCommandMetadata";
+        };
+
+        return BotCommandMetadata;
     })();
 
     AICommon.AIMediaCollectionMessage = (function() {
@@ -19742,6 +20070,7 @@ $root.AICommon = (function() {
                 case 47:
                 case 54:
                 case 55:
+                case 56:
                     break;
                 }
             }
@@ -19969,6 +20298,10 @@ $root.AICommon = (function() {
             case "CHATLIST_SEARCH":
             case 55:
                 message.destinationEntryPoint = 55;
+                break;
+            case "NEW_CHAT_LIST":
+            case 56:
+                message.destinationEntryPoint = 56;
                 break;
             }
             switch (object.threadOrigin) {
@@ -24175,6 +24508,7 @@ $root.AICommon = (function() {
      * @property {number} WEB_NAVIGATION_BAR=47 WEB_NAVIGATION_BAR value
      * @property {number} GROUP_MEMBER=54 GROUP_MEMBER value
      * @property {number} CHATLIST_SEARCH=55 CHATLIST_SEARCH value
+     * @property {number} NEW_CHAT_LIST=56 NEW_CHAT_LIST value
      */
     AICommon.BotMetricsEntryPoint = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -24225,6 +24559,7 @@ $root.AICommon = (function() {
         values[valuesById[47] = "WEB_NAVIGATION_BAR"] = 47;
         values[valuesById[54] = "GROUP_MEMBER"] = 54;
         values[valuesById[55] = "CHATLIST_SEARCH"] = 55;
+        values[valuesById[56] = "NEW_CHAT_LIST"] = 56;
         return values;
     })();
 

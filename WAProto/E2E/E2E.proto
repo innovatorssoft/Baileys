@@ -9,6 +9,16 @@ import "../StatusAttributions/StatusAttributions.proto";
 import "../CompanionReg/CompanionReg.proto";
 import "../MmsRetry/MmsRetry.proto";
 
+message GroupRootKeyShareEntry {
+    optional bytes groupRootKey = 1;
+    optional string keyId = 2;
+    optional int64 expiryTimestampMs = 3;
+}
+
+message GroupRootKeyShare {
+    repeated GroupRootKeyShareEntry keys = 1;
+}
+
 message AIQueryFanout {
     optional Protocol.MessageKey messageKey = 1;
     optional Message message = 2;
@@ -273,6 +283,7 @@ message MessageContextInfo {
     optional Protocol.LimitSharing limitSharingV2 = 14;
     repeated ThreadID threadId = 15;
     optional WebLinkRenderConfig weblinkRenderConfig = 16;
+    optional bytes teeBotMetadata = 17;
     enum MessageAddonExpiryType {
         STATIC = 1;
         DEPENDENT_ON_PARENT = 2;
@@ -438,6 +449,10 @@ message ContextInfo {
         optional string wtwaWebsiteUrl = 26;
         optional string adPreviewUrl = 27;
         optional bool containsCtwaFlowsAutoReply = 28;
+        optional int32 agmThumbnailStrategy = 29;
+        optional int32 agmTitleStrategy = 30;
+        optional int32 agmSubtitleStrategy = 31;
+        optional int32 agmHeaderInteractionStrategy = 32;
         enum AdType {
             CTWA = 0;
             CAWC = 1;
@@ -637,6 +652,7 @@ message Message {
     optional ConditionalRevealMessage conditionalRevealMessage = 120;
     optional PollAddOptionMessage pollAddOptionMessage = 121;
     optional EventInviteMessage eventInviteMessage = 122;
+    optional GroupRootKeyShare groupRootKeyShare = 123;
     message AlbumMessage {
         optional uint32 expectedImageCount = 2;
         optional uint32 expectedVideoCount = 3;
@@ -808,6 +824,7 @@ message Message {
             UNKNOWN = 0;
             CONTROL_PASSED = 1;
             CONTROL_TAKEN = 2;
+            INFO = 3;
         }
         message CloudAPIThreadControlNotificationContent {
             optional string handoffNotificationText = 1;
@@ -1587,6 +1604,7 @@ message Message {
                 ERROR_REQUEST_ON_NON_SMB_PRIMARY = 4;
                 ERROR_HOSTED_DEVICE_NOT_CONNECTED = 5;
                 ERROR_HOSTED_DEVICE_LOGIN_TIME_NOT_SET = 6;
+                ERROR_MULTI_PROVIDER_NOT_CONFIGURED = 7;
             }
             message HistorySyncChunkRetryResponse {
                 optional Message.HistorySyncType syncType = 1;
@@ -1812,7 +1830,6 @@ message Message {
             GROUP_MEMBER_LABEL_CHANGE = 30;
             AI_MEDIA_COLLECTION_MESSAGE = 31;
             MESSAGE_UNSCHEDULE = 32;
-            BOT_UNLINK_MESSAGE = 33;
         }
     }
     message QuestionResponseMessage {
@@ -1948,6 +1965,7 @@ message Message {
         optional bool isLottie = 21;
         optional string accessibilityLabel = 22;
         optional int32 premium = 24;
+        optional string emojis = 25;
     }
     message StickerPackMessage {
         optional string stickerPackId = 1;

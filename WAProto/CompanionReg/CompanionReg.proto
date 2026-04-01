@@ -76,6 +76,8 @@ message DeviceProps {
         optional uint32 initialSyncMaxMessagesPerChat = 20;
         optional bool supportManusHistory = 21;
         optional bool supportHatchHistory = 22;
+        repeated string supportedBotChannelFbids = 23;
+        optional bool supportInlineContacts = 24;
     }
     enum PlatformType {
         UNKNOWN = 0;
