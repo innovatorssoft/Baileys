@@ -1,14 +1,13 @@
-import { AxiosRequestConfig } from 'axios'
 import { WAMediaUploadFunction, WAUrlInfo } from '../Types'
 import { ILogger } from './logger'
 
 export type URLGenerationOptions = {
     thumbnailWidth: number
     fetchOpts: {
-        /** Timeout in ms */
         timeout: number
         proxyUrl?: string
-        headers?: AxiosRequestConfig<{}>['headers']
+        headers?: HeadersInit
+        maxContentLength?: number
     }
     uploadImage?: WAMediaUploadFunction
     logger?: ILogger
