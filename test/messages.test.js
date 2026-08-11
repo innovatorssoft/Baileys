@@ -5,7 +5,8 @@ const testLogger = {
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn()
+    error: jest.fn(),
+    child: jest.fn(() => testLogger)
 }
 
 describe('generateWAMessageContent Buttons Parsing', () => {
