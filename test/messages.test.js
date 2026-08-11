@@ -152,6 +152,28 @@ describe('generateWAMessageContent Raw Mode', () => {
             .rejects
             .toThrow('Raw mode payload contains unsupported top-level keys: notAProtoField')
     })
+
+    test('should reject raw payload keys inherited from proto functions', async () => {
+        await expect(generateWAMessageContent({
+            raw: true,
+            toJSON: {
+                value: 'x'
+            }
+        }, { logger: testLogger }))
+            .rejects
+            .toThrow('Raw mode payload contains unsupported top-level keys: toJSON')
+    })
+
+    test('should allow raw proto keys that overlap helper names', async () => {
+        const result = await generateWAMessageContent({
+            raw: true,
+            call: {
+                callKey: 'abc'
+            }
+        }, { logger: testLogger })
+
+        expect(result.call).toBeDefined()
+    })
 })
 
 describe('Interactive Carousel Biz Node', () => {
