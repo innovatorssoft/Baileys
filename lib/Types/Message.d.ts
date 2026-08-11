@@ -401,7 +401,11 @@ export type RichMessageHelpers = {
     table?: string[][]
 }
 
-export type AnyMessageContent = AnyRegularMessageContent | {
+export type RawMessageContent = WAProto.IMessage & {
+    raw?: true
+}
+
+export type AnyMessageContent = AnyRegularMessageContent | RawMessageContent | {
     forward: WAMessage
     force?: boolean
 } | {

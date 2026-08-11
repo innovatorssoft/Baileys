@@ -3863,6 +3863,34 @@ sock.ws.on('CB:edge_routing,id:abcd,routing_info', (node: BinaryNode) => { })
 
 ## Additional Message Utilities
 
+### Raw Message (`raw`)
+Use raw mode when you want to send a message built directly from WhatsApp proto message keys.
+
+> [!IMPORTANT]
+> - Raw mode is **explicit only**: set `raw: true`.
+> - Do **not** mix helper fields (`text`, `image`, `buttons`, `interactiveButtons`, etc.) with raw mode.
+> - Top-level keys must be valid `proto.Message` keys (for example `extendedTextMessage`, `imageMessage`, `videoMessage`).
+
+```ts
+await sock.sendMessage(jid, {
+   extendedTextMessage: {
+      text: '📃 Built manually from scratch using the raw WhatsApp proto structure',
+      contextInfo: {
+         externalAdReply: {
+            title: '@itsliaaa/baileys',
+            thumbnail: fs.readFileSync('./path/to/image.jpg'),
+            sourceApp: 'whatsapp',
+            showAdAttribution: true,
+            mediaType: 1
+         }
+      }
+   },
+   raw: true
+}, {
+   quoted: message
+})
+```
+
 ### Group Status (`groupStatus`)
 
 Post a message as a **group status update**. When `groupStatus: true` is set, the library:
