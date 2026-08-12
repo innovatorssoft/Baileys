@@ -402,7 +402,7 @@ export type RichMessageHelpers = {
 }
 
 export type RawMessageContent = WAProto.IMessage & {
-    raw?: true
+    raw: true
 }
 
 export type AnyMessageContent = AnyRegularMessageContent | RawMessageContent | {
