@@ -25,6 +25,8 @@ This library was originally a project for **CS-2362 at Ashoka University** and i
 > ## **[IMPORTANT]**
 > This is the only official repository and is maintained by the community.
 > # **[Join the Discord](https://discord.gg/G3RfM6FDHS) and be a part of community**
+> 
+> 💡 **Looking for practical, copy-paste-ready recipes? Check out the [Developer Cookbook](COOKBOOK.md).**
 
 ---
 
