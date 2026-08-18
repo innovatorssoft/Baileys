@@ -199,6 +199,8 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 | 👤 **vCard Generator** | Quick contact cards with multi-field support |
 | 📸 **Panoramic Profile Pic** | Full-width banner profile pictures without square cropping |
 | 📡 **StatusHelper** | Rich text/image/video/audio status posting |
+| 🗄️ **SQLite Auth State** | High-performance SQLite-based session persistence via `useSqliteAuthState` |
+| 🔎 **Message Inspection** | `isScheduledMessage`, `getScheduledMessageTime`, `getPollCorrectAnswer`, `getSenderLid`, and more |
 
 ### 👥 Groups & Social
 | Feature | Description |
@@ -206,6 +208,17 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 | 👥 **Full Group Management** | Create, invite, promote, demote, settings, labels |
 | 🔒 **Privacy Controls** | Last seen, online, profile pic, read receipts, group add |
 | 📢 **Broadcast & Stories** | Multi-recipient status posting with backgrounds & fonts |
+| 🏘️ **Communities** | Create groups within communities, link/unlink groups, fetch linked groups |
+
+### 🔄 Advanced Protocols & Sync
+| Feature | Description |
+|---------|-------------|
+| 🔗 **USync Protocols** | Business, Feature, Picture, Sidelist, TextStatus sync protocols with fluent query builder |
+| 🌐 **Interop (EU DMA)** | Third-party messaging integrations (BirdyChat/Haiket) |
+| 🔑 **Privacy & Registration MEX** | Passkeys, 2FA, trusted devices, account login/logout via MEX queries |
+| 📊 **GraphQL Socket** | Execute WWW, Facebook, and Wamo GraphQL queries over HTTPS |
+| 🤖 **AI Groups** | Create and manage AI-powered group chats |
+| 🧠 **Meta AI Compositing** | Bot planning/reasoning step indicators, live replay feeds |
 
 ---
 
@@ -237,6 +250,15 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 | **PIX / PAY Interactive Buttons** | ❌ | ✅ |
 | **Shop & Collection Messages** | ❌ | ✅ |
 | **Group Status & interactiveAsTemplate** | ❌ | ✅ |
+| **SQLite Auth State** | ❌ | ✅ |
+| **USync Protocols** (Business/Feature/Picture/Sidelist/TextStatus) | ❌ | ✅ |
+| **Baron Interactive Handler** (albums/events/polls/payments) | ❌ | ✅ |
+| **Privacy/Registration/Interop MEX Sockets** | ❌ | ✅ |
+| **GraphQL Query Socket** | ❌ | ✅ |
+| **AI Groups** | ❌ | ✅ |
+| **Meta AI Compositing & Reasoning Replay** | ❌ | ✅ |
+| **Message Inspection Helpers** | ❌ | ✅ |
+| **Community Group Management** | ❌ | ✅ |
 
 ---
 
@@ -276,13 +298,11 @@ import makeWASocket from '@innovatorssoft/baileys'
 | :--- | :--- |
 | 🔌 **[Connecting Account](#connecting-account)** | [QR Code](#starting-socket-with-qr-code) · [Pairing Code](#starting-socket-with-pairing-code) · [Full History](#receive-full-history) |
 | ⚙️ **[Important Notes](#important-notes-about-socket-config)** | [Caching Group Metadata](#caching-group-metadata-recommended) · [Retry System & Poll Votes](#improve-retry-system--decrypt-poll-votes) · [Notifications](#receive-notifications-in-whatsapp-app) |
-| 💾 **[Saving & Restoring Sessions](#saving--restoring-sessions)** | — |
+| 💾 **[Saving & Restoring Sessions](#saving--restoring-sessions)** | [Multi-File Auth](#saving--restoring-sessions) · [Mongo Auth](#for-example-if-you-use-usesinglefileauthstate-and-usemongofileauthstate) · [SQLite Auth](#sqlite-auth-state) |
 | ⚡ **[Handling Events](#handling-events)** | [Auto-Reply System](#auto-reply-system) · [Example to Start](#example-to-start) · [Decrypt Poll Votes](#decrypt-poll-votes) · [Summary of Events](#summary-of-events-on-first-connection) |
 | 🗄️ **[Implementing a Data Store](#implementing-a-data-store)** | — |
 | 🆔 **[WhatsApp IDs Explain](#whatsapp-ids-explain)** | — |
-| 🛠️ **[Utility Functions](#utility-functions)** | [Message Scheduler](#message-scheduler) |
-| 🛡️ **[Anti-Delete System](#anti-delete-system)** | — |
-| 🗺️ **[JID Plotting & LID Support](#jid-plotting--lid-support)** | — |
+| 🛠️ **[Utility Functions](#utility-functions)** | [Message Scheduler](#message-scheduler) · [JID Helpers](#additional-jid-helpers) · [Message Inspection](#message-inspection-helpers) |
 | 💬 **[Sending Messages](#sending-messages)** | **Basic Types:**<br>[Text](#text-message) · [Templates](#message-templates) · [Quote](#quote-message-works-with-all-types) · [Mention](#mention-user-works-with-most-types) · [Forward](#forward-messages) · [Location](#location-message) · [Live Location](#live-location-message) · [Contact](#contact-message) · [vCard](#vcard--contact-cards) · [Reaction](#reaction-message) · [Pin](#pin-message) · [Keep](#keep-message) · [Poll](#poll-message) · [Poll Result](#poll-result-message) · [Call](#call-message) · [Event](#event-message) · [Order](#order-message) · [Product](#product-message) · [Payment](#payment-message) · [Decrypt Event](#decrypt-event-response) · [Payment Invite](#payment-invite-message) · [Admin Invite](#invite-admin-message) · [Group Invite](#group-invite-message) · [Sticker Pack](#sticker-pack-message)<br><br>**Rich AI Responses:**<br>[Rich Response](#rich-response-message) · [sendTable](#sendtable) · [sendList](#sendlist) · [sendCodeBlock](#sendcodeblock) · [sendLatexImage](#sendlateximage) · [sendLatexInlineImage](#sendlatexinlineimage) · [sendMarkdown](#sendmarkdown) · [sendRichMessage](#sendrichmessage) · [captureUnifiedResponse](#captureunifiedresponse--sendunifiedresponse)<br><br>**Interactive & Buttons:**<br>[Share Phone](#share-phone-number-message) · [Request Phone](#request-phone-number-message) · [Button Reply](#buttons-reply-message) · [Buttons](#buttons-message) · [Interactive](#interactive-messages) · [Buttons List](#buttons-list-message) · [Product List](#buttons-product-list-message) · [Cards](#buttons-cards-message) · [Template](#buttons-template-message) · [Interactive Msg](#buttons-interactive-message) · [PIX](#buttons-interactive-message-pix) · [PAY](#buttons-interactive-message-PAY)<br><br>**Other:**<br>[Status Mentions](#status-mentions-message) · [Shop](#shop-message) · [Collection](#collection-message) · [AI Icon](#ai-icon-feature) · [Link Preview](#sending-messages-with-link-previews) |
 | 🖼️ **[Media Messages](#media-messages)** | [GIF](#gif-message) · [Video](#video-message) · [Audio](#audio-message) · [Image](#image-message) · [HD Image](#hd-image-message) · [HD Video](#hd-video-message) · [Album](#album-message) · [PTV](#ptv-video-message) · [ViewOnce](#view-once-message) |
 | ✏️ **[Modify Messages](#modify-messages)** | [Delete](#deleting-messages-for-everyone) · [Edit](#editing-messages) |
@@ -293,7 +313,10 @@ import makeWASocket from '@innovatorssoft/baileys'
 | 📁 **[Modifying Chats](#modifying-chats)** | [Archive](#archive-a-chat) · [Mute/Unmute](#muteunmute-a-chat) · [Read/Unread](#mark-a-chat-readunread) · [Delete for Me](#delete-a-message-for-me) · [Delete Chat](#delete-a-chat) · [Pin/Unpin](#pin-a-chat) · [Star/Unstar](#starunstar-a-message) · [Disappearing](#disappearing-messages) · [Clear](#clear-messages) |
 | 🔍 **[User Queries](#user-querys)** | [Check ID](#check-if-id-exists-in-whatsapp) · [Chat History](#query-chat-history-groups-too) · [Fetch Status](#fetch-status) · [Profile Picture](#fetch-profile-picture-groups-too) · [Business Profile](#fetch-bussines-profile-such-as-description-or-category) · [Presence](#fetch-someones-presence-if-theyre-typing-or-online) · [Message Search](#message-search) |
 | 👤 **[Change Profile](#change-profile)** | [Status](#change-profile-status) · [Name](#change-profile-name) · [Display Picture](#change-display-picture-groups-too) · [Panoramic](#panoramic-wide-profile-picture) · [Remove Picture](#remove-display-picture-groups-too) |
-| 👥 **[Groups](#groups)** | [Create](#create-a-group) · [Add/Remove](#addremove-or-demotepromote) · [Subject](#change-subject-name) · [Description](#change-description) · [Settings](#change-settings) · [Leave](#leave-a-group) · [Invite Code](#get-invite-code) · [Revoke](#revoke-invite-code) · [Join Code](#join-using-invitation-code) · [Info by Code](#get-group-info-by-invite-code) · [Metadata](#query-metadata-participants-name-description) · [Join V4](#join-using-groupinvitemessage) · [Request Join](#get-request-join-list) · [Approve/Reject](#approvereject-request-join) · [All Groups](#get-all-participating-groups-metadata) · [Ephemeral](#toggle-ephemeral) · [Add Mode](#change-add-mode) · [Member Label](#update-member-label) |
+| 👥 **[Groups](#groups)** | [Create](#create-a-group) · [Add/Remove](#addremove-or-demotepromote) · [Subject](#change-subject-name) · [Description](#change-description) · [Settings](#change-settings) · [Leave](#leave-a-group) · [Invite Code](#get-invite-code) · [Revoke](#revoke-invite-code) · [Join Code](#join-using-invitation-code) · [Info by Code](#get-group-info-by-invite-code) · [Metadata](#query-metadata-participants-name-description) · [Join V4](#join-using-groupinvitemessage) · [Request Join](#get-request-join-list) · [Approve/Reject](#approvereject-request-join) · [All Groups](#get-all-participating-groups-metadata) · [Ephemeral](#toggle-ephemeral) · [Add Mode](#change-add-mode) · [Member Label](#update-member-label) · [Acknowledge](#group-acknowledge) · [Linked Participants](#get-linked-participants) · [Join Linked](#join-a-linked-group) · [Batch Profile Pics](#get-group-profile-pictures-batch) · [Sub-Group Suggestions](#sub-group-suggestions) |
+| 🏘️ **[Communities](#communities)** | [Create Group in Community](#create-a-group-within-a-community) · [Link/Unlink](#linkunlink-groups) · [Fetch Linked](#fetch-linked-groups) |
+| 🔄 **[USync Protocols](#usync-protocols)** | Business · Feature · Picture · Sidelist · TextStatus |
+| 🔧 **[Advanced APIs](#advanced-apis)** | [Privacy MEX](#privacy-socket-mex) · [Registration MEX](#registration-socket-mex) · [Interop DMA](#interop-socket-eu-dma) · [GraphQL](#graphql-socket) · [AI Groups](#ai-groups) · [Bot Management](#bot-management) · [Baron Handler](#baron-interactive-handler) · [Meta AI](#meta-ai-compositing--planning-experimental) |
 | 🔒 **[Privacy](#privacy)** | [Block/Unblock](#blockunblock-user) · [Settings](#get-privacy-settings) · [BlockList](#get-blocklist) · [LastSeen](#update-lastseen-privacy) · [Online](#update-online-privacy) · [Profile Pic](#update-profile-picture-privacy) · [Status](#update-status-privacy) · [Read Receipts](#update-read-receipts-privacy) · [Groups Add](#update-groups-add-privacy) · [Disappearing Mode](#update-default-disappearing-mode) |
 | 📢 **[Broadcast & Stories](#broadcast-lists--stories)** | [Send](#send-broadcast--stories) · [Query List](#query-a-broadcast-lists-recipients--name) · [Story Posting](#status--story-posting) |
 | 💻 **[Custom Functionality](#writing-custom-functionality)** | [Debug Logs](#enabling-debug-level-in-baileys-logs) · [How WA Communicates](#how-whatsapp-communicate-with-us) · [Websocket Callbacks](#register-a-callback-for-websocket-events) |
@@ -514,6 +537,25 @@ const sock = makeWASocket({
     
 sock.ev.on('creds.update', saveCreds)
 ```
+
+### SQLite Auth State
+
+For high-performance session persistence using SQLite (requires `better-sqlite3` as an optional dependency):
+
+```ts
+import makeWASocket, { useSqliteAuthState } from '@innovatorssoft/baileys'
+
+const { state, saveCreds } = await useSqliteAuthState({ dbPath: './auth.db' })
+const sock = makeWASocket({
+    auth: state,
+    printQRInTerminal: true
+})
+
+sock.ev.on('creds.update', saveCreds)
+```
+
+> [!TIP]
+> `useSqliteAuthState` uses lazy loading for `better-sqlite3`. Install it with `npm install better-sqlite3` before use. It can be used as a drop-in alternative to `useMultiFileAuthState` for production deployments where file-per-key approaches are insufficient.
 
 > [!IMPORTANT]
 > In `messages.upsert` it's recommended to use a loop like `for (const message of event.messages)` to handle all messages in array
@@ -747,6 +789,48 @@ const jid = normalizePhoneToJid('62812345678') // '62812345678@s.whatsapp.net'
 
 // Plot JID (Convert between PN and LID if mapping is available)
 const plotted = plotJid('1234567890@s.whatsapp.net')
+```
+
+#### Additional JID Helpers
+
+```ts
+import { isHostedPnUser, isHostedLidUser, isLidUser, isPnUser } from '@innovatorssoft/baileys'
+
+// Check if a JID is a hosted phone number user
+isHostedPnUser('1234567890@s.whatsapp.net') // boolean
+
+// Check if a JID is a hosted LID user
+isHostedLidUser('ABC123@lid') // boolean
+```
+
+#### Message Inspection Helpers
+
+```ts
+import {
+    isScheduledMessage,
+    getScheduledMessageTime,
+    getMessagePaymentInfo,
+    getMessageCommentMetadata,
+    getMessageAddOns,
+    getPollCorrectAnswer,
+    toJid,
+    getSenderLid
+} from '@innovatorssoft/baileys'
+
+// Check if a message is scheduled
+if (isScheduledMessage(msg)) {
+    const scheduledTime = getScheduledMessageTime(msg) // Date | null
+    console.log('Scheduled for:', scheduledTime)
+}
+
+// Get quiz correct answer from a poll creation message
+const answer = getPollCorrectAnswer(msg.message) // string | null
+
+// Normalize a bare user ID to @s.whatsapp.net
+const jid = toJid('1234567890') // '1234567890@s.whatsapp.net'
+
+// Get the sender's LID from a message
+const { jid: senderJid, lid } = getSenderLid(msg)
 ```
 
 ### Message Scheduler
@@ -2286,6 +2370,21 @@ greet('World')`,
         language: 'javascript' // 'javascript' | 'typescript' | 'python' | 'js' | 'ts' | 'py'
     }
 })
+
+// Direct top-level shortcut keys in sendMessage
+// Code block
+await sock.sendMessage(jid, {
+    code: 'console.log("Hello from Baileys")',
+    language: 'javascript',
+    text: 'Code explanation here' // optional header text
+})
+
+// Raw protobuf message
+await sock.sendMessage(jid, {
+    raw: proto.Message.fromObject({
+        conversation: 'Raw message content'
+    })
+})
 ```
 
 ---
@@ -3721,6 +3820,49 @@ await sock.updateMemberLabel(
 )
 ```
 
+### Group Acknowledge
+Send an explicit group acknowledgement stanza to WhatsApp:
+```ts
+await sock.groupAcknowledge(groupJid)
+```
+
+### Get Linked Participants
+Get participants with their linked phone numbers in a group:
+```ts
+const linked = await sock.groupGetLinkedParticipants('123456789@g.us')
+console.log(linked) // [{ jid: '1234@lid', phoneNumber: '+1234567890' }, ...]
+```
+
+### Join a Linked Group
+Join a group linked to a parent group/community:
+```ts
+const result = await sock.groupJoinLinked('parent@g.us', 'linked@g.us')
+console.log(result.approvalRequested) // true if admin approval is required
+```
+
+### Get Group Profile Pictures (Batch)
+Fetch profile pictures for multiple JIDs at once:
+```ts
+const pics = await sock.getGroupProfilePictures(['jid1@g.us', 'jid2@g.us'])
+for (const p of pics) {
+    console.log(p.jid, p.url)
+}
+```
+
+### Sub-Group Suggestions
+Create and manage sub-group suggestions within a parent group:
+```ts
+// Suggest a sub-group
+await sock.groupCreateSubGroupSuggestion('parent@g.us', { name: 'Design Team' })
+
+// Approve or reject suggestions
+await sock.groupSubGroupSuggestionsAction(
+    'parent@g.us',
+    'approve', // or 'reject' or 'cancel'
+    [{ creator: '1234@s.whatsapp.net', jid: 'suggested@g.us' }]
+)
+```
+
 ## 👥 Group Status (`groupStatus`)
 Post a message as a **group status update**. When `groupStatus: true` is set, the library:
 
@@ -3749,6 +3891,217 @@ await sock.sendMessage(groupJid, {
     groupStatus: true
 })
 ```
+
+## 🏘️ Communities
+
+Manage community groups — create groups within communities, link/unlink existing groups, and query linked groups.
+
+### Create a Group Within a Community
+```ts
+const group = await sock.communityCreateGroup(
+    'Design Team',
+    ['1234@s.whatsapp.net', '5678@s.whatsapp.net'],
+    'parent-community@g.us'
+)
+console.log('Created community group:', group.id)
+```
+
+### Link/Unlink Groups
+```ts
+// Link an existing group to a community
+await sock.communityLinkGroup('group@g.us', 'community@g.us')
+
+// Unlink a group from a community
+await sock.communityUnlinkGroup('group@g.us', 'community@g.us')
+```
+
+### Fetch Linked Groups
+```ts
+const result = await sock.communityFetchLinkedGroups('community@g.us')
+console.log(result.linkedGroups) // Array of linked group metadata
+```
+
+## 🔄 USync Protocols
+
+USync protocols allow you to query user metadata in bulk. The new protocol extensions provide business info, feature flags, profile pictures, sidelist status, and text statuses.
+
+```ts
+import { USyncQuery, USyncUser } from '@innovatorssoft/baileys'
+
+// Build a query with multiple protocols using the fluent API
+const query = new USyncQuery()
+    .withContext('interactive')
+    .withBusinessProtocol()     // verified name, hours, address, catalog
+    .withFeatureProtocol()      // device feature flags
+    .withPictureProtocol()      // profile picture hash & direct path
+    .withSidelistProtocol()     // LID sidelist sync
+    .withTextStatusProtocol()   // about text & emoji status with TTL
+
+// Add users to query
+const user = new USyncUser()
+user.withPhone('+1234567890')
+query.withUser(user)
+
+// Execute
+const result = await sock.executeUSyncQuery(query)
+console.log(result?.list) // Array of results per protocol
+```
+
+> [!NOTE]
+> These protocols extend the existing USync infrastructure (`withLIDProtocol`, `withContactProtocol`, etc.) — all existing protocols remain available.
+
+## 🔧 Advanced APIs
+
+> [!WARNING]
+> The following APIs interact with WhatsApp's internal infrastructure and are intended for advanced use. Behavior may change without notice as WhatsApp evolves its platform.
+
+### Privacy Socket (MEX)
+
+The privacy socket provides MEX-based operations for privacy settings, account management, trusted devices, and linked profiles.
+
+```ts
+// Get privacy settings via MEX
+const settings = await sock.getPrivacySettings()
+
+// Account operations
+await sock.accountLogin({ ... })
+await sock.accountLogout()
+
+// Trusted devices
+const devices = await sock.getTrustedDevices()
+await sock.addTrustedDevice({ ... })
+await sock.deleteTrustedDevice(deviceId)
+```
+
+### Registration Socket (MEX)
+
+Advanced registration operations including passkeys and 2FA.
+
+```ts
+// Passkey operations
+const hasPasskey = await sock.passkeyExists()
+const challenge = await sock.passkeyRequestChallenge()
+
+// Password (2FA) management
+const hasPassword = await sock.hasPassword()
+await sock.setPassword(password)
+await sock.deletePassword()
+```
+
+### Interop Socket (EU DMA)
+
+WhatsApp's interoperability layer for EU Digital Markets Act compliance. Availability depends on WhatsApp/Meta infrastructure and account eligibility.
+
+```ts
+// Query available third-party integrators
+const integrators = await sock.getIntegrators()
+
+// Interop group management
+await sock.interopCreateGroup({ ... })
+await sock.interopLeaveGroup(jid)
+```
+
+> [!IMPORTANT]
+> Interop features require specific account eligibility and regional availability. These APIs may not function for all accounts.
+
+### GraphQL Socket
+
+Execute GraphQL queries against WhatsApp's backend services.
+
+```ts
+// Execute a WWW GraphQL query
+const result = await sock.executeWWWGraphQL(queryId, variables)
+
+// Execute a Facebook GraphQL query
+const fbResult = await sock.executeFacebookGraphQL(queryId, variables)
+
+// Execute a Wamo GraphQL query
+const wamoResult = await sock.executeWamoGraphQL(queryId, variables)
+```
+
+### AI Groups
+
+Create and manage AI-powered group chats. Also available as a standalone socket layer via `makeAIGroupsSocket(config)`:
+
+```ts
+import { makeAIGroupsSocket, extractAIGroupMetadata } from '@innovatorssoft/baileys'
+
+// Create an AI group
+const group = await sock.aiGroupCreate('AI Assistant', botJid)
+
+// Add a bot to an existing AI group
+await sock.aiGroupAddBot(groupJid, botJid)
+
+// Leave an AI group
+await sock.aiGroupLeave(groupJid)
+```
+
+### Bot Management
+
+```ts
+// Block/unblock a bot
+await sock.blockBot('botJid@bot')
+await sock.unblockBot('botJid@bot')
+
+// Get a bot's profile information
+const profile = await sock.getBotProfile('botJid@bot')
+```
+
+### Spam Reporting
+
+```ts
+await sock.reportSpam('spammer@s.whatsapp.net')
+```
+
+### Baron Interactive Handler
+
+The `Baron` class provides a high-level builder for interactive messages including payments, products, albums, events, polls, and group stories.
+
+```ts
+import { Baron } from '@innovatorssoft/baileys'
+
+// Baron requires socket internals — typically used within custom socket extensions
+const baron = new Baron(waUploadToServer, relayMessage, config, sock)
+
+// Build interactive buttons
+const msg = await baron.handleInteractiveButtons({
+    text: 'Choose an option',
+    footer: 'Powered by Baileys',
+    interactiveButtons: [
+        { name: 'quick_reply', buttonParamsJson: { display_text: 'Option 1', id: 'opt1' } },
+        { name: 'quick_reply', buttonParamsJson: { display_text: 'Option 2', id: 'opt2' } }
+    ]
+})
+
+// Build product messages, payment messages, albums, events, poll results
+const payment = await baron.handlePayment(paymentContent)
+const product = await baron.handleProduct(productContent, jid)
+const album = await baron.handleAlbum(albumContent, jid)
+```
+
+### Meta AI Compositing & Planning _(Experimental)_
+
+These utilities help build Meta AI-style bot interactions with live reasoning/planning step indicators.
+
+```ts
+import {
+    PlanningStepStatus,
+    buildSteps,
+    buildReasoningSteps,
+    buildSearchSteps,
+    sendMetaComposited,
+    metaTyping
+} from '@innovatorssoft/baileys'
+
+// Build reasoning steps for a bot response
+const steps = buildReasoningSteps(['Analyzing query...', 'Searching database...', 'Formatting response...'])
+
+// Build search steps
+const searchSteps = buildSearchSteps(['Searching web...', 'Reading articles...'])
+```
+
+> [!NOTE]
+> Meta AI compositing features depend on WhatsApp's native bot rendering infrastructure. These are experimental and intended for advanced bot developers.
 
 ## 🔒 Privacy
 
