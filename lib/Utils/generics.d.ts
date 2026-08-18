@@ -59,6 +59,7 @@ export declare const delayCancellable: (ms: number) => {
 export declare function promiseTimeout<T>(ms: number | undefined, promise: (resolve: (v: T) => void, reject: (error: any) => void) => void): Promise<T>
 
 export declare const generateMessageID: (userId?: string) => string
+export declare const generateMessageIDV2: (userId?: string) => string
 
 export declare const generateParticipantHashV2: (participants: string[]) => string
 

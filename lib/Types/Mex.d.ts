@@ -1,4 +1,4 @@
-export declare enum XWAPaths {
+export declare enum MexXWAPaths {
     xwa2_newsletter_create = "xwa2_newsletter_create",
     xwa2_newsletter_subscribers = "xwa2_newsletter_subscribers",
     xwa2_newsletter_subscribed = "xwa2_newsletter_subscribed",
@@ -18,7 +18,7 @@ export declare enum XWAPaths {
     xwa2_message_capping_info = "xwa2_message_capping_info"
 }
 
-export declare enum QueryIds {
+export declare enum MexQueryIds {
     CREATE = "8823471724422422",
     UPDATE_METADATA = "24250201037901610",
     METADATA = "6563316087068696",

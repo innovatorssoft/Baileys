@@ -240,4 +240,14 @@ declare const makeWASocket: (config: UserFacingSocketConfig) => {
     sendWAMBuffer: (wamBuffer: Buffer) => Promise<import("..").BinaryNode>
 }
 
+export declare const makeCommunitiesSocket: (config: any) => any
+export declare const makeInteropSocket: (sock: any) => any
+export declare const makePrivacySocket: (sock: any) => any
+export declare const makeRegistrationSocket: (sock: any) => any
+export declare const makeManagedAccountSocket: (sock: any) => any
+export declare const makeGraphQLSocket: (sock: any) => any
+export declare const makeAIGroupsSocket: (config: any) => any
+export declare const extractAIGroupMetadata: (result: any) => any
+export { Baron } from './interactive-handler'
+
 export default makeWASocket
