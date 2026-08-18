@@ -76,3 +76,15 @@ export declare const DEFAULT_CACHE_TTLS: {
     CALL_OFFER: number
     USER_DEVICES: number
 }
+
+export declare const BOT_RENDERING_CONFIG_METADATA: {
+    bloksVersioningId: string;
+    pixelDensity: number;
+}
+
+export declare const WA_ADV_ACCOUNT_SIG_PREFIX: Buffer;
+export declare const WA_ADV_DEVICE_SIG_PREFIX: Buffer;
+export declare const WA_ADV_KEY_INDEX_LIST_SIG_PREFIX: Buffer;
+export declare const WA_ADV_HOSTED_ACCOUNT_SIG_PREFIX: Buffer;
+export declare const WA_ADV_HOSTED_DEVICE_SIG_PREFIX: Buffer;
+export declare const WA_ADV_HOSTED_KEY_INDEX_LIST_SIG_PREFIX: Buffer;

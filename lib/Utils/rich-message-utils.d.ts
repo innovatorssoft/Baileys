@@ -46,3 +46,5 @@ export function wrapToBotForwardedMessage(richResponseMessage: any): {
         };
     };
 };
+export function buildAdditionalBotMetadataContext(content: any): any;
+
