@@ -17,6 +17,7 @@ This guide provides verified, copy-paste-ready recipes and code examples for the
    - [Tables](#tables)
    - [LaTeX Equations](#latex-equations)
    - [Unified Rich Response](#unified-rich-response)
+   - [Send Media with Verified Badge](#send-media-with-verified-badge)
 5. [Interactive Messages & Zenbo Handler](#interactive-messages--zenbo-handler)
    - [Native Flow & Interactive Buttons](#native-flow--interactive-buttons)
    - [Payment Requests](#payment-requests)
@@ -335,6 +336,35 @@ async function sendRichMessageExample(sock, targetJid) {
     });
 }
 ```
+
+### Send Media with Verified Badge
+
+Send image or video messages displaying WhatsApp's official verified badge (✔️) in the forward header.
+
+```javascript
+const fs = require('fs');
+
+async function sendVerifiedMedia(sock, targetJid) {
+    // 1. Send an image with verified badge
+    await sock.sendMessage(targetJid, {
+        image: fs.readFileSync('./assets/examples/logo.png'), // or { url: 'https://example.com/photo.jpg' }
+        caption: '🛡️ Official Security Bulletin — Verified Identity',
+        verifiedMe: true
+    });
+
+    // 2. Send a video with verified badge
+    await sock.sendMessage(targetJid, {
+        video: { url: './assets/examples/demo.mp4' },
+        caption: '🎬 Official Product Announcement',
+        verifiedMe: true
+    });
+}
+```
+
+#### How It Works:
+- **`verifiedMe: true`**: Automatically injects WhatsApp's official system account (`0@s.whatsapp.net`) forward context (`isForwarded: true`, `participant: '0@s.whatsapp.net'`) into the message's `contextInfo`.
+- **Synthetic Quoted Fallback**: If no `quoted` message is explicitly provided, it injects a fallback quote originating from `0@s.whatsapp.net` so that WhatsApp client interfaces render the official verified forward banner and checkmark icon.
+- **Scope**: Supported on `image` and `video` media messages. Silently ignored on non-media messages.
 
 ---
 

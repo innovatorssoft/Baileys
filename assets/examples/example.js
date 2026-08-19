@@ -827,6 +827,20 @@ async function startBot() {
                     }
                     break;
                 }
+                case '!verifiedmedia': {
+                    try {
+                        const logoPath = path.join(__dirname, 'logo.png');
+                        const caption = args || '🛡️ Verified Media Message (WhatsApp Badge)';
+                        await sock.sendMessage(normalizedJid, {
+                            image: fs.readFileSync(logoPath),
+                            caption,
+                            verifiedMe: true
+                        });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
                 case '!lottie': {
                     try {
                         const faviconPath = path.join(__dirname, 'favicon.png');

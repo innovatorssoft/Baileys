@@ -261,6 +261,7 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 | **Meta AI Compositing & Reasoning Replay** | ❌ | ✅ |
 | **Message Inspection Helpers** | ❌ | ✅ |
 | **Community Group Management** | ❌ | ✅ |
+| **Verified Badge Media** (`verifiedMe: true`) | ❌ | ✅ |
 
 ---
 
@@ -306,7 +307,7 @@ import makeWASocket from '@innovatorssoft/baileys'
 | 🆔 **[WhatsApp IDs Explain](#whatsapp-ids-explain)** | — |
 | 🛠️ **[Utility Functions](#utility-functions)** | [Message Scheduler](#message-scheduler) · [JID Helpers](#additional-jid-helpers) · [Message Inspection](#message-inspection-helpers) |
 | 💬 **[Sending Messages](#sending-messages)** | **Basic Types:**<br>[Text](#text-message) · [Templates](#message-templates) · [Quote](#quote-message-works-with-all-types) · [Mention](#mention-user-works-with-most-types) · [Forward](#forward-messages) · [Location](#location-message) · [Live Location](#live-location-message) · [Contact](#contact-message) · [vCard](#vcard--contact-cards) · [Reaction](#reaction-message) · [Pin](#pin-message) · [Keep](#keep-message) · [Poll](#poll-message) · [Poll Result](#poll-result-message) · [Call](#call-message) · [Event](#event-message) · [Order](#order-message) · [Product](#product-message) · [Payment](#payment-message) · [Decrypt Event](#decrypt-event-response) · [Payment Invite](#payment-invite-message) · [Admin Invite](#invite-admin-message) · [Group Invite](#group-invite-message) · [Sticker Pack](#sticker-pack-message)<br><br>**Rich AI Responses:**<br>[Rich Response](#rich-response-message) · [sendTable](#sendtable) · [sendList](#sendlist) · [sendCodeBlock](#sendcodeblock) · [sendLatexImage](#sendlateximage) · [sendLatexInlineImage](#sendlatexinlineimage) · [sendMarkdown](#sendmarkdown) · [sendRichMessage](#sendrichmessage) · [captureUnifiedResponse](#captureunifiedresponse--sendunifiedresponse)<br><br>**Interactive & Buttons:**<br>[Share Phone](#share-phone-number-message) · [Request Phone](#request-phone-number-message) · [Button Reply](#buttons-reply-message) · [Buttons](#buttons-message) · [Interactive](#interactive-messages) · [Buttons List](#buttons-list-message) · [Product List](#buttons-product-list-message) · [Cards](#buttons-cards-message) · [Template](#buttons-template-message) · [Interactive Msg](#buttons-interactive-message) · [PIX](#buttons-interactive-message-pix) · [PAY](#buttons-interactive-message-PAY)<br><br>**Other:**<br>[Status Mentions](#status-mentions-message) · [Shop](#shop-message) · [Collection](#collection-message) · [AI Icon](#ai-icon-feature) · [Link Preview](#sending-messages-with-link-previews) |
-| 🖼️ **[Media Messages](#media-messages)** | [GIF](#gif-message) · [Video](#video-message) · [Audio](#audio-message) · [Image](#image-message) · [HD Image](#hd-image-message) · [HD Video](#hd-video-message) · [Album](#album-message) · [PTV](#ptv-video-message) · [ViewOnce](#view-once-message) |
+| 🖼️ **[Media Messages](#media-messages)** | [GIF](#gif-message) · [Video](#video-message) · [Audio](#audio-message) · [Image](#image-message) · [HD Image](#hd-image-message) · [HD Video](#hd-video-message) · [Verified Badge](#verified-badge-media) · [Album](#album-message) · [PTV](#ptv-video-message) · [ViewOnce](#view-once-message) |
 | ✏️ **[Modify Messages](#modify-messages)** | [Delete](#deleting-messages-for-everyone) · [Edit](#editing-messages) |
 | 📥 **[Manipulating Media](#manipulating-media-messages)** | [Thumbnail](#thumbnail-in-media-messages) · [Download](#downloading-media-messages) · [Re-upload](#re-upload-media-message-to-whatsapp) |
 | 📞 **[Initiate Voice Call](#initiate-voice-call)** | — |
@@ -3158,6 +3159,29 @@ await sock.sendMessage(
         hd: true   // higher-quality 320×180 preview thumbnail
     }
 )
+```
+
+#### Verified Badge Media
+
+Send image or video messages with a verified forward badge (✔️). This attaches WhatsApp's official system verified context (`0@s.whatsapp.net`) and synthetic quoted fallback to render the official verified checkmark on the forwarded media header.
+
+> [!NOTE]
+> Applies to `image` and `video` messages. Silently ignored on non-media message types.
+
+```ts
+// Image with verified badge
+await sock.sendMessage(jid, {
+    image: { url: './Media/ma_img.png' },
+    caption: 'Official announcement with verified badge',
+    verifiedMe: true
+})
+
+// Video with verified badge
+await sock.sendMessage(jid, {
+    video: { url: './Media/ma_video.mp4' },
+    caption: 'Verified video broadcast',
+    verifiedMe: true
+})
 ```
 
 ### Album Message
