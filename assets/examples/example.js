@@ -1476,7 +1476,7 @@ async function startBot() {
 
                         const analysis = {
                             isScheduled: isSched,
-                            scheduledTime: schedTime ? new Date(schedTime * 1000).toISOString() : null,
+                            scheduledTime: schedTime ? schedTime.toISOString() : null,
                             paymentInfo: payInfo,
                             commentMetadata: commentMeta,
                             addOns,
