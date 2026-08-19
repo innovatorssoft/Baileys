@@ -1387,7 +1387,7 @@ async function startBot() {
                 case '!reportspam': {
                     const targetJid = args || normalizedJid;
                     try {
-                        await sock.reportSpam(targetJid, { spamFlow: 'CHAT' });
+                        await sock.reportSpam(targetJid, [], 'CHAT');
                         await sock.sendMessage(normalizedJid, { text: `✅ Reported spam for ${targetJid}` }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
