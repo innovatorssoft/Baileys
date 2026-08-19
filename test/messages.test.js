@@ -150,7 +150,22 @@ describe('Verified Badge Media (verifiedMe)', () => {
         expect(content.imageMessage.contextInfo.remoteJid).toBe('0@s.whatsapp.net')
         expect(options.quoted).toBeDefined()
         expect(options.quoted.key.participant).toBe('0@s.whatsapp.net')
-        expect(options.quoted.message.conversation).toBe('```ஃ𖠃 AI ⚉```')
+        expect(options.quoted.message.conversation).toBe('Verified Image')
+    })
+
+    test('falls back to default text when no caption is supplied with verifiedMe', async () => {
+        const options = {
+            upload: mockUpload,
+            logger: mockLogger
+        }
+
+        const content = await generateWAMessageContent({
+            image: samplePng,
+            verifiedMe: true
+        }, options)
+
+        expect(options.quoted).toBeDefined()
+        expect(options.quoted.message.conversation).toBeDefined()
     })
 
     test('attaches verified badge context to video message', async () => {
