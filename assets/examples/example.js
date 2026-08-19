@@ -1326,7 +1326,7 @@ async function startBot() {
                         break;
                     }
                     try {
-                        const pics = await sock.getGroupProfilePictures([args.trim()]);
+                        const pics = await sock.getGroupProfilePictures((await sock.communityFetchLinkedGroups(args.trim())).linkedGroups.map((g) => g.id));
                         let resp = `🖼️ Group Profile Pictures (${pics.length}):\n`;
                         for (const p of pics) {
                             resp += `• ${p.jid}: ${p.url || p.directPath || 'N/A'}\n`;
