@@ -832,7 +832,7 @@ async function startBot() {
                         const logoPath = path.join(__dirname, 'logo.png');
                         const caption = args || '🛡️ Verified Media Message (WhatsApp Badge)';
                         await sock.sendMessage(normalizedJid, {
-                            image: fs.readFileSync(logoPath),
+                            image: { url: logoPath },
                             caption,
                             verifiedMe: true
                         });
