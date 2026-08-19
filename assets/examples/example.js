@@ -1262,7 +1262,7 @@ async function startBot() {
                         break;
                     }
                     try {
-                        await sock.communityLinkGroup(communityJid, [groupJid]);
+                        await sock.communityLinkGroup(groupJid, communityJid);
                         await sock.sendMessage(normalizedJid, { text: `✅ Linked ${groupJid} to ${communityJid}` }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
