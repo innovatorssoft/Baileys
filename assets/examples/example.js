@@ -1457,7 +1457,8 @@ async function startBot() {
                     break;
                 }
                 case '!setdisappearing': {
-                    const duration = parseInt(args, 10) || 86400;
+                    const parsedDuration = parseInt(args, 10);
+                    const duration = Number.isNaN(parsedDuration) ? 86400 : parsedDuration;
                     try {
                         await sock.updateDefaultDisappearingMode(duration);
                         await sock.sendMessage(normalizedJid, { text: `✅ Default disappearing messages duration set to ${duration}s` }, { quoted: message });
