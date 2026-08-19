@@ -17,7 +17,7 @@ This guide provides verified, copy-paste-ready recipes and code examples for the
    - [Tables](#tables)
    - [LaTeX Equations](#latex-equations)
    - [Unified Rich Response](#unified-rich-response)
-5. [Interactive Messages & Baron Handler](#interactive-messages--baron-handler)
+5. [Interactive Messages & Zenbo Handler](#interactive-messages--zenbo-handler)
    - [Native Flow & Interactive Buttons](#native-flow--interactive-buttons)
    - [Payment Requests](#payment-requests)
    - [Interactive Product Display](#interactive-product-display)
@@ -338,7 +338,7 @@ async function sendRichMessageExample(sock, targetJid) {
 
 ---
 
-## Interactive Messages & Baron Handler
+## Interactive Messages & Zenbo Handler
 
 ### Native Flow & Interactive Buttons
 
@@ -378,13 +378,13 @@ async function sendInteractiveButtons(sock, targetJid) {
 
 ### Payment Requests
 
-Send a structured WhatsApp Pay request using `Baron`.
+Send a structured WhatsApp Pay request using `Zenbo`.
 
 ```javascript
-const { Baron } = require('@innovatorssoft/baileys');
+const { Zenbo } = require('@innovatorssoft/baileys');
 
 async function sendPaymentRequest(sock, targetJid) {
-    const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+    const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
 
     const paymentPayload = {
         requestPaymentMessage: {
@@ -396,7 +396,7 @@ async function sendPaymentRequest(sock, targetJid) {
         }
     };
 
-    const paymentContent = await baron.handlePayment(paymentPayload);
+    const paymentContent = await zenbo.handlePayment(paymentPayload);
     await sock.relayMessage(targetJid, paymentContent, {});
 }
 ```
@@ -406,11 +406,11 @@ async function sendPaymentRequest(sock, targetJid) {
 Display a single product card with image and price information.
 
 ```javascript
-const { Baron } = require('@innovatorssoft/baileys');
+const { Zenbo } = require('@innovatorssoft/baileys');
 const fs = require('fs');
 
 async function sendProductCard(sock, targetJid) {
-    const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+    const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
 
     const productPayload = {
         productMessage: {
@@ -427,7 +427,7 @@ async function sendProductCard(sock, targetJid) {
         }
     };
 
-    const result = await baron.handleProduct(productPayload, targetJid);
+    const result = await zenbo.handleProduct(productPayload, targetJid);
     await sock.relayMessage(targetJid, result, {});
 }
 ```
@@ -437,10 +437,10 @@ async function sendProductCard(sock, targetJid) {
 Send a calendar event invite directly to a WhatsApp chat.
 
 ```javascript
-const { Baron } = require('@innovatorssoft/baileys');
+const { Zenbo } = require('@innovatorssoft/baileys');
 
 async function sendCalendarEvent(sock, targetJid) {
-    const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+    const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
 
     const eventPayload = {
         eventMessage: {
@@ -458,7 +458,7 @@ async function sendCalendarEvent(sock, targetJid) {
         }
     };
 
-    await baron.handleEvent(eventPayload, targetJid);
+    await zenbo.handleEvent(eventPayload, targetJid);
 }
 ```
 
@@ -467,12 +467,12 @@ async function sendCalendarEvent(sock, targetJid) {
 Post to WhatsApp Status/Stories with private or group mentions.
 
 ```javascript
-const { Baron } = require('@innovatorssoft/baileys');
+const { Zenbo } = require('@innovatorssoft/baileys');
 
 async function postStatusWithMentions(sock, recipientJids) {
-    const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+    const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
 
-    await baron.sendStatusWhatsApp(
+    await zenbo.sendStatusWhatsApp(
         {
             text: 'System upgrade completed successfully! 🚀',
             backgroundColor: '#075E54',

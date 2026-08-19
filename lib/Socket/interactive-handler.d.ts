@@ -1,7 +1,7 @@
 import { proto } from '../../WAProto';
 import { SocketConfig, WAMessage } from '../Types';
 
-export declare class Baron {
+export declare class Zenbo {
     private relayMessage;
     private waUploadToServer;
     private config;
@@ -34,3 +34,6 @@ export declare class Baron {
 
     sendStatusWhatsApp(content: any, jids?: string[]): Promise<any>;
 }
+
+/** @deprecated Use Zenbo instead */
+export declare const Baron: typeof Zenbo;

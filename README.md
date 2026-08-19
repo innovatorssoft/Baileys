@@ -254,7 +254,7 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 | **Group Status & interactiveAsTemplate** | ❌ | ✅ |
 | **SQLite Auth State** | ❌ | ✅ |
 | **USync Protocols** (Business/Feature/Picture/Sidelist/TextStatus) | ❌ | ✅ |
-| **Baron Interactive Handler** (albums/events/polls/payments) | ❌ | ✅ |
+| **Zenbo Interactive Handler** (albums/events/polls/payments) | ❌ | ✅ |
 | **Privacy/Registration/Interop MEX Sockets** | ❌ | ✅ |
 | **GraphQL Query Socket** | ❌ | ✅ |
 | **AI Groups** | ❌ | ✅ |
@@ -318,7 +318,7 @@ import makeWASocket from '@innovatorssoft/baileys'
 | 👥 **[Groups](#groups)** | [Create](#create-a-group) · [Add/Remove](#addremove-or-demotepromote) · [Subject](#change-subject-name) · [Description](#change-description) · [Settings](#change-settings) · [Leave](#leave-a-group) · [Invite Code](#get-invite-code) · [Revoke](#revoke-invite-code) · [Join Code](#join-using-invitation-code) · [Info by Code](#get-group-info-by-invite-code) · [Metadata](#query-metadata-participants-name-description) · [Join V4](#join-using-groupinvitemessage) · [Request Join](#get-request-join-list) · [Approve/Reject](#approvereject-request-join) · [All Groups](#get-all-participating-groups-metadata) · [Ephemeral](#toggle-ephemeral) · [Add Mode](#change-add-mode) · [Member Label](#update-member-label) · [Acknowledge](#group-acknowledge) · [Linked Participants](#get-linked-participants) · [Join Linked](#join-a-linked-group) · [Batch Profile Pics](#get-group-profile-pictures-batch) · [Sub-Group Suggestions](#sub-group-suggestions) |
 | 🏘️ **[Communities](#communities)** | [Create Group in Community](#create-a-group-within-a-community) · [Link/Unlink](#linkunlink-groups) · [Fetch Linked](#fetch-linked-groups) |
 | 🔄 **[USync Protocols](#usync-protocols)** | Business · Feature · Picture · Sidelist · TextStatus |
-| 🔧 **[Advanced APIs](#advanced-apis)** | [Privacy MEX](#privacy-socket-mex) · [Registration MEX](#registration-socket-mex) · [Interop DMA](#interop-socket-eu-dma) · [GraphQL](#graphql-socket) · [AI Groups](#ai-groups) · [Bot Management](#bot-management) · [Baron Handler](#baron-interactive-handler) · [Meta AI](#meta-ai-compositing--planning-experimental) |
+| 🔧 **[Advanced APIs](#advanced-apis)** | [Privacy MEX](#privacy-socket-mex) · [Registration MEX](#registration-socket-mex) · [Interop DMA](#interop-socket-eu-dma) · [GraphQL](#graphql-socket) · [AI Groups](#ai-groups) · [Bot Management](#bot-management) · [Zenbo Handler](#zenbo-interactive-handler) · [Meta AI](#meta-ai-compositing--planning-experimental) |
 | 🔒 **[Privacy](#privacy)** | [Block/Unblock](#blockunblock-user) · [Settings](#get-privacy-settings) · [BlockList](#get-blocklist) · [LastSeen](#update-lastseen-privacy) · [Online](#update-online-privacy) · [Profile Pic](#update-profile-picture-privacy) · [Status](#update-status-privacy) · [Read Receipts](#update-read-receipts-privacy) · [Groups Add](#update-groups-add-privacy) · [Disappearing Mode](#update-default-disappearing-mode) |
 | 📢 **[Broadcast & Stories](#broadcast-lists--stories)** | [Send](#send-broadcast--stories) · [Query List](#query-a-broadcast-lists-recipients--name) · [Story Posting](#status--story-posting) |
 | 💻 **[Custom Functionality](#writing-custom-functionality)** | [Debug Logs](#enabling-debug-level-in-baileys-logs) · [How WA Communicates](#how-whatsapp-communicate-with-us) · [Websocket Callbacks](#register-a-callback-for-websocket-events) |
@@ -4055,18 +4055,18 @@ const profile = await sock.getBotProfile('botJid@bot')
 await sock.reportSpam('spammer@s.whatsapp.net')
 ```
 
-### Baron Interactive Handler
+### Zenbo Interactive Handler
 
-The `Baron` class provides a high-level builder for interactive messages including payments, products, albums, events, polls, and group stories.
+The `Zenbo` class provides a high-level builder for interactive messages including payments, products, albums, events, polls, and group stories.
 
 ```ts
-import { Baron } from '@innovatorssoft/baileys'
+import { Zenbo } from '@innovatorssoft/baileys'
 
-// Baron requires socket internals — typically used within custom socket extensions
-const baron = new Baron(waUploadToServer, relayMessage, config, sock)
+// Zenbo requires socket internals — typically used within custom socket extensions
+const zenbo = new Zenbo(waUploadToServer, relayMessage, config, sock)
 
 // Build interactive buttons
-const msg = await baron.handleInteractiveButtons({
+const msg = await zenbo.handleInteractiveButtons({
     text: 'Choose an option',
     footer: 'Powered by Baileys',
     interactiveButtons: [
@@ -4076,9 +4076,9 @@ const msg = await baron.handleInteractiveButtons({
 })
 
 // Build product messages, payment messages, albums, events, poll results
-const payment = await baron.handlePayment(paymentContent)
-const product = await baron.handleProduct(productContent, jid)
-const album = await baron.handleAlbum(albumContent, jid)
+const payment = await zenbo.handlePayment(paymentContent)
+const product = await zenbo.handleProduct(productContent, jid)
+const album = await zenbo.handleAlbum(albumContent, jid)
 ```
 
 ### Meta AI Compositing & Planning _(Experimental)_

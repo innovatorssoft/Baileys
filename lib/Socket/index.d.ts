@@ -259,6 +259,6 @@ export declare const makeManagedAccountSocket: (sock: any) => any
 export declare const makeGraphQLSocket: (sock: any) => any
 export declare const makeAIGroupsSocket: (sockOrConfig?: any) => any
 export declare const extractAIGroupMetadata: (result: any) => any
-export { Baron } from './interactive-handler'
+export { Zenbo, Baron } from './interactive-handler'
 
 export default makeWASocket

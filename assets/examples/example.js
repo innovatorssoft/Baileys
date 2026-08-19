@@ -9,7 +9,7 @@ const { makeWASocket,
     renderLatexToPng,
     prepareWAMessageMedia,
     uploadUnencryptedToWA,
-    Baron,
+    Zenbo,
     USyncQuery,
     replayPlanning,
     mixedSteps,
@@ -1052,9 +1052,9 @@ async function startBot() {
                 }
                 case '!payment': {
                     try {
-                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
                         const amount = parseInt(args, 10) || 50000;
-                        const paymentContent = await baron.handlePayment({
+                        const paymentContent = await zenbo.handlePayment({
                             requestPaymentMessage: {
                                 amount: amount,
                                 currency: 'USD',
@@ -1071,7 +1071,7 @@ async function startBot() {
                 }
                 case '!product': {
                     try {
-                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
                         const logoPath = path.join(__dirname, 'logo.png');
                         const productPayload = {
                             productMessage: {
@@ -1087,7 +1087,7 @@ async function startBot() {
                                 currencyCode: 'USD'
                             }
                         };
-                        const result = await baron.handleProduct(productPayload, normalizedJid, message);
+                        const result = await zenbo.handleProduct(productPayload, normalizedJid, message);
                         await sock.relayMessage(normalizedJid, result, {});
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
@@ -1096,9 +1096,9 @@ async function startBot() {
                 }
                 case '!event': {
                     try {
-                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
                         const eventTitle = args || 'Engineering Architecture Sync';
-                        await baron.handleEvent({
+                        await zenbo.handleEvent({
                             eventMessage: {
                                 name: eventTitle,
                                 description: 'Technical sync meeting and architecture discussion.',
@@ -1120,9 +1120,9 @@ async function startBot() {
                 }
                 case '!statusmention': {
                     try {
-                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
                         const statusText = args || 'Hello WhatsApp Status! Mentioning you directly.';
-                        await baron.sendStatusWhatsApp(
+                        await zenbo.sendStatusWhatsApp(
                             {
                                 text: statusText,
                                 backgroundColor: '#075E54',
