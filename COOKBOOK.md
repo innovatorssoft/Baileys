@@ -603,7 +603,8 @@ Link existing standard groups into an established community, or unlink them.
 ```javascript
 async function linkExistingGroup(sock, parentCommunityJid, existingGroupJid) {
     // Link existing group
-    await sock.communityLinkGroup(parentCommunityJid, [existingGroupJid]);
+    await sock.communityLinkGroup(existingGroupJid, parentCommunityJid);
+    // await sock.communityUnlinkGroup(existingGroupJid, parentCommunityJid);
     console.log(`Linked ${existingGroupJid} to ${parentCommunityJid}`);
 
     // Unlink group
