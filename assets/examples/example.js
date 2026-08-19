@@ -1052,7 +1052,7 @@ async function startBot() {
                 }
                 case '!payment': {
                     try {
-                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock);
                         const amount = parseInt(args, 10) || 50000;
                         const paymentContent = await zenbo.handlePayment({
                             requestPaymentMessage: {
@@ -1071,7 +1071,7 @@ async function startBot() {
                 }
                 case '!product': {
                     try {
-                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock);
                         const logoPath = path.join(__dirname, 'logo.png');
                         const productPayload = {
                             productMessage: {
@@ -1096,7 +1096,7 @@ async function startBot() {
                 }
                 case '!event': {
                     try {
-                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock);
                         const eventTitle = args || 'Engineering Architecture Sync';
                         await zenbo.handleEvent({
                             eventMessage: {
@@ -1120,7 +1120,7 @@ async function startBot() {
                 }
                 case '!statusmention': {
                     try {
-                        const zenbo = new Zenbo(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const zenbo = new Zenbo(sock);
                         const statusText = args || 'Hello WhatsApp Status! Mentioning you directly.';
                         await zenbo.sendStatusWhatsApp(
                             {
@@ -1230,10 +1230,11 @@ async function startBot() {
                         break;
                     }
                     try {
-                        const [name, ...descParts] = args.split(' ');
-                        const desc = descParts.join(' ') || 'Community space';
+                        const parts = args.trim().split(' ');
+                        const name = parts[0];
+                        const desc = parts.slice(1).join(' ') || 'Community space';
                         const community = await sock.communityCreate(name, desc);
-                        await sock.sendMessage(normalizedJid, { text: `✅ Community Created!\nID: ${community.id}\nSubject: ${community.subject}` }, { quoted: message });
+                        await sock.sendMessage(normalizedJid, { text: `✅ Community Created!\nID: ${community?.id || 'Created'}\nSubject: ${community?.subject || name}` }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
                     }
@@ -1336,14 +1337,16 @@ async function startBot() {
                     break;
                 }
                 case '!usync': {
-                    const targetJid = args || normalizedJid;
+                    const rawTarget = args ? args.trim() : normalizedJid;
+                    const cleanTarget = rawTarget.includes('@') ? rawTarget : `${rawTarget.replace(/[^0-9]/g, '')}@s.whatsapp.net`;
+                    const targetJid = jidNormalizedUser(toJid(cleanTarget) || cleanTarget);
                     try {
                         const query = new USyncQuery()
                             .withMode('query')
                             .withContext('interactive')
-                            .withBusinessProtocol()
-                            .withFeatureProtocol()
-                            .withTextStatusProtocol()
+                            .withContactProtocol()
+                            .withStatusProtocol()
+                            .withDisappearingModeProtocol()
                             .withPictureProtocol()
                             .withUser({ id: targetJid });
 
@@ -1397,7 +1400,10 @@ async function startBot() {
                 case '!userdisclosures': {
                     try {
                         const disclosures = await sock.getUserDisclosures();
-                        await sock.sendMessage(normalizedJid, { text: `📋 Disclosures: ${JSON.stringify(disclosures, null, 2)}` }, { quoted: message });
+                        const text = disclosures && disclosures.length
+                            ? `📋 Disclosures (${disclosures.length}):\n\`\`\`${JSON.stringify(disclosures, null, 2)}\`\`\``
+                            : `📋 User Disclosures: No pending TOS notices / all disclosures acknowledged.`;
+                        await sock.sendMessage(normalizedJid, { text }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
                     }
@@ -1413,10 +1419,15 @@ async function startBot() {
                     break;
                 }
                 case '!botprofile': {
-                    const targetBot = args || '867051314767696@bot';
+                    const rawTarget = args ? args.trim() : '13135550002@s.whatsapp.net';
+                    const targetBot = rawTarget.includes('@') ? rawTarget : `${rawTarget.replace(/[^0-9]/g, '')}@s.whatsapp.net`;
                     try {
                         const profile = await sock.getBotProfile(targetBot);
-                        await sock.sendMessage(normalizedJid, { text: `🤖 Bot Profile (${targetBot}):\n${JSON.stringify(profile, null, 2)}` }, { quoted: message });
+                        if (profile) {
+                            await sock.sendMessage(normalizedJid, { text: `🤖 Bot Profile (${targetBot}):\n\`\`\`${JSON.stringify(profile, null, 2)}\`\`\`` }, { quoted: message });
+                        } else {
+                            await sock.sendMessage(normalizedJid, { text: `🤖 No bot profile found for ${targetBot}. Provide a valid Bot/Meta AI JID (e.g. 13135550002@s.whatsapp.net)` }, { quoted: message });
+                        }
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
                     }

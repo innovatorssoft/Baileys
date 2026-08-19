@@ -8,10 +8,10 @@ export declare class Zenbo {
     private sock;
 
     constructor(
-        waUploadToServer: any,
-        relayMessageFn: (jid: string, message: proto.IMessage, opts?: any) => Promise<any>,
-        config: SocketConfig,
-        sock: any
+        waUploadToServerOrSock: any,
+        relayMessageFn?: (jid: string, message: proto.IMessage, opts?: any) => Promise<any>,
+        config?: SocketConfig,
+        sock?: any
     );
 
     detectType(content: any): string | null;
