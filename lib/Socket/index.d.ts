@@ -238,6 +238,17 @@ declare const makeWASocket: (config: UserFacingSocketConfig) => {
     requestPairingCode: (phoneNumber: string, code?: string) => Promise<string>
     waitForConnectionUpdate: (check: (u: Partial<import("../Types").ConnectionState>) => boolean | undefined, timeoutMs?: number | undefined) => Promise<void>
     sendWAMBuffer: (wamBuffer: Buffer) => Promise<import("..").BinaryNode>
+    aiGroupMetadata: (jid: string) => Promise<import("../Types").GroupMetadata>
+    aiGroupCreate: (subject: string, participants?: string[], options?: any) => Promise<import("../Types").GroupMetadata>
+    aiGroupAddBot: (jid: string, botUser?: string) => Promise<{ status: string, jid: string }[]>
+    aiGroupLeave: (id: string) => Promise<void>
+    aiGroupParticipantsUpdate: (jid: string, participants: string[], action: import("../Types").ParticipantAction) => Promise<{ status: string, jid: string, content?: any }[]>
+    aiGroupUpdateSubject: (jid: string, subject: string) => Promise<void>
+    aiGroupInviteCode: (jid: string) => Promise<string | undefined>
+    aiGroupRevokeInvite: (jid: string) => Promise<string | undefined>
+    aiGroupAcceptInvite: (code: string) => Promise<string | undefined>
+    aiGroupSettingUpdate: (jid: string, setting: "announcement" | "locked" | "not_announcement" | "unlocked") => Promise<void>
+    aiGroupToggleEphemeral: (jid: string, ephemeralExpiration?: number) => Promise<void>
 }
 
 export declare const makeCommunitiesSocket: (config: any) => any
@@ -246,7 +257,7 @@ export declare const makePrivacySocket: (sock: any) => any
 export declare const makeRegistrationSocket: (sock: any) => any
 export declare const makeManagedAccountSocket: (sock: any) => any
 export declare const makeGraphQLSocket: (sock: any) => any
-export declare const makeAIGroupsSocket: (config: any) => any
+export declare const makeAIGroupsSocket: (sockOrConfig?: any) => any
 export declare const extractAIGroupMetadata: (result: any) => any
 export { Baron } from './interactive-handler'
 
