@@ -835,7 +835,7 @@ async function startBot() {
                             image: { url: logoPath },
                             caption,
                             verifiedMe: true
-                        });
+                        }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
                     }

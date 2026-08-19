@@ -249,4 +249,35 @@ describe('Verified Badge Media (verifiedMe)', () => {
         expect(fullMsg.message.imageMessage.contextInfo?.participant).toBe('0@s.whatsapp.net')
         expect(fullMsg.message.imageMessage.contextInfo?.quotedMessage).toBeDefined()
     })
+
+    test('generates full WebMessageInfo with verified badge and custom quoted message', async () => {
+        const customQuoted = {
+            key: {
+                remoteJid: '1234567890@s.whatsapp.net',
+                fromMe: false,
+                id: 'USER_MSG_ID'
+            },
+            message: {
+                conversation: 'User message text'
+            }
+        }
+        const options = {
+            upload: mockUpload,
+            logger: mockLogger,
+            userJid: '1111111111@s.whatsapp.net',
+            quoted: customQuoted
+        }
+
+        const fullMsg = await generateWAMessage('1234567890@s.whatsapp.net', {
+            image: samplePng,
+            caption: 'Verified with user quote',
+            verifiedMe: true
+        }, options)
+
+        expect(fullMsg.message?.imageMessage).toBeDefined()
+        expect(fullMsg.message.imageMessage.contextInfo?.isForwarded).toBe(true)
+        expect(fullMsg.message.imageMessage.contextInfo?.participant).toBe('0@s.whatsapp.net')
+        expect(fullMsg.message.imageMessage.contextInfo?.remoteJid).toBe('0@s.whatsapp.net')
+        expect(fullMsg.message.imageMessage.contextInfo?.quotedMessage?.conversation).toBe('User message text')
+    })
 })
