@@ -11,6 +11,7 @@ const { makeWASocket,
     uploadUnencryptedToWA,
     Zenbo,
     USyncQuery,
+    USyncUser,
     replayPlanning,
     mixedSteps,
     createWelcomeFlow,
@@ -1348,7 +1349,7 @@ async function startBot() {
                             .withStatusProtocol()
                             .withDisappearingModeProtocol()
                             .withPictureProtocol()
-                            .withUser({ id: targetJid });
+                            .withUser(new USyncUser().withId(targetJid));
 
                         const res = await sock.executeUSyncQuery(query);
                         await sock.sendMessage(normalizedJid, { text: `🔍 USync Result for ${targetJid}:\n\`\`\`${JSON.stringify(res?.list?.[0] || res, null, 2)}\`\`\`` }, { quoted: message });
