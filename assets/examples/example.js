@@ -1278,7 +1278,7 @@ async function startBot() {
                         break;
                     }
                     try {
-                        await sock.communityUnlinkGroup(communityJid, [groupJid]);
+                        await sock.communityUnlinkGroup(groupJid, communityJid);
                         await sock.sendMessage(normalizedJid, { text: `✅ Unlinked ${groupJid} from ${communityJid}` }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
