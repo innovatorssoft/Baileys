@@ -8,7 +8,24 @@ const { makeWASocket,
     getUrlFromDirectPath,
     renderLatexToPng,
     prepareWAMessageMedia,
-    uploadUnencryptedToWA }
+    uploadUnencryptedToWA,
+    Baron,
+    USyncQuery,
+    replayPlanning,
+    mixedSteps,
+    createWelcomeFlow,
+    isScheduledMessage,
+    getScheduledMessageTime,
+    getMessagePaymentInfo,
+    getMessageCommentMetadata,
+    getMessageAddOns,
+    getSenderLid,
+    isHostedPnUser,
+    isHostedLidUser,
+    isPnUser,
+    isLidUser,
+    jidNormalizedUser,
+    toJid }
     = require('../../lib/index.js');
 const { Boom } = require('@hapi/boom');
 const qrcode = require('qrcode-terminal');
@@ -278,7 +295,37 @@ async function startBot() {
                         '!viewoncev2   - Send image as view-once V2',
                         '!viewonceext  - Send image as view-once V2 Ext',
                         '!interactivemsg - Send custom interactive buttons (text, image, or location)',
-                        '!call         - Place a voice call and stream audio'
+                        '!call         - Place a voice call and stream audio',
+                        '!payment      - Send a WhatsApp Pay request',
+                        '!product      - Send an interactive product catalog card',
+                        '!event        - Send a calendar event invitation',
+                        '!statusmention - Post WhatsApp status with mention',
+                        '!aiplanning   - Replay animated Meta AI reasoning steps',
+                        '!initwelcome  - Initialize automated FAQ welcome flow',
+                        '!aigroupcreate - Create an AI Group with custom modes',
+                        '!aigroupmeta  - Fetch AI Group metadata',
+                        '!aigroupaddbot - Add Meta AI agent to AI group',
+                        '!communitycreate - Create a parent community',
+                        '!communitycreategroup - Create child group in community',
+                        '!communitylink - Link existing group to community',
+                        '!communityunlink - Unlink group from community',
+                        '!communitygroups - Fetch all linked child groups',
+                        '!subgroupsuggest - Create a sub-group suggestion',
+                        '!grouppics    - Fetch all community sub-group profile pictures',
+                        '!usync        - Execute USync query with all protocols',
+                        '!blockingstatus - Check chat blocking status',
+                        '!blockchat    - Block a contact/chat',
+                        '!unblockchat  - Unblock a contact/chat',
+                        '!reportspam   - Report contact/chat for spam',
+                        '!userdisclosures - Fetch active user disclosures',
+                        '!pushconfig   - View current push notification config',
+                        '!botprofile   - Fetch Meta AI / Bot profile details',
+                        '!finduserid   - Find WhatsApp user ID from phone number',
+                        '!privacysettings - Fetch account privacy settings',
+                        '!setdisappearing - Set default disappearing messages timer',
+                        '!trusteddevices - List trusted hardware devices',
+                        '!inspectmsg   - Inspect quoted message metadata/addons',
+                        '!checkjid     - Validate and classify JID types'
                     ], message, {
                         headerText: 'Available commands:',
                         footer: 'Type any of these commands to test.'
@@ -1001,6 +1048,458 @@ async function startBot() {
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
                     }
+                    break;
+                }
+                case '!payment': {
+                    try {
+                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const amount = parseInt(args, 10) || 50000;
+                        const paymentContent = await baron.handlePayment({
+                            requestPaymentMessage: {
+                                amount: amount,
+                                currency: 'USD',
+                                expiry: Math.floor(Date.now() / 1000) + 86400,
+                                from: normalizedJid,
+                                note: 'Payment Request Demo'
+                            }
+                        }, message);
+                        await sock.relayMessage(normalizedJid, paymentContent, {});
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!product': {
+                    try {
+                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const logoPath = path.join(__dirname, 'logo.png');
+                        const productPayload = {
+                            productMessage: {
+                                title: 'Mechanical Keyboard RGB',
+                                description: 'Wireless mechanical keyboard with tactile switches.',
+                                body: 'Special Offer - 20% OFF!',
+                                footer: 'Tech Store',
+                                thumbnail: fs.existsSync(logoPath) ? fs.readFileSync(logoPath) : Buffer.alloc(0),
+                                productId: 'prod_keyboard_99',
+                                retailerId: 'TECH_001',
+                                url: 'https://example.com/products/keyboard',
+                                priceAmount1000: 89990,
+                                currencyCode: 'USD'
+                            }
+                        };
+                        const result = await baron.handleProduct(productPayload, normalizedJid, message);
+                        await sock.relayMessage(normalizedJid, result, {});
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!event': {
+                    try {
+                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const eventTitle = args || 'Engineering Architecture Sync';
+                        await baron.handleEvent({
+                            eventMessage: {
+                                name: eventTitle,
+                                description: 'Technical sync meeting and architecture discussion.',
+                                location: {
+                                    degreesLatitude: 37.7749,
+                                    degreesLongitude: -122.4194,
+                                    name: 'Meeting Room 1'
+                                },
+                                joinLink: 'https://meet.google.com/abc-defg-hij',
+                                startTime: Math.floor(Date.now() / 1000) + 3600,
+                                endTime: Math.floor(Date.now() / 1000) + 7200,
+                                extraGuestsAllowed: true
+                            }
+                        }, normalizedJid, message);
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!statusmention': {
+                    try {
+                        const baron = new Baron(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
+                        const statusText = args || 'Hello WhatsApp Status! Mentioning you directly.';
+                        await baron.sendStatusWhatsApp(
+                            {
+                                text: statusText,
+                                backgroundColor: '#075E54',
+                                textColor: '#FFFFFF'
+                            },
+                            [normalizedJid]
+                        );
+                        await sock.sendMessage(normalizedJid, { text: '✅ Status posted with mention!' }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!aiplanning': {
+                    try {
+                        const steps = mixedSteps([
+                            { title: 'Parsing user prompt and intent', type: 'reasoning' },
+                            { title: 'Searching knowledge base and docs', type: 'search' },
+                            { title: 'Synthesizing final solution', type: 'reasoning' }
+                        ]);
+                        await replayPlanning(
+                            sock,
+                            normalizedJid,
+                            steps,
+                            { text: `🤖 Result: ${args || 'Completed plan execution and analysis.'}` },
+                            {
+                                description: 'Meta AI Assistant',
+                                stepDelayMs: 1000,
+                                finalPauseMs: 500,
+                                placeholderText: 'Thinking...'
+                            }
+                        );
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!initwelcome': {
+                    try {
+                        createWelcomeFlow(sock, {
+                            greetingText: '👋 Welcome! How can we help you today?',
+                            footerText: 'Baileys Assistant Bot',
+                            buttonText: 'Explore Menu',
+                            ignoreGroups: true,
+                            sections: [
+                                {
+                                    title: 'Helpful Links',
+                                    rows: [
+                                        { title: 'Documentation', rowId: 'docs', description: 'Visit GitHub repository' },
+                                        { title: 'Status', rowId: 'status', description: 'Check system health' }
+                                    ]
+                                }
+                            ],
+                            onFaqReply: async (userJid, faqId) => {
+                                await sock.sendMessage(userJid, { text: `You selected FAQ: ${faqId}` });
+                            }
+                        });
+                        await sock.sendMessage(normalizedJid, { text: '✅ Automated Welcome Flow initialized on socket!' }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!aigroupcreate': {
+                    if (!args) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !aigroupcreate <group name>' }, { quoted: message });
+                        break;
+                    }
+                    try {
+                        const group = await sock.aiGroupCreate(args, [normalizedJid], {
+                            ephemeralExpiration: 86400,
+                            memberAddMode: 'all_member_add',
+                            memberShareGroupHistoryMode: 'all_member_share'
+                        });
+                        await sock.sendMessage(normalizedJid, { text: `✅ Created AI Group!\nID: ${group.id}\nSubject: ${group.subject}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!aigroupmeta': {
+                    const targetGroupId = args || normalizedJid;
+                    try {
+                        const meta = await sock.aiGroupMetadata(targetGroupId);
+                        let metaText = `📋 AI Group Info:\n• ID: ${meta.id}\n• Subject: ${meta.subject}\n• Participants: ${meta.participants?.length || 0}\n• Ephemeral: ${meta.ephemeralDuration || 'off'}`;
+                        await sock.sendMessage(normalizedJid, { text: metaText }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!aigroupaddbot': {
+                    const targetGroupId = args || normalizedJid;
+                    try {
+                        const res = await sock.aiGroupAddBot(targetGroupId);
+                        await sock.sendMessage(normalizedJid, { text: `✅ Add bot response: ${JSON.stringify(res)}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!communitycreate': {
+                    if (!args) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !communitycreate <name> [description]' }, { quoted: message });
+                        break;
+                    }
+                    try {
+                        const [name, ...descParts] = args.split(' ');
+                        const desc = descParts.join(' ') || 'Community space';
+                        const community = await sock.communityCreate(name, desc);
+                        await sock.sendMessage(normalizedJid, { text: `✅ Community Created!\nID: ${community.id}\nSubject: ${community.subject}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!communitycreategroup': {
+                    const parts = args.split(' ');
+                    if (parts.length < 2) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !communitycreategroup <communityJid> <groupName>' }, { quoted: message });
+                        break;
+                    }
+                    const [communityJid, ...groupNameParts] = parts;
+                    const groupName = groupNameParts.join(' ');
+                    try {
+                        const child = await sock.communityCreateGroup(groupName, [normalizedJid], communityJid);
+                        await sock.sendMessage(normalizedJid, { text: `✅ Linked Child Group Created!\nID: ${child.id}\nSubject: ${child.subject}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!communitylink': {
+                    const [communityJid, groupJid] = args.split(' ');
+                    if (!communityJid || !groupJid) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !communitylink <communityJid> <groupJid>' }, { quoted: message });
+                        break;
+                    }
+                    try {
+                        await sock.communityLinkGroup(communityJid, [groupJid]);
+                        await sock.sendMessage(normalizedJid, { text: `✅ Linked ${groupJid} to ${communityJid}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!communityunlink': {
+                    const [communityJid, groupJid] = args.split(' ');
+                    if (!communityJid || !groupJid) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !communityunlink <communityJid> <groupJid>' }, { quoted: message });
+                        break;
+                    }
+                    try {
+                        await sock.communityUnlinkGroup(communityJid, [groupJid]);
+                        await sock.sendMessage(normalizedJid, { text: `✅ Unlinked ${groupJid} from ${communityJid}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!communitygroups': {
+                    if (!args) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !communitygroups <communityJid>' }, { quoted: message });
+                        break;
+                    }
+                    try {
+                        const groups = await sock.communityFetchLinkedGroups(args.trim());
+                        let resp = `📋 Linked Groups (${groups.length}):\n`;
+                        for (const g of groups) {
+                            resp += `• ${g.subject || g.jid} (${g.jid})\n`;
+                        }
+                        await sock.sendMessage(normalizedJid, { text: resp.trim() }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!subgroupsuggest': {
+                    const parts = args.split(' ');
+                    if (parts.length < 2) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !subgroupsuggest <communityJid> <name>' }, { quoted: message });
+                        break;
+                    }
+                    const [communityJid, ...nameParts] = parts;
+                    try {
+                        await sock.groupCreateSubGroupSuggestion(communityJid, {
+                            name: nameParts.join(' '),
+                            description: 'Suggested sub-group'
+                        });
+                        await sock.sendMessage(normalizedJid, { text: '✅ Sub-group suggestion created!' }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!grouppics': {
+                    if (!args) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !grouppics <parentCommunityJid>' }, { quoted: message });
+                        break;
+                    }
+                    try {
+                        const pics = await sock.getGroupProfilePictures(args.trim());
+                        let resp = `🖼️ Group Profile Pictures (${pics.length}):\n`;
+                        for (const p of pics) {
+                            resp += `• ${p.jid}: ${p.url || p.directPath || 'N/A'}\n`;
+                        }
+                        await sock.sendMessage(normalizedJid, { text: resp.trim() }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!usync': {
+                    const targetJid = args || normalizedJid;
+                    try {
+                        const query = new USyncQuery()
+                            .withMode('query')
+                            .withContext('interactive')
+                            .withBusinessProtocol()
+                            .withFeatureProtocol()
+                            .withTextStatusProtocol()
+                            .withPictureProtocol()
+                            .withUser({ id: targetJid });
+
+                        const res = await sock.executeUSyncQuery(query);
+                        await sock.sendMessage(normalizedJid, { text: `🔍 USync Result for ${targetJid}:\n\`\`\`${JSON.stringify(res?.list?.[0] || res, null, 2)}\`\`\`` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!blockingstatus': {
+                    const targetJid = args || normalizedJid;
+                    try {
+                        const status = await sock.getChatBlockingStatus(targetJid);
+                        await sock.sendMessage(normalizedJid, { text: `Chat ${targetJid} blocking status: ${JSON.stringify(status)}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!blockchat': {
+                    const targetJid = args || normalizedJid;
+                    try {
+                        await sock.updateChatBlockingStatus(targetJid, 'block');
+                        await sock.sendMessage(normalizedJid, { text: `✅ Blocked chat ${targetJid}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!unblockchat': {
+                    const targetJid = args || normalizedJid;
+                    try {
+                        await sock.updateChatBlockingStatus(targetJid, 'unblock');
+                        await sock.sendMessage(normalizedJid, { text: `✅ Unblocked chat ${targetJid}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!reportspam': {
+                    const targetJid = args || normalizedJid;
+                    try {
+                        await sock.reportSpam(targetJid, { spamFlow: 'CHAT' });
+                        await sock.sendMessage(normalizedJid, { text: `✅ Reported spam for ${targetJid}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!userdisclosures': {
+                    try {
+                        const disclosures = await sock.getUserDisclosures();
+                        await sock.sendMessage(normalizedJid, { text: `📋 Disclosures: ${JSON.stringify(disclosures, null, 2)}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!pushconfig': {
+                    try {
+                        const push = await sock.getPushConfig();
+                        await sock.sendMessage(normalizedJid, { text: `🔔 Push Config: ${JSON.stringify(push, null, 2)}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!botprofile': {
+                    const targetBot = args || '867051314767696@bot';
+                    try {
+                        const profile = await sock.getBotProfile(targetBot);
+                        await sock.sendMessage(normalizedJid, { text: `🤖 Bot Profile (${targetBot}):\n${JSON.stringify(profile, null, 2)}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!finduserid': {
+                    if (!args) {
+                        await sock.sendMessage(normalizedJid, { text: 'Usage: !finduserid <phone number>' }, { quoted: message });
+                        break;
+                    }
+                    try {
+                        const res = await sock.findUserId(args.trim());
+                        await sock.sendMessage(normalizedJid, { text: `🔍 Found User ID: ${JSON.stringify(res)}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!privacysettings': {
+                    try {
+                        const settings = await sock.fetchPrivacySettings(true);
+                        await sock.sendMessage(normalizedJid, { text: `🔒 Privacy Settings:\n\`\`\`${JSON.stringify(settings, null, 2)}\`\`\`` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!setdisappearing': {
+                    const duration = parseInt(args, 10) || 86400;
+                    try {
+                        await sock.updateDefaultDisappearingMode(duration);
+                        await sock.sendMessage(normalizedJid, { text: `✅ Default disappearing messages duration set to ${duration}s` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!trusteddevices': {
+                    try {
+                        const devices = await sock.getTrustedDevices();
+                        await sock.sendMessage(normalizedJid, { text: `📱 Trusted Devices:\n${JSON.stringify(devices, null, 2)}` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!inspectmsg': {
+                    try {
+                        const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+                        const targetMsg = quoted ? { message: quoted } : message;
+                        const isSched = isScheduledMessage(targetMsg.message);
+                        const schedTime = isSched ? getScheduledMessageTime(targetMsg.message) : null;
+                        const payInfo = getMessagePaymentInfo(targetMsg.message);
+                        const commentMeta = getMessageCommentMetadata(targetMsg.message);
+                        const addOns = getMessageAddOns(targetMsg.message);
+                        const senderLid = getSenderLid(targetMsg);
+
+                        const analysis = {
+                            isScheduled: isSched,
+                            scheduledTime: schedTime ? new Date(schedTime * 1000).toISOString() : null,
+                            paymentInfo: payInfo,
+                            commentMetadata: commentMeta,
+                            addOns,
+                            senderLid
+                        };
+                        await sock.sendMessage(normalizedJid, { text: `🔬 Message Inspection Analysis:\n\`\`\`${JSON.stringify(analysis, null, 2)}\`\`\`` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!checkjid': {
+                    const testJid = args.trim() || normalizedJid;
+                    const info = {
+                        input: testJid,
+                        standardizedJid: toJid(testJid),
+                        normalized: jidNormalizedUser(testJid),
+                        isPnUser: isPnUser(testJid),
+                        isLidUser: isLidUser(testJid),
+                        isHostedPnUser: isHostedPnUser(testJid),
+                        isHostedLidUser: isHostedLidUser(testJid)
+                    };
+                    await sock.sendMessage(normalizedJid, { text: `🔍 JID Info:\n\`\`\`${JSON.stringify(info, null, 2)}\`\`\`` }, { quoted: message });
                     break;
                 }
             }
