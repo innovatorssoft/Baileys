@@ -1016,7 +1016,7 @@ function analyzeIncomingMessage(msg) {
     // 1. Check if message is scheduled
     if (isScheduledMessage(msg.message)) {
         const scheduledTime = getScheduledMessageTime(msg.message);
-        console.log(`Message is scheduled for: ${new Date(scheduledTime * 1000)}`);
+console.log(`Message is scheduled for: ${scheduledTime}`);
     }
 
     // 2. Extract payment information
