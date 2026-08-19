@@ -1467,11 +1467,11 @@ async function startBot() {
                     try {
                         const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
                         const targetMsg = quoted ? { message: quoted } : message;
-                        const isSched = isScheduledMessage(targetMsg.message);
-                        const schedTime = isSched ? getScheduledMessageTime(targetMsg.message) : null;
-                        const payInfo = getMessagePaymentInfo(targetMsg.message);
-                        const commentMeta = getMessageCommentMetadata(targetMsg.message);
-                        const addOns = getMessageAddOns(targetMsg.message);
+                        const isSched = isScheduledMessage(targetMsg);
+                        const schedTime = isSched ? getScheduledMessageTime(targetMsg) : null;
+                        const payInfo = getMessagePaymentInfo(targetMsg);
+                        const commentMeta = getMessageCommentMetadata(targetMsg);
+                        const addOns = getMessageAddOns(targetMsg);
                         const senderLid = getSenderLid(targetMsg);
 
                         const analysis = {
