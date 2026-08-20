@@ -1031,7 +1031,7 @@ async function startBot() {
                         await sock.sendMessage(normalizedJid, {
                             album: [
                                 {
-                                    image: { url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80' },
+                                    image: { url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80' },
                                     caption: '🖼️ Grid Image 1',
                                     width: 800,
                                     height: 800
