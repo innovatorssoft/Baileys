@@ -130,7 +130,7 @@ describe('Verified Badge Media (verifiedMe)', () => {
 
     const samplePng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64')
 
-    test('attaches verified badge context to image message and injects synthetic quoted fallback', async () => {
+    test('attaches verified badge context to image message without mutating options.quoted', async () => {
         const options = {
             upload: mockUpload,
             logger: mockLogger
@@ -148,9 +148,7 @@ describe('Verified Badge Media (verifiedMe)', () => {
         expect(content.imageMessage.contextInfo.isForwarded).toBe(true)
         expect(content.imageMessage.contextInfo.participant).toBe('0@s.whatsapp.net')
         expect(content.imageMessage.contextInfo.remoteJid).toBe('0@s.whatsapp.net')
-        expect(options.quoted).toBeDefined()
-        expect(options.quoted.key.participant).toBe('0@s.whatsapp.net')
-        expect(options.quoted.message.conversation).toBe('Verified Image')
+        expect(options.quoted).toBeUndefined()
     })
 
     test('attaches verified badge context to video message', async () => {
@@ -172,6 +170,7 @@ describe('Verified Badge Media (verifiedMe)', () => {
         expect(content.videoMessage.contextInfo.isForwarded).toBe(true)
         expect(content.videoMessage.contextInfo.participant).toBe('0@s.whatsapp.net')
         expect(content.videoMessage.contextInfo.remoteJid).toBe('0@s.whatsapp.net')
+        expect(options.quoted).toBeUndefined()
     })
 
     test('preserves user quoted message when verifiedMe is used', async () => {
@@ -232,7 +231,7 @@ describe('Verified Badge Media (verifiedMe)', () => {
         expect(fullMsg.message?.imageMessage).toBeDefined()
         expect(fullMsg.message.imageMessage.contextInfo?.isForwarded).toBe(true)
         expect(fullMsg.message.imageMessage.contextInfo?.participant).toBe('0@s.whatsapp.net')
-        expect(fullMsg.message.imageMessage.contextInfo?.quotedMessage).toBeDefined()
+        expect(fullMsg.message.imageMessage.contextInfo?.remoteJid).toBe('0@s.whatsapp.net')
     })
 })
 
