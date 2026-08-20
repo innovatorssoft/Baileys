@@ -277,6 +277,8 @@ async function startBot() {
                         '!viewonce     - Send image as view-once V1',
                         '!viewoncev2   - Send image as view-once V2',
                         '!viewonceext  - Send image as view-once V2 Ext',
+                        '!album        - Send standard WhatsApp album',
+                        '!gridalbum    - Send GenAI grid image album (ShowAsGrid: true)',
                         '!interactivemsg - Send custom interactive buttons (text, image, or location)',
                         '!call         - Place a voice call and stream audio'
                     ], message, {
@@ -998,6 +1000,59 @@ async function startBot() {
                                 ]
                             }, { quoted: message });
                         }
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!album': {
+                    try {
+                        const logoPath = path.join(__dirname, 'logo.png');
+                        const faviconPath = path.join(__dirname, 'favicon.png');
+                        await sock.sendMessage(normalizedJid, {
+                            album: [
+                                {
+                                    image: { url: logoPath },
+                                    caption: '🖼️ Normal Album - Image 1'
+                                },
+                                {
+                                    image: { url: faviconPath },
+                                    caption: '🖼️ Normal Album - Image 2'
+                                }
+                            ]
+                        });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!gridalbum': {
+                    try {
+                        const logoPath = path.join(__dirname, 'logo.png');
+                        const faviconPath = path.join(__dirname, 'favicon.png');
+                        await sock.sendMessage(normalizedJid, {
+                            album: [
+                                {
+                                    image: { url: logoPath },
+                                    caption: '🖼️ Grid Image 1',
+                                    width: 600,
+                                    height: 600
+                                },
+                                {
+                                    image: { url: faviconPath },
+                                    caption: '🖼️ Grid Image 2',
+                                    width: 600,
+                                    height: 600
+                                },
+                                {
+                                    image: { url: logoPath },
+                                    caption: '🖼️ Grid Image 3',
+                                    width: 600,
+                                    height: 600
+                                }
+                            ],
+                            ShowAsGrid: true
+                        }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
                     }

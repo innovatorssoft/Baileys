@@ -163,6 +163,48 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 
 ---
 
+### 5️⃣ Albums & Grid Image Albums
+
+Send multiple images as standard WhatsApp albums or present them using the Meta AI **Grid Layout**:
+
+```ts
+// Standard WhatsApp Album (normal grouped media behavior)
+await sock.sendMessage(jid, {
+  album: [
+    { image: { url: 'https://example.com/1.jpg' }, caption: 'Image 1' },
+    { image: { url: 'https://example.com/2.jpg' }, caption: 'Image 2' },
+    { image: { url: 'https://example.com/3.jpg' }, caption: 'Image 3' }
+  ]
+})
+
+// GenAI Grid Image Album (ShowAsGrid: true)
+await sock.sendMessage(jid, {
+  album: [
+    {
+      image: { url: 'https://example.com/1.jpg' },
+      caption: 'Image 1',
+      width: 600,
+      height: 600
+    },
+    {
+      image: { url: 'https://example.com/2.jpg' },
+      caption: 'Image 2',
+      width: 600,
+      height: 600
+    },
+    {
+      image: { url: 'https://example.com/3.jpg' },
+      caption: 'Image 3',
+      width: 600,
+      height: 600
+    }
+  ],
+  ShowAsGrid: true
+})
+```
+
+---
+
 ## ✨ Core Features
 
 ### Automation
@@ -3060,30 +3102,86 @@ await sock.sendMessage(
 ```
 
 ### Album Message
+
+You can send multiple media items together as a standard WhatsApp album or present them using the Meta AI **Grid View layout** (`ShowAsGrid: true`).
+
+#### Standard WhatsApp Album
 ```ts
 await sock.sendMessage(
     id, 
     { 
-        album: [{
-        	image: {
-        		url: 'https://example.com/innovatorssoft.jpg'
-        	}, 
-        	caption: 'Hay'
-        }, {
-        	image: Buffer, 
-        	caption: 'Hay'
-        }, {
-        	video: {
-        		url: 'https://example.com/innovatorssoft.mp4'
-        	}, 
-        	caption: 'Hay'
-        }, {
-        	video: Buffer, 
-        	caption: 'Hay'
-        }
+        album: [
+            {
+                image: {
+                    url: 'https://example.com/image1.jpg'
+                }, 
+                caption: 'First Image'
+            }, 
+            {
+                image: fs.readFileSync('./image2.png'), 
+                caption: 'Second Image'
+            }, 
+            {
+                video: {
+                    url: 'https://example.com/video1.mp4'
+                }, 
+                caption: 'Video item'
+            }
+        ]
     }
 )
 ```
+
+#### Grid Image Album (`ShowAsGrid: true`)
+Render an image collection using WhatsApp's native Meta AI `GenAIGridLayoutViewModel` / `GenAIImagePrimitive` structure.
+
+```ts
+await sock.sendMessage(
+    id,
+    {
+        album: [
+            {
+                image: {
+                    url: 'https://example.com/1.jpg'
+                },
+                caption: 'Image 1',
+                width: 600,
+                height: 600
+            },
+            {
+                image: {
+                    url: 'https://example.com/2.jpg'
+                },
+                caption: 'Image 2',
+                darkModePreviewUrl: 'https://example.com/2-dark.jpg',
+                darkModeHighResUrl: 'https://example.com/2-dark-hd.jpg',
+                width: 600,
+                height: 600
+            },
+            {
+                image: fs.readFileSync('./Media/photo.png'),
+                caption: 'Buffer image uploaded automatically',
+                width: 800,
+                height: 600
+            }
+        ],
+        ShowAsGrid: true
+    }
+)
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `album` | `AlbumItem[]` | Array of image items to display in the grid. |
+| `ShowAsGrid` | `boolean` | Set to `true` to render as a Meta AI grid. Default is `false` (standard album). |
+| `imagePreviewUrl` | `string` | Optional preview/thumbnail URL. |
+| `imageHighResUrl` | `string` | Optional full-resolution URL. |
+| `sourceUrl` | `string` | Optional source image URL fallback. |
+| `darkModePreviewUrl` | `string` | Optional preview URL for WhatsApp dark mode clients. |
+| `darkModeHighResUrl` | `string` | Optional full URL for WhatsApp dark mode clients. |
+| `width` / `height` | `number` | Optional image dimensions (default: 600x400). |
+| `darkWidth` / `darkHeight` | `number` | Optional dark mode image dimensions (fallback: width / height). |
+
 
 #### View Once Message
 
