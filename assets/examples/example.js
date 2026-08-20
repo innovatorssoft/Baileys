@@ -1029,6 +1029,7 @@ async function startBot() {
                 case '!gridalbum': {
                     try {
                         await sock.sendMessage(normalizedJid, {
+                            caption: '🖼️ ShowAsGrid Album Demo (Remote URLs)',
                             album: [
                                 {
                                     image: { url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80' },
@@ -1037,20 +1038,50 @@ async function startBot() {
                                     height: 800
                                 },
                                 {
-                                    image: { url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80' },
+                                    image: { url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80' },
                                     caption: '🖼️ Grid Image 2',
                                     width: 800,
                                     height: 800
                                 },
                                 {
-                                    image: { url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80' },
+                                    image: { url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80' },
                                     caption: '🖼️ Grid Image 3',
+                                    width: 800,
+                                    height: 800
+                                }
+                            ],
+                            ShowAsGrid: true
+                        }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!localgridalbum': {
+                    try {
+                        const fs = require('fs');
+                        const path = require('path');
+                        const logoPath = path.join(__dirname, 'logo.png');
+                        const faviconPath = path.join(__dirname, 'favicon.png');
+
+                        await sock.sendMessage(normalizedJid, {
+                            caption: '📁 Local Media ShowAsGrid Album Demo',
+                            album: [
+                                {
+                                    image: fs.readFileSync(logoPath),
+                                    caption: '📁 Local Buffer (Logo)',
                                     width: 800,
                                     height: 800
                                 },
                                 {
-                                    image: { url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80' },
-                                    caption: '🖼️ Grid Image 4',
+                                    image: { url: logoPath },
+                                    caption: '📁 Local Path Object ({ url: "./logo.png" })',
+                                    width: 800,
+                                    height: 800
+                                },
+                                {
+                                    image: faviconPath,
+                                    caption: '📁 Local File Path String ("./favicon.png")',
                                     width: 800,
                                     height: 800
                                 }
