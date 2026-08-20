@@ -2378,11 +2378,45 @@ await sock.sendRichMessage(
 Submessage `messageType` values:
 | Value | Type         |
 |-------|--------------|
+| 1     | Grid Image   |
 | 2     | Text         |
 | 3     | Inline Image |
 | 4     | Table        |
 | 5     | Code Block   |
 | 8     | LaTeX        |
+
+---
+
+### Grid Image Albums (`ShowAsGrid: true`)
+
+Present a multi-image album as a WhatsApp Meta AI Grid View (`GenAIGridLayoutViewModel`):
+
+```js
+// Send images in Meta AI grid format
+await sock.sendMessage(jid, {
+    album: [
+        {
+            image: { url: 'https://example.com/image1.jpg' },
+            caption: 'Image 1',
+            width: 600,
+            height: 600
+        },
+        {
+            image: { url: 'https://example.com/image2.jpg' },
+            caption: 'Image 2',
+            darkModePreviewUrl: 'https://example.com/image2_dark.jpg',
+            darkModeHighResUrl: 'https://example.com/image2_dark_hd.jpg',
+            width: 600,
+            height: 600
+        },
+        {
+            image: Buffer.from(rawImageBytes),
+            caption: 'Image 3 from Buffer'
+        }
+    ],
+    ShowAsGrid: true
+})
+```
 
 ---
 

@@ -46,3 +46,8 @@ export function wrapToBotForwardedMessage(richResponseMessage: any): {
         };
     };
 };
+export const DEFAULT_GRID_IMAGE_WIDTH: number;
+export const DEFAULT_GRID_IMAGE_HEIGHT: number;
+export const DEFAULT_GRID_ASSET_EXPIRATION_MS: number;
+export function getGridAssetExpiration(ttlMs?: number): number;
+export function prepareGridImageMessageContent(jid: string, album: any[], options?: any): Promise<any>;

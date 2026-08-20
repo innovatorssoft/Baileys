@@ -329,10 +329,40 @@ export type WASendableProduct = Omit<proto.Message.ProductMessage.IProductSnapsh
     productImage: WAMediaUpload
 }
 
+export type AlbumItem = ({
+    image: WAMediaUpload
+    caption?: string
+} | {
+    video: WAMediaUpload
+    caption?: string
+}) & {
+    imagePreviewUrl?: string
+    imageHighResUrl?: string
+    sourceUrl?: string
+    darkModePreviewUrl?: string
+    darkModeHighResUrl?: string
+    width?: number
+    height?: number
+    darkWidth?: number
+    darkHeight?: number
+    mimeType?: string
+    mimetype?: string
+    [key: string]: any
+}
+
+export type AlbumMessageContent = {
+    album: AlbumItem[]
+    /**
+     * Render an album using the GenAI grid-image presentation.
+     * When omitted or false, the standard album behavior is used.
+     */
+    ShowAsGrid?: boolean
+}
+
 export type AnyRegularMessageContent = (({
     text: string
     linkPreview?: WAUrlInfo | null
-} & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & Shopable & Collectionable & Cardsable & Listable & Editable & WithDimensions) | AnyMediaMessageContent | ({
+} & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & Shopable & Collectionable & Cardsable & Listable & Editable & WithDimensions) | AnyMediaMessageContent | AlbumMessageContent | ({
     poll: PollMessageOptions
 } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & Shopable & Collectionable & Cardsable & Listable & Editable & WithDimensions) | {
     contacts: {
@@ -383,7 +413,11 @@ export type AnyRegularMessageContent = (({
         language?: string
         botJid?: string
     } | any[]
-} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce & ViewOnceExt & Spoiler & Lottie & SecureMeta & RichMessageHelpers
+} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce & ViewOnceExt & Spoiler & Lottie & SecureMeta & VerifiedMe & RichMessageHelpers
+
+export type VerifiedMe = {
+    verifiedMe?: boolean
+}
 
 export type RichMessageHelpers = {
     code?: string

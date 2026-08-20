@@ -17,6 +17,8 @@ export declare const prepareWAMessageMedia: (message: AnyMediaMessageContent, op
 
 export declare const prepareAlbumMessageContent: (jid: string, albums: WAProto.IMessage, options: MessageContentGenerationOptions) => Promise<proto.Message[]>
 
+export declare const prepareGridImageMessageContent: (jid: string, album: import('../Types').AlbumItem[], options: MessageContentGenerationOptions) => Promise<proto.Message>
+
 export declare const prepareDisappearingMessageSettingContent: (ephemeralExpiration?: number) => proto.Message
 
 /**

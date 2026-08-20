@@ -106,3 +106,132 @@ describe('Interactive Carousel Biz Node', () => {
         expect(bizNode.content).toBeDefined()
     })
 })
+
+describe('Verified Badge Media (verifiedMe)', () => {
+    const { generateWAMessageContent, generateWAMessage } = require('../lib/Utils/messages')
+
+    const mockUpload = jest.fn().mockResolvedValue({
+        url: 'https://example.com/media',
+        directPath: '/v/t62.7118-24/media.enc',
+        mediaKey: Buffer.alloc(32),
+        fileEncSha256: Buffer.alloc(32),
+        fileSha256: Buffer.alloc(32),
+        fileLength: 1024
+    })
+
+    const mockLogger = {
+        trace: jest.fn(),
+        debug: jest.fn(),
+        info: jest.fn(),
+        warn: jest.fn(),
+        error: jest.fn(),
+        child: () => mockLogger
+    }
+
+    const samplePng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64')
+
+    test('attaches verified badge context to image message without mutating options.quoted', async () => {
+        const options = {
+            upload: mockUpload,
+            logger: mockLogger
+        }
+
+        const content = await generateWAMessageContent({
+            image: samplePng,
+            caption: 'Verified Image',
+            verifiedMe: true
+        }, options)
+
+        expect(content.imageMessage).toBeDefined()
+        expect(content.imageMessage.caption).toBe('Verified Image')
+        expect(content.imageMessage.contextInfo).toBeDefined()
+        expect(content.imageMessage.contextInfo.isForwarded).toBe(true)
+        expect(content.imageMessage.contextInfo.participant).toBe('0@s.whatsapp.net')
+        expect(content.imageMessage.contextInfo.remoteJid).toBe('0@s.whatsapp.net')
+        expect(options.quoted).toBeUndefined()
+    })
+
+    test('attaches verified badge context to video message', async () => {
+        const { Readable } = require('stream')
+        const options = {
+            upload: mockUpload,
+            logger: mockLogger
+        }
+
+        const content = await generateWAMessageContent({
+            video: { stream: Readable.from([Buffer.from('fake-video-data')]) },
+            caption: 'Verified Video',
+            verifiedMe: true
+        }, options)
+
+        expect(content.videoMessage).toBeDefined()
+        expect(content.videoMessage.caption).toBe('Verified Video')
+        expect(content.videoMessage.contextInfo).toBeDefined()
+        expect(content.videoMessage.contextInfo.isForwarded).toBe(true)
+        expect(content.videoMessage.contextInfo.participant).toBe('0@s.whatsapp.net')
+        expect(content.videoMessage.contextInfo.remoteJid).toBe('0@s.whatsapp.net')
+        expect(options.quoted).toBeUndefined()
+    })
+
+    test('preserves user quoted message when verifiedMe is used', async () => {
+        const customQuoted = {
+            key: {
+                remoteJid: '1234567890@s.whatsapp.net',
+                fromMe: false,
+                id: 'CUSTOM_ID'
+            },
+            message: {
+                conversation: 'Custom Quoted Text'
+            }
+        }
+        const options = {
+            upload: mockUpload,
+            logger: mockLogger,
+            quoted: customQuoted
+        }
+
+        const content = await generateWAMessageContent({
+            image: samplePng,
+            caption: 'Verified With Custom Quote',
+            verifiedMe: true
+        }, options)
+
+        expect(content.imageMessage.contextInfo.isForwarded).toBe(true)
+        expect(content.imageMessage.contextInfo.participant).toBe('0@s.whatsapp.net')
+        expect(options.quoted).toBe(customQuoted)
+    })
+
+    test('safely ignores verifiedMe on non-media messages', async () => {
+        const options = {
+            logger: mockLogger
+        }
+
+        const content = await generateWAMessageContent({
+            text: 'Just plain text',
+            verifiedMe: true
+        }, options)
+
+        expect(content.extendedTextMessage?.text || content.conversation).toBe('Just plain text')
+        expect(options.quoted).toBeUndefined()
+    })
+
+    test('generates full WebMessageInfo with verified badge via generateWAMessage', async () => {
+        const options = {
+            upload: mockUpload,
+            logger: mockLogger,
+            userJid: '1111111111@s.whatsapp.net'
+        }
+
+        const fullMsg = await generateWAMessage('1234567890@s.whatsapp.net', {
+            image: samplePng,
+            caption: 'Full verified message',
+            verifiedMe: true
+        }, options)
+
+        expect(fullMsg.message?.imageMessage).toBeDefined()
+        expect(fullMsg.message.imageMessage.contextInfo?.isForwarded).toBe(true)
+        expect(fullMsg.message.imageMessage.contextInfo?.participant).toBe('0@s.whatsapp.net')
+        expect(fullMsg.message.imageMessage.contextInfo?.remoteJid).toBe('0@s.whatsapp.net')
+    })
+})
+
