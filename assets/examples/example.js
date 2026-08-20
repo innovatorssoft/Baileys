@@ -1028,27 +1028,31 @@ async function startBot() {
                 }
                 case '!gridalbum': {
                     try {
-                        const logoPath = path.join(__dirname, 'logo.png');
-                        const faviconPath = path.join(__dirname, 'favicon.png');
                         await sock.sendMessage(normalizedJid, {
                             album: [
                                 {
-                                    image: { url: logoPath },
+                                    image: { url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80' },
                                     caption: '🖼️ Grid Image 1',
-                                    width: 600,
-                                    height: 600
+                                    width: 800,
+                                    height: 800
                                 },
                                 {
-                                    image: { url: faviconPath },
+                                    image: { url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80' },
                                     caption: '🖼️ Grid Image 2',
-                                    width: 600,
-                                    height: 600
+                                    width: 800,
+                                    height: 800
                                 },
                                 {
-                                    image: { url: logoPath },
+                                    image: { url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80' },
                                     caption: '🖼️ Grid Image 3',
-                                    width: 600,
-                                    height: 600
+                                    width: 800,
+                                    height: 800
+                                },
+                                {
+                                    image: { url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80' },
+                                    caption: '🖼️ Grid Image 4',
+                                    width: 800,
+                                    height: 800
                                 }
                             ],
                             ShowAsGrid: true
