@@ -232,7 +232,7 @@ describe('ShowAsGrid Album Messages', () => {
             expect(primitives[0].__typename).toBe('GenAIImagePrimitive')
         })
 
-        test('[Buffer] without upload function falls back to data URI (backward compatibility)', async () => {
+        test('[Buffer] explicit useDataUri mode renders a data URI and skips upload', async () => {
             const imageBuffer = Buffer.from('fake-png-bytes')
             const album = [{ image: imageBuffer }]
             const result = await prepareGridImageMessageContent('test@s.whatsapp.net', album, { ...mockOptions, useDataUri: true })
