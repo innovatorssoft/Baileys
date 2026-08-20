@@ -1080,10 +1080,10 @@ async function startBot() {
                                     height: 800
                                 },
                                 {
-                                    image: faviconPath,
+                                    image: { url: faviconPath },
                                     caption: '📁 Local File Path String ("./favicon.png")',
-                                    width: 800,
-                                    height: 800
+                                    width: 600,
+                                    height: 600
                                 }
                             ],
                             ShowAsGrid: true
