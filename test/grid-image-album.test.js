@@ -14,6 +14,14 @@ describe('ShowAsGrid Album Messages', () => {
         userJid: '1234567890@s.whatsapp.net'
     }
 
+    const getGridSection = (unifiedJson) => {
+        return unifiedJson.sections.find(s => s.view_model && s.view_model.__typename === 'GenAIGridLayoutViewModel')
+    }
+
+    const getTextSection = (unifiedJson) => {
+        return unifiedJson.sections.find(s => s.view_model && s.view_model.__typename === 'GenAISingleLayoutViewModel')
+    }
+
     describe('Grid Detection & Routing', () => {
         test('ShowAsGrid: undefined routes to normal album', async () => {
             const message = {
@@ -46,11 +54,11 @@ describe('ShowAsGrid Album Messages', () => {
             expect(result.botForwardedMessage).toBeFalsy()
         })
 
-        test('ShowAsGrid: true routes to grid representation', async () => {
+        test('ShowAsGrid: true routes to grid representation and avoids invalid verification metadata', async () => {
             const message = {
                 album: [
-                    { image: { url: 'https://example.com/1.jpg' }, caption: 'Image 1' },
-                    { image: { url: 'https://example.com/2.jpg' }, caption: 'Image 2' }
+                    { image: { url: 'https://example.com/1.jpg' } },
+                    { image: { url: 'https://example.com/2.jpg' } }
                 ],
                 ShowAsGrid: true
             }
@@ -60,15 +68,59 @@ describe('ShowAsGrid Album Messages', () => {
             expect(result.botForwardedMessage).toBeDefined()
             expect(result.botForwardedMessage.message?.richResponseMessage).toBeDefined()
             
+            // Verification metadata should not contain invalid random proofs
+            const botMeta = result.messageContextInfo?.botMetadata
+            expect(botMeta?.verificationMetadata).toBeFalsy()
+
             const rich = result.botForwardedMessage.message.richResponseMessage
-            expect(rich.submessages).toHaveLength(1)
-            expect(rich.submessages[0].messageType).toBe(RichSubMessageType.GRID_IMAGE)
-            expect(rich.submessages[0].gridImageMetadata.imageUrls).toHaveLength(2)
+            const gridSubmessage = rich.submessages.find(sm => sm.messageType === RichSubMessageType.GRID_IMAGE)
+            expect(gridSubmessage).toBeDefined()
+            expect(gridSubmessage.gridImageMetadata.imageUrls).toHaveLength(2)
 
             const unifiedJson = JSON.parse(rich.unifiedResponse.data.toString())
-            expect(unifiedJson.sections).toHaveLength(1)
-            expect(unifiedJson.sections[0].view_model.__typename).toBe('GenAIGridLayoutViewModel')
-            expect(unifiedJson.sections[0].view_model.primitives).toHaveLength(2)
+            const gridSection = getGridSection(unifiedJson)
+            expect(gridSection).toBeDefined()
+            expect(gridSection.view_model.primitives).toHaveLength(2)
+        })
+    })
+
+    describe('Captions & Text Support', () => {
+        test('sends caption from item captions or main caption as text submessage and markdown section', async () => {
+            const message = {
+                caption: '🌟 Highlights from event',
+                album: [
+                    { image: { url: 'https://example.com/1.jpg' }, caption: 'Photo 1' },
+                    { image: { url: 'https://example.com/2.jpg' }, caption: 'Photo 2' }
+                ],
+                ShowAsGrid: true
+            }
+
+            const result = await generateWAMessageContent(message, mockOptions)
+            const rich = result.botForwardedMessage.message.richResponseMessage
+
+            const textSubmessage = rich.submessages.find(sm => sm.messageType === RichSubMessageType.TEXT)
+            expect(textSubmessage).toBeDefined()
+            expect(textSubmessage.messageText).toBe('🌟 Highlights from event')
+
+            const unifiedJson = JSON.parse(rich.unifiedResponse.data.toString())
+            const textSection = getTextSection(unifiedJson)
+            expect(textSection).toBeDefined()
+            expect(textSection.view_model.primitive.text).toBe('🌟 Highlights from event')
+            expect(textSection.view_model.primitive.__typename).toBe('GenAIMarkdownTextUXPrimitive')
+        })
+
+        test('aggregates item captions when no top-level caption is provided', async () => {
+            const album = [
+                { image: { url: 'https://example.com/1.jpg' }, caption: '🖼️ First Image' },
+                { image: { url: 'https://example.com/2.jpg' }, caption: '🖼️ Second Image' }
+            ]
+
+            const result = await prepareGridImageMessageContent('test@s.whatsapp.net', album, mockOptions)
+            const rich = result.botForwardedMessage.message.richResponseMessage
+            const textSubmessage = rich.submessages.find(sm => sm.messageType === RichSubMessageType.TEXT)
+            expect(textSubmessage).toBeDefined()
+            expect(textSubmessage.messageText).toContain('🖼️ First Image')
+            expect(textSubmessage.messageText).toContain('🖼️ Second Image')
         })
     })
 
@@ -76,14 +128,14 @@ describe('ShowAsGrid Album Messages', () => {
         test('handles 1, 2, 3, and 10 images with preserved ordering and primitive structure', async () => {
             for (const count of [1, 2, 3, 10]) {
                 const album = Array.from({ length: count }, (_, i) => ({
-                    image: { url: `https://example.com/img_${i + 1}.jpg` },
-                    caption: `Caption ${i + 1}`
+                    image: { url: `https://example.com/img_${i + 1}.jpg` }
                 }))
 
                 const result = await prepareGridImageMessageContent('test@s.whatsapp.net', album, mockOptions)
                 const rich = result.botForwardedMessage.message.richResponseMessage
                 const unified = JSON.parse(rich.unifiedResponse.data.toString())
-                const primitives = unified.sections[0].view_model.primitives
+                const gridSection = getGridSection(unified)
+                const primitives = gridSection.view_model.primitives
 
                 expect(primitives).toHaveLength(count)
                 for (let i = 0; i < count; i++) {
@@ -126,7 +178,8 @@ describe('ShowAsGrid Album Messages', () => {
 
             const result = await prepareGridImageMessageContent('test@s.whatsapp.net', album, mockOptions)
             const unified = JSON.parse(result.botForwardedMessage.message.richResponseMessage.unifiedResponse.data.toString())
-            const primitives = unified.sections[0].view_model.primitives
+            const gridSection = getGridSection(unified)
+            const primitives = gridSection.view_model.primitives
 
             // Item 1
             expect(primitives[0].preview_image.url).toBe('https://example.com/preview1.jpg')
@@ -167,7 +220,8 @@ describe('ShowAsGrid Album Messages', () => {
 
             const result = await prepareGridImageMessageContent('test@s.whatsapp.net', album, mockOptions)
             const unified = JSON.parse(result.botForwardedMessage.message.richResponseMessage.unifiedResponse.data.toString())
-            const primitives = unified.sections[0].view_model.primitives
+            const gridSection = getGridSection(unified)
+            const primitives = gridSection.view_model.primitives
 
             // Item 1 with explicit dark mode assets and custom dimensions
             expect(primitives[0].preview_image.width).toBe(1200)
@@ -197,7 +251,8 @@ describe('ShowAsGrid Album Messages', () => {
 
             const result = await prepareGridImageMessageContent('test@s.whatsapp.net', album, mockOptions)
             const unified = JSON.parse(result.botForwardedMessage.message.richResponseMessage.unifiedResponse.data.toString())
-            const primitives = unified.sections[0].view_model.primitives
+            const gridSection = getGridSection(unified)
+            const primitives = gridSection.view_model.primitives
 
             const exp0 = primitives[0].preview_image.expiration_timestamp_ms
             expect(typeof exp0).toBe('number')
@@ -221,12 +276,10 @@ describe('ShowAsGrid Album Messages', () => {
 
             const album = [
                 {
-                    image: Buffer.from('fake-image-bytes-1'),
-                    caption: 'Buffer Image 1'
+                    image: Buffer.from('fake-image-bytes-1')
                 },
                 {
-                    image: Buffer.from('fake-image-bytes-2'),
-                    caption: 'Buffer Image 2'
+                    image: Buffer.from('fake-image-bytes-2')
                 }
             ]
 
@@ -237,7 +290,8 @@ describe('ShowAsGrid Album Messages', () => {
 
             expect(mockUpload).toHaveBeenCalledTimes(2)
             const unified = JSON.parse(result.botForwardedMessage.message.richResponseMessage.unifiedResponse.data.toString())
-            const primitives = unified.sections[0].view_model.primitives
+            const gridSection = getGridSection(unified)
+            const primitives = gridSection.view_model.primitives
 
             expect(primitives[0].preview_image.url).toBe('https://mmg.whatsapp.net/v/mock_uploaded.jpg')
             expect(primitives[1].preview_image.url).toBe('https://mmg.whatsapp.net/v/mock_uploaded.jpg')
