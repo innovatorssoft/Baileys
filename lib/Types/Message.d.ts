@@ -413,7 +413,11 @@ export type AnyRegularMessageContent = (({
         language?: string
         botJid?: string
     } | any[]
-} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce & ViewOnceExt & Spoiler & Lottie & SecureMeta & RichMessageHelpers
+} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce & ViewOnceExt & Spoiler & Lottie & SecureMeta & VerifiedMe & RichMessageHelpers
+
+export type VerifiedMe = {
+    verifiedMe?: boolean
+}
 
 export type RichMessageHelpers = {
     code?: string
