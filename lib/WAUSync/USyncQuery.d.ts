@@ -29,4 +29,10 @@ export declare class USyncQuery {
     withBotProfileProtocol(): this
     withDisappearingModeProtocol(): this
     withUsernameProtocol(): this
+    withBusinessProtocol(profileVersion?: string): this
+    withFeatureProtocol(features?: string[]): this
+    withPictureProtocol(type?: string): this
+    withSidelistProtocol(useLidAddressing?: boolean): this
+    withTextStatusProtocol(): this
+    withProtocol(protocol: USyncQueryProtocol): this
 }

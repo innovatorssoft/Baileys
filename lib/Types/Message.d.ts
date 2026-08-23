@@ -143,6 +143,11 @@ type SecureMeta = {
     secureMetaServiceLabel?: boolean
 }
 
+type VerifiedMe = {
+    /** Attach a verified forward badge (✓) on image/video messages */
+    verifiedMe?: boolean
+}
+
 type Buttonable = {
     /** add buttons to the message  */
     buttons?: proto.Message.ButtonsMessage.IButton[]
@@ -383,7 +388,7 @@ export type AnyRegularMessageContent = (({
         language?: string
         botJid?: string
     } | any[]
-} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce & ViewOnceExt & Spoiler & Lottie & SecureMeta & RichMessageHelpers
+} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce & ViewOnceExt & Spoiler & Lottie & SecureMeta & VerifiedMe & RichMessageHelpers
 
 export type RichMessageHelpers = {
     code?: string

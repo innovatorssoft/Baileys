@@ -41,6 +41,12 @@ export declare const isLidUser: (jid: string | undefined) => boolean | undefined
 /** is the jid a PN (phone number) user */
 export declare const isPnUser: (jid: string | undefined) => boolean | undefined
 
+/** is the jid a hosted PN user */
+export declare const isHostedPnUser: (jid: string | undefined) => boolean | undefined
+
+/** is the jid a hosted LID user */
+export declare const isHostedLidUser: (jid: string | undefined) => boolean | undefined
+
 /** is the jid a broadcast */
 export declare const isJidBroadcast: (jid: string | undefined) => boolean | undefined
 

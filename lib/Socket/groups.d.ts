@@ -42,6 +42,12 @@ export declare const makeGroupsSocket: (config: SocketConfig) => {
     groupSettingUpdate: (jid: string, setting: 'announcement' | 'not_announcement' | 'locked' | 'unlocked') => Promise<void>
     groupMemberAddMode: (jid: string, mode: 'admin_add' | 'all_member_add') => Promise<void>
     groupJoinApprovalMode: (jid: string, mode: 'on' | 'off') => Promise<void>
+    groupAcknowledge: (jid: string) => Promise<void>
+    groupGetLinkedParticipants: (jid: string) => Promise<Array<{ jid: string; phoneNumber?: string }>>
+    groupJoinLinked: (parentJid: string, linkedGroupJid: string, type?: string) => Promise<{ approvalRequested: boolean }>
+    getGroupProfilePictures: (jids: string[], type?: 'preview' | 'image') => Promise<Array<{ jid: string; type?: string; directPath?: string; url?: string }>>
+    groupCreateSubGroupSuggestion: (parentJid: string, suggestion: any) => Promise<void>
+    groupSubGroupSuggestionsAction: (parentJid: string, action: 'approve' | 'reject' | 'cancel', suggestions: Array<{ creator?: string; jid?: string }>) => Promise<void>
     groupFetchAllParticipating: () => Promise<{
         [_: string]: GroupMetadata
     }>
