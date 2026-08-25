@@ -12,20 +12,47 @@ export type AudioConfig = {
 };
 /** Options for placing a call. */
 export type CallOptions = {
-    /** Phone number, digits only (e.g. `"12345678901"`). */
-    to: string;
+    /** Phone number, digits only (e.g. `"12345678901"`), or JID format. */
+    to?: string;
     /** Audio source: file path to MP3/WAV, or `"silence"` for an empty uplink. */
     audioSource?: string;
     /** Auto-hangup after N ms (default: 120000). */
     durationMs?: number;
+    durationMS?: number;
+    /** Repeat/loop the audio source continuously until durationMs is reached. */
+    repeatAudio?: boolean;
+    repeat?: boolean;
+    /** Timeout waiting for remote device to confirm ringing in ms (default: 20000). */
+    preRingingTimeoutMs?: number;
 };
+/** High-level deterministic call status strings. */
+export type CallStatus =
+    | "idle"
+    | "initiating"
+    | "signaling"
+    | "ringing"
+    | "accepted"
+    | "media_connecting"
+    | "connected"
+    | "audio_ready"
+    | "streaming"
+    | "ending"
+    | "ended"
+    | "failed"
+    | "unreachable"
+    | "rejected"
+    | "timeout";
 /** Events emitted by an `ActiveCall`. */
 export type CallEvents = {
     ringing: () => void;
+    accepted: () => void;
     connected: () => void;
+    audioReady: () => void;
+    streaming: () => void;
+    stateChange: (status: CallStatus) => void;
     /** 16 kHz mono Float32 PCM frame from the remote peer. */
     audio: (pcm: Float32Array) => void;
-    /** Reason: `"hangup"` | `"timeout"` | `"rejected"` | `"remote_end"` | `"disconnect"` | etc. */
+    /** Reason: `"completed"` | `"hangup"` | `"timeout"` | `"unreachable"` | `"rejected"` | `"remote_end"` | `"disconnect"` | etc. */
     ended: (reason: string) => void;
     error: (err: Error) => void;
 };

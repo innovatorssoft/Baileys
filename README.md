@@ -3170,22 +3170,38 @@ await sock.updateMediaMessage(msg)
 
 ## 📞 Initiate Voice Call & Stream Audio
 
-- Initiates an outgoing WhatsApp voice call with WebAssembly audio transport
+- Initiates an outgoing WhatsApp voice call with WebAssembly VoIP audio transport
 - Streams audio files (MP3/WAV/etc.) via FFmpeg into 16 kHz Float32 PCM WASM audio engine
-- Emits real-time call lifecycle events (`ringing`, `connected`, `audio`, `ended`, `error`)
+- Seamless audio repetition (`repeatAudio: true`) with accurate duration limit (`durationMs`)
+- Emits real-time call lifecycle events (`ringing`, `accepted`, `connected`, `audioReady`, `streaming`, `audio`, `ended`, `error`, `stateChange`)
 
 ```ts
-// Place a voice call and stream an audio file:
+// Place a voice call and stream an audio file with seamless looping:
 const call = await sock.initiateCall(jid, {
     audioSource: './hello.mp3', // MP3/WAV file path or "silence"
-    durationMs: 30000          // Optional duration in ms
+    durationMs: 30000,         // Maximum playback duration in ms
+    repeatAudio: true,         // Loop audio seamlessly until durationMs is reached
+    preRingingTimeoutMs: 20000 // Timeout if recipient never reaches ringing
 })
 
-call.on('ringing', () => console.log('Call is ringing...'))
-call.on('connected', () => console.log('Connected & streaming audio!'))
+call.on('ringing', () => console.log('Remote device is ringing...'))
+call.on('accepted', () => console.log('Call answered!'))
+call.on('connected', () => console.log('Media connection established!'))
+call.on('audioReady', () => console.log('Audio pipeline ready!'))
+call.on('streaming', () => console.log('Audio streaming started!'))
 call.on('audio', (pcmChunk) => { /* Incoming 16 kHz Float32Array PCM */ })
 call.on('ended', (reason) => console.log('Call ended:', reason))
 call.on('error', (err) => console.error('Call error:', err))
+
+// Or standalone VoipClient:
+import { VoipClient } from '@innovatorssoft/baileys/lib/Voip/index.mjs'
+const voip = new VoipClient({ authDir: './auth_info' })
+await voip.connect()
+const activeCall = await voip.call('1234567890', {
+    audioSource: './announcement.mp3',
+    durationMs: 45000,
+    repeatAudio: true
+})
 
 // Or simple signaling only:
 const result = await sock.offerCall(jid, isVideo)

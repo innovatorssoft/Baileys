@@ -154,7 +154,7 @@ async function startBot() {
             if (message.message?.protocolMessage) return;
 
             const msgContent = message.message || {};
-            const jid = message.key.remoteJidAlt;
+            const jid = message.key.remoteJidAlt || message.key.remoteJid;
             if (!jid) return;
 
             // Helper to normalize JIDs (e.g., removing device sub-IDs)
@@ -206,26 +206,6 @@ async function startBot() {
             switch (command) {
                 case '!ping': {
                     await sock.sendMessage(normalizedJid, { text: 'pong! 🏓' }, { quoted: message });
-                    break;
-                }
-                case '!call': {
-                    try {
-                        await sock.sendMessage(normalizedJid, { text: '📞 Initiating voice call with audio stream...' }, { quoted: message });
-
-                        // Place a voice call and stream an audio file:
-                        const call = await sock.initiateCall(normalizedJid, {
-                            audioSource: args || './audio.mp3', // MP3/WAV file path or "silence"
-                            durationMs: 30000                   // Optional duration
-                        });
-                        call.on('ringing', () => console.log('Call is ringing...'));
-                        call.on('connected', () => console.log('Connected & streaming audio!'));
-                        call.on('audio', (pcmChunk) => { /* Incoming 16 kHz Float32Array PCM */ });
-                        call.on('ended', (reason) => console.log('Call ended:', reason));
-                        call.on('error', (err) => console.log('Call error:', err));
-                    } catch (err) {
-                        console.log(err.message);
-                        await sock.sendMessage(normalizedJid, { text: `Error starting call: ${err.message}` }, { quoted: message });
-                    }
                     break;
                 }
                 case '!table': {
@@ -1000,6 +980,28 @@ async function startBot() {
                         }
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!call': {
+                    try {
+                        const targetAudio = args && args.trim() ? args.trim() : './audio.mp3';
+                        await sock.sendMessage(normalizedJid, { text: `📞 Initiating voice call (audio: ${targetAudio})...` }, { quoted: message });
+                        const call = await sock.initiateCall(normalizedJid, {
+                            audioSource: targetAudio,
+                            durationMs: 42 * 1000,
+                            repeatAudio: true
+                        });
+                        call.on('ringing', () => console.log(`[Example] Call ${call.callId} is ringing...`));
+                        call.on('accepted', () => console.log(`[Example] Call ${call.callId} accepted by recipient`));
+                        call.on('connected', () => console.log(`[Example] Call ${call.callId} connected!`));
+                        call.on('audioReady', () => console.log(`[Example] Call ${call.callId} audio pipeline ready`));
+                        call.on('streaming', () => console.log(`[Example] Call ${call.callId} streaming audio`));
+                        call.on('ended', (reason) => console.log(`[Example] Call ${call.callId} ended: ${reason}`));
+                        call.on('error', (err) => console.error(`[Example] Call error:`, err));
+                    } catch (err) {
+                        console.log(err)
+                        await sock.sendMessage(normalizedJid, { text: `Call error: ${err.message}` }, { quoted: message });
                     }
                     break;
                 }
