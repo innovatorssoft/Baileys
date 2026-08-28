@@ -2330,12 +2330,12 @@ await sock.sendLatexInlineImage(jid, null, {
 
 ### sendMarkdown
 
-Send a rich markdown text message formatted natively via Meta AI primitives:
+Send a rich markdown text message formatted natively via Meta AI primitives (supporting headings, formatting, citations, and clickable hyperlinks `[comment](url)`):
 
 ```js
 await sock.sendMarkdown(
     jid,
-    '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold**!',
+    '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold**!\n\n🔗 Visit our [Official Website](https://example.com) for more details.',
     null  // quoted message (or null)
 )
 ```

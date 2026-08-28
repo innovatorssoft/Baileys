@@ -280,7 +280,7 @@ async function startBot() {
                     break;
                 }
                 case '!markdown': {
-                    const mdText = '# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n\n___\n\n> To use a horizontal line, you need to have two "\\n" above and below the "___"\n==Highlighted text==\n# By the way, ^you^ can _mix_ ==multiple markdowns== for a **richer response**\n###### Try different combinations... ';
+                    const mdText = '# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n\n___\n\n> To use a horizontal line, you need to have two "\\n" above and below the "___"\n==Highlighted text==\n# By the way, ^you^ can _mix_ ==multiple markdowns== for a **richer response**\n🔗 [Click here to visit Google](https://google.com)\n🔗 [GitHub Repository](https://github.com/innovatorssoft/Baileys)\n###### Try different combinations... ';
                     await sock.sendMarkdown(normalizedJid, mdText, message);
                     break;
                 }
