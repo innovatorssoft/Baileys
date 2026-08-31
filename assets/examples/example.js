@@ -8,12 +8,18 @@ const { makeWASocket,
     getUrlFromDirectPath,
     renderLatexToPng,
     prepareWAMessageMedia,
-    uploadUnencryptedToWA }
+    uploadUnencryptedToWA,
+    generateWAMessageFromContent }
     = require('../../lib/index.js');
 const { Boom } = require('@hapi/boom');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const { createSamplePage } = require('./page.js');
+const { createSnakePage } = require('./snake.js');
+const { createLivePage } = require('./live_page.js');
+const { createSlotsPage } = require('./slots.js');
 
 async function startBot() {
     const authDir = path.join(__dirname, 'auth');
@@ -258,7 +264,12 @@ async function startBot() {
                         '!viewoncev2   - Send image as view-once V2',
                         '!viewonceext  - Send image as view-once V2 Ext',
                         '!interactivemsg - Send custom interactive buttons (text, image, or location)',
-                        '!call         - Place a voice call and stream audio'
+                        '!call         - Place a voice call and stream audio',
+                        '!snake        - Play CyberSnake HTML5 Canvas Game (GenAI HTML)',
+                        '!slots        - Play Fruit Bonanza Slots Game (GenAI HTML)',
+                        '!page         - Show interactive CyberPulse GenAI sample page (HTML/CSS/JS)',
+                        '!tikdown      - Render live TikDown web app from public URL (GenAI HTML)',
+                        '!livepage     - Render any public web page (e.g. !livepage https://...) (GenAI HTML)'
                     ], message, {
                         headerText: 'Available commands:',
                         footer: 'Type any of these commands to test.'
@@ -1002,6 +1013,63 @@ async function startBot() {
                     } catch (err) {
                         console.log(err)
                         await sock.sendMessage(normalizedJid, { text: `Call error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!snake': {
+                    try {
+                        const userName = message.pushName || 'Player';
+                        const snakePayload = createSnakePage(userName);
+                        const msg = generateWAMessageFromContent(normalizedJid, snakePayload, { quoted: message });
+                        await sock.relayMessage(normalizedJid, msg.message, { messageId: msg.key.id });
+                    } catch (err) {
+                        console.error('[SNAKE]', err);
+                        await sock.sendMessage(normalizedJid, {
+                            text: `❌ Snake Game failed\n\n${err?.message || String(err)}`
+                        }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!slots': {
+                    try {
+                        const slotsPayload = createSlotsPage();
+                        const msg = generateWAMessageFromContent(normalizedJid, slotsPayload, { quoted: message });
+                        await sock.relayMessage(normalizedJid, msg.message, { messageId: msg.key.id });
+                    } catch (err) {
+                        console.error('[SLOTS]', err);
+                        await sock.sendMessage(normalizedJid, {
+                            text: `❌ Slots Game failed\n\n${err?.message || String(err)}`
+                        }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!page': {
+                    try {
+                        const userName = message.pushName || 'Commander';
+                        const pagePayload = createSamplePage(userName);
+                        const msg = generateWAMessageFromContent(normalizedJid, pagePayload, { quoted: message });
+                        await sock.relayMessage(normalizedJid, msg.message, { messageId: msg.key.id });
+                    } catch (err) {
+                        console.error('[PAGE]', err);
+                        await sock.sendMessage(normalizedJid, {
+                            text: `❌ Sample Page failed\n\n${err?.message || String(err)}`
+                        }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!tikdown':
+                case '!livepage': {
+                    try {
+                        const targetUrl = args || 'https://tikdown.innovatorssoft.org/';
+                        const title = targetUrl.includes('tikdown') ? 'TikDown Downloader' : 'Live Web Page';
+                        const livePayload = createLivePage(targetUrl, title);
+                        const msg = generateWAMessageFromContent(normalizedJid, livePayload, { quoted: message });
+                        await sock.relayMessage(normalizedJid, msg.message, { messageId: msg.key.id });
+                    } catch (err) {
+                        console.error('[LIVE_PAGE]', err);
+                        await sock.sendMessage(normalizedJid, {
+                            text: `❌ Live Page failed\n\n${err?.message || String(err)}`
+                        }, { quoted: message });
                     }
                     break;
                 }
