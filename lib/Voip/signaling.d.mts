@@ -27,10 +27,14 @@ export declare class SignalingBridge {
     constructor(config: SignalingBridgeConfig);
     /** Hand the WASM engine in so we can dispatch ack callbacks back to it. */
     attachEngine: (voip: any) => void;
+    setSignalingEventListener: (listener: (tag: string, reason: string, callId?: string, peerJid?: string) => void) => void;
+    setSignalingErrorListener: (listener: (tag: string, errorType: string, peerJid?: string, callId?: string) => void) => void;
     init: () => Promise<void>;
     sendSignaling: (peerJid: string, callId: string, xmlPayload: Uint8Array) => void;
-    processIncomingCall: (node: any, voip: any, activeCallId: string) => void;
-    processIncomingReceipt: (node: any, voip: any, activeCallId: string) => void;
+    processIncomingCall: (node: any, voip: any, activeCallId?: string) => void;
+    processIncomingReceipt: (node: any, voip: any, activeCallId?: string) => void;
+    cleanupCall: (callId: string) => void;
+    sendTerminate: (peerJid: string, callId: string, reason?: string) => Promise<void>;
     requestTcToken: (jid: string) => Promise<Uint8Array | undefined>;
     ensureTcToken: (...jids: string[]) => Promise<Uint8Array | undefined>;
     discoverPeerDevices: (peerLidJid: string) => Promise<string[]>;

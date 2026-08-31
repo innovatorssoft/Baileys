@@ -24,6 +24,14 @@ declare const makeWASocket: (config: UserFacingSocketConfig) => {
         id: any
         to: string
     }>
+    initiateCall: (jid: string, options?: import('../Types').WAInitiateCallOptions) => Promise<import('../Types').WAInitiateCallResult>
+    initiateCalls: (requests: Array<{ jid: string; options?: import('../Types').WAInitiateCallOptions }>) => Promise<any[]>
+    getActiveCalls: () => Promise<import('../Voip').CallSummary[]>
+    getCall: (callId: string) => Promise<import('../Voip').ActiveCall | undefined>
+    getActiveCallCount: () => Promise<number>
+    endCall: (callId: string) => Promise<void>
+    endAllCalls: () => Promise<void>
+    setVoipOptions: (options: import('../Voip').VoipConfigOptions) => Promise<void>
     rejectCall: (callId: string, callFrom: string) => Promise<void>
     fetchMessageHistory: (count: number, oldestMsgKey: import("../Types").WAProto.IMessageKey, oldestMsgTimestamp: number | import("long").Long) => Promise<string>
     requestPlaceholderResend: (messageKey: import("../Types").WAProto.IMessageKey) => Promise<string | undefined>

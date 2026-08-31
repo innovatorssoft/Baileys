@@ -1016,6 +1016,69 @@ async function startBot() {
                     }
                     break;
                 }
+                case '!callinfo': {
+                    try {
+                        const active = await sock.getActiveCalls();
+                        if (!active || active.length === 0) {
+                            await sock.sendMessage(normalizedJid, { text: `📞 No active VoIP calls.` }, { quoted: message });
+                        } else {
+                            const list = active.map(c => `• [${c.id.slice(0, 8)}] -> ${c.jid} (${c.status}) [started: ${new Date(c.startedAt).toLocaleTimeString()}]`).join('\n');
+                            await sock.sendMessage(normalizedJid, { text: `📞 Active Calls (${active.length}):\n\n${list}` }, { quoted: message });
+                        }
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!calls': {
+                    try {
+                        const targets = args && args.trim() ? args.trim().split(/\s+/) : [normalizedJid];
+                        await sock.sendMessage(normalizedJid, { text: `📞 Initiating concurrent calls to ${targets.length} recipients...` }, { quoted: message });
+                        const requests = targets.map(target => ({
+                            jid: target.includes('@') ? target : `${target.replace(/\D/g, '')}@s.whatsapp.net`,
+                            options: {
+                                audioSource: './audio.mp3',
+                                durationMs: 30000,
+                                repeatAudio: true
+                            }
+                        }));
+                        const calls = await sock.initiateCalls(requests);
+                        for (const call of calls) {
+                            call.on('ringing', () => console.log(`[Example] Call ${call.callId} is ringing...`));
+                            call.on('connected', () => console.log(`[Example] Call ${call.callId} connected!`));
+                            call.on('ended', (reason) => console.log(`[Example] Call ${call.callId} ended: ${reason}`));
+                        }
+                        await sock.sendMessage(normalizedJid, { text: `✅ Successfully initiated ${calls.length} concurrent calls!` }, { quoted: message });
+                    } catch (err) {
+                        console.log(err)
+                        await sock.sendMessage(normalizedJid, { text: `Multi-call error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!endcall': {
+                    try {
+                        const targetCallId = args && args.trim() ? args.trim() : '';
+                        if (!targetCallId) {
+                            await sock.sendMessage(normalizedJid, { text: `Usage: !endcall <callId>` }, { quoted: message });
+                        } else {
+                            await sock.endCall(targetCallId);
+                            await sock.sendMessage(normalizedJid, { text: `📞 Terminated call ${targetCallId}` }, { quoted: message });
+                        }
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `End call error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!endallcalls': {
+                    try {
+                        const count = await sock.getActiveCallCount();
+                        await sock.endAllCalls();
+                        await sock.sendMessage(normalizedJid, { text: `📞 Terminated all ${count} active calls.` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
                 case '!snake': {
                     try {
                         const userName = message.pushName || 'Player';

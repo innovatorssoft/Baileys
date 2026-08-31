@@ -42,6 +42,29 @@ export type CallStatus =
     | "unreachable"
     | "rejected"
     | "timeout";
+/** Safe public descriptor of an active or recent call. */
+export type CallSummary = {
+    id: string;
+    jid: string;
+    status: CallStatus;
+    state: CallState;
+    startedAt: number;
+    connectedAt?: number;
+    endedAt?: number;
+    durationMs: number;
+    audioSource: string;
+    repeatAudio: boolean;
+};
+/** Request object for batch call initiation. */
+export type CallRequest = {
+    jid: string;
+    options?: CallOptions;
+};
+/** VoIP Manager configuration options. */
+export type VoipConfigOptions = {
+    maxConcurrentCalls?: number;
+    onLimit?: "reject" | "queue";
+};
 /** Events emitted by an `ActiveCall`. */
 export type CallEvents = {
     ringing: () => void;
@@ -59,7 +82,9 @@ export type CallEvents = {
 /** Top-level SDK configuration. */
 export type VoipSdkConfig = {
     /** Path to a Baileys multi-file auth state directory. */
-    authDir: string;
+    authDir?: string;
+    /** Optional maximum simultaneous outgoing calls limit. */
+    maxConcurrentCalls?: number;
 };
 /** Mirrors the WhatsApp WASM `CallState` enum. */
 export declare const CallState: {

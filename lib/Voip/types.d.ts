@@ -1,30 +1,74 @@
+/**
+ * Shared type definitions for baileys-caller.
+ *
+ * @author ShellTear
+ */
 export type AudioConfig = {
     sampleRate: number;
     channels: number;
     bitsPerSample: number;
     framesPerChunk: number;
 };
-
 export type CallOptions = {
-    to: string;
+    to?: string;
     audioSource?: string;
     durationMs?: number;
-    isVideo?: boolean;
+    durationMS?: number;
+    repeatAudio?: boolean;
+    repeat?: boolean;
+    preRingingTimeoutMs?: number;
 };
-
+export type CallStatus =
+    | "idle"
+    | "initiating"
+    | "signaling"
+    | "ringing"
+    | "accepted"
+    | "media_connecting"
+    | "connected"
+    | "audio_ready"
+    | "streaming"
+    | "ending"
+    | "ended"
+    | "failed"
+    | "unreachable"
+    | "rejected"
+    | "timeout";
+export type CallSummary = {
+    id: string;
+    jid: string;
+    status: CallStatus;
+    state: CallState;
+    startedAt: number;
+    connectedAt?: number;
+    endedAt?: number;
+    durationMs: number;
+    audioSource: string;
+    repeatAudio: boolean;
+};
+export type CallRequest = {
+    jid: string;
+    options?: CallOptions;
+};
+export type VoipConfigOptions = {
+    maxConcurrentCalls?: number;
+    onLimit?: "reject" | "queue";
+};
 export type CallEvents = {
     ringing: () => void;
+    accepted: () => void;
     connected: () => void;
+    audioReady: () => void;
+    streaming: () => void;
+    stateChange: (status: CallStatus) => void;
     audio: (pcm: Float32Array) => void;
     ended: (reason: string) => void;
     error: (err: Error) => void;
 };
-
 export type VoipSdkConfig = {
-    sock: any;
     authDir?: string;
+    maxConcurrentCalls?: number;
 };
-
 export declare const CallState: {
     readonly Idle: 0;
     readonly Calling: 1;
@@ -36,10 +80,8 @@ export declare const CallState: {
     readonly ActiveElsewhere: 7;
     readonly Ending: 13;
 };
-
-export type CallState = typeof CallState[keyof typeof CallState];
-
-export type RelayListUpdatePayload = {
+export type CallState = (typeof CallState)[keyof typeof CallState];
+export type RelayListUpdate = {
     relay_key: string;
     relay_tokens: string[];
     auth_tokens?: string[];

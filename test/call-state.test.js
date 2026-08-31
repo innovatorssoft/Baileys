@@ -35,7 +35,7 @@ describe("ActiveCall Lifecycle & State Synchronization Tests", () => {
             expect(acceptedEmitted).toBe(true);
             expect(connectedEmitted).toBe(true);
             expect(call.ended).toBe(true);
-            expect(engine.endCall).toHaveBeenCalled();
+            expect(call.status).toBe("ended");
             done();
         });
 
