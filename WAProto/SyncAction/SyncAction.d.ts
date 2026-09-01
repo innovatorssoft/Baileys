@@ -548,6 +548,15 @@ export namespace SyncAction {
 
         /** SyncActionValue ctwaMessageReceivedAction */
         ctwaMessageReceivedAction?: (SyncAction.SyncActionValue.ICtwaMessageReceivedAction|null);
+
+        /** SyncActionValue sharedDeviceAllowlistAction */
+        sharedDeviceAllowlistAction?: (SyncAction.SyncActionValue.ISharedDeviceAllowlistAction|null);
+
+        /** SyncActionValue contactManagerMetadataAction */
+        contactManagerMetadataAction?: (SyncAction.SyncActionValue.IContactManagerMetadataAction|null);
+
+        /** SyncActionValue businessFolderActivationAction */
+        businessFolderActivationAction?: (SyncAction.SyncActionValue.IBusinessFolderActivationAction|null);
     }
 
     /** Represents a SyncActionValue. */
@@ -810,6 +819,15 @@ export namespace SyncAction {
 
         /** SyncActionValue ctwaMessageReceivedAction. */
         public ctwaMessageReceivedAction?: (SyncAction.SyncActionValue.ICtwaMessageReceivedAction|null);
+
+        /** SyncActionValue sharedDeviceAllowlistAction. */
+        public sharedDeviceAllowlistAction?: (SyncAction.SyncActionValue.ISharedDeviceAllowlistAction|null);
+
+        /** SyncActionValue contactManagerMetadataAction. */
+        public contactManagerMetadataAction?: (SyncAction.SyncActionValue.IContactManagerMetadataAction|null);
+
+        /** SyncActionValue businessFolderActivationAction. */
+        public businessFolderActivationAction?: (SyncAction.SyncActionValue.IBusinessFolderActivationAction|null);
 
         /**
          * Creates a new SyncActionValue instance using the specified properties.
@@ -2426,6 +2444,103 @@ export namespace SyncAction {
             public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
+        /** Properties of a BusinessFolderActivationAction. */
+        interface IBusinessFolderActivationAction {
+
+            /** BusinessFolderActivationAction activated */
+            activated?: (boolean|null);
+        }
+
+        /** Represents a BusinessFolderActivationAction. */
+        class BusinessFolderActivationAction implements IBusinessFolderActivationAction {
+
+            /**
+             * Constructs a new BusinessFolderActivationAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.IBusinessFolderActivationAction);
+
+            /** BusinessFolderActivationAction activated. */
+            public activated?: (boolean|null);
+
+            /**
+             * Creates a new BusinessFolderActivationAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BusinessFolderActivationAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.IBusinessFolderActivationAction): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Encodes the specified BusinessFolderActivationAction message. Does not implicitly {@link SyncAction.SyncActionValue.BusinessFolderActivationAction.verify|verify} messages.
+             * @param message BusinessFolderActivationAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.IBusinessFolderActivationAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BusinessFolderActivationAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.BusinessFolderActivationAction.verify|verify} messages.
+             * @param message BusinessFolderActivationAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.IBusinessFolderActivationAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BusinessFolderActivationAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BusinessFolderActivationAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Decodes a BusinessFolderActivationAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BusinessFolderActivationAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Verifies a BusinessFolderActivationAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BusinessFolderActivationAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BusinessFolderActivationAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Creates a plain object from a BusinessFolderActivationAction message. Also converts values to other types if specified.
+             * @param message BusinessFolderActivationAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.BusinessFolderActivationAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BusinessFolderActivationAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for BusinessFolderActivationAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Properties of a CallLogAction. */
         interface ICallLogAction {
 
@@ -3032,6 +3147,103 @@ export namespace SyncAction {
 
             /**
              * Gets the default type url for ContactAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a ContactManagerMetadataAction. */
+        interface IContactManagerMetadataAction {
+
+            /** ContactManagerMetadataAction isHidden */
+            isHidden?: (boolean|null);
+        }
+
+        /** Represents a ContactManagerMetadataAction. */
+        class ContactManagerMetadataAction implements IContactManagerMetadataAction {
+
+            /**
+             * Constructs a new ContactManagerMetadataAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.IContactManagerMetadataAction);
+
+            /** ContactManagerMetadataAction isHidden. */
+            public isHidden?: (boolean|null);
+
+            /**
+             * Creates a new ContactManagerMetadataAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ContactManagerMetadataAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.IContactManagerMetadataAction): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Encodes the specified ContactManagerMetadataAction message. Does not implicitly {@link SyncAction.SyncActionValue.ContactManagerMetadataAction.verify|verify} messages.
+             * @param message ContactManagerMetadataAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.IContactManagerMetadataAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ContactManagerMetadataAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.ContactManagerMetadataAction.verify|verify} messages.
+             * @param message ContactManagerMetadataAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.IContactManagerMetadataAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ContactManagerMetadataAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ContactManagerMetadataAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Decodes a ContactManagerMetadataAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ContactManagerMetadataAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Verifies a ContactManagerMetadataAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ContactManagerMetadataAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ContactManagerMetadataAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Creates a plain object from a ContactManagerMetadataAction message. Also converts values to other types if specified.
+             * @param message ContactManagerMetadataAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.ContactManagerMetadataAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ContactManagerMetadataAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for ContactManagerMetadataAction
              * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
              * @returns The default type url
              */
@@ -8584,6 +8796,103 @@ export namespace SyncAction {
             }
         }
 
+        /** Properties of a SharedDeviceAllowlistAction. */
+        interface ISharedDeviceAllowlistAction {
+
+            /** SharedDeviceAllowlistAction allowed */
+            allowed?: (boolean|null);
+        }
+
+        /** Represents a SharedDeviceAllowlistAction. */
+        class SharedDeviceAllowlistAction implements ISharedDeviceAllowlistAction {
+
+            /**
+             * Constructs a new SharedDeviceAllowlistAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction);
+
+            /** SharedDeviceAllowlistAction allowed. */
+            public allowed?: (boolean|null);
+
+            /**
+             * Creates a new SharedDeviceAllowlistAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns SharedDeviceAllowlistAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Encodes the specified SharedDeviceAllowlistAction message. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceAllowlistAction.verify|verify} messages.
+             * @param message SharedDeviceAllowlistAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified SharedDeviceAllowlistAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceAllowlistAction.verify|verify} messages.
+             * @param message SharedDeviceAllowlistAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a SharedDeviceAllowlistAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns SharedDeviceAllowlistAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Decodes a SharedDeviceAllowlistAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns SharedDeviceAllowlistAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Verifies a SharedDeviceAllowlistAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a SharedDeviceAllowlistAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns SharedDeviceAllowlistAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Creates a plain object from a SharedDeviceAllowlistAction message. Also converts values to other types if specified.
+             * @param message SharedDeviceAllowlistAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.SharedDeviceAllowlistAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this SharedDeviceAllowlistAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for SharedDeviceAllowlistAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Properties of a StarAction. */
         interface IStarAction {
 
@@ -11417,6 +11726,9 @@ export namespace SyncAction {
         LABEL_SUBLIST_ACTION = 91,
         DEVICE_CAPABILITIES_V2 = 92,
         CTWA_MESSAGE_RECEIVED_ACTION = 93,
+        SHARED_DEVICE_ALLOWLIST_ACTION = 94,
+        CONTACT_MANAGER_METADATA_ACTION = 95,
+        BUSINESS_FOLDER_ACTIVATION_ACTION = 96,
         SHARE_OWN_PN = 10001,
         BUSINESS_BROADCAST_ACTION = 10002,
         AI_THREAD_DELETE_ACTION = 10003
@@ -12287,6 +12599,9 @@ export namespace DeviceCapabilities {
 
             /** AiFbidMigration chatDbMigrationTimestamp */
             chatDbMigrationTimestamp?: (number|Long|null);
+
+            /** AiFbidMigration supportVersion */
+            supportVersion?: (number|null);
         }
 
         /** Represents an AiFbidMigration. */
@@ -12300,6 +12615,9 @@ export namespace DeviceCapabilities {
 
             /** AiFbidMigration chatDbMigrationTimestamp. */
             public chatDbMigrationTimestamp?: (number|Long|null);
+
+            /** AiFbidMigration supportVersion. */
+            public supportVersion?: (number|null);
 
             /**
              * Creates a new AiFbidMigration instance using the specified properties.
@@ -12600,6 +12918,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast recipientLimit */
             recipientLimit?: (number|null);
+
+            /** BusinessBroadcast proCompanionSupportEnabled */
+            proCompanionSupportEnabled?: (boolean|null);
         }
 
         /** Represents a BusinessBroadcast. */
@@ -12625,6 +12946,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast recipientLimit. */
             public recipientLimit?: (number|null);
+
+            /** BusinessBroadcast proCompanionSupportEnabled. */
+            public proCompanionSupportEnabled?: (boolean|null);
 
             /**
              * Creates a new BusinessBroadcast instance using the specified properties.

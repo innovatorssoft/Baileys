@@ -155,6 +155,9 @@ export namespace DeviceCapabilities {
 
             /** AiFbidMigration chatDbMigrationTimestamp */
             chatDbMigrationTimestamp?: (number|Long|null);
+
+            /** AiFbidMigration supportVersion */
+            supportVersion?: (number|null);
         }
 
         /** Represents an AiFbidMigration. */
@@ -168,6 +171,9 @@ export namespace DeviceCapabilities {
 
             /** AiFbidMigration chatDbMigrationTimestamp. */
             public chatDbMigrationTimestamp?: (number|Long|null);
+
+            /** AiFbidMigration supportVersion. */
+            public supportVersion?: (number|null);
 
             /**
              * Creates a new AiFbidMigration instance using the specified properties.
@@ -468,6 +474,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast recipientLimit */
             recipientLimit?: (number|null);
+
+            /** BusinessBroadcast proCompanionSupportEnabled */
+            proCompanionSupportEnabled?: (boolean|null);
         }
 
         /** Represents a BusinessBroadcast. */
@@ -493,6 +502,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast recipientLimit. */
             public recipientLimit?: (number|null);
+
+            /** BusinessBroadcast proCompanionSupportEnabled. */
+            public proCompanionSupportEnabled?: (boolean|null);
 
             /**
              * Creates a new BusinessBroadcast instance using the specified properties.

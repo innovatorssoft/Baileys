@@ -125,6 +125,9 @@ message SyncActionValue {
     optional LabelSublistAction labelSublistAction = 91;
     optional DeviceCapabilities.DeviceCapabilities deviceCapabilitiesV2 = 92;
     optional CtwaMessageReceivedAction ctwaMessageReceivedAction = 93;
+    optional SharedDeviceAllowlistAction sharedDeviceAllowlistAction = 94;
+    optional ContactManagerMetadataAction contactManagerMetadataAction = 95;
+    optional BusinessFolderActivationAction businessFolderActivationAction = 96;
     message AgentAction {
         optional string name = 1;
         optional int32 deviceId = 2;
@@ -212,6 +215,9 @@ message SyncActionValue {
         optional string audienceExpression = 5;
         optional string customAudienceFbid = 6;
     }
+    message BusinessFolderActivationAction {
+        optional bool activated = 1;
+    }
     message CallLogAction {
         optional CallLogRecord callLogRecord = 1;
     }
@@ -234,6 +240,9 @@ message SyncActionValue {
         optional bool saveOnPrimaryAddressbook = 4;
         optional string pnJid = 5;
         optional string username = 6;
+    }
+    message ContactManagerMetadataAction {
+        optional bool isHidden = 1;
     }
     message CtwaMessageReceivedAction {
         optional bool isCtwaMessageReceived = 1;
@@ -585,6 +594,9 @@ message SyncActionValue {
             MAC = 4;
         }
     }
+    message SharedDeviceAllowlistAction {
+        optional bool allowed = 1;
+    }
     message StarAction {
         optional bool starred = 1;
     }
@@ -849,6 +861,9 @@ enum MutationProps {
     LABEL_SUBLIST_ACTION = 91;
     DEVICE_CAPABILITIES_V2 = 92;
     CTWA_MESSAGE_RECEIVED_ACTION = 93;
+    SHARED_DEVICE_ALLOWLIST_ACTION = 94;
+    CONTACT_MANAGER_METADATA_ACTION = 95;
+    BUSINESS_FOLDER_ACTIVATION_ACTION = 96;
     SHARE_OWN_PN = 10001;
     BUSINESS_BROADCAST_ACTION = 10002;
     AI_THREAD_DELETE_ACTION = 10003;
