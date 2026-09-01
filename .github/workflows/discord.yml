@@ -604,11 +604,4 @@ jobs:
             --data "$PAYLOAD" \
             "$DISCORD_WEBHOOK"
 
-          echo "CI/CD notification sent."                    text: "Commit by \($username)"
-                  }
-                }
-              ]
-            }')
-          curl -H "Content-Type: application/json" \
-               -d "$CONTENT" \
-               ${{ secrets.DISCORD_WEBHOOK }}
+          echo "CI/CD notification sent."
