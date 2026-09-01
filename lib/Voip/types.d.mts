@@ -16,6 +16,23 @@ export type CallOptions = {
     to?: string;
     /** Audio source: file path to MP3/WAV, or `"silence"` for an empty uplink. */
     audioSource?: string;
+    /** Video source: file path to MP4/MKV/MOV/AVI video file. */
+    videoSource?: string;
+    /** Whether this is a video call (default: false). */
+    isVideo?: boolean;
+    /** Repeat/loop the video source continuously until durationMs is reached. */
+    videoLoop?: boolean;
+    repeatVideo?: boolean;
+    loop?: boolean;
+    /** Video resolution width (default: 640). */
+    videoWidth?: number;
+    width?: number;
+    /** Video resolution height (default: 480). */
+    videoHeight?: number;
+    height?: number;
+    /** Video frame rate (default: 15). */
+    videoFps?: number;
+    fps?: number;
     /** Auto-hangup after N ms (default: 120000). */
     durationMs?: number;
     durationMS?: number;
@@ -54,6 +71,8 @@ export type CallSummary = {
     durationMs: number;
     audioSource: string;
     repeatAudio: boolean;
+    isVideo?: boolean;
+    videoSource?: string | null;
 };
 /** Request object for batch call initiation. */
 export type CallRequest = {
@@ -72,6 +91,9 @@ export type CallEvents = {
     connected: () => void;
     audioReady: () => void;
     streaming: () => void;
+    videoStarted: () => void;
+    videoEnded: () => void;
+    videoError: (err: Error) => void;
     stateChange: (status: CallStatus) => void;
     /** 16 kHz mono Float32 PCM frame from the remote peer. */
     audio: (pcm: Float32Array) => void;

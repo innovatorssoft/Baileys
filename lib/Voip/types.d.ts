@@ -12,6 +12,17 @@ export type AudioConfig = {
 export type CallOptions = {
     to?: string;
     audioSource?: string;
+    videoSource?: string;
+    isVideo?: boolean;
+    videoLoop?: boolean;
+    repeatVideo?: boolean;
+    loop?: boolean;
+    videoWidth?: number;
+    width?: number;
+    videoHeight?: number;
+    height?: number;
+    videoFps?: number;
+    fps?: number;
     durationMs?: number;
     durationMS?: number;
     repeatAudio?: boolean;
@@ -45,6 +56,8 @@ export type CallSummary = {
     durationMs: number;
     audioSource: string;
     repeatAudio: boolean;
+    isVideo?: boolean;
+    videoSource?: string | null;
 };
 export type CallRequest = {
     jid: string;
@@ -60,6 +73,9 @@ export type CallEvents = {
     connected: () => void;
     audioReady: () => void;
     streaming: () => void;
+    videoStarted: () => void;
+    videoEnded: () => void;
+    videoError: (err: Error) => void;
     stateChange: (status: CallStatus) => void;
     audio: (pcm: Float32Array) => void;
     ended: (reason: string) => void;

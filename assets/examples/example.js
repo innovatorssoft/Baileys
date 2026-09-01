@@ -1018,6 +1018,33 @@ async function startBot() {
                     }
                     break;
                 }
+                case '!vcall': {
+                    try {
+                        const targetVideo = args && args.trim() ? args.trim() : './example.mp4';
+                        await sock.sendMessage(normalizedJid, { text: `📹 Initiating video call (video: ${targetVideo})...` }, { quoted: message });
+                        const call = await sock.initiateCall(normalizedJid, {
+                            isVideo: true,
+                            videoSource: targetVideo,
+                            audioSource: './audio.mp3',
+                            durationMs: 60 * 1000,
+                            repeatAudio: true,
+                            videoLoop: true
+                        });
+                        call.on('ringing', () => console.log(`[Example] Video Call ${call.callId} is ringing...`));
+                        call.on('accepted', () => console.log(`[Example] Video Call ${call.callId} accepted by recipient`));
+                        call.on('connected', () => console.log(`[Example] Video Call ${call.callId} connected!`));
+                        call.on('videoStarted', () => console.log(`[Example] Video Call ${call.callId} video stream started`));
+                        call.on('videoEnded', () => console.log(`[Example] Video Call ${call.callId} video stream ended`));
+                        call.on('audioReady', () => console.log(`[Example] Video Call ${call.callId} audio pipeline ready`));
+                        call.on('streaming', () => console.log(`[Example] Video Call ${call.callId} streaming media`));
+                        call.on('ended', (reason) => console.log(`[Example] Video Call ${call.callId} ended: ${reason}`));
+                        call.on('error', (err) => console.error(`[Example] Video Call error:`, err));
+                    } catch (err) {
+                        console.log(err);
+                        await sock.sendMessage(normalizedJid, { text: `Video Call error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
                 case '!callinfo': {
                     try {
                         const active = await sock.getActiveCalls();

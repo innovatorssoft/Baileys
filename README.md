@@ -3206,7 +3206,7 @@ sock.ev.on('messages.upsert', async ({ [m] }) => {
 await sock.updateMediaMessage(msg)
 ```
 
-## 📞 Initiate Voice Call & Stream Audio (Single & Concurrent)
+## 📞 Initiate Voice & Video Call & Stream Audio (Single & Concurrent)
 
 - Initiates single or **multiple simultaneous concurrent outgoing WhatsApp voice calls** with WebAssembly VoIP audio transport
 - Streams audio files (MP3/WAV/etc.) via FFmpeg into isolated 16 kHz Float32 PCM audio pipelines
@@ -3273,6 +3273,37 @@ const activeCall = await voip.call('1234567890', {
     durationMs: 45000,
     repeatAudio: true
 })
+```
+
+### Video Calls
+
+```ts
+// Initiate a video call
+const videoCall = await sock.initiateCall('1234567890@s.whatsapp.net', {
+    isVideo: true,
+    videoSource: './video.mp4',
+    audioSource: './audio.mp3', // or 'silence' or './video.mp4'
+    videoWidth: 640,            // or width: 640
+    videoHeight: 480,           // or height: 480
+    videoFps: 15,               // or fps: 15 (default: 15)
+    durationMs: 30000,
+    repeatAudio: true,
+    videoLoop: true
+})
+
+// Listen for events
+videoCall.on('ringing', () => console.log(`[${videoCall.callId}] Video Call is ringing...`))
+videoCall.on('accepted', () => console.log(`[${videoCall.callId}] Video Call accepted by recipient`))
+videoCall.on('connected', () => console.log(`[${videoCall.callId}] Video Call connected!`))
+videoCall.on('videoStarted', () => console.log(`[${videoCall.callId}] Video stream started`))
+videoCall.on('videoEnded', () => console.log(`[${videoCall.callId}] Video stream ended`))
+videoCall.on('audioReady', () => console.log(`[${videoCall.callId}] Audio pipeline ready!`))
+videoCall.on('streaming', () => console.log(`[${videoCall.callId}] Streaming media`))
+videoCall.on('ended', (reason) => console.log(`[${videoCall.callId}] Video Call ended:`, reason))
+videoCall.on('error', (err) => console.error(`[${videoCall.callId}] Video Call error:`, err))
+
+// End the call
+await sock.endCall(videoCall.callId)
 ```
 
 ## 🚫 Reject Call
