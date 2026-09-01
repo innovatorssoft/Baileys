@@ -135,8 +135,23 @@ export declare const generateMarkdownContent: (
     options?: { botJid?: string, mentions?: string[], extract?: boolean, hyperlink?: boolean, citation?: boolean, latex?: boolean }
 ) => { message: proto.IMessage, messageId: string }
 
+export declare const generateRichHtmlContent: (
+    html: string,
+    quoted?: any,
+    options?: { id?: string, title?: string, source?: string, trusted_sources?: string | string[], typename?: string, headerText?: string, footer?: string, botJid?: string, mentions?: string[] }
+) => { message: proto.IMessage, messageId: string }
+
+export declare const sendRichHtml: (
+    socket: any,
+    jid: string,
+    options: { id?: string, title?: string, html: string, source?: string, trusted_sources?: string | string[], typename?: string },
+    quoted?: any,
+    relayOptions?: any
+) => Promise<{ message: proto.IMessage, messageId: string }>
+
 export declare const generateRichMessageContent: (
     submessages: any[],
     quoted?: any,
     options?: { botJid?: string, mentions?: string[], useMarkdown?: boolean, unifiedResponse?: any, extract?: boolean, hyperlink?: boolean, citation?: boolean, latex?: boolean }
 ) => { message: proto.IMessage, messageId: string }
+

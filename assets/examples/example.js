@@ -4,6 +4,7 @@ const { makeWASocket,
     RichSubMessageType,
     captureUnifiedResponse,
     sendUnifiedResponse,
+    sendRichHtml,
     encryptedStream,
     getUrlFromDirectPath,
     renderLatexToPng,
@@ -265,6 +266,7 @@ async function startBot() {
                         '!viewonceext  - Send image as view-once V2 Ext',
                         '!interactivemsg - Send custom interactive buttons (text, image, or location)',
                         '!call         - Place a voice call and stream audio',
+                        '!html         - Send interactive rich HTML UI card (GenAI HTML)',
                         '!snake        - Play CyberSnake HTML5 Canvas Game (GenAI HTML)',
                         '!slots        - Play Fruit Bonanza Slots Game (GenAI HTML)',
                         '!page         - Show interactive CyberPulse GenAI sample page (HTML/CSS/JS)',
@@ -1132,6 +1134,51 @@ async function startBot() {
                         console.error('[LIVE_PAGE]', err);
                         await sock.sendMessage(normalizedJid, {
                             text: `❌ Live Page failed\n\n${err?.message || String(err)}`
+                        }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!html': {
+                    try {
+                        const userName = message.pushName || 'User';
+                        const customHtml = `
+                            <div style="padding: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: radial-gradient(circle at top right, #1e293b, #0f172a); color: #f8fafc; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                    <span style="font-size: 24px;">⚡</span>
+                                    <div>
+                                        <h3 style="margin: 0; font-size: 16px; color: #38bdf8;">Innovators Baileys GenAI HTML</h3>
+                                        <p style="margin: 0; font-size: 12px; color: #94a3b8;">Interactive Web Component</p>
+                                    </div>
+                                </div>
+                                <div style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; margin-bottom: 12px;">
+                                    <p style="margin: 0; font-size: 13px; color: #cbd5e1;">Welcome, <b>${userName}</b>! This message is rendered dynamically using <code style="color: #f43f5e; background: #27272a; padding: 2px 5px; border-radius: 4px;">sendRichHtml</code>.</p>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; text-align: center;">
+                                    <div style="background: #1e3a5f; padding: 8px; border-radius: 8px;">
+                                        <div style="font-size: 11px; color: #93c5fd;">STATUS</div>
+                                        <div style="font-size: 14px; font-weight: bold; color: #60a5fa;">Active ✅</div>
+                                    </div>
+                                    <div style="background: #064e3b; padding: 8px; border-radius: 8px;">
+                                        <div style="font-size: 11px; color: #6ee7b7;">SPEED</div>
+                                        <div style="font-size: 14px; font-weight: bold; color: #34d399;">Fast 🚀</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; padding: 8px; background: linear-gradient(135deg, #2563eb, #7c3aed); border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;">
+                                    Powered by @innovatorssoft/baileys
+                                </div>
+                            </div>
+                        `;
+
+                        await sock.sendRichHtml(normalizedJid, {
+                            id: 'cmd-html',
+                            title: 'Rich HTML UI Card',
+                            html: customHtml.trim(),
+                            source: 'innovatorssoft'
+                        }, message);
+                    } catch (err) {
+                        console.error('[HTML]', err);
+                        await sock.sendMessage(normalizedJid, {
+                            text: `❌ HTML message failed\n\n${err?.message || String(err)}`
                         }, { quoted: message });
                     }
                     break;

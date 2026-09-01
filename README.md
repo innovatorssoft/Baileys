@@ -2507,6 +2507,44 @@ if (captured) {
 
 ---
 
+### sendRichHtml (GenAI Interactive HTML)
+
+Send rich interactive HTML payloads (including full HTML5/CSS/JavaScript interactive web views, canvas games, custom UI cards, dashboards, etc.) directly rendered via WhatsApp's native GenAI UI engine:
+
+```js
+// Option A: Send via socket method
+await sock.sendRichHtml(
+    jid,
+    {
+        id: 'dashboard-001',
+        title: 'Sales Dashboard',
+        html: `
+            <div style="padding: 16px; font-family: sans-serif; background: #0f172a; color: #fff; border-radius: 12px;">
+                <h2 style="color: #38bdf8; margin: 0 0 8px;">🚀 Q3 Performance</h2>
+                <p style="color: #94a3b8; font-size: 14px;">Total Revenue: <b style="color: #4ade80;">$124,500</b> (+18%)</p>
+                <div style="background: #1e293b; padding: 10px; border-radius: 8px; margin-top: 10px; text-align: center;">
+                    <span style="color: #facc15; font-weight: bold;">Conversion Rate: 4.8%</span>
+                </div>
+            </div>
+        `,
+        source: 'dashboard_service' // optional trusted source identifier
+    },
+    null // optional quoted message
+)
+
+// Option B: Import and use standalone function
+import { sendRichHtml } from '@innovatorssoft/baileys'
+
+await sendRichHtml(sock, jid, {
+    id: 'interactive-card',
+    title: 'Interactive Card',
+    html: `<div style="padding: 15px; background: #2563eb; color: #fff; border-radius: 10px;">Hello from Rich HTML!</div>`,
+    source: 'custom_source'
+})
+```
+
+---
+
 ### Shop Message
 ```ts
 await sock.sendMessage(
