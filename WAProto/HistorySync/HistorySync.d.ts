@@ -3357,6 +3357,9 @@ export namespace E2E {
 
         /** AIRichResponseMessage contextInfo */
         contextInfo?: (E2E.IContextInfo|null);
+
+        /** AIRichResponseMessage originalRecipientMetadata */
+        originalRecipientMetadata?: (AICommon.IAIRichResponseUnifiedResponse|null);
     }
 
     /** Represents a AIRichResponseMessage. */
@@ -3379,6 +3382,9 @@ export namespace E2E {
 
         /** AIRichResponseMessage contextInfo. */
         public contextInfo?: (E2E.IContextInfo|null);
+
+        /** AIRichResponseMessage originalRecipientMetadata. */
+        public originalRecipientMetadata?: (AICommon.IAIRichResponseUnifiedResponse|null);
 
         /**
          * Creates a new AIRichResponseMessage instance using the specified properties.
@@ -6916,6 +6922,9 @@ export namespace E2E {
 
         /** MessageContextInfo associatedPrimaryIdentityKey */
         associatedPrimaryIdentityKey?: (Uint8Array|null);
+
+        /** MessageContextInfo teeContextAnchorMessageId */
+        teeContextAnchorMessageId?: (string|null);
     }
 
     /** Represents a MessageContextInfo. */
@@ -6983,6 +6992,9 @@ export namespace E2E {
 
         /** MessageContextInfo associatedPrimaryIdentityKey. */
         public associatedPrimaryIdentityKey?: (Uint8Array|null);
+
+        /** MessageContextInfo teeContextAnchorMessageId. */
+        public teeContextAnchorMessageId?: (string|null);
 
         /**
          * Creates a new MessageContextInfo instance using the specified properties.
@@ -7515,6 +7527,9 @@ export namespace E2E {
 
         /** ContextInfo aiProvenance */
         aiProvenance?: (AICommon.IAIProvenance|null);
+
+        /** ContextInfo experienceIds */
+        experienceIds?: (number[]|null);
     }
 
     /** Represents a ContextInfo. */
@@ -7717,6 +7732,9 @@ export namespace E2E {
 
         /** ContextInfo aiProvenance. */
         public aiProvenance?: (AICommon.IAIProvenance|null);
+
+        /** ContextInfo experienceIds. */
+        public experienceIds: number[];
 
         /**
          * Creates a new ContextInfo instance using the specified properties.
@@ -10274,9 +10292,6 @@ export namespace E2E {
         /** Message newsletterAdminProfileMessage */
         newsletterAdminProfileMessage?: (E2E.Message.IFutureProofMessage|null);
 
-        /** Message newsletterAdminProfileMessageV2 */
-        newsletterAdminProfileMessageV2?: (E2E.Message.IFutureProofMessage|null);
-
         /** Message spoilerMessage */
         spoilerMessage?: (E2E.Message.IFutureProofMessage|null);
 
@@ -10318,6 +10333,9 @@ export namespace E2E {
 
         /** Message botPlatformRegistrationSuccessMessage */
         botPlatformRegistrationSuccessMessage?: (E2E.Message.IFutureProofMessage|null);
+
+        /** Message newsletterScheduledMessage */
+        newsletterScheduledMessage?: (E2E.Message.IFutureProofMessage|null);
     }
 
     /** Represents a Message. */
@@ -10617,9 +10635,6 @@ export namespace E2E {
         /** Message newsletterAdminProfileMessage. */
         public newsletterAdminProfileMessage?: (E2E.Message.IFutureProofMessage|null);
 
-        /** Message newsletterAdminProfileMessageV2. */
-        public newsletterAdminProfileMessageV2?: (E2E.Message.IFutureProofMessage|null);
-
         /** Message spoilerMessage. */
         public spoilerMessage?: (E2E.Message.IFutureProofMessage|null);
 
@@ -10661,6 +10676,9 @@ export namespace E2E {
 
         /** Message botPlatformRegistrationSuccessMessage. */
         public botPlatformRegistrationSuccessMessage?: (E2E.Message.IFutureProofMessage|null);
+
+        /** Message newsletterScheduledMessage. */
+        public newsletterScheduledMessage?: (E2E.Message.IFutureProofMessage|null);
 
         /**
          * Creates a new Message instance using the specified properties.
@@ -32192,6 +32210,9 @@ export namespace E2E {
 
             /** VideoMessage videoSourceType */
             videoSourceType?: (E2E.Message.VideoMessage.VideoSourceType|null);
+
+            /** VideoMessage dashManifestUrl */
+            dashManifestUrl?: (string|null);
         }
 
         /** Represents a VideoMessage. */
@@ -32292,6 +32313,9 @@ export namespace E2E {
 
             /** VideoMessage videoSourceType. */
             public videoSourceType?: (E2E.Message.VideoMessage.VideoSourceType|null);
+
+            /** VideoMessage dashManifestUrl. */
+            public dashManifestUrl?: (string|null);
 
             /**
              * Creates a new VideoMessage instance using the specified properties.
@@ -34551,6 +34575,321 @@ export namespace AICommonDeprecated {
 
 /** Namespace AICommon. */
 export namespace AICommon {
+
+    /** Properties of a BizAIMetadataSync. */
+    interface IBizAIMetadataSync {
+
+        /** BizAIMetadataSync serverEvent */
+        serverEvent?: (AICommon.BizAIMetadataSync.IServerEvent|null);
+    }
+
+    /** Represents a BizAIMetadataSync. */
+    class BizAIMetadataSync implements IBizAIMetadataSync {
+
+        /**
+         * Constructs a new BizAIMetadataSync.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: AICommon.IBizAIMetadataSync);
+
+        /** BizAIMetadataSync serverEvent. */
+        public serverEvent?: (AICommon.BizAIMetadataSync.IServerEvent|null);
+
+        /** BizAIMetadataSync operation. */
+        public operation?: "serverEvent";
+
+        /**
+         * Creates a new BizAIMetadataSync instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns BizAIMetadataSync instance
+         */
+        public static create(properties?: AICommon.IBizAIMetadataSync): AICommon.BizAIMetadataSync;
+
+        /**
+         * Encodes the specified BizAIMetadataSync message. Does not implicitly {@link AICommon.BizAIMetadataSync.verify|verify} messages.
+         * @param message BizAIMetadataSync message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: AICommon.IBizAIMetadataSync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified BizAIMetadataSync message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.verify|verify} messages.
+         * @param message BizAIMetadataSync message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: AICommon.IBizAIMetadataSync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a BizAIMetadataSync message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns BizAIMetadataSync
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BizAIMetadataSync;
+
+        /**
+         * Decodes a BizAIMetadataSync message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns BizAIMetadataSync
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BizAIMetadataSync;
+
+        /**
+         * Verifies a BizAIMetadataSync message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a BizAIMetadataSync message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns BizAIMetadataSync
+         */
+        public static fromObject(object: { [k: string]: any }): AICommon.BizAIMetadataSync;
+
+        /**
+         * Creates a plain object from a BizAIMetadataSync message. Also converts values to other types if specified.
+         * @param message BizAIMetadataSync
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: AICommon.BizAIMetadataSync, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this BizAIMetadataSync to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for BizAIMetadataSync
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    namespace BizAIMetadataSync {
+
+        /** Properties of a ServerEvent. */
+        interface IServerEvent {
+
+            /** ServerEvent protocolEvent */
+            protocolEvent?: (AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent|null);
+
+            /** ServerEvent agentOnboardingStarted */
+            agentOnboardingStarted?: (AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted|null);
+        }
+
+        /** Represents a ServerEvent. */
+        class ServerEvent implements IServerEvent {
+
+            /**
+             * Constructs a new ServerEvent.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: AICommon.BizAIMetadataSync.IServerEvent);
+
+            /** ServerEvent protocolEvent. */
+            public protocolEvent?: (AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent|null);
+
+            /** ServerEvent agentOnboardingStarted. */
+            public agentOnboardingStarted?: (AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted|null);
+
+            /** ServerEvent event. */
+            public event?: ("protocolEvent"|"agentOnboardingStarted");
+
+            /**
+             * Creates a new ServerEvent instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ServerEvent instance
+             */
+            public static create(properties?: AICommon.BizAIMetadataSync.IServerEvent): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Encodes the specified ServerEvent message. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.verify|verify} messages.
+             * @param message ServerEvent message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: AICommon.BizAIMetadataSync.IServerEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ServerEvent message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.verify|verify} messages.
+             * @param message ServerEvent message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: AICommon.BizAIMetadataSync.IServerEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ServerEvent message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ServerEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Decodes a ServerEvent message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ServerEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Verifies a ServerEvent message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ServerEvent message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ServerEvent
+             */
+            public static fromObject(object: { [k: string]: any }): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Creates a plain object from a ServerEvent message. Also converts values to other types if specified.
+             * @param message ServerEvent
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: AICommon.BizAIMetadataSync.ServerEvent, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ServerEvent to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for ServerEvent
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace ServerEvent {
+
+            /** Properties of an AgentOnboardingStarted. */
+            interface IAgentOnboardingStarted {
+
+                /** AgentOnboardingStarted composerBlockDurationSecs */
+                composerBlockDurationSecs?: (number|Long|null);
+            }
+
+            /** Represents an AgentOnboardingStarted. */
+            class AgentOnboardingStarted implements IAgentOnboardingStarted {
+
+                /**
+                 * Constructs a new AgentOnboardingStarted.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted);
+
+                /** AgentOnboardingStarted composerBlockDurationSecs. */
+                public composerBlockDurationSecs?: (number|Long|null);
+
+                /**
+                 * Creates a new AgentOnboardingStarted instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns AgentOnboardingStarted instance
+                 */
+                public static create(properties?: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Encodes the specified AgentOnboardingStarted message. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.verify|verify} messages.
+                 * @param message AgentOnboardingStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified AgentOnboardingStarted message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.verify|verify} messages.
+                 * @param message AgentOnboardingStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes an AgentOnboardingStarted message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns AgentOnboardingStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Decodes an AgentOnboardingStarted message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns AgentOnboardingStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Verifies an AgentOnboardingStarted message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates an AgentOnboardingStarted message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns AgentOnboardingStarted
+                 */
+                public static fromObject(object: { [k: string]: any }): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Creates a plain object from an AgentOnboardingStarted message. Also converts values to other types if specified.
+                 * @param message AgentOnboardingStarted
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this AgentOnboardingStarted to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for AgentOnboardingStarted
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** ProtocolEvent enum. */
+            enum ProtocolEvent {
+                UNSPECIFIED = 0,
+                AGENT_CHAT_READY = 1
+            }
+        }
+    }
 
     /** Properties of a AIProvenance. */
     interface IAIProvenance {
@@ -37665,6 +38004,9 @@ export namespace AICommon {
         /** BotMetadata botHistoryShareMetadata */
         botHistoryShareMetadata?: (AICommon.IBotHistoryShareMetadata|null);
 
+        /** BotMetadata responseStoppedByUser */
+        responseStoppedByUser?: (boolean|null);
+
         /** BotMetadata internalMetadata */
         internalMetadata?: (Uint8Array|null);
     }
@@ -37803,6 +38145,9 @@ export namespace AICommon {
 
         /** BotMetadata botHistoryShareMetadata. */
         public botHistoryShareMetadata?: (AICommon.IBotHistoryShareMetadata|null);
+
+        /** BotMetadata responseStoppedByUser. */
+        public responseStoppedByUser?: (boolean|null);
 
         /** BotMetadata internalMetadata. */
         public internalMetadata?: (Uint8Array|null);
@@ -38199,6 +38544,9 @@ export namespace AICommon {
 
         /** AIMetadataOperation hatchMetadataSync */
         hatchMetadataSync?: (AICommon.IHatchMetadataSync|null);
+
+        /** AIMetadataOperation bizAiMetadataSync */
+        bizAiMetadataSync?: (AICommon.IBizAIMetadataSync|null);
     }
 
     /** Represents a AIMetadataOperation. */
@@ -38212,6 +38560,9 @@ export namespace AICommon {
 
         /** AIMetadataOperation hatchMetadataSync. */
         public hatchMetadataSync?: (AICommon.IHatchMetadataSync|null);
+
+        /** AIMetadataOperation bizAiMetadataSync. */
+        public bizAiMetadataSync?: (AICommon.IBizAIMetadataSync|null);
 
         /**
          * Creates a new AIMetadataOperation instance using the specified properties.
@@ -40950,7 +41301,8 @@ export namespace AICommon {
             RICH_RESPONSE_SPORTS_WIDGET_ENABLED = 66,
             AI_RICH_RESPONSE_ARTIFACTS_ENABLED = 67,
             AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED = 68,
-            AI_RICH_RESPONSE_REMINDERS_ENABLED = 69
+            AI_RICH_RESPONSE_REMINDERS_ENABLED = 69,
+            AI_STOP_GENERATION_ENABLED = 70
         }
     }
 
@@ -43938,7 +44290,8 @@ export namespace AICommon {
         GROUP_MEMBER = 54,
         CHATLIST_SEARCH = 55,
         NEW_CHAT_LIST = 56,
-        CONTACTS_TAB = 57
+        CONTACTS_TAB = 57,
+        NEW_3P_AGENT_CREATION = 58
     }
 }
 
@@ -47147,6 +47500,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps subscriptionSyncPayload */
         subscriptionSyncPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isBotJidDbMigrated */
+        isBotJidDbMigrated?: (boolean|null);
     }
 
     /** Represents a ClientPairingProps. */
@@ -47172,6 +47528,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps subscriptionSyncPayload. */
         public subscriptionSyncPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isBotJidDbMigrated. */
+        public isBotJidDbMigrated?: (boolean|null);
 
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
@@ -53544,6 +53903,15 @@ export namespace SyncAction {
 
         /** SyncActionValue ctwaMessageReceivedAction */
         ctwaMessageReceivedAction?: (SyncAction.SyncActionValue.ICtwaMessageReceivedAction|null);
+
+        /** SyncActionValue sharedDeviceAllowlistAction */
+        sharedDeviceAllowlistAction?: (SyncAction.SyncActionValue.ISharedDeviceAllowlistAction|null);
+
+        /** SyncActionValue contactManagerMetadataAction */
+        contactManagerMetadataAction?: (SyncAction.SyncActionValue.IContactManagerMetadataAction|null);
+
+        /** SyncActionValue businessFolderActivationAction */
+        businessFolderActivationAction?: (SyncAction.SyncActionValue.IBusinessFolderActivationAction|null);
     }
 
     /** Represents a SyncActionValue. */
@@ -53806,6 +54174,15 @@ export namespace SyncAction {
 
         /** SyncActionValue ctwaMessageReceivedAction. */
         public ctwaMessageReceivedAction?: (SyncAction.SyncActionValue.ICtwaMessageReceivedAction|null);
+
+        /** SyncActionValue sharedDeviceAllowlistAction. */
+        public sharedDeviceAllowlistAction?: (SyncAction.SyncActionValue.ISharedDeviceAllowlistAction|null);
+
+        /** SyncActionValue contactManagerMetadataAction. */
+        public contactManagerMetadataAction?: (SyncAction.SyncActionValue.IContactManagerMetadataAction|null);
+
+        /** SyncActionValue businessFolderActivationAction. */
+        public businessFolderActivationAction?: (SyncAction.SyncActionValue.IBusinessFolderActivationAction|null);
 
         /**
          * Creates a new SyncActionValue instance using the specified properties.
@@ -55422,6 +55799,103 @@ export namespace SyncAction {
             public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
+        /** Properties of a BusinessFolderActivationAction. */
+        interface IBusinessFolderActivationAction {
+
+            /** BusinessFolderActivationAction activated */
+            activated?: (boolean|null);
+        }
+
+        /** Represents a BusinessFolderActivationAction. */
+        class BusinessFolderActivationAction implements IBusinessFolderActivationAction {
+
+            /**
+             * Constructs a new BusinessFolderActivationAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.IBusinessFolderActivationAction);
+
+            /** BusinessFolderActivationAction activated. */
+            public activated?: (boolean|null);
+
+            /**
+             * Creates a new BusinessFolderActivationAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BusinessFolderActivationAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.IBusinessFolderActivationAction): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Encodes the specified BusinessFolderActivationAction message. Does not implicitly {@link SyncAction.SyncActionValue.BusinessFolderActivationAction.verify|verify} messages.
+             * @param message BusinessFolderActivationAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.IBusinessFolderActivationAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BusinessFolderActivationAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.BusinessFolderActivationAction.verify|verify} messages.
+             * @param message BusinessFolderActivationAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.IBusinessFolderActivationAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BusinessFolderActivationAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BusinessFolderActivationAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Decodes a BusinessFolderActivationAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BusinessFolderActivationAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Verifies a BusinessFolderActivationAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BusinessFolderActivationAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BusinessFolderActivationAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.BusinessFolderActivationAction;
+
+            /**
+             * Creates a plain object from a BusinessFolderActivationAction message. Also converts values to other types if specified.
+             * @param message BusinessFolderActivationAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.BusinessFolderActivationAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BusinessFolderActivationAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for BusinessFolderActivationAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Properties of a CallLogAction. */
         interface ICallLogAction {
 
@@ -56028,6 +56502,103 @@ export namespace SyncAction {
 
             /**
              * Gets the default type url for ContactAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a ContactManagerMetadataAction. */
+        interface IContactManagerMetadataAction {
+
+            /** ContactManagerMetadataAction isHidden */
+            isHidden?: (boolean|null);
+        }
+
+        /** Represents a ContactManagerMetadataAction. */
+        class ContactManagerMetadataAction implements IContactManagerMetadataAction {
+
+            /**
+             * Constructs a new ContactManagerMetadataAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.IContactManagerMetadataAction);
+
+            /** ContactManagerMetadataAction isHidden. */
+            public isHidden?: (boolean|null);
+
+            /**
+             * Creates a new ContactManagerMetadataAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ContactManagerMetadataAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.IContactManagerMetadataAction): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Encodes the specified ContactManagerMetadataAction message. Does not implicitly {@link SyncAction.SyncActionValue.ContactManagerMetadataAction.verify|verify} messages.
+             * @param message ContactManagerMetadataAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.IContactManagerMetadataAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ContactManagerMetadataAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.ContactManagerMetadataAction.verify|verify} messages.
+             * @param message ContactManagerMetadataAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.IContactManagerMetadataAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ContactManagerMetadataAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ContactManagerMetadataAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Decodes a ContactManagerMetadataAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ContactManagerMetadataAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Verifies a ContactManagerMetadataAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ContactManagerMetadataAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ContactManagerMetadataAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.ContactManagerMetadataAction;
+
+            /**
+             * Creates a plain object from a ContactManagerMetadataAction message. Also converts values to other types if specified.
+             * @param message ContactManagerMetadataAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.ContactManagerMetadataAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ContactManagerMetadataAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for ContactManagerMetadataAction
              * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
              * @returns The default type url
              */
@@ -61580,6 +62151,103 @@ export namespace SyncAction {
             }
         }
 
+        /** Properties of a SharedDeviceAllowlistAction. */
+        interface ISharedDeviceAllowlistAction {
+
+            /** SharedDeviceAllowlistAction allowed */
+            allowed?: (boolean|null);
+        }
+
+        /** Represents a SharedDeviceAllowlistAction. */
+        class SharedDeviceAllowlistAction implements ISharedDeviceAllowlistAction {
+
+            /**
+             * Constructs a new SharedDeviceAllowlistAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction);
+
+            /** SharedDeviceAllowlistAction allowed. */
+            public allowed?: (boolean|null);
+
+            /**
+             * Creates a new SharedDeviceAllowlistAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns SharedDeviceAllowlistAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Encodes the specified SharedDeviceAllowlistAction message. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceAllowlistAction.verify|verify} messages.
+             * @param message SharedDeviceAllowlistAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified SharedDeviceAllowlistAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceAllowlistAction.verify|verify} messages.
+             * @param message SharedDeviceAllowlistAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.ISharedDeviceAllowlistAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a SharedDeviceAllowlistAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns SharedDeviceAllowlistAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Decodes a SharedDeviceAllowlistAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns SharedDeviceAllowlistAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Verifies a SharedDeviceAllowlistAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a SharedDeviceAllowlistAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns SharedDeviceAllowlistAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.SharedDeviceAllowlistAction;
+
+            /**
+             * Creates a plain object from a SharedDeviceAllowlistAction message. Also converts values to other types if specified.
+             * @param message SharedDeviceAllowlistAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.SharedDeviceAllowlistAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this SharedDeviceAllowlistAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for SharedDeviceAllowlistAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Properties of a StarAction. */
         interface IStarAction {
 
@@ -64413,6 +65081,9 @@ export namespace SyncAction {
         LABEL_SUBLIST_ACTION = 91,
         DEVICE_CAPABILITIES_V2 = 92,
         CTWA_MESSAGE_RECEIVED_ACTION = 93,
+        SHARED_DEVICE_ALLOWLIST_ACTION = 94,
+        CONTACT_MANAGER_METADATA_ACTION = 95,
+        BUSINESS_FOLDER_ACTIVATION_ACTION = 96,
         SHARE_OWN_PN = 10001,
         BUSINESS_BROADCAST_ACTION = 10002,
         AI_THREAD_DELETE_ACTION = 10003
@@ -64584,6 +65255,9 @@ export namespace DeviceCapabilities {
 
             /** AiFbidMigration chatDbMigrationTimestamp */
             chatDbMigrationTimestamp?: (number|Long|null);
+
+            /** AiFbidMigration supportVersion */
+            supportVersion?: (number|null);
         }
 
         /** Represents an AiFbidMigration. */
@@ -64597,6 +65271,9 @@ export namespace DeviceCapabilities {
 
             /** AiFbidMigration chatDbMigrationTimestamp. */
             public chatDbMigrationTimestamp?: (number|Long|null);
+
+            /** AiFbidMigration supportVersion. */
+            public supportVersion?: (number|null);
 
             /**
              * Creates a new AiFbidMigration instance using the specified properties.
@@ -64897,6 +65574,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast recipientLimit */
             recipientLimit?: (number|null);
+
+            /** BusinessBroadcast proCompanionSupportEnabled */
+            proCompanionSupportEnabled?: (boolean|null);
         }
 
         /** Represents a BusinessBroadcast. */
@@ -64922,6 +65602,9 @@ export namespace DeviceCapabilities {
 
             /** BusinessBroadcast recipientLimit. */
             public recipientLimit?: (number|null);
+
+            /** BusinessBroadcast proCompanionSupportEnabled. */
+            public proCompanionSupportEnabled?: (boolean|null);
 
             /**
              * Creates a new BusinessBroadcast instance using the specified properties.

@@ -18,6 +18,754 @@ $root.AICommon = (function() {
      */
     var AICommon = {};
 
+    AICommon.BizAIMetadataSync = (function() {
+
+        /**
+         * Properties of a BizAIMetadataSync.
+         * @memberof AICommon
+         * @interface IBizAIMetadataSync
+         * @property {AICommon.BizAIMetadataSync.IServerEvent|null} [serverEvent] BizAIMetadataSync serverEvent
+         */
+
+        /**
+         * Constructs a new BizAIMetadataSync.
+         * @memberof AICommon
+         * @classdesc Represents a BizAIMetadataSync.
+         * @implements IBizAIMetadataSync
+         * @constructor
+         * @param {AICommon.IBizAIMetadataSync=} [properties] Properties to set
+         */
+        function BizAIMetadataSync(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BizAIMetadataSync serverEvent.
+         * @member {AICommon.BizAIMetadataSync.IServerEvent|null|undefined} serverEvent
+         * @memberof AICommon.BizAIMetadataSync
+         * @instance
+         */
+        BizAIMetadataSync.prototype.serverEvent = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        /**
+         * BizAIMetadataSync operation.
+         * @member {"serverEvent"|undefined} operation
+         * @memberof AICommon.BizAIMetadataSync
+         * @instance
+         */
+        Object.defineProperty(BizAIMetadataSync.prototype, "operation", {
+            get: $util.oneOfGetter($oneOfFields = ["serverEvent"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new BizAIMetadataSync instance using the specified properties.
+         * @function create
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {AICommon.IBizAIMetadataSync=} [properties] Properties to set
+         * @returns {AICommon.BizAIMetadataSync} BizAIMetadataSync instance
+         */
+        BizAIMetadataSync.create = function create(properties) {
+            return new BizAIMetadataSync(properties);
+        };
+
+        /**
+         * Encodes the specified BizAIMetadataSync message. Does not implicitly {@link AICommon.BizAIMetadataSync.verify|verify} messages.
+         * @function encode
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {AICommon.IBizAIMetadataSync} message BizAIMetadataSync message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BizAIMetadataSync.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.serverEvent != null && Object.hasOwnProperty.call(message, "serverEvent"))
+                $root.AICommon.BizAIMetadataSync.ServerEvent.encode(message.serverEvent, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BizAIMetadataSync message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {AICommon.IBizAIMetadataSync} message BizAIMetadataSync message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BizAIMetadataSync.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BizAIMetadataSync message from the specified reader or buffer.
+         * @function decode
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {AICommon.BizAIMetadataSync} BizAIMetadataSync
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BizAIMetadataSync.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AICommon.BizAIMetadataSync();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.serverEvent = $root.AICommon.BizAIMetadataSync.ServerEvent.decode(reader, reader.uint32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BizAIMetadataSync message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {AICommon.BizAIMetadataSync} BizAIMetadataSync
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BizAIMetadataSync.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BizAIMetadataSync message.
+         * @function verify
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BizAIMetadataSync.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.serverEvent != null && message.hasOwnProperty("serverEvent")) {
+                properties.operation = 1;
+                {
+                    var error = $root.AICommon.BizAIMetadataSync.ServerEvent.verify(message.serverEvent);
+                    if (error)
+                        return "serverEvent." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a BizAIMetadataSync message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {AICommon.BizAIMetadataSync} BizAIMetadataSync
+         */
+        BizAIMetadataSync.fromObject = function fromObject(object) {
+            if (object instanceof $root.AICommon.BizAIMetadataSync)
+                return object;
+            var message = new $root.AICommon.BizAIMetadataSync();
+            if (object.serverEvent != null) {
+                if (typeof object.serverEvent !== "object")
+                    throw TypeError(".AICommon.BizAIMetadataSync.serverEvent: object expected");
+                message.serverEvent = $root.AICommon.BizAIMetadataSync.ServerEvent.fromObject(object.serverEvent);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BizAIMetadataSync message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {AICommon.BizAIMetadataSync} message BizAIMetadataSync
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BizAIMetadataSync.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.serverEvent != null && message.hasOwnProperty("serverEvent")) {
+                object.serverEvent = $root.AICommon.BizAIMetadataSync.ServerEvent.toObject(message.serverEvent, options);
+                if (options.oneofs)
+                    object.operation = "serverEvent";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this BizAIMetadataSync to JSON.
+         * @function toJSON
+         * @memberof AICommon.BizAIMetadataSync
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BizAIMetadataSync.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BizAIMetadataSync
+         * @function getTypeUrl
+         * @memberof AICommon.BizAIMetadataSync
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BizAIMetadataSync.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/AICommon.BizAIMetadataSync";
+        };
+
+        BizAIMetadataSync.ServerEvent = (function() {
+
+            /**
+             * Properties of a ServerEvent.
+             * @memberof AICommon.BizAIMetadataSync
+             * @interface IServerEvent
+             * @property {AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent|null} [protocolEvent] ServerEvent protocolEvent
+             * @property {AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted|null} [agentOnboardingStarted] ServerEvent agentOnboardingStarted
+             */
+
+            /**
+             * Constructs a new ServerEvent.
+             * @memberof AICommon.BizAIMetadataSync
+             * @classdesc Represents a ServerEvent.
+             * @implements IServerEvent
+             * @constructor
+             * @param {AICommon.BizAIMetadataSync.IServerEvent=} [properties] Properties to set
+             */
+            function ServerEvent(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ServerEvent protocolEvent.
+             * @member {AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent|null|undefined} protocolEvent
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @instance
+             */
+            ServerEvent.prototype.protocolEvent = null;
+
+            /**
+             * ServerEvent agentOnboardingStarted.
+             * @member {AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted|null|undefined} agentOnboardingStarted
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @instance
+             */
+            ServerEvent.prototype.agentOnboardingStarted = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            /**
+             * ServerEvent event.
+             * @member {"protocolEvent"|"agentOnboardingStarted"|undefined} event
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @instance
+             */
+            Object.defineProperty(ServerEvent.prototype, "event", {
+                get: $util.oneOfGetter($oneOfFields = ["protocolEvent", "agentOnboardingStarted"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new ServerEvent instance using the specified properties.
+             * @function create
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {AICommon.BizAIMetadataSync.IServerEvent=} [properties] Properties to set
+             * @returns {AICommon.BizAIMetadataSync.ServerEvent} ServerEvent instance
+             */
+            ServerEvent.create = function create(properties) {
+                return new ServerEvent(properties);
+            };
+
+            /**
+             * Encodes the specified ServerEvent message. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.verify|verify} messages.
+             * @function encode
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {AICommon.BizAIMetadataSync.IServerEvent} message ServerEvent message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ServerEvent.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.protocolEvent != null && Object.hasOwnProperty.call(message, "protocolEvent"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.protocolEvent);
+                if (message.agentOnboardingStarted != null && Object.hasOwnProperty.call(message, "agentOnboardingStarted"))
+                    $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.encode(message.agentOnboardingStarted, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ServerEvent message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {AICommon.BizAIMetadataSync.IServerEvent} message ServerEvent message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ServerEvent.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ServerEvent message from the specified reader or buffer.
+             * @function decode
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {AICommon.BizAIMetadataSync.ServerEvent} ServerEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ServerEvent.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AICommon.BizAIMetadataSync.ServerEvent();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.protocolEvent = reader.int32();
+                            break;
+                        }
+                    case 2: {
+                            message.agentOnboardingStarted = $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.decode(reader, reader.uint32());
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ServerEvent message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {AICommon.BizAIMetadataSync.ServerEvent} ServerEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ServerEvent.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ServerEvent message.
+             * @function verify
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ServerEvent.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.protocolEvent != null && message.hasOwnProperty("protocolEvent")) {
+                    properties.event = 1;
+                    switch (message.protocolEvent) {
+                    default:
+                        return "protocolEvent: enum value expected";
+                    case 0:
+                    case 1:
+                        break;
+                    }
+                }
+                if (message.agentOnboardingStarted != null && message.hasOwnProperty("agentOnboardingStarted")) {
+                    if (properties.event === 1)
+                        return "event: multiple values";
+                    properties.event = 1;
+                    {
+                        var error = $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.verify(message.agentOnboardingStarted);
+                        if (error)
+                            return "agentOnboardingStarted." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a ServerEvent message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {AICommon.BizAIMetadataSync.ServerEvent} ServerEvent
+             */
+            ServerEvent.fromObject = function fromObject(object) {
+                if (object instanceof $root.AICommon.BizAIMetadataSync.ServerEvent)
+                    return object;
+                var message = new $root.AICommon.BizAIMetadataSync.ServerEvent();
+                switch (object.protocolEvent) {
+                default:
+                    if (typeof object.protocolEvent === "number") {
+                        message.protocolEvent = object.protocolEvent;
+                        break;
+                    }
+                    break;
+                case "UNSPECIFIED":
+                case 0:
+                    message.protocolEvent = 0;
+                    break;
+                case "AGENT_CHAT_READY":
+                case 1:
+                    message.protocolEvent = 1;
+                    break;
+                }
+                if (object.agentOnboardingStarted != null) {
+                    if (typeof object.agentOnboardingStarted !== "object")
+                        throw TypeError(".AICommon.BizAIMetadataSync.ServerEvent.agentOnboardingStarted: object expected");
+                    message.agentOnboardingStarted = $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.fromObject(object.agentOnboardingStarted);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ServerEvent message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {AICommon.BizAIMetadataSync.ServerEvent} message ServerEvent
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ServerEvent.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.protocolEvent != null && message.hasOwnProperty("protocolEvent")) {
+                    object.protocolEvent = options.enums === String ? $root.AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent[message.protocolEvent] === undefined ? message.protocolEvent : $root.AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent[message.protocolEvent] : message.protocolEvent;
+                    if (options.oneofs)
+                        object.event = "protocolEvent";
+                }
+                if (message.agentOnboardingStarted != null && message.hasOwnProperty("agentOnboardingStarted")) {
+                    object.agentOnboardingStarted = $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.toObject(message.agentOnboardingStarted, options);
+                    if (options.oneofs)
+                        object.event = "agentOnboardingStarted";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this ServerEvent to JSON.
+             * @function toJSON
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ServerEvent.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for ServerEvent
+             * @function getTypeUrl
+             * @memberof AICommon.BizAIMetadataSync.ServerEvent
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            ServerEvent.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/AICommon.BizAIMetadataSync.ServerEvent";
+            };
+
+            ServerEvent.AgentOnboardingStarted = (function() {
+
+                /**
+                 * Properties of an AgentOnboardingStarted.
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent
+                 * @interface IAgentOnboardingStarted
+                 * @property {number|Long|null} [composerBlockDurationSecs] AgentOnboardingStarted composerBlockDurationSecs
+                 */
+
+                /**
+                 * Constructs a new AgentOnboardingStarted.
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent
+                 * @classdesc Represents an AgentOnboardingStarted.
+                 * @implements IAgentOnboardingStarted
+                 * @constructor
+                 * @param {AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted=} [properties] Properties to set
+                 */
+                function AgentOnboardingStarted(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * AgentOnboardingStarted composerBlockDurationSecs.
+                 * @member {number|Long|null|undefined} composerBlockDurationSecs
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @instance
+                 */
+                AgentOnboardingStarted.prototype.composerBlockDurationSecs = null;
+
+                // OneOf field names bound to virtual getters and setters
+                var $oneOfFields;
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(AgentOnboardingStarted.prototype, "_composerBlockDurationSecs", {
+                    get: $util.oneOfGetter($oneOfFields = ["composerBlockDurationSecs"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new AgentOnboardingStarted instance using the specified properties.
+                 * @function create
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted=} [properties] Properties to set
+                 * @returns {AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted} AgentOnboardingStarted instance
+                 */
+                AgentOnboardingStarted.create = function create(properties) {
+                    return new AgentOnboardingStarted(properties);
+                };
+
+                /**
+                 * Encodes the specified AgentOnboardingStarted message. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.verify|verify} messages.
+                 * @function encode
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted} message AgentOnboardingStarted message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                AgentOnboardingStarted.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.composerBlockDurationSecs != null && Object.hasOwnProperty.call(message, "composerBlockDurationSecs"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.composerBlockDurationSecs);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified AgentOnboardingStarted message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted} message AgentOnboardingStarted message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                AgentOnboardingStarted.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes an AgentOnboardingStarted message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted} AgentOnboardingStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                AgentOnboardingStarted.decode = function decode(reader, length, error) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.composerBlockDurationSecs = reader.int64();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes an AgentOnboardingStarted message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted} AgentOnboardingStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                AgentOnboardingStarted.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies an AgentOnboardingStarted message.
+                 * @function verify
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                AgentOnboardingStarted.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    var properties = {};
+                    if (message.composerBlockDurationSecs != null && message.hasOwnProperty("composerBlockDurationSecs")) {
+                        properties._composerBlockDurationSecs = 1;
+                        if (!$util.isInteger(message.composerBlockDurationSecs) && !(message.composerBlockDurationSecs && $util.isInteger(message.composerBlockDurationSecs.low) && $util.isInteger(message.composerBlockDurationSecs.high)))
+                            return "composerBlockDurationSecs: integer|Long expected";
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates an AgentOnboardingStarted message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted} AgentOnboardingStarted
+                 */
+                AgentOnboardingStarted.fromObject = function fromObject(object) {
+                    if (object instanceof $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted)
+                        return object;
+                    var message = new $root.AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted();
+                    if (object.composerBlockDurationSecs != null)
+                        if ($util.Long)
+                            (message.composerBlockDurationSecs = $util.Long.fromValue(object.composerBlockDurationSecs)).unsigned = false;
+                        else if (typeof object.composerBlockDurationSecs === "string")
+                            message.composerBlockDurationSecs = parseInt(object.composerBlockDurationSecs, 10);
+                        else if (typeof object.composerBlockDurationSecs === "number")
+                            message.composerBlockDurationSecs = object.composerBlockDurationSecs;
+                        else if (typeof object.composerBlockDurationSecs === "object")
+                            message.composerBlockDurationSecs = new $util.LongBits(object.composerBlockDurationSecs.low >>> 0, object.composerBlockDurationSecs.high >>> 0).toNumber();
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from an AgentOnboardingStarted message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted} message AgentOnboardingStarted
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                AgentOnboardingStarted.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (message.composerBlockDurationSecs != null && message.hasOwnProperty("composerBlockDurationSecs")) {
+                        if (typeof message.composerBlockDurationSecs === "number")
+                            object.composerBlockDurationSecs = options.longs === String ? String(message.composerBlockDurationSecs) : message.composerBlockDurationSecs;
+                        else
+                            object.composerBlockDurationSecs = options.longs === String ? $util.Long.prototype.toString.call(message.composerBlockDurationSecs) : options.longs === Number ? new $util.LongBits(message.composerBlockDurationSecs.low >>> 0, message.composerBlockDurationSecs.high >>> 0).toNumber() : message.composerBlockDurationSecs;
+                        if (options.oneofs)
+                            object._composerBlockDurationSecs = "composerBlockDurationSecs";
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this AgentOnboardingStarted to JSON.
+                 * @function toJSON
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                AgentOnboardingStarted.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for AgentOnboardingStarted
+                 * @function getTypeUrl
+                 * @memberof AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                AgentOnboardingStarted.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted";
+                };
+
+                return AgentOnboardingStarted;
+            })();
+
+            /**
+             * ProtocolEvent enum.
+             * @name AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent
+             * @enum {number}
+             * @property {number} UNSPECIFIED=0 UNSPECIFIED value
+             * @property {number} AGENT_CHAT_READY=1 AGENT_CHAT_READY value
+             */
+            ServerEvent.ProtocolEvent = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNSPECIFIED"] = 0;
+                values[valuesById[1] = "AGENT_CHAT_READY"] = 1;
+                return values;
+            })();
+
+            return ServerEvent;
+        })();
+
+        return BizAIMetadataSync;
+    })();
+
     AICommon.AIProvenance = (function() {
 
         /**
@@ -3422,6 +4170,7 @@ $root.AICommon = (function() {
                 case 55:
                 case 56:
                 case 57:
+                case 58:
                     break;
                 }
             }
@@ -3647,6 +4396,10 @@ $root.AICommon = (function() {
             case "CONTACTS_TAB":
             case 57:
                 message.botEntryPointOrigin = 57;
+                break;
+            case "NEW_3P_AGENT_CREATION":
+            case 58:
+                message.botEntryPointOrigin = 58;
                 break;
             }
             if (object.forwardScore != null)
@@ -8259,6 +9012,7 @@ $root.AICommon = (function() {
          * @property {AICommon.IAISubscriptionUpsellMetadata|null} [subscriptionUpsellMetadata] BotMetadata subscriptionUpsellMetadata
          * @property {AICommon.IBotPttPromptMetadata|null} [pttPromptMetadata] BotMetadata pttPromptMetadata
          * @property {AICommon.IBotHistoryShareMetadata|null} [botHistoryShareMetadata] BotMetadata botHistoryShareMetadata
+         * @property {boolean|null} [responseStoppedByUser] BotMetadata responseStoppedByUser
          * @property {Uint8Array|null} [internalMetadata] BotMetadata internalMetadata
          */
 
@@ -8614,6 +9368,14 @@ $root.AICommon = (function() {
         BotMetadata.prototype.botHistoryShareMetadata = null;
 
         /**
+         * BotMetadata responseStoppedByUser.
+         * @member {boolean|null|undefined} responseStoppedByUser
+         * @memberof AICommon.BotMetadata
+         * @instance
+         */
+        BotMetadata.prototype.responseStoppedByUser = null;
+
+        /**
          * BotMetadata internalMetadata.
          * @member {Uint8Array|null|undefined} internalMetadata
          * @memberof AICommon.BotMetadata
@@ -8877,6 +9639,12 @@ $root.AICommon = (function() {
         });
 
         // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotMetadata.prototype, "_responseStoppedByUser", {
+            get: $util.oneOfGetter($oneOfFields = ["responseStoppedByUser"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
         Object.defineProperty(BotMetadata.prototype, "_internalMetadata", {
             get: $util.oneOfGetter($oneOfFields = ["internalMetadata"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -8990,6 +9758,8 @@ $root.AICommon = (function() {
                 $root.AICommon.BotPttPromptMetadata.encode(message.pttPromptMetadata, writer.uint32(/* id 42, wireType 2 =*/338).fork()).ldelim();
             if (message.botHistoryShareMetadata != null && Object.hasOwnProperty.call(message, "botHistoryShareMetadata"))
                 $root.AICommon.BotHistoryShareMetadata.encode(message.botHistoryShareMetadata, writer.uint32(/* id 43, wireType 2 =*/346).fork()).ldelim();
+            if (message.responseStoppedByUser != null && Object.hasOwnProperty.call(message, "responseStoppedByUser"))
+                writer.uint32(/* id 44, wireType 0 =*/352).bool(message.responseStoppedByUser);
             if (message.internalMetadata != null && Object.hasOwnProperty.call(message, "internalMetadata"))
                 writer.uint32(/* id 999, wireType 2 =*/7994).bytes(message.internalMetadata);
             return writer;
@@ -9194,6 +9964,10 @@ $root.AICommon = (function() {
                     }
                 case 43: {
                         message.botHistoryShareMetadata = $root.AICommon.BotHistoryShareMetadata.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 44: {
+                        message.responseStoppedByUser = reader.bool();
                         break;
                     }
                 case 999: {
@@ -9551,6 +10325,11 @@ $root.AICommon = (function() {
                         return "botHistoryShareMetadata." + error;
                 }
             }
+            if (message.responseStoppedByUser != null && message.hasOwnProperty("responseStoppedByUser")) {
+                properties._responseStoppedByUser = 1;
+                if (typeof message.responseStoppedByUser !== "boolean")
+                    return "responseStoppedByUser: boolean expected";
+            }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 properties._internalMetadata = 1;
                 if (!(message.internalMetadata && typeof message.internalMetadata.length === "number" || $util.isString(message.internalMetadata)))
@@ -9763,6 +10542,8 @@ $root.AICommon = (function() {
                     throw TypeError(".AICommon.BotMetadata.botHistoryShareMetadata: object expected");
                 message.botHistoryShareMetadata = $root.AICommon.BotHistoryShareMetadata.fromObject(object.botHistoryShareMetadata);
             }
+            if (object.responseStoppedByUser != null)
+                message.responseStoppedByUser = Boolean(object.responseStoppedByUser);
             if (object.internalMetadata != null)
                 if (typeof object.internalMetadata === "string")
                     $util.base64.decode(object.internalMetadata, message.internalMetadata = $util.newBuffer($util.base64.length(object.internalMetadata)), 0);
@@ -9993,6 +10774,11 @@ $root.AICommon = (function() {
                 object.botHistoryShareMetadata = $root.AICommon.BotHistoryShareMetadata.toObject(message.botHistoryShareMetadata, options);
                 if (options.oneofs)
                     object._botHistoryShareMetadata = "botHistoryShareMetadata";
+            }
+            if (message.responseStoppedByUser != null && message.hasOwnProperty("responseStoppedByUser")) {
+                object.responseStoppedByUser = message.responseStoppedByUser;
+                if (options.oneofs)
+                    object._responseStoppedByUser = "responseStoppedByUser";
             }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 object.internalMetadata = options.bytes === String ? $util.base64.encode(message.internalMetadata, 0, message.internalMetadata.length) : options.bytes === Array ? Array.prototype.slice.call(message.internalMetadata) : message.internalMetadata;
@@ -10791,6 +11577,7 @@ $root.AICommon = (function() {
          * @memberof AICommon
          * @interface IAIMetadataOperation
          * @property {AICommon.IHatchMetadataSync|null} [hatchMetadataSync] AIMetadataOperation hatchMetadataSync
+         * @property {AICommon.IBizAIMetadataSync|null} [bizAiMetadataSync] AIMetadataOperation bizAiMetadataSync
          */
 
         /**
@@ -10816,12 +11603,26 @@ $root.AICommon = (function() {
          */
         AIMetadataOperation.prototype.hatchMetadataSync = null;
 
+        /**
+         * AIMetadataOperation bizAiMetadataSync.
+         * @member {AICommon.IBizAIMetadataSync|null|undefined} bizAiMetadataSync
+         * @memberof AICommon.AIMetadataOperation
+         * @instance
+         */
+        AIMetadataOperation.prototype.bizAiMetadataSync = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(AIMetadataOperation.prototype, "_hatchMetadataSync", {
             get: $util.oneOfGetter($oneOfFields = ["hatchMetadataSync"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(AIMetadataOperation.prototype, "_bizAiMetadataSync", {
+            get: $util.oneOfGetter($oneOfFields = ["bizAiMetadataSync"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -10851,6 +11652,8 @@ $root.AICommon = (function() {
                 writer = $Writer.create();
             if (message.hatchMetadataSync != null && Object.hasOwnProperty.call(message, "hatchMetadataSync"))
                 $root.AICommon.HatchMetadataSync.encode(message.hatchMetadataSync, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.bizAiMetadataSync != null && Object.hasOwnProperty.call(message, "bizAiMetadataSync"))
+                $root.AICommon.BizAIMetadataSync.encode(message.bizAiMetadataSync, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             return writer;
         };
 
@@ -10889,6 +11692,10 @@ $root.AICommon = (function() {
                 switch (tag >>> 3) {
                 case 1: {
                         message.hatchMetadataSync = $root.AICommon.HatchMetadataSync.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 2: {
+                        message.bizAiMetadataSync = $root.AICommon.BizAIMetadataSync.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -10935,6 +11742,14 @@ $root.AICommon = (function() {
                         return "hatchMetadataSync." + error;
                 }
             }
+            if (message.bizAiMetadataSync != null && message.hasOwnProperty("bizAiMetadataSync")) {
+                properties._bizAiMetadataSync = 1;
+                {
+                    var error = $root.AICommon.BizAIMetadataSync.verify(message.bizAiMetadataSync);
+                    if (error)
+                        return "bizAiMetadataSync." + error;
+                }
+            }
             return null;
         };
 
@@ -10954,6 +11769,11 @@ $root.AICommon = (function() {
                 if (typeof object.hatchMetadataSync !== "object")
                     throw TypeError(".AICommon.AIMetadataOperation.hatchMetadataSync: object expected");
                 message.hatchMetadataSync = $root.AICommon.HatchMetadataSync.fromObject(object.hatchMetadataSync);
+            }
+            if (object.bizAiMetadataSync != null) {
+                if (typeof object.bizAiMetadataSync !== "object")
+                    throw TypeError(".AICommon.AIMetadataOperation.bizAiMetadataSync: object expected");
+                message.bizAiMetadataSync = $root.AICommon.BizAIMetadataSync.fromObject(object.bizAiMetadataSync);
             }
             return message;
         };
@@ -10975,6 +11795,11 @@ $root.AICommon = (function() {
                 object.hatchMetadataSync = $root.AICommon.HatchMetadataSync.toObject(message.hatchMetadataSync, options);
                 if (options.oneofs)
                     object._hatchMetadataSync = "hatchMetadataSync";
+            }
+            if (message.bizAiMetadataSync != null && message.hasOwnProperty("bizAiMetadataSync")) {
+                object.bizAiMetadataSync = $root.AICommon.BizAIMetadataSync.toObject(message.bizAiMetadataSync, options);
+                if (options.oneofs)
+                    object._bizAiMetadataSync = "bizAiMetadataSync";
             }
             return object;
         };
@@ -17942,6 +18767,7 @@ $root.AICommon = (function() {
                     case 67:
                     case 68:
                     case 69:
+                    case 70:
                         break;
                     }
             }
@@ -18251,6 +19077,10 @@ $root.AICommon = (function() {
                     case 69:
                         message.capabilities[i] = 69;
                         break;
+                    case "AI_STOP_GENERATION_ENABLED":
+                    case 70:
+                        message.capabilities[i] = 70;
+                        break;
                     }
             }
             return message;
@@ -18379,6 +19209,7 @@ $root.AICommon = (function() {
          * @property {number} AI_RICH_RESPONSE_ARTIFACTS_ENABLED=67 AI_RICH_RESPONSE_ARTIFACTS_ENABLED value
          * @property {number} AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED=68 AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED value
          * @property {number} AI_RICH_RESPONSE_REMINDERS_ENABLED=69 AI_RICH_RESPONSE_REMINDERS_ENABLED value
+         * @property {number} AI_STOP_GENERATION_ENABLED=70 AI_STOP_GENERATION_ENABLED value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -18452,6 +19283,7 @@ $root.AICommon = (function() {
             values[valuesById[67] = "AI_RICH_RESPONSE_ARTIFACTS_ENABLED"] = 67;
             values[valuesById[68] = "AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED"] = 68;
             values[valuesById[69] = "AI_RICH_RESPONSE_REMINDERS_ENABLED"] = 69;
+            values[valuesById[70] = "AI_STOP_GENERATION_ENABLED"] = 70;
             return values;
         })();
 
@@ -22309,6 +23141,7 @@ $root.AICommon = (function() {
                 case 55:
                 case 56:
                 case 57:
+                case 58:
                     break;
                 }
             }
@@ -22544,6 +23377,10 @@ $root.AICommon = (function() {
             case "CONTACTS_TAB":
             case 57:
                 message.destinationEntryPoint = 57;
+                break;
+            case "NEW_3P_AGENT_CREATION":
+            case 58:
+                message.destinationEntryPoint = 58;
                 break;
             }
             switch (object.threadOrigin) {
@@ -27129,6 +27966,7 @@ $root.AICommon = (function() {
      * @property {number} CHATLIST_SEARCH=55 CHATLIST_SEARCH value
      * @property {number} NEW_CHAT_LIST=56 NEW_CHAT_LIST value
      * @property {number} CONTACTS_TAB=57 CONTACTS_TAB value
+     * @property {number} NEW_3P_AGENT_CREATION=58 NEW_3P_AGENT_CREATION value
      */
     AICommon.BotMetricsEntryPoint = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -27181,6 +28019,7 @@ $root.AICommon = (function() {
         values[valuesById[55] = "CHATLIST_SEARCH"] = 55;
         values[valuesById[56] = "NEW_CHAT_LIST"] = 56;
         values[valuesById[57] = "CONTACTS_TAB"] = 57;
+        values[valuesById[58] = "NEW_3P_AGENT_CREATION"] = 58;
         return values;
     })();
 
