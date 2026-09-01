@@ -96,6 +96,11 @@ jobs:
         run: |
           set -e
 
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK is not set. Skipping Discord notification."
+            exit 0
+          fi
+
           AVATAR_URL="https://avatars.githubusercontent.com/${ACTOR}"
           GITHUB_ICON="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
 
@@ -473,6 +478,11 @@ jobs:
 
         run: |
           set -e
+
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK is not set. Skipping Discord notification."
+            exit 0
+          fi
 
           AVATAR_URL="https://avatars.githubusercontent.com/${ACTOR}"
           GITHUB_ICON="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
