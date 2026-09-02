@@ -1,44 +1,607 @@
-name: Notify Discord Like GitHub App
+name: GitHub Discord Notifications
 
 on:
+  # ------------------------------------------------------------
+  # GitHub activity
+  # ------------------------------------------------------------
+
   push:
     branches:
       - master
+      - main
+      - develop
+
+  pull_request:
+    types:
+      - opened
+      - closed
+      - reopened
+      - synchronize
+      - ready_for_review
+
+  issues:
+    types:
+      - opened
+      - closed
+      - reopened
+
+  release:
+    types:
+      - published
+
+  # ------------------------------------------------------------
+  # CI/CD workflow status
+  # ------------------------------------------------------------
+
+  workflow_run:
+    workflows:
+      - "*"
+    types:
+      - completed
 
 jobs:
-  notify:
+
+  # ============================================================
+  # GITHUB ACTIVITY
+  # ============================================================
+
+  github-activity:
+    name: GitHub Activity
+    if: github.event_name != 'workflow_run'
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+
     steps:
-      - name: Send commit message to Discord (GitHub App style)
+
+      - name: Send GitHub activity to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+
+          EVENT_NAME: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          ACTOR: ${{ github.actor }}
+
+          SERVER_URL: ${{ github.server_url }}
+          SHA: ${{ github.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+
+          COMMITS_JSON: ${{ toJSON(github.event.commits) }}
+
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
+          PR_MERGED: ${{ github.event.pull_request.merged }}
+
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+
+          RELEASE_NAME: ${{ github.event.release.name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+
         run: |
-          COMMIT_URL="${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
-          AVATAR_URL="https://avatars.githubusercontent.com/${{ github.actor }}"
-          CONTENT=$(jq -n \
-            --arg username "${{ github.actor }}" \
-            --arg avatar "$AVATAR_URL" \
-            --arg commit_msg "${{ github.event.head_commit.message }}" \
-            --arg repo "${{ github.repository }}" \
-            --arg branch "${{ github.ref_name }}" \
-            --arg commit_url "$COMMIT_URL" \
-            '{
-              username: "GitHub",
-              avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-              embeds: [
-                {
-                  title: "\($repo): \($branch)",
-                  url: $commit_url,
-                  description: $commit_msg,
-                  color: 7506394,
+          set -e
+
+          AVATAR_URL="https://avatars.githubusercontent.com/${ACTOR}"
+          GITHUB_ICON="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+
+          # ========================================================
+          # PUSH
+          # ========================================================
+
+          if [ "$EVENT_NAME" = "push" ]; then
+
+            COMMIT_URL="${SERVER_URL}/${REPO}/commit/${SHA}"
+
+            if [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+              COMPARE_URL="${SERVER_URL}/${REPO}/commits/${BRANCH}"
+            else
+              COMPARE_URL="${SERVER_URL}/${REPO}/compare/${BEFORE_SHA}...${SHA}"
+            fi
+
+            COMMITS=$(echo "$COMMITS_JSON" | jq -r '
+              map(
+                "• [`\(.id[0:7])`](\(.url)) \(.message | split("\n")[0]) — **\(.author.name)**"
+              )
+              | join("\n")
+            ')
+
+            if [ "${#COMMITS}" -gt 3500 ]; then
+              COMMITS="${COMMITS:0:3450}\n…and more commits."
+            fi
+
+            COMMIT_COUNT=$(echo "$COMMITS_JSON" | jq 'length')
+
+            STATS=$(curl -fsSL \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ github.token }}" \
+              "https://api.github.com/repos/${REPO}/commits/${SHA}" \
+              || echo '{}')
+
+            ADDITIONS=$(echo "$STATS" | jq -r '.stats.additions // 0')
+            DELETIONS=$(echo "$STATS" | jq -r '.stats.deletions // 0')
+            FILES=$(echo "$STATS" | jq -r '.files | length // 0')
+
+            PAYLOAD=$(jq -n \
+              --arg repo "$REPO" \
+              --arg branch "$BRANCH" \
+              --arg actor "$ACTOR" \
+              --arg avatar "$AVATAR_URL" \
+              --arg commits "$COMMITS" \
+              --arg count "$COMMIT_COUNT" \
+              --arg additions "$ADDITIONS" \
+              --arg deletions "$DELETIONS" \
+              --arg files "$FILES" \
+              --arg compare "$COMPARE_URL" \
+              --arg GITHUB_ICON "$GITHUB_ICON" \
+              '{
+                username: "GitHub",
+                avatar_url: $GITHUB_ICON,
+
+                embeds: [{
+                  title: "📦 \($repo) — \($branch)",
+                  url: $compare,
+
+                  description:
+                    "🚀 **\($actor)** pushed **\($count) commit(s)** to `\($branch)`\n\n\($commits)",
+
+                  color: 3066993,
+
                   author: {
-                    name: $username,
+                    name: $actor,
                     icon_url: $avatar
                   },
+
+                  fields: [
+                    {
+                      name: "📁 Files",
+                      value: $files,
+                      inline: true
+                    },
+                    {
+                      name: "➕ Additions",
+                      value: $additions,
+                      inline: true
+                    },
+                    {
+                      name: "➖ Deletions",
+                      value: $deletions,
+                      inline: true
+                    }
+                  ],
+
                   footer: {
-                    text: "Commit by \($username)"
+                    text: "GitHub • Push"
                   }
+                }]
+              }')
+
+          # ========================================================
+          # PULL REQUEST
+          # ========================================================
+
+          elif [ "$EVENT_NAME" = "pull_request" ]; then
+
+            TITLE="$PR_TITLE"
+            URL="$PR_URL"
+
+            if [ "$ACTION" = "opened" ]; then
+              COLOR=10181046
+              EMOJI="🟣"
+              STATUS="opened"
+              FOOTER="GitHub • Pull Request Opened"
+
+            elif [ "$ACTION" = "reopened" ]; then
+              COLOR=3066993
+              EMOJI="🔄"
+              STATUS="reopened"
+              FOOTER="GitHub • Pull Request Reopened"
+
+            elif [ "$ACTION" = "synchronize" ]; then
+              COLOR=3447003
+              EMOJI="🔄"
+              STATUS="received new commits"
+              FOOTER="GitHub • Pull Request Updated"
+
+            elif [ "$ACTION" = "ready_for_review" ]; then
+              COLOR=15844367
+              EMOJI="👀"
+              STATUS="marked this PR ready for review"
+              FOOTER="GitHub • Ready for Review"
+
+            elif [ "$ACTION" = "closed" ] && [ "$PR_MERGED" = "true" ]; then
+              COLOR=5763719
+              EMOJI="🎉"
+              STATUS="merged"
+              FOOTER="GitHub • Pull Request Merged"
+
+            else
+              COLOR=15158332
+              EMOJI="❌"
+              STATUS="closed"
+              FOOTER="GitHub • Pull Request Closed"
+            fi
+
+            BODY="${PR_BODY:-No description provided.}"
+
+            if [ "${#BODY}" -gt 1000 ]; then
+              BODY="${BODY:0:997}..."
+            fi
+
+            PAYLOAD=$(jq -n \
+              --arg title "$TITLE" \
+              --arg url "$URL" \
+              --arg actor "$ACTOR" \
+              --arg avatar "$AVATAR_URL" \
+              --arg status "$STATUS" \
+              --arg body "$BODY" \
+              --arg base "$PR_BASE" \
+              --arg head "$PR_HEAD" \
+              --arg number "$PR_NUMBER" \
+              --arg emoji "$EMOJI" \
+              --arg footer "$FOOTER" \
+              --arg GITHUB_ICON "$GITHUB_ICON" \
+              --argjson color "$COLOR" \
+              '{
+                username: "GitHub",
+                avatar_url: $GITHUB_ICON,
+
+                embeds: [{
+                  title: "\($emoji) Pull Request #\($number): \($title)",
+                  url: $url,
+
+                  description:
+                    "**\($actor)** \($status)\n\n\($body)",
+
+                  color: $color,
+
+                  author: {
+                    name: $actor,
+                    icon_url: $avatar
+                  },
+
+                  fields: [
+                    {
+                      name: "From",
+                      value: "`\($head)`",
+                      inline: true
+                    },
+                    {
+                      name: "Into",
+                      value: "`\($base)`",
+                      inline: true
+                    }
+                  ],
+
+                  footer: {
+                    text: $footer
+                  }
+                }]
+              }')
+
+          # ========================================================
+          # ISSUES
+          # ========================================================
+
+          elif [ "$EVENT_NAME" = "issues" ]; then
+
+            BODY="${ISSUE_BODY:-No description provided.}"
+
+            if [ "${#BODY}" -gt 1500 ]; then
+              BODY="${BODY:0:1497}..."
+            fi
+
+            if [ "$ACTION" = "opened" ]; then
+              COLOR=16776960
+              EMOJI="🐛"
+              STATUS="opened"
+              FOOTER="GitHub • Issue Opened"
+
+            elif [ "$ACTION" = "reopened" ]; then
+              COLOR=3066993
+              EMOJI="🔄"
+              STATUS="reopened"
+              FOOTER="GitHub • Issue Reopened"
+
+            else
+              COLOR=15158332
+              EMOJI="✅"
+              STATUS="closed"
+              FOOTER="GitHub • Issue Closed"
+            fi
+
+            PAYLOAD=$(jq -n \
+              --arg title "$ISSUE_TITLE" \
+              --arg url "$ISSUE_URL" \
+              --arg actor "$ACTOR" \
+              --arg avatar "$AVATAR_URL" \
+              --arg status "$STATUS" \
+              --arg body "$BODY" \
+              --arg number "$ISSUE_NUMBER" \
+              --arg emoji "$EMOJI" \
+              --arg footer "$FOOTER" \
+              --arg GITHUB_ICON "$GITHUB_ICON" \
+              --argjson color "$COLOR" \
+              '{
+                username: "GitHub",
+                avatar_url: $GITHUB_ICON,
+
+                embeds: [{
+                  title: "\($emoji) Issue #\($number): \($title)",
+                  url: $url,
+
+                  description:
+                    "**\($actor)** \($status) this issue.\n\n\($body)",
+
+                  color: $color,
+
+                  author: {
+                    name: $actor,
+                    icon_url: $avatar
+                  },
+
+                  footer: {
+                    text: $footer
+                  }
+                }]
+              }')
+
+          # ========================================================
+          # RELEASE
+          # ========================================================
+
+          elif [ "$EVENT_NAME" = "release" ]; then
+
+            BODY="${RELEASE_BODY:-No release notes provided.}"
+
+            if [ "${#BODY}" -gt 3000 ]; then
+              BODY="${BODY:0:2997}..."
+            fi
+
+            if [ "$RELEASE_PRERELEASE" = "true" ]; then
+              COLOR=15844367
+              EMOJI="🧪"
+              TYPE="Pre-release"
+            else
+              COLOR=16766720
+              EMOJI="🚀"
+              TYPE="Release"
+            fi
+
+            PAYLOAD=$(jq -n \
+              --arg name "$RELEASE_NAME" \
+              --arg tag "$RELEASE_TAG" \
+              --arg url "$RELEASE_URL" \
+              --arg actor "$ACTOR" \
+              --arg avatar "$AVATAR_URL" \
+              --arg body "$BODY" \
+              --arg emoji "$EMOJI" \
+              --arg type "$TYPE" \
+              --arg GITHUB_ICON "$GITHUB_ICON" \
+              --argjson color "$COLOR" \
+              '{
+                username: "GitHub",
+                avatar_url: $GITHUB_ICON,
+
+                embeds: [{
+                  title: "\($emoji) \($type): \($name)",
+                  url: $url,
+
+                  description:
+                    "**\($actor)** published `\($tag)`\n\n\($body)",
+
+                  color: $color,
+
+                  author: {
+                    name: $actor,
+                    icon_url: $avatar
+                  },
+
+                  fields: [{
+                    name: "Tag",
+                    value: "`\($tag)`",
+                    inline: true
+                  }],
+
+                  footer: {
+                    text: "GitHub • Release"
+                  }
+                }]
+              }')
+
+          else
+            echo "Unsupported event: $EVENT_NAME"
+            exit 0
+          fi
+
+          curl -fsSL -X POST \
+            -H "Content-Type: application/json" \
+            --data "$PAYLOAD" \
+            "$DISCORD_WEBHOOK"
+
+          echo "GitHub activity notification sent."
+
+
+  # ============================================================
+  # CI / CD STATUS
+  # ============================================================
+
+  workflow-status:
+    name: CI/CD Status
+
+    if: >
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.name != 'GitHub Discord Notifications'
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Send CI/CD status to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          WORKFLOW_STATUS: ${{ github.event.workflow_run.status }}
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+
+          ACTOR: ${{ github.event.workflow_run.actor.login }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          REPO: ${{ github.repository }}
+
+          EVENT_NAME: ${{ github.event.workflow_run.event }}
+
+          CREATED_AT: ${{ github.event.workflow_run.created_at }}
+          UPDATED_AT: ${{ github.event.workflow_run.updated_at }}
+
+        run: |
+          set -e
+
+          AVATAR_URL="https://avatars.githubusercontent.com/${ACTOR}"
+          GITHUB_ICON="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+
+          SHORT_SHA="${SHA:0:7}"
+
+          # --------------------------------------------------------
+          # Determine status
+          # --------------------------------------------------------
+
+          case "$CONCLUSION" in
+
+            success)
+              COLOR=3066993
+              EMOJI="✅"
+              STATUS="passed"
+              FOOTER="GitHub Actions • Success"
+              ;;
+
+            failure)
+              COLOR=15158332
+              EMOJI="❌"
+              STATUS="failed"
+              FOOTER="GitHub Actions • Failed"
+              ;;
+
+            cancelled)
+              COLOR=9807270
+              EMOJI="⛔"
+              STATUS="cancelled"
+              FOOTER="GitHub Actions • Cancelled"
+              ;;
+
+            skipped)
+              COLOR=9807270
+              EMOJI="⏭️"
+              STATUS="skipped"
+              FOOTER="GitHub Actions • Skipped"
+              ;;
+
+            timed_out)
+              COLOR=15158332
+              EMOJI="⏰"
+              STATUS="timed out"
+              FOOTER="GitHub Actions • Timeout"
+              ;;
+
+            *)
+              COLOR=9807270
+              EMOJI="ℹ️"
+              STATUS="$CONCLUSION"
+              FOOTER="GitHub Actions"
+              ;;
+
+          esac
+
+          # --------------------------------------------------------
+          # Create commit URL
+          # --------------------------------------------------------
+
+          COMMIT_URL="https://github.com/${REPO}/commit/${SHA}"
+
+          # --------------------------------------------------------
+          # Create Discord payload
+          # --------------------------------------------------------
+
+          PAYLOAD=$(jq -n \
+            --arg workflow "$WORKFLOW_NAME" \
+            --arg actor "$ACTOR" \
+            --arg branch "$BRANCH" \
+            --arg sha "$SHORT_SHA" \
+            --arg status "$STATUS" \
+            --arg run_url "$RUN_URL" \
+            --arg commit_url "$COMMIT_URL" \
+            --arg event "$EVENT_NAME" \
+            --arg emoji "$EMOJI" \
+            --arg footer "$FOOTER" \
+            --arg avatar "$AVATAR_URL" \
+            --arg GITHUB_ICON "$GITHUB_ICON" \
+            --argjson color "$COLOR" \
+            '{
+              username: "GitHub Actions",
+              avatar_url: $GITHUB_ICON,
+
+              embeds: [{
+                title: "\($emoji) \($workflow)",
+                url: $run_url,
+
+                description:
+                  "**\($workflow)** \($status)\n\nWorkflow completed for **\($branch)**.",
+
+                color: $color,
+
+                author: {
+                  name: $actor,
+                  icon_url: $avatar
+                },
+
+                fields: [
+                  {
+                    name: "🌿 Branch",
+                    value: "`\($branch)`",
+                    inline: true
+                  },
+                  {
+                    name: "🔖 Commit",
+                    value: "[`\($sha)`](\($commit_url))",
+                    inline: true
+                  },
+                  {
+                    name: "⚡ Event",
+                    value: "`\($event)`",
+                    inline: true
+                  }
+                ],
+
+                footer: {
+                  text: $footer
                 }
-              ]
+              }]
             }')
-          curl -H "Content-Type: application/json" \
-               -d "$CONTENT" \
-               ${{ secrets.DISCORD_WEBHOOK }}
+
+          # --------------------------------------------------------
+          # Send Discord notification
+          # --------------------------------------------------------
+
+          curl -fsSL -X POST \
+            -H "Content-Type: application/json" \
+            --data "$PAYLOAD" \
+            "$DISCORD_WEBHOOK"
+
+          echo "CI/CD notification sent."
