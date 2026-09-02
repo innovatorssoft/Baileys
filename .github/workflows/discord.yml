@@ -105,6 +105,10 @@ jobs:
 
           if [ "$EVENT_NAME" = "push" ]; then
 
+            COLOR=3066993
+            EMOJI="📦"
+            FOOTER="GitHub • Push"
+
             COMMIT_URL="${SERVER_URL}/${REPO}/commit/${SHA}"
 
             if [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
@@ -147,19 +151,22 @@ jobs:
               --arg deletions "$DELETIONS" \
               --arg files "$FILES" \
               --arg compare "$COMPARE_URL" \
+              --arg emoji "$EMOJI" \
+              --arg footer "$FOOTER" \
               --arg GITHUB_ICON "$GITHUB_ICON" \
+              --argjson color "$COLOR" \
               '{
                 username: "GitHub",
                 avatar_url: $GITHUB_ICON,
 
                 embeds: [{
-                  title: "📦 \($repo) — \($branch)",
+                  title: "\($emoji) \($repo) — \($branch)",
                   url: $compare,
 
                   description:
                     "🚀 **\($actor)** pushed **\($count) commit(s)** to `\($branch)`\n\n\($commits)",
 
-                  color: 3066993,
+                  color: $color,
 
                   author: {
                     name: $actor,
@@ -185,7 +192,7 @@ jobs:
                   ],
 
                   footer: {
-                    text: "GitHub • Push"
+                    text: $footer
                   }
                 }]
               }')
