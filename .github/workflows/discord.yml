@@ -105,7 +105,7 @@ jobs:
 
           if [ "$EVENT_NAME" = "push" ]; then
 
-            COLOR=3066993
+            COLOR=2060011
             EMOJI="📦"
             FOOTER="GitHub • Push"
 
@@ -213,31 +213,31 @@ jobs:
               FOOTER="GitHub • Pull Request Opened"
 
             elif [ "$ACTION" = "reopened" ]; then
-              COLOR=3066993
+              COLOR=1096065
               EMOJI="🔄"
               STATUS="reopened"
               FOOTER="GitHub • Pull Request Reopened"
 
             elif [ "$ACTION" = "synchronize" ]; then
-              COLOR=3447003
+              COLOR=3899126
               EMOJI="🔄"
               STATUS="received new commits"
               FOOTER="GitHub • Pull Request Updated"
 
             elif [ "$ACTION" = "ready_for_review" ]; then
-              COLOR=15844367
+              COLOR=16096779
               EMOJI="👀"
               STATUS="marked this PR ready for review"
               FOOTER="GitHub • Ready for Review"
 
             elif [ "$ACTION" = "closed" ] && [ "$PR_MERGED" = "true" ]; then
-              COLOR=5763719
+              COLOR=8999909
               EMOJI="🎉"
               STATUS="merged"
               FOOTER="GitHub • Pull Request Merged"
 
             else
-              COLOR=15158332
+              COLOR=14427686
               EMOJI="❌"
               STATUS="closed"
               FOOTER="GitHub • Pull Request Closed"
@@ -313,19 +313,19 @@ jobs:
             fi
 
             if [ "$ACTION" = "opened" ]; then
-              COLOR=16776960
+              COLOR=16347926
               EMOJI="🐛"
               STATUS="opened"
               FOOTER="GitHub • Issue Opened"
 
             elif [ "$ACTION" = "reopened" ]; then
-              COLOR=3066993
+              COLOR=1357990
               EMOJI="🔄"
               STATUS="reopened"
               FOOTER="GitHub • Issue Reopened"
 
             else
-              COLOR=15158332
+              COLOR=6583435
               EMOJI="✅"
               STATUS="closed"
               FOOTER="GitHub • Issue Closed"
@@ -380,7 +380,7 @@ jobs:
             fi
 
             if [ "$RELEASE_PRERELEASE" = "true" ]; then
-              COLOR=15844367
+              COLOR=14239471
               EMOJI="🧪"
               TYPE="Pre-release"
             else
@@ -493,42 +493,42 @@ jobs:
           case "$CONCLUSION" in
 
             success)
-              COLOR=3066993
+              COLOR=2278750
               EMOJI="✅"
               STATUS="passed"
               FOOTER="GitHub Actions • Success"
               ;;
 
             failure)
-              COLOR=15158332
+              COLOR=15680580
               EMOJI="❌"
               STATUS="failed"
               FOOTER="GitHub Actions • Failed"
               ;;
 
             cancelled)
-              COLOR=9807270
+              COLOR=7899292
               EMOJI="⛔"
               STATUS="cancelled"
               FOOTER="GitHub Actions • Cancelled"
               ;;
 
             skipped)
-              COLOR=9807270
+              COLOR=11583173
               EMOJI="⏭️"
               STATUS="skipped"
               FOOTER="GitHub Actions • Skipped"
               ;;
 
             timed_out)
-              COLOR=15158332
+              COLOR=15358076
               EMOJI="⏰"
               STATUS="timed out"
               FOOTER="GitHub Actions • Timeout"
               ;;
 
             *)
-              COLOR=9807270
+              COLOR=4937059
               EMOJI="ℹ️"
               STATUS="$CONCLUSION"
               FOOTER="GitHub Actions"
