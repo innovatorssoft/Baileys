@@ -1026,10 +1026,13 @@ async function startBot() {
                             isVideo: true,
                             videoSource: targetVideo,
                             audioSource: './audio.mp3',
-                            durationMs: 60 * 1000,
+                            videoFps: 15,
+                            durationMs: 30 * 1000,
                             repeatAudio: true,
                             videoLoop: true
                         });
+
+
                         call.on('ringing', () => console.log(`[Example] Video Call ${call.callId} is ringing...`));
                         call.on('accepted', () => console.log(`[Example] Video Call ${call.callId} accepted by recipient`));
                         call.on('connected', () => console.log(`[Example] Video Call ${call.callId} connected!`));
