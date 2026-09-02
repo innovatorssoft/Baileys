@@ -101,4 +101,41 @@ describe("Video Call Lifecycle & Concurrency Unit Tests", () => {
         expect(call1.ended).toBe(true);
         expect(call2.ended).toBe(true);
     });
+
+    test("Test 5 — isHorizontal flag and orientation options properly configure video orientation", () => {
+        const engine = createMockEngine();
+
+        // Default (vertical / portrait)
+        const verticalCall = new ActiveCall("CALL_V", "111@s.whatsapp.net", engine, {
+            isVideo: true,
+            videoSource: "lavfi:testsrc=size=320x240:rate=15",
+        });
+        expect(verticalCall.isHorizontal).toBe(false);
+        expect(verticalCall._videoOrientation).toBe(0);
+        expect(verticalCall.getSummary().isHorizontal).toBe(false);
+        expect(verticalCall.getSummary().videoOrientation).toBe(0);
+        verticalCall.end();
+
+        // isHorizontal: true (sets orientation to 2)
+        const horizontalCall = new ActiveCall("CALL_H", "222@s.whatsapp.net", engine, {
+            isVideo: true,
+            videoSource: "lavfi:testsrc=size=320x240:rate=15",
+            isHorizontal: true,
+        });
+        expect(horizontalCall.isHorizontal).toBe(true);
+        expect(horizontalCall._videoOrientation).toBe(2);
+        expect(horizontalCall.getSummary().isHorizontal).toBe(true);
+        expect(horizontalCall.getSummary().videoOrientation).toBe(2);
+        horizontalCall.end();
+
+        // Explicit orientation: 1
+        const rotatedCall = new ActiveCall("CALL_R", "333@s.whatsapp.net", engine, {
+            isVideo: true,
+            videoSource: "lavfi:testsrc=size=320x240:rate=15",
+            orientation: 1,
+        });
+        expect(rotatedCall._videoOrientation).toBe(1);
+        expect(rotatedCall.getSummary().videoOrientation).toBe(1);
+        rotatedCall.end();
+    });
 });

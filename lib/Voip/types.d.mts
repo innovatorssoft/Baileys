@@ -33,6 +33,12 @@ export type CallOptions = {
     /** Video frame rate (default: 15). */
     videoFps?: number;
     fps?: number;
+    /** Stream video in horizontal (landscape) orientation if true. (default: false / portrait) */
+    isHorizontal?: boolean;
+    horizontal?: boolean;
+    /** Explicit raw device/video orientation (0 = vertical/portrait, 2 = horizontal/landscape, etc.). */
+    orientation?: number;
+    videoOrientation?: number;
     /** Auto-hangup after N ms (default: 120000). */
     durationMs?: number;
     durationMS?: number;
@@ -72,6 +78,8 @@ export type CallSummary = {
     audioSource: string;
     repeatAudio: boolean;
     isVideo?: boolean;
+    isHorizontal?: boolean;
+    videoOrientation?: number;
     videoSource?: string | null;
 };
 /** Request object for batch call initiation. */

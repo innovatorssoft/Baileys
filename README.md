@@ -3286,6 +3286,7 @@ const videoCall = await sock.initiateCall('1234567890@s.whatsapp.net', {
     videoWidth: 640,            // or width: 640
     videoHeight: 480,           // or height: 480
     videoFps: 15,               // or fps: 15 (default: 15)
+    isHorizontal: false,        // true for horizontal (landscape), false for vertical (portrait)
     durationMs: 30000,
     repeatAudio: true,
     videoLoop: true

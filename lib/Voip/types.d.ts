@@ -23,6 +23,10 @@ export type CallOptions = {
     height?: number;
     videoFps?: number;
     fps?: number;
+    isHorizontal?: boolean;
+    horizontal?: boolean;
+    orientation?: number;
+    videoOrientation?: number;
     durationMs?: number;
     durationMS?: number;
     repeatAudio?: boolean;
@@ -57,6 +61,8 @@ export type CallSummary = {
     audioSource: string;
     repeatAudio: boolean;
     isVideo?: boolean;
+    isHorizontal?: boolean;
+    videoOrientation?: number;
     videoSource?: string | null;
 };
 export type CallRequest = {

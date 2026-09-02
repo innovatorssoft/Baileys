@@ -998,9 +998,26 @@ async function startBot() {
                 }
                 case '!call': {
                     try {
-                        const targetAudio = args && args.trim() ? args.trim() : './audio.mp3';
-                        await sock.sendMessage(normalizedJid, { text: `📞 Initiating voice call (audio: ${targetAudio})...` }, { quoted: message });
-                        const call = await sock.initiateCall(normalizedJid, {
+                        const parts = args && args.trim() ? args.trim().split(/\s+/) : [];
+                        let targetJid = normalizedJid;
+                        let targetAudio = './audio.mp3';
+
+                        if (parts.length > 0) {
+                            if (parts[0].endsWith('.mp3') || parts[0].endsWith('.wav') || parts[0].endsWith('.ogg')) {
+                                targetAudio = parts[0];
+                                if (parts[1]) {
+                                    targetJid = parts[1].includes('@') ? parts[1] : `${parts[1].replace(/\D/g, '')}@s.whatsapp.net`;
+                                }
+                            } else {
+                                targetJid = parts[0].includes('@') ? parts[0] : `${parts[0].replace(/\D/g, '')}@s.whatsapp.net`;
+                                if (parts[1]) {
+                                    targetAudio = parts[1];
+                                }
+                            }
+                        }
+
+                        await sock.sendMessage(normalizedJid, { text: `📞 Initiating voice call to ${targetJid} (audio: ${targetAudio})...` }, { quoted: message });
+                        const call = await sock.initiateCall(targetJid, {
                             audioSource: targetAudio,
                             durationMs: 42 * 1000,
                             repeatAudio: true
@@ -1020,18 +1037,35 @@ async function startBot() {
                 }
                 case '!vcall': {
                     try {
-                        const targetVideo = args && args.trim() ? args.trim() : './example.mp4';
-                        await sock.sendMessage(normalizedJid, { text: `📹 Initiating video call (video: ${targetVideo})...` }, { quoted: message });
-                        const call = await sock.initiateCall(normalizedJid, {
+                        const parts = args && args.trim() ? args.trim().split(/\s+/) : [];
+                        let targetJid = normalizedJid;
+                        let targetVideo = './example.mp4';
+
+                        if (parts.length > 0) {
+                            if (parts[0].endsWith('.mp4') || parts[0].endsWith('.mkv') || parts[0].endsWith('.mov') || parts[0].endsWith('.avi')) {
+                                targetVideo = parts[0];
+                                if (parts[1]) {
+                                    targetJid = parts[1].includes('@') ? parts[1] : `${parts[1].replace(/\D/g, '')}@s.whatsapp.net`;
+                                }
+                            } else {
+                                targetJid = parts[0].includes('@') ? parts[0] : `${parts[0].replace(/\D/g, '')}@s.whatsapp.net`;
+                                if (parts[1]) {
+                                    targetVideo = parts[1];
+                                }
+                            }
+                        }
+
+                        await sock.sendMessage(normalizedJid, { text: `📹 Initiating video call to ${targetJid} (video: ${targetVideo})...` }, { quoted: message });
+                        const call = await sock.initiateCall(targetJid, {
                             isVideo: true,
                             videoSource: targetVideo,
                             audioSource: './audio.mp3',
                             videoFps: 15,
+                            isHorizontal: true, // true for horizontal/landscape, false for vertical/portrait
                             durationMs: 30 * 1000,
                             repeatAudio: true,
                             videoLoop: true
                         });
-
 
                         call.on('ringing', () => console.log(`[Example] Video Call ${call.callId} is ringing...`));
                         call.on('accepted', () => console.log(`[Example] Video Call ${call.callId} accepted by recipient`));
