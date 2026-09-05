@@ -266,7 +266,7 @@ async function startBot() {
                         '!viewonceext  - Send image as view-once V2 Ext',
                         '!interactivemsg - Send custom interactive buttons (text, image, or location)',
                         '!call         - Place a voice call and stream audio',
-                        '!html         - Send interactive rich HTML UI card (GenAI HTML)',
+                        '!html         - Send interactive rich HTML UI card with background audio (GenAI HTML)',
                         '!snake        - Play CyberSnake HTML5 Canvas Game (GenAI HTML)',
                         '!slots        - Play Fruit Bonanza Slots Game (GenAI HTML)',
                         '!page         - Show interactive CyberPulse GenAI sample page (HTML/CSS/JS)',
@@ -1205,37 +1205,143 @@ async function startBot() {
                 case '!html': {
                     try {
                         const userName = message.pushName || 'User';
+                        const audioPath = path.resolve(__dirname, 'audio.mp3');
+                        let audioBase64 = '';
+                        if (fs.existsSync(audioPath)) {
+                            audioBase64 = fs.readFileSync(audioPath).toString('base64');
+                        } else {
+                            const fallbackPath = path.resolve(process.cwd(), 'assets/examples/audio.mp3');
+                            if (fs.existsSync(fallbackPath)) {
+                                audioBase64 = fs.readFileSync(fallbackPath).toString('base64');
+                            }
+                        }
+
                         const customHtml = `
-                            <div style="padding: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: radial-gradient(circle at top right, #1e293b, #0f172a); color: #f8fafc; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                                    <span style="font-size: 24px;">⚡</span>
-                                    <div>
-                                        <h3 style="margin: 0; font-size: 16px; color: #38bdf8;">Innovators Baileys GenAI HTML</h3>
-                                        <p style="margin: 0; font-size: 12px; color: #94a3b8;">Interactive Web Component</p>
+                            <div id="cardContainer" style="padding: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: radial-gradient(circle at top right, #1e293b, #0f172a); color: #f8fafc; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); user-select: none;">
+                                <style>
+                                    @keyframes eqBounce {
+                                        0% { height: 3px; }
+                                        50% { height: 12px; }
+                                        100% { height: 6px; }
+                                    }
+                                    .eq-anim-1 { animation: eqBounce 0.7s ease-in-out infinite alternate; }
+                                    .eq-anim-2 { animation: eqBounce 0.5s ease-in-out infinite alternate 0.2s; }
+                                    .eq-anim-3 { animation: eqBounce 0.8s ease-in-out infinite alternate 0.4s; }
+                                    .eq-paused { animation: none !important; height: 3px !important; }
+                                </style>
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span style="font-size: 24px;">⚡</span>
+                                        <div>
+                                            <h3 style="margin: 0; font-size: 16px; color: #38bdf8;">Innovators Baileys GenAI HTML</h3>
+                                            <p style="margin: 0; font-size: 12px; color: #94a3b8;">Interactive Web Component</p>
+                                        </div>
+                                    </div>
+                                    <div id="audioPill" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); padding: 5px 11px; border-radius: 20px; font-size: 11px; color: #38bdf8; cursor: pointer; transition: all 0.2s ease;">
+                                        <span id="audioIcon">🔊</span>
+                                        <span id="audioStatusText" style="font-weight: 600;">Playing Audio</span>
+                                        <span id="eqBars" style="display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; margin-left: 2px;">
+                                            <span class="eq-bar eq-anim-1" style="width: 2px; height: 10px; background: #38bdf8; border-radius: 1px;"></span>
+                                            <span class="eq-bar eq-anim-2" style="width: 2px; height: 6px; background: #38bdf8; border-radius: 1px;"></span>
+                                            <span class="eq-bar eq-anim-3" style="width: 2px; height: 12px; background: #38bdf8; border-radius: 1px;"></span>
+                                        </span>
                                     </div>
                                 </div>
                                 <div style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; margin-bottom: 12px;">
-                                    <p style="margin: 0; font-size: 13px; color: #cbd5e1;">Welcome, <b>${userName}</b>! This message is rendered dynamically using <code style="color: #f43f5e; background: #27272a; padding: 2px 5px; border-radius: 4px;">sendRichHtml</code>.</p>
+                                    <p style="margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.4;">Welcome, <b>${userName}</b>! This message is rendered dynamically using <code style="color: #f43f5e; background: #27272a; padding: 2px 5px; border-radius: 4px;">sendRichHtml</code> with background audio.</p>
                                 </div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; text-align: center;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; text-align: center;">
                                     <div style="background: #1e3a5f; padding: 8px; border-radius: 8px;">
                                         <div style="font-size: 11px; color: #93c5fd;">STATUS</div>
-                                        <div style="font-size: 14px; font-weight: bold; color: #60a5fa;">Active ✅</div>
+                                        <div style="font-size: 13px; font-weight: bold; color: #60a5fa;">Active ✅</div>
+                                    </div>
+                                    <div style="background: #3b2a54; padding: 8px; border-radius: 8px;">
+                                        <div style="font-size: 11px; color: #d8b4fe;">AUDIO</div>
+                                        <div style="font-size: 13px; font-weight: bold; color: #c084fc;">Playing 🎵</div>
                                     </div>
                                     <div style="background: #064e3b; padding: 8px; border-radius: 8px;">
                                         <div style="font-size: 11px; color: #6ee7b7;">SPEED</div>
-                                        <div style="font-size: 14px; font-weight: bold; color: #34d399;">Fast 🚀</div>
+                                        <div style="font-size: 13px; font-weight: bold; color: #34d399;">Fast 🚀</div>
                                     </div>
                                 </div>
-                                <div style="text-align: center; padding: 8px; background: linear-gradient(135deg, #2563eb, #7c3aed); border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;">
+                                <div id="footerBtn" style="text-align: center; padding: 10px; background: linear-gradient(135deg, #2563eb, #7c3aed); border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
                                     Powered by @innovatorssoft/baileys
                                 </div>
+
+                                <audio id="bgAudio" autoplay loop playsinline preload="auto" style="display: none;">
+                                    <source src="data:audio/mpeg;base64,${audioBase64}" type="audio/mpeg">
+                                    <source src="data:audio/mp3;base64,${audioBase64}" type="audio/mp3">
+                                </audio>
+
+                                <script>
+                                    (function() {
+                                        var audio = document.getElementById('bgAudio');
+                                        var pill = document.getElementById('audioPill');
+                                        var icon = document.getElementById('audioIcon');
+                                        var text = document.getElementById('audioStatusText');
+                                        var bars = document.querySelectorAll('.eq-bar');
+
+                                        function updateUI(isPlaying) {
+                                            if (icon) icon.textContent = isPlaying ? '🔊' : '🔇';
+                                            if (text) text.textContent = isPlaying ? 'Playing Audio' : 'Audio Paused';
+                                            if (pill) {
+                                                pill.style.background = isPlaying ? 'rgba(56, 189, 248, 0.2)' : 'rgba(148, 163, 184, 0.15)';
+                                                pill.style.borderColor = isPlaying ? 'rgba(56, 189, 248, 0.5)' : 'rgba(148, 163, 184, 0.3)';
+                                                pill.style.color = isPlaying ? '#38bdf8' : '#94a3b8';
+                                            }
+                                            bars.forEach(function(b) {
+                                                if (isPlaying) {
+                                                    b.classList.remove('eq-paused');
+                                                } else {
+                                                    b.classList.add('eq-paused');
+                                                }
+                                            });
+                                        }
+
+                                        if (audio) {
+                                            audio.volume = 0.7;
+                                            var playPromise = audio.play();
+                                            if (playPromise !== undefined) {
+                                                playPromise.then(function() {
+                                                    updateUI(true);
+                                                }).catch(function() {
+                                                    // Autoplay policy prevented playback; wait for user touch/click
+                                                    updateUI(false);
+                                                    if (text) text.textContent = 'Tap to Play 🎵';
+                                                    var startPlayback = function() {
+                                                        audio.play().then(function() {
+                                                            updateUI(true);
+                                                        }).catch(function() {});
+                                                        document.removeEventListener('click', startPlayback);
+                                                        document.removeEventListener('touchstart', startPlayback);
+                                                    };
+                                                    document.addEventListener('click', startPlayback);
+                                                    document.addEventListener('touchstart', startPlayback);
+                                                });
+                                            }
+
+                                            if (pill) {
+                                                pill.addEventListener('click', function(e) {
+                                                    e.stopPropagation();
+                                                    if (audio.paused) {
+                                                        audio.play().then(function() {
+                                                            updateUI(true);
+                                                        });
+                                                    } else {
+                                                        audio.pause();
+                                                        updateUI(false);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    })();
+                                </script>
                             </div>
                         `;
 
                         await sock.sendRichHtml(normalizedJid, {
                             id: 'cmd-html',
-                            title: 'Rich HTML UI Card',
+                            title: 'Rich HTML UI Card (with Background Audio)',
                             html: customHtml.trim(),
                             source: 'innovatorssoft'
                         }, message);
