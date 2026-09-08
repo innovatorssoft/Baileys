@@ -75,4 +75,6 @@ export declare const DEFAULT_CACHE_TTLS: {
     MSG_RETRY: number
     CALL_OFFER: number
     USER_DEVICES: number
+    USERNAME: number
+    USERNAME_NEGATIVE: number
 }

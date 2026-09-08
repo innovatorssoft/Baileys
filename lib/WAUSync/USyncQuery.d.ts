@@ -5,6 +5,9 @@ import { USyncUser } from './USyncUser'
 export type USyncQueryResultList = {
     [protocol: string]: unknown
     id: string
+    lid?: string
+    pn?: string
+    error?: { code?: string; text?: string; [key: string]: unknown }
 }
 
 export type USyncQueryResult = {

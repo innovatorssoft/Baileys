@@ -67,8 +67,12 @@ declare const makeWASocket: (config: UserFacingSocketConfig) => {
     sendRichMessage: (jid: string, submessages: any[], quoted?: any, options?: { botJid?: string, mentions?: string[], useMarkdown?: boolean, unifiedResponse?: any, extract?: boolean, hyperlink?: boolean, citation?: boolean, latex?: boolean }) => Promise<{ message: import("../Types").WAProto.IMessage, messageId: string }>
     sendRichHtml: (jid: string, options: string | { id?: string, title?: string, html: string, source?: string, trusted_sources?: string | string[], typename?: string, headerText?: string, footer?: string, botJid?: string, mentions?: string[] }, quoted?: any, additionalOptions?: any) => Promise<{ message: import("../Types").WAProto.IMessage, messageId: string }>
     captureUnifiedResponse: (message: import("../Types").WAProto.IMessage) => { unifiedResponse: { data: Buffer }, submessages: any[], contextInfo: any } | null
-    sendUnifiedResponse: (jid: string, quoted: any, captured: { submessages: any[], unifiedResponse: { data: Buffer } }) => Promise<{ message: import("../Types").WAProto.IMessage, messageId: string }>
-    sendMessage: (jid: string, content: import("../Types").AnyMessageContent, options?: import("../Types").MiscMessageGenerationOptions) => Promise<import("../Types").WAProto.WebMessageInfo | undefined>
+    sendMessage: (jid: import("../Types").MessageTarget, content: import("../Types").AnyMessageContent, options?: import("../Types").MiscMessageGenerationOptions) => Promise<import("../Types").WAProto.WebMessageInfo | undefined>
+    resolveUsername: (username: string) => Promise<import("../Types").UsernameResolutionResult | null>
+    resolveUsernames: (usernames: string[]) => Promise<(import("../Types").UsernameResolutionResult | null)[]>
+    onWhatsAppUsername: (...usernames: string[]) => Promise<import("../Types").UsernameResolutionResult[]>
+    invalidateUsername: (username: string) => Promise<void>
+    refreshUsername: (username: string) => Promise<import("../Types").UsernameResolutionResult | null>
     checkUsername: (username: string, includeSuggestions?: boolean) => Promise<{
         available: boolean
         username: string
