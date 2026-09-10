@@ -297,7 +297,7 @@ describe("WhatsApp Username Support", () => {
             const result1 = await sock.resolveUsername("@javed");
             expect(result1).toEqual({
                 username: "javed",
-                jid: "987654321@lid",
+                jid: "923001234567@s.whatsapp.net",
                 lid: "987654321@lid",
                 pn: "923001234567@s.whatsapp.net"
             });
@@ -318,6 +318,53 @@ describe("WhatsApp Username Support", () => {
             const result3 = await sock.resolveUsername("javed");
             expect(result3).toEqual(result1);
             expect(mockUSync).toHaveBeenCalledTimes(2);
+        });
+
+        test("resolveUsername resolves PN via lidMapping when USync only returns LID", async () => {
+            const mockUSync = jest.fn(async () => ({
+                list: [
+                    {
+                        id: "259631444144377@lid",
+                        lid: "259631444144377@lid"
+                    }
+                ]
+            }));
+
+            mockNewsletterSocket.signalRepository.lidMapping.getPNForLID = jest.fn(async (lid) => {
+                if (lid === "259631444144377@lid") return "923224559543@s.whatsapp.net";
+                return null;
+            });
+
+            const sock = createMockSocket(mockUSync);
+            const res = await sock.resolveUsername("midsoune");
+            expect(res).toEqual({
+                username: "midsoune",
+                jid: "923224559543@s.whatsapp.net",
+                lid: "259631444144377@lid",
+                pn: "923224559543@s.whatsapp.net"
+            });
+        });
+
+        test("resolveUsername falls back to LID for JID when PN is hidden/unavailable", async () => {
+            const mockUSync = jest.fn(async () => ({
+                list: [
+                    {
+                        id: "259631444144377@lid",
+                        lid: "259631444144377@lid"
+                    }
+                ]
+            }));
+
+            mockNewsletterSocket.signalRepository.lidMapping.getPNForLID = jest.fn(async () => null);
+
+            const sock = createMockSocket(mockUSync);
+            const res = await sock.resolveUsername("midsoune");
+            expect(res).toEqual({
+                username: "midsoune",
+                jid: "259631444144377@lid",
+                lid: "259631444144377@lid"
+            });
+            expect(res.pn).toBeUndefined();
         });
 
         test("resolveUsername returns null and caches negative result when user not found", async () => {

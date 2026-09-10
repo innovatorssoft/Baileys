@@ -139,5 +139,7 @@ export type SocketConfig = {
         jid: string
         exists: boolean
         lid?: string
+        pn?: string
+        username?: string
     }[] | undefined>) => SignalRepositoryWithLIDStore
 }

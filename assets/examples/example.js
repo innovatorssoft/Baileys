@@ -48,7 +48,7 @@ async function startBot() {
 
     const sock = makeWASocket({
         auth: state,
-        syncFullHistory: false,
+        syncFullHistory: true,
         logger: require('pino')({ level: 'silent' }),
         markOnlineOnConnect: true
     });
@@ -107,7 +107,7 @@ async function startBot() {
         console.log(`[lid-mapping.update] LID: ${lid} mapped to PN: ${pn}`);
     });
 
-    sock.ev.on('connection.update', (update) => {
+    sock.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect, qr, reachoutTimeLock } = update;
 
         if (reachoutTimeLock?.isActive) {
@@ -131,6 +131,13 @@ async function startBot() {
             console.log('\n======================================');
             console.log('WhatsApp Bot is successfully connected!');
             console.log('======================================\n');
+
+            try {
+                const result = await sock.resolveUsername('midsoune')
+                console.log(result)
+            } catch (err) {
+                console.error('Failed to resolve username:', err);
+            }
         }
     });
 
@@ -254,6 +261,7 @@ async function startBot() {
                         '!setpin       - Set or delete username PIN',
                         '!findusername - Find a user JID by username',
                         '!fetchusernames - Fetch usernames of JIDs',
+                        '!resolveusername - Resolve a username to JID/LID details',
                         '!carousel     - Send an interactive carousel message',
                         '!mediabuttons - Send buttons with media & sections',
                         '!label        - Send text with secure Meta service label',
@@ -643,6 +651,41 @@ async function startBot() {
                         await sock.sendMessage(normalizedJid, { text: responseText.trim() }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error fetching usernames: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!resolveusername': {
+                    const uname = args || 'midsoune';
+                    try {
+                        const result = await sock.resolveUsername(uname);
+                        console.log('Resolved User Names ' + JSON.stringify(result, null, 2));
+                        await sock.sendMessage(normalizedJid, {
+                            text: result ? `🔍 Resolved @${uname}:\n` + JSON.stringify(result, null, 2) : `❌ User @${uname} not found.`
+                        }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error resolving username: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!isonwhatsapp': {
+                    const targets = (args || '169702865256530@lid').trim().split(/\s+/).filter(Boolean);
+                    try {
+                        const result = await sock.onWhatsApp(...targets);
+                        console.log(result);
+
+                        if (!result || result.length === 0) {
+                            await sock.sendMessage(normalizedJid, {
+                                text: `❌ No results found. Target(s) [${targets.join(', ')}] are not registered on WhatsApp.`
+                            }, { quoted: message });
+                            break;
+                        }
+                        let responseText = '📋 On WhatsApp Check Results:\n';
+                        for (const res of result) {
+                            responseText += `• ${res.jid} -> Exists: ${res.exists}, LID: ${res.lid || 'N/A'}, PN: ${res.pn || 'N/A'}, Username: ${res.username || 'N/A'}\n`;
+                        }
+                        await sock.sendMessage(normalizedJid, { text: responseText.trim() }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error checking WhatsApp status: ${err.message}` }, { quoted: message });
                     }
                     break;
                 }
