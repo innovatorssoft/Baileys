@@ -48,7 +48,7 @@ async function startBot() {
 
     const sock = makeWASocket({
         auth: state,
-        syncFullHistory: true,
+        syncFullHistory: false,
         logger: require('pino')({ level: 'silent' }),
         markOnlineOnConnect: true
     });
