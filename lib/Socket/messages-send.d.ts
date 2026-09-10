@@ -1,6 +1,6 @@
 import { Boom } from '@hapi/boom'
 import { proto } from '../../WAProto'
-import { AnyMessageContent, MediaConnInfo, ContactAction, MessageReceiptType, MessageRelayOptions, MiscMessageGenerationOptions, SocketConfig, WAMessageKey } from '../Types'
+import { AnyMessageContent, MediaConnInfo, ContactAction, MessageReceiptType, MessageRelayOptions, MiscMessageGenerationOptions, SocketConfig, WAMessageKey, MessageTarget } from '../Types'
 import { BinaryNode, JidWithDevice } from '../WABinary'
 import { USyncQuery } from '../WAUSync'
 
@@ -27,7 +27,7 @@ export declare const makeMessagesSocket: (config: SocketConfig) => {
     updateMemberLabel: (jid: string, memberLabel: string) => Promise<string>
     updateMediaMessage: (message: proto.IWebMessageInfo) => Promise<proto.IWebMessageInfo>
     sendStatusMentions: (content: import("../Types").WAProto.IMessage, jid: string, Private?: boolean) => Promise<string>
-    sendMessage: (jid: string, content: AnyMessageContent, options?: MiscMessageGenerationOptions) => Promise<proto.WebMessageInfo | undefined>
+    sendMessage: (jid: MessageTarget, content: AnyMessageContent, options?: MiscMessageGenerationOptions) => Promise<proto.WebMessageInfo | undefined>
     subscribeNewsletterUpdates: (jid: string) => Promise<{
         duration: string
     }>

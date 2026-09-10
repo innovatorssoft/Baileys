@@ -163,6 +163,46 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 
 ---
 
+### 5️⃣ Check onWhatsApp (Phone Numbers, LIDs & Usernames)
+
+Verify if phone numbers, LIDs, or usernames are active on WhatsApp, resolving identities and mappings:
+
+```ts
+// Check mixed targets: phone numbers, LIDs, usernames, or target objects
+const results = await sock.onWhatsApp(
+  '+1234567890',
+  '169702865256530@lid',
+  '@midsoune',
+  { type: 'username', username: 'another_user' }
+)
+
+for (const res of results) {
+  console.log(`• JID: ${res.jid} | Exists: ${res.exists} | LID: ${res.lid || 'N/A'} | PN: ${res.pn || 'N/A'} | Username: ${res.username || 'N/A'}`)
+}
+// Outputs:
+// • JID: 1234567890@s.whatsapp.net | Exists: true | LID: 100000002@lid | PN: 1234567890@s.whatsapp.net | Username: N/A
+// • JID: 169702865256530@lid | Exists: true | LID: 169702865256530@lid | PN: N/A | Username: N/A
+// • JID: 923224559543@s.whatsapp.net | Exists: true | LID: 259631444144377@lid | PN: 923224559543@s.whatsapp.net | Username: midsoune
+```
+
+---
+
+### 6️⃣ Resolve WhatsApp Usernames
+
+Resolve WhatsApp usernames to canonical messaging identities with built-in caching and automatic Signal LID ↔ PN store population:
+
+```ts
+// Resolve a single username
+const user = await sock.resolveUsername('midsoune')
+console.log(user)
+// { username: 'midsoune', jid: '923224559543@s.whatsapp.net', lid: '259631444144377@lid', pn: '923224559543@s.whatsapp.net' }
+
+// Bulk resolve multiple usernames
+const users = await sock.resolveUsernames(['midsoune', 'another_user'])
+```
+
+---
+
 ## ✨ Core Features
 
 ### Automation
@@ -180,6 +220,7 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 | 🔘 **Interactive Messages** | Buttons, lists, URL CTAs, Copy CTAs, carousels, native flows |
 | 🧩 **Message Templates** | Variable interpolation with built-in invoice/greeting/support templates |
 | 📦 **Shop & Collection** | Send product catalogs, collection messages, payment requests |
+| 👥 **Username Group Messaging** | Seamless group messaging to groups containing username-based participants or hidden phone numbers |
 
 ### Interactive UI
 | Feature | Description |
@@ -192,6 +233,8 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 ### Utilities
 | Feature | Description |
 |---------|-------------|
+| 🏷️ **Username Resolution** | Resolve WhatsApp usernames (`resolveUsername` / `resolveUsernames`) with caching & Signal store mapping |
+| 🔍 **Enhanced onWhatsApp** | Multi-target directory checks for phone numbers, LIDs (`@lid`), and usernames with device verification |
 | 🔍 **Message Search** | Fast client-side indexing with relevance scoring |
 | 📖 **Read Receipt Controller** | Programmatic blue-tick management with delays & JID exclusions |
 | ⌨️ **Typing Indicator** | Standalone typing simulation without auto-reply |
@@ -220,6 +263,9 @@ await sock.sendMarkdown(jid, '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold
 | Sending Messages (text, media) | ✅ | ✅ |
 | Group Management | ✅ | ✅ |
 | Privacy & Profile | ✅ | ✅ |
+| **WhatsApp Username Resolution** | ❌ | ✅ |
+| **Username-Based Group Messaging** | ❌ | ✅ |
+| **Direct LID onWhatsApp Check** | ❌ | ✅ |
 | **Auto-Reply System** | ❌ | ✅ |
 | **Message Scheduler** | ❌ | ✅ |
 | **Anti-Delete System** | ❌ | ✅ |
@@ -291,9 +337,9 @@ import makeWASocket from '@innovatorssoft/baileys'
 | 🚫 **[Reject Call](#reject-call)** | — |
 | ⌨️ **[Send States in Chat](#send-states-in-chat)** | [Reading Messages](#reading-messages) · [Update Presence](#update-presence) · [Typing Indicator](#typing-indicator) · [Read Receipt Control](#read-receipt-control) |
 | 📁 **[Modifying Chats](#modifying-chats)** | [Archive](#archive-a-chat) · [Mute/Unmute](#muteunmute-a-chat) · [Read/Unread](#mark-a-chat-readunread) · [Delete for Me](#delete-a-message-for-me) · [Delete Chat](#delete-a-chat) · [Pin/Unpin](#pin-a-chat) · [Star/Unstar](#starunstar-a-message) · [Disappearing](#disappearing-messages) · [Clear](#clear-messages) |
-| 🔍 **[User Queries](#user-querys)** | [Check ID](#check-if-id-exists-in-whatsapp) · [Chat History](#query-chat-history-groups-too) · [Fetch Status](#fetch-status) · [Profile Picture](#fetch-profile-picture-groups-too) · [Business Profile](#fetch-bussines-profile-such-as-description-or-category) · [Presence](#fetch-someones-presence-if-theyre-typing-or-online) · [Message Search](#message-search) |
+| 🔍 **[User Queries](#user-querys)** | [Check ID / onWhatsApp](#check-if-id-exists-in-whatsapp) · [Resolve Username](#resolve-whatsapp-usernames) · [Chat History](#query-chat-history-groups-too) · [Fetch Status](#fetch-status) · [Profile Picture](#fetch-profile-picture-groups-too) · [Business Profile](#fetch-bussines-profile-such-as-description-or-category) · [Presence](#fetch-someones-presence-if-theyre-typing-or-online) · [Message Search](#message-search) |
 | 👤 **[Change Profile](#change-profile)** | [Status](#change-profile-status) · [Name](#change-profile-name) · [Display Picture](#change-display-picture-groups-too) · [Panoramic](#panoramic-wide-profile-picture) · [Remove Picture](#remove-display-picture-groups-too) |
-| 👥 **[Groups](#groups)** | [Create](#create-a-group) · [Add/Remove](#addremove-or-demotepromote) · [Subject](#change-subject-name) · [Description](#change-description) · [Settings](#change-settings) · [Leave](#leave-a-group) · [Invite Code](#get-invite-code) · [Revoke](#revoke-invite-code) · [Join Code](#join-using-invitation-code) · [Info by Code](#get-group-info-by-invite-code) · [Metadata](#query-metadata-participants-name-description) · [Join V4](#join-using-groupinvitemessage) · [Request Join](#get-request-join-list) · [Approve/Reject](#approvereject-request-join) · [All Groups](#get-all-participating-groups-metadata) · [Ephemeral](#toggle-ephemeral) · [Add Mode](#change-add-mode) · [Member Label](#update-member-label) |
+| 👥 **[Groups](#groups)** | [Create](#create-a-group) · [Add/Remove](#addremove-or-demotepromote) · [Subject](#change-subject-name) · [Description](#change-description) · [Settings](#change-settings) · [Leave](#leave-a-group) · [Invite Code](#get-invite-code) · [Revoke](#revoke-invite-code) · [Join Code](#join-using-invitation-code) · [Info by Code](#get-group-info-by-invite-code) · [Metadata](#query-metadata-participants-name-description) · [Join V4](#join-using-groupinvitemessage) · [Request Join](#get-request-join-list) · [Approve/Reject](#approvereject-request-join) · [All Groups](#get-all-participating-groups-metadata) · [Ephemeral](#toggle-ephemeral) · [Add Mode](#change-add-mode) · [Member Label](#update-member-label) · [Username Group Messaging](#username-based-participants-in-group-messages) |
 | 🔒 **[Privacy](#privacy)** | [Block/Unblock](#blockunblock-user) · [Settings](#get-privacy-settings) · [BlockList](#get-blocklist) · [LastSeen](#update-lastseen-privacy) · [Online](#update-online-privacy) · [Profile Pic](#update-profile-picture-privacy) · [Status](#update-status-privacy) · [Read Receipts](#update-read-receipts-privacy) · [Groups Add](#update-groups-add-privacy) · [Disappearing Mode](#update-default-disappearing-mode) |
 | 📢 **[Broadcast & Stories](#broadcast-lists--stories)** | [Send](#send-broadcast--stories) · [Query List](#query-a-broadcast-lists-recipients--name) · [Story Posting](#status--story-posting) |
 | 💻 **[Custom Functionality](#writing-custom-functionality)** | [Debug Logs](#enabling-debug-level-in-baileys-logs) · [How WA Communicates](#how-whatsapp-communicate-with-us) · [Websocket Callbacks](#register-a-callback-for-websocket-events) |
@@ -716,11 +762,15 @@ The store also provides some simple functions such as `loadMessages` that utiliz
 ## 🆔 Whatsapp IDs Explain
 
 - `id` is the WhatsApp ID, called `jid` too, of the person or group you're sending the message to. 
-    - It must be in the format ```[country code][phone number]@s.whatsapp.net```
+    - **Phone Number JID (PN):** ```[country code][phone number]@s.whatsapp.net```
 	    - Example for people: ```+19999999999@s.whatsapp.net```. 
-	    - For groups, it must be in the format ``` 123456789-123345@g.us ```. 
-    - For broadcast lists, it's `[timestamp of creation]@broadcast`.
-    - For stories, the ID is `status@broadcast`.
+    - **LID JID (Linked Identity):** ```[account id]@lid```
+        - Example: ```169702865256530@lid```. LIDs are privacy-preserving identifiers used by WhatsApp to decouple user accounts from phone numbers.
+    - **WhatsApp Username:** ```@username``` or ```username```
+        - WhatsApp allows users to establish unique usernames. Usernames can be resolved to canonical messaging identities (PN and/or LID) using `sock.resolveUsername(username)` or checked via `sock.onWhatsApp(username)`.
+    - **Groups:** ```123456789-123345@g.us```.
+    - **Broadcast Lists:** `[timestamp of creation]@broadcast`.
+    - **Status / Stories:** `status@broadcast`.
 
 ## 🛠️ Utility Functions
 
@@ -3564,12 +3614,78 @@ await sock.clearMessage(jid, key, timestamps)
 ## 🔍 User Querys
 
 ### Check If ID Exists in Whatsapp
+
+Use `sock.onWhatsApp(...)` to check whether targets are registered on WhatsApp. It supports **phone numbers**, **LID JIDs** (`@lid`), **WhatsApp usernames** (`@username` or `username`), and **target objects**:
+
 ```ts
-const [result] = await sock.onWhatsApp(jid)
-if (result.exists) console.log (`${jid} exists on WhatsApp, as jid: ${result.jid}`)
-// You can also pass LID users (e.g. xxxxx@lid) to onWhatsApp, and it will return a lid field in the result:
-// { jid: 'xxxxx@lid', exists: true, lid: 'xxxxx@lid' }
+// 1. Check phone numbers
+const [res1] = await sock.onWhatsApp('+1234567890')
+if (res1?.exists) {
+  console.log(`${res1.jid} exists, LID: ${res1.lid || 'N/A'}`)
+}
+
+// 2. Check direct LID users (e.g. 169702865256530@lid)
+// Verified via multi-device status without error; maps local PN if known
+const [res2] = await sock.onWhatsApp('169702865256530@lid')
+if (res2?.exists) {
+  console.log(`LID exists! JID: ${res2.jid}, LID: ${res2.lid}, PN: ${res2.pn || 'N/A'}`)
+}
+
+// 3. Check WhatsApp usernames
+const [res3] = await sock.onWhatsApp('@midsoune')
+if (res3?.exists) {
+  console.log(`Username: ${res3.username}, JID: ${res3.jid}, LID: ${res3.lid}, PN: ${res3.pn || 'N/A'}`)
+}
+
+// 4. Batch query mixed targets & object formats
+const results = await sock.onWhatsApp(
+  '+1234567890',
+  '169702865256530@lid',
+  '@midsoune',
+  { type: 'username', username: 'another_user' },
+  { type: 'lid', lid: '100000001@lid' }
+)
 ```
+
+**Result Object Structure:**
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `jid` | `string` | Canonical messaging JID (mapped phone number if available, otherwise LID or user ID) |
+| `exists` | `boolean` | `true` if the target is registered and active on WhatsApp |
+| `lid` | `string?` | The Linked Identity (LID) JID (`...@lid`) |
+| `pn` | `string?` | The Phone Number JID (`...@s.whatsapp.net`) if known/shared |
+| `username` | `string?` | The resolved username string (for username queries) |
+
+---
+
+### Resolve WhatsApp Usernames
+
+WhatsApp allows users to establish custom usernames. Use `sock.resolveUsername` or `sock.resolveUsernames` to resolve usernames to their canonical WhatsApp identities (`@lid` / `@s.whatsapp.net`):
+
+```ts
+// Resolve a single username (accepts '@username' or 'username')
+const resolution = await sock.resolveUsername('midsoune')
+if (resolution) {
+  console.log(`Username: ${resolution.username}`)
+  console.log(`Canonical Messaging JID: ${resolution.jid}`)
+  console.log(`LID: ${resolution.lid}`)
+  console.log(`Phone Number: ${resolution.pn || 'Hidden / Unavailable'}`)
+
+  // You can now message them directly using their resolved JID
+  await sock.sendMessage(resolution.jid, { text: 'Hello!' })
+} else {
+  console.log('User not found on WhatsApp')
+}
+
+// Bulk resolve multiple usernames efficiently
+const resolutions = await sock.resolveUsernames(['midsoune', 'another_user'])
+```
+
+**Key Highlights:**
+- **Automatic Caching:** Results are cached in memory (`usernameCache`). Positive resolutions cache for 24 hours, and negative/not-found results cache for 5 minutes.
+- **Signal Store Integration:** Successfully resolved LID/PN pairs automatically populate `signalRepository.lidMapping` for persistent cryptographic routing.
+- **Canonical JID Selection:** Prefers phone number (`@s.whatsapp.net`) when available, seamlessly falling back to LID (`@lid`) when phone numbers are hidden by WhatsApp privacy settings.
+- **Error Handling:** Throws `UsernameInvalidError` on invalid username formats (3–30 characters, alphanumeric with `.` `_` `-`).
 
 ### Query Chat History (groups too)
 
@@ -3833,6 +3949,21 @@ await sock.updateMemberLabel(
     groupJid, // must be a group JID
     'VIP Member' // string label, maximum 30 characters
 )
+```
+
+### Username-Based Participants in Group Messages
+
+When sending a message to a WhatsApp group that contains participants represented by usernames or with hidden phone numbers (under LID addressing mode), Baileys automatically:
+1. **Normalizes Identities:** Discovers and normalizes all group participants to canonical WhatsApp identities (`@lid` / `@s.whatsapp.net`).
+2. **Resolves Usernames:** Resolves any username identities in batch via `sock.resolveUsernames` with multi-tier caching (`usernameCache`).
+3. **Multi-Device Resolution:** Queries and maps active devices for all participants.
+4. **Group Sender-Key Encryption:** Automatically distributes and encrypts Signal group sender-keys to ensure all members—including username participants—receive the message seamlessly without failure.
+
+```ts
+// Send a group message normally -- username participants are resolved and encrypted automatically
+await sock.sendMessage(groupJid, {
+    text: 'Hello everyone in the group!'
+})
 ```
 
 ## 👥 Group Status (`groupStatus`)
