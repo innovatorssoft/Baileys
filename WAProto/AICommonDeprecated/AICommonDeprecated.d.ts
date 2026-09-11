@@ -1897,6 +1897,321 @@ export namespace AICommonDeprecated {
 /** Namespace AICommon. */
 export namespace AICommon {
 
+    /** Properties of a BizAIMetadataSync. */
+    interface IBizAIMetadataSync {
+
+        /** BizAIMetadataSync serverEvent */
+        serverEvent?: (AICommon.BizAIMetadataSync.IServerEvent|null);
+    }
+
+    /** Represents a BizAIMetadataSync. */
+    class BizAIMetadataSync implements IBizAIMetadataSync {
+
+        /**
+         * Constructs a new BizAIMetadataSync.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: AICommon.IBizAIMetadataSync);
+
+        /** BizAIMetadataSync serverEvent. */
+        public serverEvent?: (AICommon.BizAIMetadataSync.IServerEvent|null);
+
+        /** BizAIMetadataSync operation. */
+        public operation?: "serverEvent";
+
+        /**
+         * Creates a new BizAIMetadataSync instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns BizAIMetadataSync instance
+         */
+        public static create(properties?: AICommon.IBizAIMetadataSync): AICommon.BizAIMetadataSync;
+
+        /**
+         * Encodes the specified BizAIMetadataSync message. Does not implicitly {@link AICommon.BizAIMetadataSync.verify|verify} messages.
+         * @param message BizAIMetadataSync message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: AICommon.IBizAIMetadataSync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified BizAIMetadataSync message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.verify|verify} messages.
+         * @param message BizAIMetadataSync message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: AICommon.IBizAIMetadataSync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a BizAIMetadataSync message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns BizAIMetadataSync
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BizAIMetadataSync;
+
+        /**
+         * Decodes a BizAIMetadataSync message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns BizAIMetadataSync
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BizAIMetadataSync;
+
+        /**
+         * Verifies a BizAIMetadataSync message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a BizAIMetadataSync message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns BizAIMetadataSync
+         */
+        public static fromObject(object: { [k: string]: any }): AICommon.BizAIMetadataSync;
+
+        /**
+         * Creates a plain object from a BizAIMetadataSync message. Also converts values to other types if specified.
+         * @param message BizAIMetadataSync
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: AICommon.BizAIMetadataSync, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this BizAIMetadataSync to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for BizAIMetadataSync
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    namespace BizAIMetadataSync {
+
+        /** Properties of a ServerEvent. */
+        interface IServerEvent {
+
+            /** ServerEvent protocolEvent */
+            protocolEvent?: (AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent|null);
+
+            /** ServerEvent agentOnboardingStarted */
+            agentOnboardingStarted?: (AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted|null);
+        }
+
+        /** Represents a ServerEvent. */
+        class ServerEvent implements IServerEvent {
+
+            /**
+             * Constructs a new ServerEvent.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: AICommon.BizAIMetadataSync.IServerEvent);
+
+            /** ServerEvent protocolEvent. */
+            public protocolEvent?: (AICommon.BizAIMetadataSync.ServerEvent.ProtocolEvent|null);
+
+            /** ServerEvent agentOnboardingStarted. */
+            public agentOnboardingStarted?: (AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted|null);
+
+            /** ServerEvent event. */
+            public event?: ("protocolEvent"|"agentOnboardingStarted");
+
+            /**
+             * Creates a new ServerEvent instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ServerEvent instance
+             */
+            public static create(properties?: AICommon.BizAIMetadataSync.IServerEvent): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Encodes the specified ServerEvent message. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.verify|verify} messages.
+             * @param message ServerEvent message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: AICommon.BizAIMetadataSync.IServerEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ServerEvent message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.verify|verify} messages.
+             * @param message ServerEvent message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: AICommon.BizAIMetadataSync.IServerEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ServerEvent message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ServerEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Decodes a ServerEvent message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ServerEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Verifies a ServerEvent message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ServerEvent message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ServerEvent
+             */
+            public static fromObject(object: { [k: string]: any }): AICommon.BizAIMetadataSync.ServerEvent;
+
+            /**
+             * Creates a plain object from a ServerEvent message. Also converts values to other types if specified.
+             * @param message ServerEvent
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: AICommon.BizAIMetadataSync.ServerEvent, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ServerEvent to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for ServerEvent
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace ServerEvent {
+
+            /** Properties of an AgentOnboardingStarted. */
+            interface IAgentOnboardingStarted {
+
+                /** AgentOnboardingStarted composerBlockDurationSecs */
+                composerBlockDurationSecs?: (number|Long|null);
+            }
+
+            /** Represents an AgentOnboardingStarted. */
+            class AgentOnboardingStarted implements IAgentOnboardingStarted {
+
+                /**
+                 * Constructs a new AgentOnboardingStarted.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted);
+
+                /** AgentOnboardingStarted composerBlockDurationSecs. */
+                public composerBlockDurationSecs?: (number|Long|null);
+
+                /**
+                 * Creates a new AgentOnboardingStarted instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns AgentOnboardingStarted instance
+                 */
+                public static create(properties?: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Encodes the specified AgentOnboardingStarted message. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.verify|verify} messages.
+                 * @param message AgentOnboardingStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified AgentOnboardingStarted message, length delimited. Does not implicitly {@link AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted.verify|verify} messages.
+                 * @param message AgentOnboardingStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: AICommon.BizAIMetadataSync.ServerEvent.IAgentOnboardingStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes an AgentOnboardingStarted message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns AgentOnboardingStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Decodes an AgentOnboardingStarted message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns AgentOnboardingStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Verifies an AgentOnboardingStarted message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates an AgentOnboardingStarted message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns AgentOnboardingStarted
+                 */
+                public static fromObject(object: { [k: string]: any }): AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted;
+
+                /**
+                 * Creates a plain object from an AgentOnboardingStarted message. Also converts values to other types if specified.
+                 * @param message AgentOnboardingStarted
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: AICommon.BizAIMetadataSync.ServerEvent.AgentOnboardingStarted, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this AgentOnboardingStarted to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for AgentOnboardingStarted
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** ProtocolEvent enum. */
+            enum ProtocolEvent {
+                UNSPECIFIED = 0,
+                AGENT_CHAT_READY = 1
+            }
+        }
+    }
+
     /** Properties of a AIProvenance. */
     interface IAIProvenance {
 
@@ -5010,6 +5325,9 @@ export namespace AICommon {
         /** BotMetadata botHistoryShareMetadata */
         botHistoryShareMetadata?: (AICommon.IBotHistoryShareMetadata|null);
 
+        /** BotMetadata responseStoppedByUser */
+        responseStoppedByUser?: (boolean|null);
+
         /** BotMetadata internalMetadata */
         internalMetadata?: (Uint8Array|null);
     }
@@ -5148,6 +5466,9 @@ export namespace AICommon {
 
         /** BotMetadata botHistoryShareMetadata. */
         public botHistoryShareMetadata?: (AICommon.IBotHistoryShareMetadata|null);
+
+        /** BotMetadata responseStoppedByUser. */
+        public responseStoppedByUser?: (boolean|null);
 
         /** BotMetadata internalMetadata. */
         public internalMetadata?: (Uint8Array|null);
@@ -5544,6 +5865,9 @@ export namespace AICommon {
 
         /** AIMetadataOperation hatchMetadataSync */
         hatchMetadataSync?: (AICommon.IHatchMetadataSync|null);
+
+        /** AIMetadataOperation bizAiMetadataSync */
+        bizAiMetadataSync?: (AICommon.IBizAIMetadataSync|null);
     }
 
     /** Represents a AIMetadataOperation. */
@@ -5557,6 +5881,9 @@ export namespace AICommon {
 
         /** AIMetadataOperation hatchMetadataSync. */
         public hatchMetadataSync?: (AICommon.IHatchMetadataSync|null);
+
+        /** AIMetadataOperation bizAiMetadataSync. */
+        public bizAiMetadataSync?: (AICommon.IBizAIMetadataSync|null);
 
         /**
          * Creates a new AIMetadataOperation instance using the specified properties.
@@ -8295,7 +8622,8 @@ export namespace AICommon {
             RICH_RESPONSE_SPORTS_WIDGET_ENABLED = 66,
             AI_RICH_RESPONSE_ARTIFACTS_ENABLED = 67,
             AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED = 68,
-            AI_RICH_RESPONSE_REMINDERS_ENABLED = 69
+            AI_RICH_RESPONSE_REMINDERS_ENABLED = 69,
+            AI_STOP_GENERATION_ENABLED = 70
         }
     }
 
@@ -11283,7 +11611,8 @@ export namespace AICommon {
         GROUP_MEMBER = 54,
         CHATLIST_SEARCH = 55,
         NEW_CHAT_LIST = 56,
-        CONTACTS_TAB = 57
+        CONTACTS_TAB = 57,
+        NEW_3P_AGENT_CREATION = 58
     }
 }
 

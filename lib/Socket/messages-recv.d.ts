@@ -11,6 +11,13 @@ export declare const makeMessagesRecvSocket: (config: SocketConfig) => {
         to: string
     }>
     initiateCall: (jid: string, options?: WAInitiateCallOptions) => Promise<WAInitiateCallResult>
+    initiateCalls: (requests: Array<{ jid: string; options?: WAInitiateCallOptions }>) => Promise<any[]>
+    getActiveCalls: () => Promise<import('../Voip').CallSummary[]>
+    getCall: (callId: string) => Promise<import('../Voip').ActiveCall | undefined>
+    getActiveCallCount: () => Promise<number>
+    endCall: (callId: string) => Promise<void>
+    endAllCalls: () => Promise<void>
+    setVoipOptions: (options: import('../Voip').VoipConfigOptions) => Promise<void>
     cancelCall: (callId: string, callTo: string) => Promise<void>
     rejectCall: (callId: string, callFrom: string) => Promise<void>
     acceptCall: (callId: string, callFrom: string, isVideo?: boolean) => Promise<void>

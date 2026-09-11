@@ -594,6 +594,7 @@ $root.DeviceCapabilities = (function() {
              * @memberof DeviceCapabilities.DeviceCapabilities
              * @interface IAiFbidMigration
              * @property {number|Long|null} [chatDbMigrationTimestamp] AiFbidMigration chatDbMigrationTimestamp
+             * @property {number|null} [supportVersion] AiFbidMigration supportVersion
              */
 
             /**
@@ -619,12 +620,26 @@ $root.DeviceCapabilities = (function() {
              */
             AiFbidMigration.prototype.chatDbMigrationTimestamp = null;
 
+            /**
+             * AiFbidMigration supportVersion.
+             * @member {number|null|undefined} supportVersion
+             * @memberof DeviceCapabilities.DeviceCapabilities.AiFbidMigration
+             * @instance
+             */
+            AiFbidMigration.prototype.supportVersion = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(AiFbidMigration.prototype, "_chatDbMigrationTimestamp", {
                 get: $util.oneOfGetter($oneOfFields = ["chatDbMigrationTimestamp"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(AiFbidMigration.prototype, "_supportVersion", {
+                get: $util.oneOfGetter($oneOfFields = ["supportVersion"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -654,6 +669,8 @@ $root.DeviceCapabilities = (function() {
                     writer = $Writer.create();
                 if (message.chatDbMigrationTimestamp != null && Object.hasOwnProperty.call(message, "chatDbMigrationTimestamp"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.chatDbMigrationTimestamp);
+                if (message.supportVersion != null && Object.hasOwnProperty.call(message, "supportVersion"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.supportVersion);
                 return writer;
             };
 
@@ -692,6 +709,10 @@ $root.DeviceCapabilities = (function() {
                     switch (tag >>> 3) {
                     case 1: {
                             message.chatDbMigrationTimestamp = reader.uint64();
+                            break;
+                        }
+                    case 2: {
+                            message.supportVersion = reader.uint32();
                             break;
                         }
                     default:
@@ -735,6 +756,11 @@ $root.DeviceCapabilities = (function() {
                     if (!$util.isInteger(message.chatDbMigrationTimestamp) && !(message.chatDbMigrationTimestamp && $util.isInteger(message.chatDbMigrationTimestamp.low) && $util.isInteger(message.chatDbMigrationTimestamp.high)))
                         return "chatDbMigrationTimestamp: integer|Long expected";
                 }
+                if (message.supportVersion != null && message.hasOwnProperty("supportVersion")) {
+                    properties._supportVersion = 1;
+                    if (!$util.isInteger(message.supportVersion))
+                        return "supportVersion: integer expected";
+                }
                 return null;
             };
 
@@ -759,6 +785,8 @@ $root.DeviceCapabilities = (function() {
                         message.chatDbMigrationTimestamp = object.chatDbMigrationTimestamp;
                     else if (typeof object.chatDbMigrationTimestamp === "object")
                         message.chatDbMigrationTimestamp = new $util.LongBits(object.chatDbMigrationTimestamp.low >>> 0, object.chatDbMigrationTimestamp.high >>> 0).toNumber(true);
+                if (object.supportVersion != null)
+                    message.supportVersion = object.supportVersion >>> 0;
                 return message;
             };
 
@@ -782,6 +810,11 @@ $root.DeviceCapabilities = (function() {
                         object.chatDbMigrationTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.chatDbMigrationTimestamp) : options.longs === Number ? new $util.LongBits(message.chatDbMigrationTimestamp.low >>> 0, message.chatDbMigrationTimestamp.high >>> 0).toNumber(true) : message.chatDbMigrationTimestamp;
                     if (options.oneofs)
                         object._chatDbMigrationTimestamp = "chatDbMigrationTimestamp";
+                }
+                if (message.supportVersion != null && message.hasOwnProperty("supportVersion")) {
+                    object.supportVersion = message.supportVersion;
+                    if (options.oneofs)
+                        object._supportVersion = "supportVersion";
                 }
                 return object;
             };
@@ -1302,6 +1335,7 @@ $root.DeviceCapabilities = (function() {
              * @property {boolean|null} [campaignSyncEnabled] BusinessBroadcast campaignSyncEnabled
              * @property {boolean|null} [insightsSyncEnabled] BusinessBroadcast insightsSyncEnabled
              * @property {number|null} [recipientLimit] BusinessBroadcast recipientLimit
+             * @property {boolean|null} [proCompanionSupportEnabled] BusinessBroadcast proCompanionSupportEnabled
              */
 
             /**
@@ -1359,6 +1393,14 @@ $root.DeviceCapabilities = (function() {
              */
             BusinessBroadcast.prototype.recipientLimit = null;
 
+            /**
+             * BusinessBroadcast proCompanionSupportEnabled.
+             * @member {boolean|null|undefined} proCompanionSupportEnabled
+             * @memberof DeviceCapabilities.DeviceCapabilities.BusinessBroadcast
+             * @instance
+             */
+            BusinessBroadcast.prototype.proCompanionSupportEnabled = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -1389,6 +1431,12 @@ $root.DeviceCapabilities = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(BusinessBroadcast.prototype, "_recipientLimit", {
                 get: $util.oneOfGetter($oneOfFields = ["recipientLimit"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessBroadcast.prototype, "_proCompanionSupportEnabled", {
+                get: $util.oneOfGetter($oneOfFields = ["proCompanionSupportEnabled"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -1426,6 +1474,8 @@ $root.DeviceCapabilities = (function() {
                     writer.uint32(/* id 4, wireType 0 =*/32).bool(message.insightsSyncEnabled);
                 if (message.recipientLimit != null && Object.hasOwnProperty.call(message, "recipientLimit"))
                     writer.uint32(/* id 5, wireType 0 =*/40).int32(message.recipientLimit);
+                if (message.proCompanionSupportEnabled != null && Object.hasOwnProperty.call(message, "proCompanionSupportEnabled"))
+                    writer.uint32(/* id 6, wireType 0 =*/48).bool(message.proCompanionSupportEnabled);
                 return writer;
             };
 
@@ -1480,6 +1530,10 @@ $root.DeviceCapabilities = (function() {
                         }
                     case 5: {
                             message.recipientLimit = reader.int32();
+                            break;
+                        }
+                    case 6: {
+                            message.proCompanionSupportEnabled = reader.bool();
                             break;
                         }
                     default:
@@ -1543,6 +1597,11 @@ $root.DeviceCapabilities = (function() {
                     if (!$util.isInteger(message.recipientLimit))
                         return "recipientLimit: integer expected";
                 }
+                if (message.proCompanionSupportEnabled != null && message.hasOwnProperty("proCompanionSupportEnabled")) {
+                    properties._proCompanionSupportEnabled = 1;
+                    if (typeof message.proCompanionSupportEnabled !== "boolean")
+                        return "proCompanionSupportEnabled: boolean expected";
+                }
                 return null;
             };
 
@@ -1568,6 +1627,8 @@ $root.DeviceCapabilities = (function() {
                     message.insightsSyncEnabled = Boolean(object.insightsSyncEnabled);
                 if (object.recipientLimit != null)
                     message.recipientLimit = object.recipientLimit | 0;
+                if (object.proCompanionSupportEnabled != null)
+                    message.proCompanionSupportEnabled = Boolean(object.proCompanionSupportEnabled);
                 return message;
             };
 
@@ -1608,6 +1669,11 @@ $root.DeviceCapabilities = (function() {
                     object.recipientLimit = message.recipientLimit;
                     if (options.oneofs)
                         object._recipientLimit = "recipientLimit";
+                }
+                if (message.proCompanionSupportEnabled != null && message.hasOwnProperty("proCompanionSupportEnabled")) {
+                    object.proCompanionSupportEnabled = message.proCompanionSupportEnabled;
+                    if (options.oneofs)
+                        object._proCompanionSupportEnabled = "proCompanionSupportEnabled";
                 }
                 return object;
             };

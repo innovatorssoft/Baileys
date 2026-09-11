@@ -20,6 +20,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps subscriptionSyncPayload */
         subscriptionSyncPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isBotJidDbMigrated */
+        isBotJidDbMigrated?: (boolean|null);
     }
 
     /** Represents a ClientPairingProps. */
@@ -45,6 +48,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps subscriptionSyncPayload. */
         public subscriptionSyncPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isBotJidDbMigrated. */
+        public isBotJidDbMigrated?: (boolean|null);
 
         /**
          * Creates a new ClientPairingProps instance using the specified properties.

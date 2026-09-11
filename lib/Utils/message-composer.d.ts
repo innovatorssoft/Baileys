@@ -99,8 +99,59 @@ export declare const generateUnifiedResponseContent: (
     captured: { submessages: any[], unifiedResponse: { data: Buffer } }
 ) => { message: proto.IMessage, messageId: string }
 
+export interface InlineEntityItem {
+    key: string
+    metadata: {
+        display_name?: string
+        is_trusted?: boolean
+        url?: string
+        reference_id?: number
+        reference_url?: string
+        reference_title?: string
+        reference_display_name?: string
+        sources?: any[]
+        latex_expression?: string
+        latex_image?: { url?: string, width?: number, height?: number }
+        font_height?: number
+        padding?: number
+        __typename?: string
+    }
+}
+
+export interface ExtractedIE {
+    text: string
+    ie: any[]
+    inline_entities: InlineEntityItem[]
+}
+
+export declare const extractIE: (
+    text: string,
+    options?: { extract?: boolean, hyperlink?: boolean, citation?: boolean, latex?: boolean }
+) => ExtractedIE
+
+export declare const generateMarkdownContent: (
+    text: string,
+    quoted?: any,
+    options?: { botJid?: string, mentions?: string[], extract?: boolean, hyperlink?: boolean, citation?: boolean, latex?: boolean }
+) => { message: proto.IMessage, messageId: string }
+
+export declare const generateRichHtmlContent: (
+    html: string,
+    quoted?: any,
+    options?: { id?: string, title?: string, source?: string, trusted_sources?: string | string[], typename?: string, headerText?: string, footer?: string, botJid?: string, mentions?: string[] }
+) => { message: proto.IMessage, messageId: string }
+
+export declare const sendRichHtml: (
+    socket: any,
+    jid: string,
+    options: { id?: string, title?: string, html: string, source?: string, trusted_sources?: string | string[], typename?: string },
+    quoted?: any,
+    relayOptions?: any
+) => Promise<{ message: proto.IMessage, messageId: string }>
+
 export declare const generateRichMessageContent: (
     submessages: any[],
     quoted?: any,
-    options?: { botJid?: string, mentions?: string[] }
+    options?: { botJid?: string, mentions?: string[], useMarkdown?: boolean, unifiedResponse?: any, extract?: boolean, hyperlink?: boolean, citation?: boolean, latex?: boolean }
 ) => { message: proto.IMessage, messageId: string }
+

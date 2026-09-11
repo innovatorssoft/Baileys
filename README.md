@@ -2475,12 +2475,12 @@ await sock.sendLatexInlineImage(jid, null, {
 
 ### sendMarkdown
 
-Send a rich markdown text message formatted natively via Meta AI primitives:
+Send a rich markdown text message formatted natively via Meta AI primitives (supporting headings, formatting, citations, and clickable hyperlinks `[comment](url)`):
 
 ```js
 await sock.sendMarkdown(
     jid,
-    '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold**!',
+    '# H1\n## H2\n==Highlighted==\n_Italics_ and **Bold**!\n\n🔗 Visit our [Official Website](https://example.com) for more details.',
     null  // quoted message (or null)
 )
 ```
@@ -2546,6 +2546,44 @@ if (captured) {
 ```
 
 `captureUnifiedResponse` returns `null` if the message is not a rich AI response.
+
+---
+
+### sendRichHtml (GenAI Interactive HTML)
+
+Send rich interactive HTML payloads (including full HTML5/CSS/JavaScript interactive web views, canvas games, custom UI cards, dashboards, etc.) directly rendered via WhatsApp's native GenAI UI engine:
+
+```js
+// Option A: Send via socket method
+await sock.sendRichHtml(
+    jid,
+    {
+        id: 'dashboard-001',
+        title: 'Sales Dashboard',
+        html: `
+            <div style="padding: 16px; font-family: sans-serif; background: #0f172a; color: #fff; border-radius: 12px;">
+                <h2 style="color: #38bdf8; margin: 0 0 8px;">🚀 Q3 Performance</h2>
+                <p style="color: #94a3b8; font-size: 14px;">Total Revenue: <b style="color: #4ade80;">$124,500</b> (+18%)</p>
+                <div style="background: #1e293b; padding: 10px; border-radius: 8px; margin-top: 10px; text-align: center;">
+                    <span style="color: #facc15; font-weight: bold;">Conversion Rate: 4.8%</span>
+                </div>
+            </div>
+        `,
+        source: 'dashboard_service' // optional trusted source identifier
+    },
+    null // optional quoted message
+)
+
+// Option B: Import and use standalone function
+import { sendRichHtml } from '@innovatorssoft/baileys'
+
+await sendRichHtml(sock, jid, {
+    id: 'interactive-card',
+    title: 'Interactive Card',
+    html: `<div style="padding: 15px; background: #2563eb; color: #fff; border-radius: 10px;">Hello from Rich HTML!</div>`,
+    source: 'custom_source'
+})
+```
 
 ---
 
@@ -3266,29 +3304,105 @@ sock.ev.on('messages.upsert', async ({ [m] }) => {
 await sock.updateMediaMessage(msg)
 ```
 
-## 📞 Initiate Voice Call & Stream Audio
+## 📞 Initiate Voice & Video Call & Stream Audio (Single & Concurrent)
 
-- Initiates an outgoing WhatsApp voice call with WebAssembly audio transport
-- Streams audio files (MP3/WAV/etc.) via FFmpeg into 16 kHz Float32 PCM WASM audio engine
-- Emits real-time call lifecycle events (`ringing`, `connected`, `audio`, `ended`, `error`)
+- Initiates single or **multiple simultaneous concurrent outgoing WhatsApp voice calls** with WebAssembly VoIP audio transport
+- Streams audio files (MP3/WAV/etc.) via FFmpeg into isolated 16 kHz Float32 PCM audio pipelines
+- Completely isolated per-call state machines, AudioFeeders, duration limits, and repeat cycles
+- Seamless audio repetition (`repeatAudio: true`) with accurate duration limit (`durationMs`)
+- Emits real-time call lifecycle events (`ringing`, `accepted`, `connected`, `audioReady`, `streaming`, `audio`, `ended`, `error`, `stateChange`)
 
+### Single Call
 ```ts
 // Place a voice call and stream an audio file:
 const call = await sock.initiateCall(jid, {
     audioSource: './hello.mp3', // MP3/WAV file path or "silence"
-    durationMs: 30000          // Optional duration in ms
+    durationMs: 30000,         // Maximum playback duration in ms
+    repeatAudio: true,         // Loop audio seamlessly until durationMs is reached
+    preRingingTimeoutMs: 20000 // Timeout if recipient never reaches ringing
 })
 
-call.on('ringing', () => console.log('Call is ringing...'))
-call.on('connected', () => console.log('Connected & streaming audio!'))
+call.on('ringing', () => console.log(`[${call.callId}] Remote device is ringing...`))
+call.on('accepted', () => console.log(`[${call.callId}] Call answered!`))
+call.on('connected', () => console.log(`[${call.callId}] Media connection established!`))
+call.on('audioReady', () => console.log(`[${call.callId}] Audio pipeline ready!`))
+call.on('streaming', () => console.log(`[${call.callId}] Audio streaming started!`))
 call.on('audio', (pcmChunk) => { /* Incoming 16 kHz Float32Array PCM */ })
-call.on('ended', (reason) => console.log('Call ended:', reason))
-call.on('error', (err) => console.error('Call error:', err))
+call.on('ended', (reason) => console.log(`[${call.callId}] Call ended:`, reason))
+call.on('error', (err) => console.error(`[${call.callId}] Call error:`, err))
+```
 
-// Or simple signaling only:
-const result = await sock.offerCall(jid, isVideo)
-// Cancel an outgoing call:
-await sock.cancelCall(callId, jid)
+### Concurrent Calls
+```ts
+// Option A: Initiate concurrent calls via Promise.all
+const calls = await Promise.all([
+    sock.initiateCall('1234567890@s.whatsapp.net', { audioSource: './audio1.mp3', durationMs: 30000 }),
+    sock.initiateCall('9876543210@s.whatsapp.net', { audioSource: './audio2.mp3', durationMs: 45000, repeatAudio: true }),
+    sock.initiateCall('1122334455@s.whatsapp.net', { audioSource: './audio3.mp3', durationMs: 60000 })
+])
+
+// Option B: Initiate batch concurrent calls
+const batchCalls = await sock.initiateCalls([
+    { jid: '1234567890@s.whatsapp.net', options: { audioSource: './audio1.mp3', durationMs: 30000 } },
+    { jid: '9876543210@s.whatsapp.net', options: { audioSource: './audio2.mp3', durationMs: 45000 } }
+])
+
+// Manage Active Calls:
+const activeSummaries = await sock.getActiveCalls()
+console.log(`Active calls count: ${await sock.getActiveCallCount()}`)
+
+// Terminate a single specific call:
+await sock.endCall(calls[0].callId)
+
+// Terminate all active calls:
+await sock.endAllCalls()
+
+// Configure Socket-Level VoIP limits:
+await sock.setVoipOptions({
+    maxConcurrentCalls: 10
+})
+
+// Or standalone VoipClient:
+import { VoipClient } from '@innovatorssoft/baileys/lib/Voip/index.mjs'
+const voip = new VoipClient({ authDir: './auth_info', maxConcurrentCalls: 10 })
+await voip.connect()
+const activeCall = await voip.call('1234567890', {
+    audioSource: './announcement.mp3',
+    durationMs: 45000,
+    repeatAudio: true
+})
+```
+
+### Video Calls
+
+```ts
+// Initiate a video call
+const videoCall = await sock.initiateCall('1234567890@s.whatsapp.net', {
+    isVideo: true,
+    videoSource: './video.mp4',
+    audioSource: './audio.mp3', // or 'silence' or './video.mp4'
+    videoWidth: 640,            // or width: 640
+    videoHeight: 480,           // or height: 480
+    videoFps: 15,               // or fps: 15 (default: 15)
+    isHorizontal: false,        // true for horizontal (landscape), false for vertical (portrait)
+    durationMs: 30000,
+    repeatAudio: true,
+    videoLoop: true
+})
+
+// Listen for events
+videoCall.on('ringing', () => console.log(`[${videoCall.callId}] Video Call is ringing...`))
+videoCall.on('accepted', () => console.log(`[${videoCall.callId}] Video Call accepted by recipient`))
+videoCall.on('connected', () => console.log(`[${videoCall.callId}] Video Call connected!`))
+videoCall.on('videoStarted', () => console.log(`[${videoCall.callId}] Video stream started`))
+videoCall.on('videoEnded', () => console.log(`[${videoCall.callId}] Video stream ended`))
+videoCall.on('audioReady', () => console.log(`[${videoCall.callId}] Audio pipeline ready!`))
+videoCall.on('streaming', () => console.log(`[${videoCall.callId}] Streaming media`))
+videoCall.on('ended', (reason) => console.log(`[${videoCall.callId}] Video Call ended:`, reason))
+videoCall.on('error', (err) => console.error(`[${videoCall.callId}] Video Call error:`, err))
+
+// End the call
+await sock.endCall(videoCall.callId)
 ```
 
 ## 🚫 Reject Call

@@ -3,6 +3,25 @@ package AICommon;
 
 import "../Protocol/Protocol.proto";
 
+message BizAIMetadataSync {
+    oneof operation {
+        BizAIMetadataSync.ServerEvent serverEvent = 1;
+    }
+    message ServerEvent {
+        oneof event {
+            BizAIMetadataSync.ServerEvent.ProtocolEvent protocolEvent = 1;
+            BizAIMetadataSync.ServerEvent.AgentOnboardingStarted agentOnboardingStarted = 2;
+        }
+        message AgentOnboardingStarted {
+            optional int64 composerBlockDurationSecs = 1;
+        }
+        enum ProtocolEvent {
+            UNSPECIFIED = 0;
+            AGENT_CHAT_READY = 1;
+        }
+    }
+}
+
 message AIProvenance {
     optional Metadata c2PaMetadata = 1;
     optional Metadata iptcMetadata = 2;
@@ -241,6 +260,7 @@ message BotMetadata {
     optional AISubscriptionUpsellMetadata subscriptionUpsellMetadata = 41;
     optional BotPttPromptMetadata pttPromptMetadata = 42;
     optional BotHistoryShareMetadata botHistoryShareMetadata = 43;
+    optional bool responseStoppedByUser = 44;
     optional bytes internalMetadata = 999;
 }
 
@@ -261,6 +281,7 @@ message BotCommandMetadata {
 
 message AIMetadataOperation {
     optional HatchMetadataSync hatchMetadataSync = 1;
+    optional BizAIMetadataSync bizAiMetadataSync = 2;
 }
 
 message HatchMetadataSync {
@@ -495,6 +516,7 @@ message BotCapabilityMetadata {
         AI_RICH_RESPONSE_ARTIFACTS_ENABLED = 67;
         AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED = 68;
         AI_RICH_RESPONSE_REMINDERS_ENABLED = 69;
+        AI_STOP_GENERATION_ENABLED = 70;
     }
 }
 
@@ -803,4 +825,5 @@ enum BotMetricsEntryPoint {
     CHATLIST_SEARCH = 55;
     NEW_CHAT_LIST = 56;
     CONTACTS_TAB = 57;
+    NEW_3P_AGENT_CREATION = 58;
 }

@@ -1106,6 +1106,9 @@ $root.SyncAction = (function() {
          * @property {SyncAction.SyncActionValue.ILabelSublistAction|null} [labelSublistAction] SyncActionValue labelSublistAction
          * @property {DeviceCapabilities.IDeviceCapabilities|null} [deviceCapabilitiesV2] SyncActionValue deviceCapabilitiesV2
          * @property {SyncAction.SyncActionValue.ICtwaMessageReceivedAction|null} [ctwaMessageReceivedAction] SyncActionValue ctwaMessageReceivedAction
+         * @property {SyncAction.SyncActionValue.ISharedDeviceAllowlistAction|null} [sharedDeviceAllowlistAction] SyncActionValue sharedDeviceAllowlistAction
+         * @property {SyncAction.SyncActionValue.IContactManagerMetadataAction|null} [contactManagerMetadataAction] SyncActionValue contactManagerMetadataAction
+         * @property {SyncAction.SyncActionValue.IBusinessFolderActivationAction|null} [businessFolderActivationAction] SyncActionValue businessFolderActivationAction
          */
 
         /**
@@ -1795,6 +1798,30 @@ $root.SyncAction = (function() {
          */
         SyncActionValue.prototype.ctwaMessageReceivedAction = null;
 
+        /**
+         * SyncActionValue sharedDeviceAllowlistAction.
+         * @member {SyncAction.SyncActionValue.ISharedDeviceAllowlistAction|null|undefined} sharedDeviceAllowlistAction
+         * @memberof SyncAction.SyncActionValue
+         * @instance
+         */
+        SyncActionValue.prototype.sharedDeviceAllowlistAction = null;
+
+        /**
+         * SyncActionValue contactManagerMetadataAction.
+         * @member {SyncAction.SyncActionValue.IContactManagerMetadataAction|null|undefined} contactManagerMetadataAction
+         * @memberof SyncAction.SyncActionValue
+         * @instance
+         */
+        SyncActionValue.prototype.contactManagerMetadataAction = null;
+
+        /**
+         * SyncActionValue businessFolderActivationAction.
+         * @member {SyncAction.SyncActionValue.IBusinessFolderActivationAction|null|undefined} businessFolderActivationAction
+         * @memberof SyncAction.SyncActionValue
+         * @instance
+         */
+        SyncActionValue.prototype.businessFolderActivationAction = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -2302,6 +2329,24 @@ $root.SyncAction = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SyncActionValue.prototype, "_sharedDeviceAllowlistAction", {
+            get: $util.oneOfGetter($oneOfFields = ["sharedDeviceAllowlistAction"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SyncActionValue.prototype, "_contactManagerMetadataAction", {
+            get: $util.oneOfGetter($oneOfFields = ["contactManagerMetadataAction"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SyncActionValue.prototype, "_businessFolderActivationAction", {
+            get: $util.oneOfGetter($oneOfFields = ["businessFolderActivationAction"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new SyncActionValue instance using the specified properties.
          * @function create
@@ -2494,6 +2539,12 @@ $root.SyncAction = (function() {
                 $root.DeviceCapabilities.DeviceCapabilities.encode(message.deviceCapabilitiesV2, writer.uint32(/* id 92, wireType 2 =*/738).fork()).ldelim();
             if (message.ctwaMessageReceivedAction != null && Object.hasOwnProperty.call(message, "ctwaMessageReceivedAction"))
                 $root.SyncAction.SyncActionValue.CtwaMessageReceivedAction.encode(message.ctwaMessageReceivedAction, writer.uint32(/* id 93, wireType 2 =*/746).fork()).ldelim();
+            if (message.sharedDeviceAllowlistAction != null && Object.hasOwnProperty.call(message, "sharedDeviceAllowlistAction"))
+                $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction.encode(message.sharedDeviceAllowlistAction, writer.uint32(/* id 94, wireType 2 =*/754).fork()).ldelim();
+            if (message.contactManagerMetadataAction != null && Object.hasOwnProperty.call(message, "contactManagerMetadataAction"))
+                $root.SyncAction.SyncActionValue.ContactManagerMetadataAction.encode(message.contactManagerMetadataAction, writer.uint32(/* id 95, wireType 2 =*/762).fork()).ldelim();
+            if (message.businessFolderActivationAction != null && Object.hasOwnProperty.call(message, "businessFolderActivationAction"))
+                $root.SyncAction.SyncActionValue.BusinessFolderActivationAction.encode(message.businessFolderActivationAction, writer.uint32(/* id 96, wireType 2 =*/770).fork()).ldelim();
             return writer;
         };
 
@@ -2864,6 +2915,18 @@ $root.SyncAction = (function() {
                     }
                 case 93: {
                         message.ctwaMessageReceivedAction = $root.SyncAction.SyncActionValue.CtwaMessageReceivedAction.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 94: {
+                        message.sharedDeviceAllowlistAction = $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 95: {
+                        message.contactManagerMetadataAction = $root.SyncAction.SyncActionValue.ContactManagerMetadataAction.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 96: {
+                        message.businessFolderActivationAction = $root.SyncAction.SyncActionValue.BusinessFolderActivationAction.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -3571,6 +3634,30 @@ $root.SyncAction = (function() {
                         return "ctwaMessageReceivedAction." + error;
                 }
             }
+            if (message.sharedDeviceAllowlistAction != null && message.hasOwnProperty("sharedDeviceAllowlistAction")) {
+                properties._sharedDeviceAllowlistAction = 1;
+                {
+                    var error = $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction.verify(message.sharedDeviceAllowlistAction);
+                    if (error)
+                        return "sharedDeviceAllowlistAction." + error;
+                }
+            }
+            if (message.contactManagerMetadataAction != null && message.hasOwnProperty("contactManagerMetadataAction")) {
+                properties._contactManagerMetadataAction = 1;
+                {
+                    var error = $root.SyncAction.SyncActionValue.ContactManagerMetadataAction.verify(message.contactManagerMetadataAction);
+                    if (error)
+                        return "contactManagerMetadataAction." + error;
+                }
+            }
+            if (message.businessFolderActivationAction != null && message.hasOwnProperty("businessFolderActivationAction")) {
+                properties._businessFolderActivationAction = 1;
+                {
+                    var error = $root.SyncAction.SyncActionValue.BusinessFolderActivationAction.verify(message.businessFolderActivationAction);
+                    if (error)
+                        return "businessFolderActivationAction." + error;
+                }
+            }
             return null;
         };
 
@@ -4010,6 +4097,21 @@ $root.SyncAction = (function() {
                     throw TypeError(".SyncAction.SyncActionValue.ctwaMessageReceivedAction: object expected");
                 message.ctwaMessageReceivedAction = $root.SyncAction.SyncActionValue.CtwaMessageReceivedAction.fromObject(object.ctwaMessageReceivedAction);
             }
+            if (object.sharedDeviceAllowlistAction != null) {
+                if (typeof object.sharedDeviceAllowlistAction !== "object")
+                    throw TypeError(".SyncAction.SyncActionValue.sharedDeviceAllowlistAction: object expected");
+                message.sharedDeviceAllowlistAction = $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction.fromObject(object.sharedDeviceAllowlistAction);
+            }
+            if (object.contactManagerMetadataAction != null) {
+                if (typeof object.contactManagerMetadataAction !== "object")
+                    throw TypeError(".SyncAction.SyncActionValue.contactManagerMetadataAction: object expected");
+                message.contactManagerMetadataAction = $root.SyncAction.SyncActionValue.ContactManagerMetadataAction.fromObject(object.contactManagerMetadataAction);
+            }
+            if (object.businessFolderActivationAction != null) {
+                if (typeof object.businessFolderActivationAction !== "object")
+                    throw TypeError(".SyncAction.SyncActionValue.businessFolderActivationAction: object expected");
+                message.businessFolderActivationAction = $root.SyncAction.SyncActionValue.BusinessFolderActivationAction.fromObject(object.businessFolderActivationAction);
+            }
             return message;
         };
 
@@ -4448,6 +4550,21 @@ $root.SyncAction = (function() {
                 object.ctwaMessageReceivedAction = $root.SyncAction.SyncActionValue.CtwaMessageReceivedAction.toObject(message.ctwaMessageReceivedAction, options);
                 if (options.oneofs)
                     object._ctwaMessageReceivedAction = "ctwaMessageReceivedAction";
+            }
+            if (message.sharedDeviceAllowlistAction != null && message.hasOwnProperty("sharedDeviceAllowlistAction")) {
+                object.sharedDeviceAllowlistAction = $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction.toObject(message.sharedDeviceAllowlistAction, options);
+                if (options.oneofs)
+                    object._sharedDeviceAllowlistAction = "sharedDeviceAllowlistAction";
+            }
+            if (message.contactManagerMetadataAction != null && message.hasOwnProperty("contactManagerMetadataAction")) {
+                object.contactManagerMetadataAction = $root.SyncAction.SyncActionValue.ContactManagerMetadataAction.toObject(message.contactManagerMetadataAction, options);
+                if (options.oneofs)
+                    object._contactManagerMetadataAction = "contactManagerMetadataAction";
+            }
+            if (message.businessFolderActivationAction != null && message.hasOwnProperty("businessFolderActivationAction")) {
+                object.businessFolderActivationAction = $root.SyncAction.SyncActionValue.BusinessFolderActivationAction.toObject(message.businessFolderActivationAction, options);
+                if (options.oneofs)
+                    object._businessFolderActivationAction = "businessFolderActivationAction";
             }
             return object;
         };
@@ -8561,6 +8678,224 @@ $root.SyncAction = (function() {
             return BusinessBroadcastListAction;
         })();
 
+        SyncActionValue.BusinessFolderActivationAction = (function() {
+
+            /**
+             * Properties of a BusinessFolderActivationAction.
+             * @memberof SyncAction.SyncActionValue
+             * @interface IBusinessFolderActivationAction
+             * @property {boolean|null} [activated] BusinessFolderActivationAction activated
+             */
+
+            /**
+             * Constructs a new BusinessFolderActivationAction.
+             * @memberof SyncAction.SyncActionValue
+             * @classdesc Represents a BusinessFolderActivationAction.
+             * @implements IBusinessFolderActivationAction
+             * @constructor
+             * @param {SyncAction.SyncActionValue.IBusinessFolderActivationAction=} [properties] Properties to set
+             */
+            function BusinessFolderActivationAction(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * BusinessFolderActivationAction activated.
+             * @member {boolean|null|undefined} activated
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @instance
+             */
+            BusinessFolderActivationAction.prototype.activated = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessFolderActivationAction.prototype, "_activated", {
+                get: $util.oneOfGetter($oneOfFields = ["activated"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new BusinessFolderActivationAction instance using the specified properties.
+             * @function create
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IBusinessFolderActivationAction=} [properties] Properties to set
+             * @returns {SyncAction.SyncActionValue.BusinessFolderActivationAction} BusinessFolderActivationAction instance
+             */
+            BusinessFolderActivationAction.create = function create(properties) {
+                return new BusinessFolderActivationAction(properties);
+            };
+
+            /**
+             * Encodes the specified BusinessFolderActivationAction message. Does not implicitly {@link SyncAction.SyncActionValue.BusinessFolderActivationAction.verify|verify} messages.
+             * @function encode
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IBusinessFolderActivationAction} message BusinessFolderActivationAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            BusinessFolderActivationAction.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.activated != null && Object.hasOwnProperty.call(message, "activated"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.activated);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified BusinessFolderActivationAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.BusinessFolderActivationAction.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IBusinessFolderActivationAction} message BusinessFolderActivationAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            BusinessFolderActivationAction.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a BusinessFolderActivationAction message from the specified reader or buffer.
+             * @function decode
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {SyncAction.SyncActionValue.BusinessFolderActivationAction} BusinessFolderActivationAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            BusinessFolderActivationAction.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SyncAction.SyncActionValue.BusinessFolderActivationAction();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.activated = reader.bool();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a BusinessFolderActivationAction message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {SyncAction.SyncActionValue.BusinessFolderActivationAction} BusinessFolderActivationAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            BusinessFolderActivationAction.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a BusinessFolderActivationAction message.
+             * @function verify
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            BusinessFolderActivationAction.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.activated != null && message.hasOwnProperty("activated")) {
+                    properties._activated = 1;
+                    if (typeof message.activated !== "boolean")
+                        return "activated: boolean expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a BusinessFolderActivationAction message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {SyncAction.SyncActionValue.BusinessFolderActivationAction} BusinessFolderActivationAction
+             */
+            BusinessFolderActivationAction.fromObject = function fromObject(object) {
+                if (object instanceof $root.SyncAction.SyncActionValue.BusinessFolderActivationAction)
+                    return object;
+                var message = new $root.SyncAction.SyncActionValue.BusinessFolderActivationAction();
+                if (object.activated != null)
+                    message.activated = Boolean(object.activated);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a BusinessFolderActivationAction message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {SyncAction.SyncActionValue.BusinessFolderActivationAction} message BusinessFolderActivationAction
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            BusinessFolderActivationAction.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.activated != null && message.hasOwnProperty("activated")) {
+                    object.activated = message.activated;
+                    if (options.oneofs)
+                        object._activated = "activated";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this BusinessFolderActivationAction to JSON.
+             * @function toJSON
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            BusinessFolderActivationAction.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for BusinessFolderActivationAction
+             * @function getTypeUrl
+             * @memberof SyncAction.SyncActionValue.BusinessFolderActivationAction
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            BusinessFolderActivationAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/SyncAction.SyncActionValue.BusinessFolderActivationAction";
+            };
+
+            return BusinessFolderActivationAction;
+        })();
+
         SyncActionValue.CallLogAction = (function() {
 
             /**
@@ -10054,6 +10389,224 @@ $root.SyncAction = (function() {
             };
 
             return ContactAction;
+        })();
+
+        SyncActionValue.ContactManagerMetadataAction = (function() {
+
+            /**
+             * Properties of a ContactManagerMetadataAction.
+             * @memberof SyncAction.SyncActionValue
+             * @interface IContactManagerMetadataAction
+             * @property {boolean|null} [isHidden] ContactManagerMetadataAction isHidden
+             */
+
+            /**
+             * Constructs a new ContactManagerMetadataAction.
+             * @memberof SyncAction.SyncActionValue
+             * @classdesc Represents a ContactManagerMetadataAction.
+             * @implements IContactManagerMetadataAction
+             * @constructor
+             * @param {SyncAction.SyncActionValue.IContactManagerMetadataAction=} [properties] Properties to set
+             */
+            function ContactManagerMetadataAction(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ContactManagerMetadataAction isHidden.
+             * @member {boolean|null|undefined} isHidden
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @instance
+             */
+            ContactManagerMetadataAction.prototype.isHidden = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ContactManagerMetadataAction.prototype, "_isHidden", {
+                get: $util.oneOfGetter($oneOfFields = ["isHidden"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new ContactManagerMetadataAction instance using the specified properties.
+             * @function create
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IContactManagerMetadataAction=} [properties] Properties to set
+             * @returns {SyncAction.SyncActionValue.ContactManagerMetadataAction} ContactManagerMetadataAction instance
+             */
+            ContactManagerMetadataAction.create = function create(properties) {
+                return new ContactManagerMetadataAction(properties);
+            };
+
+            /**
+             * Encodes the specified ContactManagerMetadataAction message. Does not implicitly {@link SyncAction.SyncActionValue.ContactManagerMetadataAction.verify|verify} messages.
+             * @function encode
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IContactManagerMetadataAction} message ContactManagerMetadataAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ContactManagerMetadataAction.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.isHidden != null && Object.hasOwnProperty.call(message, "isHidden"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.isHidden);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ContactManagerMetadataAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.ContactManagerMetadataAction.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IContactManagerMetadataAction} message ContactManagerMetadataAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ContactManagerMetadataAction.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ContactManagerMetadataAction message from the specified reader or buffer.
+             * @function decode
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {SyncAction.SyncActionValue.ContactManagerMetadataAction} ContactManagerMetadataAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ContactManagerMetadataAction.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SyncAction.SyncActionValue.ContactManagerMetadataAction();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.isHidden = reader.bool();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ContactManagerMetadataAction message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {SyncAction.SyncActionValue.ContactManagerMetadataAction} ContactManagerMetadataAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ContactManagerMetadataAction.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ContactManagerMetadataAction message.
+             * @function verify
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ContactManagerMetadataAction.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.isHidden != null && message.hasOwnProperty("isHidden")) {
+                    properties._isHidden = 1;
+                    if (typeof message.isHidden !== "boolean")
+                        return "isHidden: boolean expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a ContactManagerMetadataAction message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {SyncAction.SyncActionValue.ContactManagerMetadataAction} ContactManagerMetadataAction
+             */
+            ContactManagerMetadataAction.fromObject = function fromObject(object) {
+                if (object instanceof $root.SyncAction.SyncActionValue.ContactManagerMetadataAction)
+                    return object;
+                var message = new $root.SyncAction.SyncActionValue.ContactManagerMetadataAction();
+                if (object.isHidden != null)
+                    message.isHidden = Boolean(object.isHidden);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ContactManagerMetadataAction message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {SyncAction.SyncActionValue.ContactManagerMetadataAction} message ContactManagerMetadataAction
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ContactManagerMetadataAction.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.isHidden != null && message.hasOwnProperty("isHidden")) {
+                    object.isHidden = message.isHidden;
+                    if (options.oneofs)
+                        object._isHidden = "isHidden";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this ContactManagerMetadataAction to JSON.
+             * @function toJSON
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ContactManagerMetadataAction.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for ContactManagerMetadataAction
+             * @function getTypeUrl
+             * @memberof SyncAction.SyncActionValue.ContactManagerMetadataAction
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            ContactManagerMetadataAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/SyncAction.SyncActionValue.ContactManagerMetadataAction";
+            };
+
+            return ContactManagerMetadataAction;
         })();
 
         SyncActionValue.CtwaMessageReceivedAction = (function() {
@@ -24724,6 +25277,224 @@ $root.SyncAction = (function() {
             return SettingsSyncAction;
         })();
 
+        SyncActionValue.SharedDeviceAllowlistAction = (function() {
+
+            /**
+             * Properties of a SharedDeviceAllowlistAction.
+             * @memberof SyncAction.SyncActionValue
+             * @interface ISharedDeviceAllowlistAction
+             * @property {boolean|null} [allowed] SharedDeviceAllowlistAction allowed
+             */
+
+            /**
+             * Constructs a new SharedDeviceAllowlistAction.
+             * @memberof SyncAction.SyncActionValue
+             * @classdesc Represents a SharedDeviceAllowlistAction.
+             * @implements ISharedDeviceAllowlistAction
+             * @constructor
+             * @param {SyncAction.SyncActionValue.ISharedDeviceAllowlistAction=} [properties] Properties to set
+             */
+            function SharedDeviceAllowlistAction(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * SharedDeviceAllowlistAction allowed.
+             * @member {boolean|null|undefined} allowed
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @instance
+             */
+            SharedDeviceAllowlistAction.prototype.allowed = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(SharedDeviceAllowlistAction.prototype, "_allowed", {
+                get: $util.oneOfGetter($oneOfFields = ["allowed"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new SharedDeviceAllowlistAction instance using the specified properties.
+             * @function create
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {SyncAction.SyncActionValue.ISharedDeviceAllowlistAction=} [properties] Properties to set
+             * @returns {SyncAction.SyncActionValue.SharedDeviceAllowlistAction} SharedDeviceAllowlistAction instance
+             */
+            SharedDeviceAllowlistAction.create = function create(properties) {
+                return new SharedDeviceAllowlistAction(properties);
+            };
+
+            /**
+             * Encodes the specified SharedDeviceAllowlistAction message. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceAllowlistAction.verify|verify} messages.
+             * @function encode
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {SyncAction.SyncActionValue.ISharedDeviceAllowlistAction} message SharedDeviceAllowlistAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceAllowlistAction.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.allowed != null && Object.hasOwnProperty.call(message, "allowed"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.allowed);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified SharedDeviceAllowlistAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceAllowlistAction.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {SyncAction.SyncActionValue.ISharedDeviceAllowlistAction} message SharedDeviceAllowlistAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceAllowlistAction.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a SharedDeviceAllowlistAction message from the specified reader or buffer.
+             * @function decode
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {SyncAction.SyncActionValue.SharedDeviceAllowlistAction} SharedDeviceAllowlistAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceAllowlistAction.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.allowed = reader.bool();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a SharedDeviceAllowlistAction message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {SyncAction.SyncActionValue.SharedDeviceAllowlistAction} SharedDeviceAllowlistAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceAllowlistAction.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a SharedDeviceAllowlistAction message.
+             * @function verify
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SharedDeviceAllowlistAction.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.allowed != null && message.hasOwnProperty("allowed")) {
+                    properties._allowed = 1;
+                    if (typeof message.allowed !== "boolean")
+                        return "allowed: boolean expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a SharedDeviceAllowlistAction message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {SyncAction.SyncActionValue.SharedDeviceAllowlistAction} SharedDeviceAllowlistAction
+             */
+            SharedDeviceAllowlistAction.fromObject = function fromObject(object) {
+                if (object instanceof $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction)
+                    return object;
+                var message = new $root.SyncAction.SyncActionValue.SharedDeviceAllowlistAction();
+                if (object.allowed != null)
+                    message.allowed = Boolean(object.allowed);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a SharedDeviceAllowlistAction message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {SyncAction.SyncActionValue.SharedDeviceAllowlistAction} message SharedDeviceAllowlistAction
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SharedDeviceAllowlistAction.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.allowed != null && message.hasOwnProperty("allowed")) {
+                    object.allowed = message.allowed;
+                    if (options.oneofs)
+                        object._allowed = "allowed";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this SharedDeviceAllowlistAction to JSON.
+             * @function toJSON
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SharedDeviceAllowlistAction.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for SharedDeviceAllowlistAction
+             * @function getTypeUrl
+             * @memberof SyncAction.SyncActionValue.SharedDeviceAllowlistAction
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            SharedDeviceAllowlistAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/SyncAction.SyncActionValue.SharedDeviceAllowlistAction";
+            };
+
+            return SharedDeviceAllowlistAction;
+        })();
+
         SyncActionValue.StarAction = (function() {
 
             /**
@@ -32569,6 +33340,9 @@ $root.SyncAction = (function() {
      * @property {number} LABEL_SUBLIST_ACTION=91 LABEL_SUBLIST_ACTION value
      * @property {number} DEVICE_CAPABILITIES_V2=92 DEVICE_CAPABILITIES_V2 value
      * @property {number} CTWA_MESSAGE_RECEIVED_ACTION=93 CTWA_MESSAGE_RECEIVED_ACTION value
+     * @property {number} SHARED_DEVICE_ALLOWLIST_ACTION=94 SHARED_DEVICE_ALLOWLIST_ACTION value
+     * @property {number} CONTACT_MANAGER_METADATA_ACTION=95 CONTACT_MANAGER_METADATA_ACTION value
+     * @property {number} BUSINESS_FOLDER_ACTIVATION_ACTION=96 BUSINESS_FOLDER_ACTIVATION_ACTION value
      * @property {number} SHARE_OWN_PN=10001 SHARE_OWN_PN value
      * @property {number} BUSINESS_BROADCAST_ACTION=10002 BUSINESS_BROADCAST_ACTION value
      * @property {number} AI_THREAD_DELETE_ACTION=10003 AI_THREAD_DELETE_ACTION value
@@ -32662,6 +33436,9 @@ $root.SyncAction = (function() {
         values[valuesById[91] = "LABEL_SUBLIST_ACTION"] = 91;
         values[valuesById[92] = "DEVICE_CAPABILITIES_V2"] = 92;
         values[valuesById[93] = "CTWA_MESSAGE_RECEIVED_ACTION"] = 93;
+        values[valuesById[94] = "SHARED_DEVICE_ALLOWLIST_ACTION"] = 94;
+        values[valuesById[95] = "CONTACT_MANAGER_METADATA_ACTION"] = 95;
+        values[valuesById[96] = "BUSINESS_FOLDER_ACTIVATION_ACTION"] = 96;
         values[valuesById[10001] = "SHARE_OWN_PN"] = 10001;
         values[valuesById[10002] = "BUSINESS_BROADCAST_ACTION"] = 10002;
         values[valuesById[10003] = "AI_THREAD_DELETE_ACTION"] = 10003;
@@ -35179,6 +35956,7 @@ $root.DeviceCapabilities = (function() {
              * @memberof DeviceCapabilities.DeviceCapabilities
              * @interface IAiFbidMigration
              * @property {number|Long|null} [chatDbMigrationTimestamp] AiFbidMigration chatDbMigrationTimestamp
+             * @property {number|null} [supportVersion] AiFbidMigration supportVersion
              */
 
             /**
@@ -35204,12 +35982,26 @@ $root.DeviceCapabilities = (function() {
              */
             AiFbidMigration.prototype.chatDbMigrationTimestamp = null;
 
+            /**
+             * AiFbidMigration supportVersion.
+             * @member {number|null|undefined} supportVersion
+             * @memberof DeviceCapabilities.DeviceCapabilities.AiFbidMigration
+             * @instance
+             */
+            AiFbidMigration.prototype.supportVersion = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(AiFbidMigration.prototype, "_chatDbMigrationTimestamp", {
                 get: $util.oneOfGetter($oneOfFields = ["chatDbMigrationTimestamp"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(AiFbidMigration.prototype, "_supportVersion", {
+                get: $util.oneOfGetter($oneOfFields = ["supportVersion"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -35239,6 +36031,8 @@ $root.DeviceCapabilities = (function() {
                     writer = $Writer.create();
                 if (message.chatDbMigrationTimestamp != null && Object.hasOwnProperty.call(message, "chatDbMigrationTimestamp"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.chatDbMigrationTimestamp);
+                if (message.supportVersion != null && Object.hasOwnProperty.call(message, "supportVersion"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.supportVersion);
                 return writer;
             };
 
@@ -35277,6 +36071,10 @@ $root.DeviceCapabilities = (function() {
                     switch (tag >>> 3) {
                     case 1: {
                             message.chatDbMigrationTimestamp = reader.uint64();
+                            break;
+                        }
+                    case 2: {
+                            message.supportVersion = reader.uint32();
                             break;
                         }
                     default:
@@ -35320,6 +36118,11 @@ $root.DeviceCapabilities = (function() {
                     if (!$util.isInteger(message.chatDbMigrationTimestamp) && !(message.chatDbMigrationTimestamp && $util.isInteger(message.chatDbMigrationTimestamp.low) && $util.isInteger(message.chatDbMigrationTimestamp.high)))
                         return "chatDbMigrationTimestamp: integer|Long expected";
                 }
+                if (message.supportVersion != null && message.hasOwnProperty("supportVersion")) {
+                    properties._supportVersion = 1;
+                    if (!$util.isInteger(message.supportVersion))
+                        return "supportVersion: integer expected";
+                }
                 return null;
             };
 
@@ -35344,6 +36147,8 @@ $root.DeviceCapabilities = (function() {
                         message.chatDbMigrationTimestamp = object.chatDbMigrationTimestamp;
                     else if (typeof object.chatDbMigrationTimestamp === "object")
                         message.chatDbMigrationTimestamp = new $util.LongBits(object.chatDbMigrationTimestamp.low >>> 0, object.chatDbMigrationTimestamp.high >>> 0).toNumber(true);
+                if (object.supportVersion != null)
+                    message.supportVersion = object.supportVersion >>> 0;
                 return message;
             };
 
@@ -35367,6 +36172,11 @@ $root.DeviceCapabilities = (function() {
                         object.chatDbMigrationTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.chatDbMigrationTimestamp) : options.longs === Number ? new $util.LongBits(message.chatDbMigrationTimestamp.low >>> 0, message.chatDbMigrationTimestamp.high >>> 0).toNumber(true) : message.chatDbMigrationTimestamp;
                     if (options.oneofs)
                         object._chatDbMigrationTimestamp = "chatDbMigrationTimestamp";
+                }
+                if (message.supportVersion != null && message.hasOwnProperty("supportVersion")) {
+                    object.supportVersion = message.supportVersion;
+                    if (options.oneofs)
+                        object._supportVersion = "supportVersion";
                 }
                 return object;
             };
@@ -35887,6 +36697,7 @@ $root.DeviceCapabilities = (function() {
              * @property {boolean|null} [campaignSyncEnabled] BusinessBroadcast campaignSyncEnabled
              * @property {boolean|null} [insightsSyncEnabled] BusinessBroadcast insightsSyncEnabled
              * @property {number|null} [recipientLimit] BusinessBroadcast recipientLimit
+             * @property {boolean|null} [proCompanionSupportEnabled] BusinessBroadcast proCompanionSupportEnabled
              */
 
             /**
@@ -35944,6 +36755,14 @@ $root.DeviceCapabilities = (function() {
              */
             BusinessBroadcast.prototype.recipientLimit = null;
 
+            /**
+             * BusinessBroadcast proCompanionSupportEnabled.
+             * @member {boolean|null|undefined} proCompanionSupportEnabled
+             * @memberof DeviceCapabilities.DeviceCapabilities.BusinessBroadcast
+             * @instance
+             */
+            BusinessBroadcast.prototype.proCompanionSupportEnabled = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -35974,6 +36793,12 @@ $root.DeviceCapabilities = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(BusinessBroadcast.prototype, "_recipientLimit", {
                 get: $util.oneOfGetter($oneOfFields = ["recipientLimit"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessBroadcast.prototype, "_proCompanionSupportEnabled", {
+                get: $util.oneOfGetter($oneOfFields = ["proCompanionSupportEnabled"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -36011,6 +36836,8 @@ $root.DeviceCapabilities = (function() {
                     writer.uint32(/* id 4, wireType 0 =*/32).bool(message.insightsSyncEnabled);
                 if (message.recipientLimit != null && Object.hasOwnProperty.call(message, "recipientLimit"))
                     writer.uint32(/* id 5, wireType 0 =*/40).int32(message.recipientLimit);
+                if (message.proCompanionSupportEnabled != null && Object.hasOwnProperty.call(message, "proCompanionSupportEnabled"))
+                    writer.uint32(/* id 6, wireType 0 =*/48).bool(message.proCompanionSupportEnabled);
                 return writer;
             };
 
@@ -36065,6 +36892,10 @@ $root.DeviceCapabilities = (function() {
                         }
                     case 5: {
                             message.recipientLimit = reader.int32();
+                            break;
+                        }
+                    case 6: {
+                            message.proCompanionSupportEnabled = reader.bool();
                             break;
                         }
                     default:
@@ -36128,6 +36959,11 @@ $root.DeviceCapabilities = (function() {
                     if (!$util.isInteger(message.recipientLimit))
                         return "recipientLimit: integer expected";
                 }
+                if (message.proCompanionSupportEnabled != null && message.hasOwnProperty("proCompanionSupportEnabled")) {
+                    properties._proCompanionSupportEnabled = 1;
+                    if (typeof message.proCompanionSupportEnabled !== "boolean")
+                        return "proCompanionSupportEnabled: boolean expected";
+                }
                 return null;
             };
 
@@ -36153,6 +36989,8 @@ $root.DeviceCapabilities = (function() {
                     message.insightsSyncEnabled = Boolean(object.insightsSyncEnabled);
                 if (object.recipientLimit != null)
                     message.recipientLimit = object.recipientLimit | 0;
+                if (object.proCompanionSupportEnabled != null)
+                    message.proCompanionSupportEnabled = Boolean(object.proCompanionSupportEnabled);
                 return message;
             };
 
@@ -36193,6 +37031,11 @@ $root.DeviceCapabilities = (function() {
                     object.recipientLimit = message.recipientLimit;
                     if (options.oneofs)
                         object._recipientLimit = "recipientLimit";
+                }
+                if (message.proCompanionSupportEnabled != null && message.hasOwnProperty("proCompanionSupportEnabled")) {
+                    object.proCompanionSupportEnabled = message.proCompanionSupportEnabled;
+                    if (options.oneofs)
+                        object._proCompanionSupportEnabled = "proCompanionSupportEnabled";
                 }
                 return object;
             };
