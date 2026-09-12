@@ -3849,8 +3849,8 @@ await sock.sendMessage(jid, {
       text: '📃 Built manually from scratch using the raw WhatsApp proto structure',
       contextInfo: {
          externalAdReply: {
-            title: '@itsliaaa/baileys',
-            thumbnail: fs.readFileSync('./path/to/image.jpg'),
+            title: 'InnovatorsSoft',
+            thumbnail: fs.readFileSync('./Media/innovatorssoft.png'),
             sourceApp: 'whatsapp',
             showAdAttribution: true,
             mediaType: 1
