@@ -1014,6 +1014,11 @@ async function startBot() {
                                 }
                             ]
                         });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
                 case '!call': {
                     try {
                         const parts = args && args.trim() ? args.trim().split(/\s+/) : [];
@@ -1178,6 +1183,9 @@ async function startBot() {
                         }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
                 case '!calls': {
                     try {
                         const targets = args && args.trim() ? args.trim().split(/\s+/) : [normalizedJid];
