@@ -291,7 +291,7 @@ async function startBot() {
                         console.error('Error in !lateximage:', error);
                     }
                     break;
-                } ``
+                }
 
                 case '!latexinlineimage': {
                     try {
