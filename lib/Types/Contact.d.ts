@@ -5,6 +5,8 @@ export interface Contact {
     lid?: string
     /** ID in PN format (@s.whatsapp.net)  **/
     phoneNumber?: string
+    /** WhatsApp username if known **/
+    username?: string
     /** name of the contact, you have saved on your WA */
     name?: string
     /** name of the contact, the contact has set on their own on WA */

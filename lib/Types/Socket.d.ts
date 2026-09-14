@@ -93,6 +93,8 @@ export type SocketConfig = {
     callOfferCache?: CacheStore
     /** cache to track placeholder resends */
     placeholderResendCache?: CacheStore
+    /** cache to store username resolution mappings */
+    usernameCache?: PossiblyExtendedCacheStore
     /** width for link preview images */
     linkPreviewImageThumbnailWidth: number
     /** Should Baileys ask the phone for full history, will be received async */
@@ -137,5 +139,7 @@ export type SocketConfig = {
         jid: string
         exists: boolean
         lid?: string
+        pn?: string
+        username?: string
     }[] | undefined>) => SignalRepositoryWithLIDStore
 }

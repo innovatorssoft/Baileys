@@ -8,7 +8,9 @@ export declare class LIDMappingStore {
     constructor(keys: SignalKeyStoreWithTransaction, onWhatsAppFunc?: (...jids: string[], logger: ILogger ) => Promise<{
         jid: string
         exists: boolean
-        lid: string
+        lid?: string
+        pn?: string
+        username?: string
     }[] | undefined>)
     /**
      * Store LID-PN mapping - USER LEVEL

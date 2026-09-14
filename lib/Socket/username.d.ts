@@ -1,7 +1,12 @@
-import { SocketConfig } from '../Types'
+import { SocketConfig, UsernameResolutionResult } from '../Types'
 import { BinaryNode } from '../WABinary'
 
 export declare const makeUsernameSocket: (config: SocketConfig) => {
+    resolveUsername: (username: string) => Promise<UsernameResolutionResult | null>
+    resolveUsernames: (usernames: string[]) => Promise<(UsernameResolutionResult | null)[]>
+    onWhatsAppUsername: (...usernames: string[]) => Promise<UsernameResolutionResult[]>
+    invalidateUsername: (username: string) => Promise<void>
+    refreshUsername: (username: string) => Promise<UsernameResolutionResult | null>
     checkUsername: (username: string, includeSuggestions?: boolean) => Promise<{
         available: boolean
         username: string
