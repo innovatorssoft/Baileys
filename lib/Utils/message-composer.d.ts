@@ -155,3 +155,22 @@ export declare const generateRichMessageContent: (
     options?: { botJid?: string, mentions?: string[], useMarkdown?: boolean, unifiedResponse?: any, extract?: boolean, hyperlink?: boolean, citation?: boolean, latex?: boolean }
 ) => { message: proto.IMessage, messageId: string }
 
+export declare const convertLatexToSvg: (latexInput: string, scale?: number | string) => string
+
+export declare const renderLatexToPng: (
+    latexExpr: string,
+    options?: number | string | { scale?: number | string, outputScale?: string | number, density?: number, background?: any, transparent?: boolean }
+) => Promise<{ buffer: Buffer, width: number, height: number }>
+
+export declare const convertLatexToPng: (
+    latexExpr: string,
+    options?: number | string | { scale?: number | string, outputScale?: string | number, density?: number, background?: any, transparent?: boolean }
+) => Promise<{ buffer: Buffer, width: number, height: number }>
+
+export declare const uploadUnencryptedToWA: (
+    buffer: Buffer,
+    waUploadToServer: any
+) => Promise<{ url?: string, directPath?: string }>
+
+
+

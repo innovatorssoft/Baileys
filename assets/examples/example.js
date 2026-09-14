@@ -4,9 +4,6 @@ const { makeWASocket,
     RichSubMessageType,
     captureUnifiedResponse,
     sendUnifiedResponse,
-    sendRichHtml,
-    encryptedStream,
-    getUrlFromDirectPath,
     renderLatexToPng,
     prepareWAMessageMedia,
     uploadUnencryptedToWA,
@@ -52,31 +49,6 @@ async function startBot() {
         logger: require('pino')({ level: 'silent' }),
         markOnlineOnConnect: true
     });
-
-    const uploadToWA = async (buffer, type) => {
-        // Encrypt the raw buffer using the library's built-in helper
-        const encryptionResult = await encryptedStream(buffer, 'image');
-        const fileEncSha256B64 = encryptionResult.fileEncSha256.toString('base64');
-
-        // Upload the encrypted file to WhatsApp servers
-        const uploadResult = await sock.waUploadToServer(encryptionResult.encFilePath, {
-            mediaType: 'image',
-            fileEncSha256B64
-        });
-
-        // Clean up the temp encrypted file
-        try {
-            await fs.promises.unlink(encryptionResult.encFilePath);
-        } catch (err) {
-            console.error('Failed to delete temp encrypted file:', err);
-        }
-
-        return {
-            url: uploadResult.mediaUrl || getUrlFromDirectPath(uploadResult.directPath),
-            directPath: uploadResult.directPath
-        };
-    };
-
 
     // Handle pairing code registration if requested
     if (usePairingCode && phoneNumber && !state.creds.registered) {
@@ -132,12 +104,12 @@ async function startBot() {
             console.log('WhatsApp Bot is successfully connected!');
             console.log('======================================\n');
 
-            try {
-                const result = await sock.resolveUsername('midsoune')
-                console.log(result)
-            } catch (err) {
-                console.error('Failed to resolve username:', err);
-            }
+            /* try {
+                 // const result = await sock.resolveUsername('midsoune')
+                 // console.log(result)
+             } catch (err) {
+                 console.error('Failed to resolve username:', err);
+             }*/
         }
     });
 
@@ -312,15 +284,14 @@ async function startBot() {
                             message,
                             {
                                 formula: 'E=mc^2',
-                                caption: 'Mass-Energy Equivalence (DPI 600)'
+                                caption: 'Mass-Energy Equivalence'
                             }
                         );
-                        //console.log('LaTeX Image Payload:', JSON.stringify(result, null, 2));
                     } catch (error) {
                         console.error('Error in !lateximage:', error);
                     }
                     break;
-                }
+                } ``
 
                 case '!latexinlineimage': {
                     try {

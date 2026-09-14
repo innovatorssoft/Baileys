@@ -57,6 +57,7 @@
     "link-preview-js": "^3.0.14",
     "lodash": "^4.17.21",
     "lru-cache": "^11.1.0",
+    "mathjax-full": "^3.2.2",
     "music-metadata": "^7.12.3",
     "pino": "^9.6",
     "protobufjs": "^7.2.4",
