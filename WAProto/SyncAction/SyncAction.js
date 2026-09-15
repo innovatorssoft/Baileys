@@ -7385,6 +7385,8 @@ $root.SyncAction = (function() {
              * @property {number|Long|null} [scheduledTimestamp] BusinessBroadcastCampaignAction scheduledTimestamp
              * @property {number|Long|null} [createTimestamp] BusinessBroadcastCampaignAction createTimestamp
              * @property {SyncAction.SyncActionValue.BusinessBroadcastCampaignStatus|null} [status] BusinessBroadcastCampaignAction status
+             * @property {SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus|null} [bbProStatus] BusinessBroadcastCampaignAction bbProStatus
+             * @property {string|null} [customAudienceFbid] BusinessBroadcastCampaignAction customAudienceFbid
              */
 
             /**
@@ -7474,6 +7476,22 @@ $root.SyncAction = (function() {
              */
             BusinessBroadcastCampaignAction.prototype.status = null;
 
+            /**
+             * BusinessBroadcastCampaignAction bbProStatus.
+             * @member {SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus|null|undefined} bbProStatus
+             * @memberof SyncAction.SyncActionValue.BusinessBroadcastCampaignAction
+             * @instance
+             */
+            BusinessBroadcastCampaignAction.prototype.bbProStatus = null;
+
+            /**
+             * BusinessBroadcastCampaignAction customAudienceFbid.
+             * @member {string|null|undefined} customAudienceFbid
+             * @memberof SyncAction.SyncActionValue.BusinessBroadcastCampaignAction
+             * @instance
+             */
+            BusinessBroadcastCampaignAction.prototype.customAudienceFbid = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -7531,6 +7549,18 @@ $root.SyncAction = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessBroadcastCampaignAction.prototype, "_bbProStatus", {
+                get: $util.oneOfGetter($oneOfFields = ["bbProStatus"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessBroadcastCampaignAction.prototype, "_customAudienceFbid", {
+                get: $util.oneOfGetter($oneOfFields = ["customAudienceFbid"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new BusinessBroadcastCampaignAction instance using the specified properties.
              * @function create
@@ -7573,6 +7603,10 @@ $root.SyncAction = (function() {
                     writer.uint32(/* id 8, wireType 0 =*/64).int64(message.createTimestamp);
                 if (message.status != null && Object.hasOwnProperty.call(message, "status"))
                     writer.uint32(/* id 9, wireType 0 =*/72).int32(message.status);
+                if (message.bbProStatus != null && Object.hasOwnProperty.call(message, "bbProStatus"))
+                    writer.uint32(/* id 10, wireType 0 =*/80).int32(message.bbProStatus);
+                if (message.customAudienceFbid != null && Object.hasOwnProperty.call(message, "customAudienceFbid"))
+                    writer.uint32(/* id 11, wireType 2 =*/90).string(message.customAudienceFbid);
                 return writer;
             };
 
@@ -7643,6 +7677,14 @@ $root.SyncAction = (function() {
                         }
                     case 9: {
                             message.status = reader.int32();
+                            break;
+                        }
+                    case 10: {
+                            message.bbProStatus = reader.int32();
+                            break;
+                        }
+                    case 11: {
+                            message.customAudienceFbid = reader.string();
                             break;
                         }
                     default:
@@ -7734,6 +7776,29 @@ $root.SyncAction = (function() {
                         break;
                     }
                 }
+                if (message.bbProStatus != null && message.hasOwnProperty("bbProStatus")) {
+                    properties._bbProStatus = 1;
+                    switch (message.bbProStatus) {
+                    default:
+                        return "bbProStatus: enum value expected";
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                        break;
+                    }
+                }
+                if (message.customAudienceFbid != null && message.hasOwnProperty("customAudienceFbid")) {
+                    properties._customAudienceFbid = 1;
+                    if (!$util.isString(message.customAudienceFbid))
+                        return "customAudienceFbid: string expected";
+                }
                 return null;
             };
 
@@ -7807,6 +7872,56 @@ $root.SyncAction = (function() {
                     message.status = 5;
                     break;
                 }
+                switch (object.bbProStatus) {
+                default:
+                    if (typeof object.bbProStatus === "number") {
+                        message.bbProStatus = object.bbProStatus;
+                        break;
+                    }
+                    break;
+                case "BB_PRO_ACTIVE":
+                case 1:
+                    message.bbProStatus = 1;
+                    break;
+                case "BB_PRO_COMPLETED":
+                case 2:
+                    message.bbProStatus = 2;
+                    break;
+                case "BB_PRO_IN_DRAFT":
+                case 3:
+                    message.bbProStatus = 3;
+                    break;
+                case "BB_PRO_IN_REVIEW":
+                case 4:
+                    message.bbProStatus = 4;
+                    break;
+                case "BB_PRO_NOT_SENDING":
+                case 5:
+                    message.bbProStatus = 5;
+                    break;
+                case "BB_PRO_OFF":
+                case 6:
+                    message.bbProStatus = 6;
+                    break;
+                case "BB_PRO_REJECTED":
+                case 7:
+                    message.bbProStatus = 7;
+                    break;
+                case "BB_PRO_SCHEDULED":
+                case 8:
+                    message.bbProStatus = 8;
+                    break;
+                case "BB_PRO_SENDING_LIMITED":
+                case 9:
+                    message.bbProStatus = 9;
+                    break;
+                case "BB_PRO_PROCESSING":
+                case 10:
+                    message.bbProStatus = 10;
+                    break;
+                }
+                if (object.customAudienceFbid != null)
+                    message.customAudienceFbid = String(object.customAudienceFbid);
                 return message;
             };
 
@@ -7874,6 +7989,16 @@ $root.SyncAction = (function() {
                     if (options.oneofs)
                         object._status = "status";
                 }
+                if (message.bbProStatus != null && message.hasOwnProperty("bbProStatus")) {
+                    object.bbProStatus = options.enums === String ? $root.SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus[message.bbProStatus] === undefined ? message.bbProStatus : $root.SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus[message.bbProStatus] : message.bbProStatus;
+                    if (options.oneofs)
+                        object._bbProStatus = "bbProStatus";
+                }
+                if (message.customAudienceFbid != null && message.hasOwnProperty("customAudienceFbid")) {
+                    object.customAudienceFbid = message.customAudienceFbid;
+                    if (options.oneofs)
+                        object._customAudienceFbid = "customAudienceFbid";
+                }
                 return object;
             };
 
@@ -7904,6 +8029,36 @@ $root.SyncAction = (function() {
             };
 
             return BusinessBroadcastCampaignAction;
+        })();
+
+        /**
+         * BusinessBroadcastCampaignBBProStatus enum.
+         * @name SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus
+         * @enum {number}
+         * @property {number} BB_PRO_ACTIVE=1 BB_PRO_ACTIVE value
+         * @property {number} BB_PRO_COMPLETED=2 BB_PRO_COMPLETED value
+         * @property {number} BB_PRO_IN_DRAFT=3 BB_PRO_IN_DRAFT value
+         * @property {number} BB_PRO_IN_REVIEW=4 BB_PRO_IN_REVIEW value
+         * @property {number} BB_PRO_NOT_SENDING=5 BB_PRO_NOT_SENDING value
+         * @property {number} BB_PRO_OFF=6 BB_PRO_OFF value
+         * @property {number} BB_PRO_REJECTED=7 BB_PRO_REJECTED value
+         * @property {number} BB_PRO_SCHEDULED=8 BB_PRO_SCHEDULED value
+         * @property {number} BB_PRO_SENDING_LIMITED=9 BB_PRO_SENDING_LIMITED value
+         * @property {number} BB_PRO_PROCESSING=10 BB_PRO_PROCESSING value
+         */
+        SyncActionValue.BusinessBroadcastCampaignBBProStatus = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[1] = "BB_PRO_ACTIVE"] = 1;
+            values[valuesById[2] = "BB_PRO_COMPLETED"] = 2;
+            values[valuesById[3] = "BB_PRO_IN_DRAFT"] = 3;
+            values[valuesById[4] = "BB_PRO_IN_REVIEW"] = 4;
+            values[valuesById[5] = "BB_PRO_NOT_SENDING"] = 5;
+            values[valuesById[6] = "BB_PRO_OFF"] = 6;
+            values[valuesById[7] = "BB_PRO_REJECTED"] = 7;
+            values[valuesById[8] = "BB_PRO_SCHEDULED"] = 8;
+            values[valuesById[9] = "BB_PRO_SENDING_LIMITED"] = 9;
+            values[valuesById[10] = "BB_PRO_PROCESSING"] = 10;
+            return values;
         })();
 
         /**
@@ -15165,6 +15320,7 @@ $root.SyncAction = (function() {
                     case 15:
                     case 16:
                     case 17:
+                    case 18:
                         break;
                     }
                 }
@@ -15283,6 +15439,10 @@ $root.SyncAction = (function() {
                 case "MENTIONS_AND_REPLIES":
                 case 17:
                     message.type = 17;
+                    break;
+                case "REQUESTS":
+                case 18:
+                    message.type = 18;
                     break;
                 }
                 if (object.isImmutable != null)
@@ -15411,6 +15571,7 @@ $root.SyncAction = (function() {
              * @property {number} THIRD_PARTY=15 THIRD_PARTY value
              * @property {number} LEAD=16 LEAD value
              * @property {number} MENTIONS_AND_REPLIES=17 MENTIONS_AND_REPLIES value
+             * @property {number} REQUESTS=18 REQUESTS value
              */
             LabelEditAction.ListType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -15432,6 +15593,7 @@ $root.SyncAction = (function() {
                 values[valuesById[15] = "THIRD_PARTY"] = 15;
                 values[valuesById[16] = "LEAD"] = 16;
                 values[valuesById[17] = "MENTIONS_AND_REPLIES"] = 17;
+                values[valuesById[18] = "REQUESTS"] = 18;
                 return values;
             })();
 
@@ -33478,6 +33640,362 @@ $root.Protocol = (function() {
      * @namespace
      */
     var Protocol = {};
+
+    Protocol.ACP2Setting = (function() {
+
+        /**
+         * Properties of a ACP2Setting.
+         * @memberof Protocol
+         * @interface IACP2Setting
+         * @property {boolean|null} [enabled] ACP2Setting enabled
+         * @property {Protocol.LimitSharing.TriggerType|null} [trigger] ACP2Setting trigger
+         * @property {number|Long|null} [settingTimestamp] ACP2Setting settingTimestamp
+         * @property {boolean|null} [initiatedByMe] ACP2Setting initiatedByMe
+         */
+
+        /**
+         * Constructs a new ACP2Setting.
+         * @memberof Protocol
+         * @classdesc Represents a ACP2Setting.
+         * @implements IACP2Setting
+         * @constructor
+         * @param {Protocol.IACP2Setting=} [properties] Properties to set
+         */
+        function ACP2Setting(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ACP2Setting enabled.
+         * @member {boolean|null|undefined} enabled
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.enabled = null;
+
+        /**
+         * ACP2Setting trigger.
+         * @member {Protocol.LimitSharing.TriggerType|null|undefined} trigger
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.trigger = null;
+
+        /**
+         * ACP2Setting settingTimestamp.
+         * @member {number|Long|null|undefined} settingTimestamp
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.settingTimestamp = null;
+
+        /**
+         * ACP2Setting initiatedByMe.
+         * @member {boolean|null|undefined} initiatedByMe
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.initiatedByMe = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_enabled", {
+            get: $util.oneOfGetter($oneOfFields = ["enabled"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_trigger", {
+            get: $util.oneOfGetter($oneOfFields = ["trigger"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_settingTimestamp", {
+            get: $util.oneOfGetter($oneOfFields = ["settingTimestamp"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_initiatedByMe", {
+            get: $util.oneOfGetter($oneOfFields = ["initiatedByMe"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new ACP2Setting instance using the specified properties.
+         * @function create
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.IACP2Setting=} [properties] Properties to set
+         * @returns {Protocol.ACP2Setting} ACP2Setting instance
+         */
+        ACP2Setting.create = function create(properties) {
+            return new ACP2Setting(properties);
+        };
+
+        /**
+         * Encodes the specified ACP2Setting message. Does not implicitly {@link Protocol.ACP2Setting.verify|verify} messages.
+         * @function encode
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.IACP2Setting} message ACP2Setting message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ACP2Setting.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.enabled != null && Object.hasOwnProperty.call(message, "enabled"))
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.enabled);
+            if (message.trigger != null && Object.hasOwnProperty.call(message, "trigger"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.trigger);
+            if (message.settingTimestamp != null && Object.hasOwnProperty.call(message, "settingTimestamp"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int64(message.settingTimestamp);
+            if (message.initiatedByMe != null && Object.hasOwnProperty.call(message, "initiatedByMe"))
+                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.initiatedByMe);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ACP2Setting message, length delimited. Does not implicitly {@link Protocol.ACP2Setting.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.IACP2Setting} message ACP2Setting message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ACP2Setting.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a ACP2Setting message from the specified reader or buffer.
+         * @function decode
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Protocol.ACP2Setting} ACP2Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ACP2Setting.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Protocol.ACP2Setting();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.enabled = reader.bool();
+                        break;
+                    }
+                case 2: {
+                        message.trigger = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.settingTimestamp = reader.int64();
+                        break;
+                    }
+                case 4: {
+                        message.initiatedByMe = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a ACP2Setting message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Protocol.ACP2Setting} ACP2Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ACP2Setting.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ACP2Setting message.
+         * @function verify
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ACP2Setting.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.enabled != null && message.hasOwnProperty("enabled")) {
+                properties._enabled = 1;
+                if (typeof message.enabled !== "boolean")
+                    return "enabled: boolean expected";
+            }
+            if (message.trigger != null && message.hasOwnProperty("trigger")) {
+                properties._trigger = 1;
+                switch (message.trigger) {
+                default:
+                    return "trigger: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    break;
+                }
+            }
+            if (message.settingTimestamp != null && message.hasOwnProperty("settingTimestamp")) {
+                properties._settingTimestamp = 1;
+                if (!$util.isInteger(message.settingTimestamp) && !(message.settingTimestamp && $util.isInteger(message.settingTimestamp.low) && $util.isInteger(message.settingTimestamp.high)))
+                    return "settingTimestamp: integer|Long expected";
+            }
+            if (message.initiatedByMe != null && message.hasOwnProperty("initiatedByMe")) {
+                properties._initiatedByMe = 1;
+                if (typeof message.initiatedByMe !== "boolean")
+                    return "initiatedByMe: boolean expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a ACP2Setting message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Protocol.ACP2Setting} ACP2Setting
+         */
+        ACP2Setting.fromObject = function fromObject(object) {
+            if (object instanceof $root.Protocol.ACP2Setting)
+                return object;
+            var message = new $root.Protocol.ACP2Setting();
+            if (object.enabled != null)
+                message.enabled = Boolean(object.enabled);
+            switch (object.trigger) {
+            default:
+                if (typeof object.trigger === "number") {
+                    message.trigger = object.trigger;
+                    break;
+                }
+                break;
+            case "UNKNOWN":
+            case 0:
+                message.trigger = 0;
+                break;
+            case "CHAT_SETTING":
+            case 1:
+                message.trigger = 1;
+                break;
+            case "BIZ_SUPPORTS_FB_HOSTING":
+            case 2:
+                message.trigger = 2;
+                break;
+            case "UNKNOWN_GROUP":
+            case 3:
+                message.trigger = 3;
+                break;
+            }
+            if (object.settingTimestamp != null)
+                if ($util.Long)
+                    (message.settingTimestamp = $util.Long.fromValue(object.settingTimestamp)).unsigned = false;
+                else if (typeof object.settingTimestamp === "string")
+                    message.settingTimestamp = parseInt(object.settingTimestamp, 10);
+                else if (typeof object.settingTimestamp === "number")
+                    message.settingTimestamp = object.settingTimestamp;
+                else if (typeof object.settingTimestamp === "object")
+                    message.settingTimestamp = new $util.LongBits(object.settingTimestamp.low >>> 0, object.settingTimestamp.high >>> 0).toNumber();
+            if (object.initiatedByMe != null)
+                message.initiatedByMe = Boolean(object.initiatedByMe);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ACP2Setting message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.ACP2Setting} message ACP2Setting
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ACP2Setting.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.enabled != null && message.hasOwnProperty("enabled")) {
+                object.enabled = message.enabled;
+                if (options.oneofs)
+                    object._enabled = "enabled";
+            }
+            if (message.trigger != null && message.hasOwnProperty("trigger")) {
+                object.trigger = options.enums === String ? $root.Protocol.LimitSharing.TriggerType[message.trigger] === undefined ? message.trigger : $root.Protocol.LimitSharing.TriggerType[message.trigger] : message.trigger;
+                if (options.oneofs)
+                    object._trigger = "trigger";
+            }
+            if (message.settingTimestamp != null && message.hasOwnProperty("settingTimestamp")) {
+                if (typeof message.settingTimestamp === "number")
+                    object.settingTimestamp = options.longs === String ? String(message.settingTimestamp) : message.settingTimestamp;
+                else
+                    object.settingTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.settingTimestamp) : options.longs === Number ? new $util.LongBits(message.settingTimestamp.low >>> 0, message.settingTimestamp.high >>> 0).toNumber() : message.settingTimestamp;
+                if (options.oneofs)
+                    object._settingTimestamp = "settingTimestamp";
+            }
+            if (message.initiatedByMe != null && message.hasOwnProperty("initiatedByMe")) {
+                object.initiatedByMe = message.initiatedByMe;
+                if (options.oneofs)
+                    object._initiatedByMe = "initiatedByMe";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this ACP2Setting to JSON.
+         * @function toJSON
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ACP2Setting.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for ACP2Setting
+         * @function getTypeUrl
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        ACP2Setting.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/Protocol.ACP2Setting";
+        };
+
+        return ACP2Setting;
+    })();
 
     Protocol.LimitSharing = (function() {
 

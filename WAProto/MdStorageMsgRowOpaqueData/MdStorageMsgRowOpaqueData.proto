@@ -59,6 +59,8 @@ message MsgOpaqueData {
     optional bool sharableEventInviteIsCanceled = 58;
     optional bytes sharableEventInviteJpegThumbnail = 59;
     optional string sharableEventInviteCallLink = 60;
+    optional string mediaPngThumbnail = 61;
+    optional string qrUrl = 62;
     message EventLocation {
         optional double degreesLatitude = 1;
         optional double degreesLongitude = 2;
@@ -75,6 +77,7 @@ message MsgOpaqueData {
     message PollOption {
         optional string name = 1;
         optional string hash = 2;
+        optional string addOptionMsgKey = 3;
     }
     enum PollType {
         POLL = 0;

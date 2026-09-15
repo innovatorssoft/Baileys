@@ -199,6 +199,7 @@ message Conversation {
     optional string authAgentParentCompanyName = 61;
     optional string authAgentObaPhoneNumber = 62;
     optional IdentityVerificationState identityVerification = 63;
+    optional Protocol.ACP2Setting acp2Setting = 64;
     enum EndOfHistoryTransferType {
         COMPLETE_BUT_MORE_MESSAGES_REMAIN_ON_PRIMARY = 0;
         COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY = 1;

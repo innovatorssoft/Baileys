@@ -291,6 +291,7 @@ message MessageContextInfo {
     optional Aea.NonE2EEAttestation accountEncryptionAttestation = 18;
     optional bytes associatedPrimaryIdentityKey = 19;
     optional string teeContextAnchorMessageId = 20;
+    optional Protocol.ACP2Setting acp2Setting = 21;
     enum MessageAddonExpiryType {
         STATIC = 1;
         DEPENDENT_ON_PARENT = 2;
@@ -402,6 +403,7 @@ message ContextInfo {
     optional InstagramThreadLink instagramThreadLink = 80;
     optional AICommon.AIProvenance aiProvenance = 81;
     repeated uint32 experienceIds = 82 [packed=true];
+    optional string partnerDeepLinkToken = 83;
     message AdReplyInfo {
         optional string advertiserName = 1;
         optional MediaType mediaType = 2;
@@ -516,6 +518,7 @@ message ContextInfo {
         optional int32 agmTitleStrategy = 30;
         optional int32 agmSubtitleStrategy = 31;
         optional int32 agmHeaderInteractionStrategy = 32;
+        optional bool containsCtwaFlowsAutoLabel = 33;
         enum AdType {
             CTWA = 0;
             CAWC = 1;
@@ -727,6 +730,8 @@ message Message {
     optional StatusLinkPreviewMetadata statusLinkPreviewMetadata = 130;
     optional FutureProofMessage botPlatformRegistrationSuccessMessage = 131;
     optional FutureProofMessage newsletterScheduledMessage = 132;
+    optional FutureProofMessage acp2SettingMessage = 133;
+    optional FutureProofMessage audioStickerMessage = 134;
     message AlbumMessage {
         optional uint32 expectedImageCount = 2;
         optional uint32 expectedVideoCount = 3;
@@ -893,6 +898,10 @@ message Message {
         optional string displayName = 1;
         optional string id = 2;
     }
+    message ChatAnimatedWallpaper {
+        optional string animatedWallpaperId = 1;
+        optional float dimLevel = 2;
+    }
     message ChatCustomImageWallpaper {
         optional string directPath = 1;
         optional bytes mediaKey = 2;
@@ -921,6 +930,7 @@ message Message {
             Message.ChatSolidColorWallpaper solidColor = 11;
             Message.ChatStockImageWallpaper stockImage = 12;
             Message.ChatCustomImageWallpaper customImage = 13;
+            Message.ChatAnimatedWallpaper animatedWallpaper = 14;
         }
     }
     message CloudAPIThreadControlNotification {
@@ -1980,6 +1990,9 @@ message Message {
         optional AICommon.AIMetadataOperation aiMetadataOperation = 31;
         optional Message.MarkAsVerifiedAction markAsVerifiedAction = 32;
         optional ServerSync.CoexStateSync coexStateSync = 33;
+        optional Protocol.ACP2Setting acp2Setting = 35;
+        optional Message.SharedDeviceContactHashKeyShare sharedDeviceContactHashKeyShare = 36;
+        optional Message.SharedDeviceContactHashKeyRequest sharedDeviceContactHashKeyRequest = 37;
         enum Type {
             REVOKE = 0;
             EPHEMERAL_SETTING = 3;
@@ -2013,6 +2026,9 @@ message Message {
             AI_METADATA_OPERATION = 35;
             MARK_AS_VERIFIED_ACTION = 36;
             COEX_STATE_SYNC = 37;
+            ACP2_SETTING = 39;
+            SHARED_DEVICE_CONTACT_HASH_KEY_SHARE = 40;
+            SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST = 41;
         }
     }
     message QuestionResponseMessage {
@@ -2095,6 +2111,22 @@ message Message {
     message SenderKeyDistributionMessage {
         optional string groupId = 1;
         optional bytes axolotlSenderKeyDistributionMessage = 2;
+    }
+    message SharedDeviceContactHashKey {
+        optional uint32 epoch = 1;
+        optional Kind kind = 2;
+        optional bytes keyData = 3;
+        enum Kind {
+            UNKNOWN = 0;
+            LID = 1;
+            PHONE_NUMBER = 2;
+        }
+    }
+    message SharedDeviceContactHashKeyRequest {
+        optional uint32 knownEpoch = 1;
+    }
+    message SharedDeviceContactHashKeyShare {
+        repeated Message.SharedDeviceContactHashKey keys = 1;
     }
     message SplitPaymentMessage {
         optional string splitId = 1;
@@ -2184,6 +2216,9 @@ message Message {
         optional string accessibilityLabel = 22;
         optional int32 premium = 24;
         optional string emojis = 25;
+        oneof audio {
+            Message.AudioMessage audioMessage = 26;
+        }
     }
     message StickerPackMessage {
         optional string stickerPackId = 1;

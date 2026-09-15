@@ -5558,6 +5558,7 @@ $root.HistorySync = (function() {
          * @property {string|null} [authAgentParentCompanyName] Conversation authAgentParentCompanyName
          * @property {string|null} [authAgentObaPhoneNumber] Conversation authAgentObaPhoneNumber
          * @property {HistorySync.IIdentityVerificationState|null} [identityVerification] Conversation identityVerification
+         * @property {Protocol.IACP2Setting|null} [acp2Setting] Conversation acp2Setting
          */
 
         /**
@@ -6081,6 +6082,14 @@ $root.HistorySync = (function() {
          */
         Conversation.prototype.identityVerification = null;
 
+        /**
+         * Conversation acp2Setting.
+         * @member {Protocol.IACP2Setting|null|undefined} acp2Setting
+         * @memberof HistorySync.Conversation
+         * @instance
+         */
+        Conversation.prototype.acp2Setting = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -6450,6 +6459,12 @@ $root.HistorySync = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Conversation.prototype, "_acp2Setting", {
+            get: $util.oneOfGetter($oneOfFields = ["acp2Setting"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new Conversation instance using the specified properties.
          * @function create
@@ -6602,6 +6617,8 @@ $root.HistorySync = (function() {
                 writer.uint32(/* id 62, wireType 2 =*/498).string(message.authAgentObaPhoneNumber);
             if (message.identityVerification != null && Object.hasOwnProperty.call(message, "identityVerification"))
                 $root.HistorySync.IdentityVerificationState.encode(message.identityVerification, writer.uint32(/* id 63, wireType 2 =*/506).fork()).ldelim();
+            if (message.acp2Setting != null && Object.hasOwnProperty.call(message, "acp2Setting"))
+                $root.Protocol.ACP2Setting.encode(message.acp2Setting, writer.uint32(/* id 64, wireType 2 =*/514).fork()).ldelim();
             return writer;
         };
 
@@ -6892,6 +6909,10 @@ $root.HistorySync = (function() {
                     }
                 case 63: {
                         message.identityVerification = $root.HistorySync.IdentityVerificationState.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 64: {
+                        message.acp2Setting = $root.Protocol.ACP2Setting.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -7295,6 +7316,14 @@ $root.HistorySync = (function() {
                         return "identityVerification." + error;
                 }
             }
+            if (message.acp2Setting != null && message.hasOwnProperty("acp2Setting")) {
+                properties._acp2Setting = 1;
+                {
+                    var error = $root.Protocol.ACP2Setting.verify(message.acp2Setting);
+                    if (error)
+                        return "acp2Setting." + error;
+                }
+            }
             return null;
         };
 
@@ -7631,6 +7660,11 @@ $root.HistorySync = (function() {
                 if (typeof object.identityVerification !== "object")
                     throw TypeError(".HistorySync.Conversation.identityVerification: object expected");
                 message.identityVerification = $root.HistorySync.IdentityVerificationState.fromObject(object.identityVerification);
+            }
+            if (object.acp2Setting != null) {
+                if (typeof object.acp2Setting !== "object")
+                    throw TypeError(".HistorySync.Conversation.acp2Setting: object expected");
+                message.acp2Setting = $root.Protocol.ACP2Setting.fromObject(object.acp2Setting);
             }
             return message;
         };
@@ -7993,6 +8027,11 @@ $root.HistorySync = (function() {
                 object.identityVerification = $root.HistorySync.IdentityVerificationState.toObject(message.identityVerification, options);
                 if (options.oneofs)
                     object._identityVerification = "identityVerification";
+            }
+            if (message.acp2Setting != null && message.hasOwnProperty("acp2Setting")) {
+                object.acp2Setting = $root.Protocol.ACP2Setting.toObject(message.acp2Setting, options);
+                if (options.oneofs)
+                    object._acp2Setting = "acp2Setting";
             }
             return object;
         };
@@ -21384,6 +21423,7 @@ $root.E2E = (function() {
          * @property {Aea.INonE2EEAttestation|null} [accountEncryptionAttestation] MessageContextInfo accountEncryptionAttestation
          * @property {Uint8Array|null} [associatedPrimaryIdentityKey] MessageContextInfo associatedPrimaryIdentityKey
          * @property {string|null} [teeContextAnchorMessageId] MessageContextInfo teeContextAnchorMessageId
+         * @property {Protocol.IACP2Setting|null} [acp2Setting] MessageContextInfo acp2Setting
          */
 
         /**
@@ -21562,6 +21602,14 @@ $root.E2E = (function() {
          */
         MessageContextInfo.prototype.teeContextAnchorMessageId = null;
 
+        /**
+         * MessageContextInfo acp2Setting.
+         * @member {Protocol.IACP2Setting|null|undefined} acp2Setting
+         * @memberof E2E.MessageContextInfo
+         * @instance
+         */
+        MessageContextInfo.prototype.acp2Setting = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -21679,6 +21727,12 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MessageContextInfo.prototype, "_acp2Setting", {
+            get: $util.oneOfGetter($oneOfFields = ["acp2Setting"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new MessageContextInfo instance using the specified properties.
          * @function create
@@ -21744,6 +21798,8 @@ $root.E2E = (function() {
                 writer.uint32(/* id 19, wireType 2 =*/154).bytes(message.associatedPrimaryIdentityKey);
             if (message.teeContextAnchorMessageId != null && Object.hasOwnProperty.call(message, "teeContextAnchorMessageId"))
                 writer.uint32(/* id 20, wireType 2 =*/162).string(message.teeContextAnchorMessageId);
+            if (message.acp2Setting != null && Object.hasOwnProperty.call(message, "acp2Setting"))
+                $root.Protocol.ACP2Setting.encode(message.acp2Setting, writer.uint32(/* id 21, wireType 2 =*/170).fork()).ldelim();
             return writer;
         };
 
@@ -21860,6 +21916,10 @@ $root.E2E = (function() {
                     }
                 case 20: {
                         message.teeContextAnchorMessageId = reader.string();
+                        break;
+                    }
+                case 21: {
+                        message.acp2Setting = $root.Protocol.ACP2Setting.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -22030,6 +22090,14 @@ $root.E2E = (function() {
                 if (!$util.isString(message.teeContextAnchorMessageId))
                     return "teeContextAnchorMessageId: string expected";
             }
+            if (message.acp2Setting != null && message.hasOwnProperty("acp2Setting")) {
+                properties._acp2Setting = 1;
+                {
+                    var error = $root.Protocol.ACP2Setting.verify(message.acp2Setting);
+                    if (error)
+                        return "acp2Setting." + error;
+                }
+            }
             return null;
         };
 
@@ -22154,6 +22222,11 @@ $root.E2E = (function() {
                     message.associatedPrimaryIdentityKey = object.associatedPrimaryIdentityKey;
             if (object.teeContextAnchorMessageId != null)
                 message.teeContextAnchorMessageId = String(object.teeContextAnchorMessageId);
+            if (object.acp2Setting != null) {
+                if (typeof object.acp2Setting !== "object")
+                    throw TypeError(".E2E.MessageContextInfo.acp2Setting: object expected");
+                message.acp2Setting = $root.Protocol.ACP2Setting.fromObject(object.acp2Setting);
+            }
             return message;
         };
 
@@ -22271,6 +22344,11 @@ $root.E2E = (function() {
                 object.teeContextAnchorMessageId = message.teeContextAnchorMessageId;
                 if (options.oneofs)
                     object._teeContextAnchorMessageId = "teeContextAnchorMessageId";
+            }
+            if (message.acp2Setting != null && message.hasOwnProperty("acp2Setting")) {
+                object.acp2Setting = $root.Protocol.ACP2Setting.toObject(message.acp2Setting, options);
+                if (options.oneofs)
+                    object._acp2Setting = "acp2Setting";
             }
             return object;
         };
@@ -23142,6 +23220,7 @@ $root.E2E = (function() {
          * @property {E2E.ContextInfo.IInstagramThreadLink|null} [instagramThreadLink] ContextInfo instagramThreadLink
          * @property {AICommon.IAIProvenance|null} [aiProvenance] ContextInfo aiProvenance
          * @property {Array.<number>|null} [experienceIds] ContextInfo experienceIds
+         * @property {string|null} [partnerDeepLinkToken] ContextInfo partnerDeepLinkToken
          */
 
         /**
@@ -23683,6 +23762,14 @@ $root.E2E = (function() {
          */
         ContextInfo.prototype.experienceIds = $util.emptyArray;
 
+        /**
+         * ContextInfo partnerDeepLinkToken.
+         * @member {string|null|undefined} partnerDeepLinkToken
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.partnerDeepLinkToken = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -24052,6 +24139,12 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ContextInfo.prototype, "_partnerDeepLinkToken", {
+            get: $util.oneOfGetter($oneOfFields = ["partnerDeepLinkToken"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ContextInfo instance using the specified properties.
          * @function create
@@ -24213,6 +24306,8 @@ $root.E2E = (function() {
                     writer.uint32(message.experienceIds[i]);
                 writer.ldelim();
             }
+            if (message.partnerDeepLinkToken != null && Object.hasOwnProperty.call(message, "partnerDeepLinkToken"))
+                writer.uint32(/* id 83, wireType 2 =*/666).string(message.partnerDeepLinkToken);
             return writer;
         };
 
@@ -24520,6 +24615,10 @@ $root.E2E = (function() {
                                 message.experienceIds.push(reader.uint32());
                         } else
                             message.experienceIds.push(reader.uint32());
+                        break;
+                    }
+                case 83: {
+                        message.partnerDeepLinkToken = reader.string();
                         break;
                     }
                 default:
@@ -25010,6 +25109,11 @@ $root.E2E = (function() {
                     if (!$util.isInteger(message.experienceIds[i]))
                         return "experienceIds: integer[] expected";
             }
+            if (message.partnerDeepLinkToken != null && message.hasOwnProperty("partnerDeepLinkToken")) {
+                properties._partnerDeepLinkToken = 1;
+                if (!$util.isString(message.partnerDeepLinkToken))
+                    return "partnerDeepLinkToken: string expected";
+            }
             return null;
         };
 
@@ -25423,6 +25527,8 @@ $root.E2E = (function() {
                 for (var i = 0; i < object.experienceIds.length; ++i)
                     message.experienceIds[i] = object.experienceIds[i] >>> 0;
             }
+            if (object.partnerDeepLinkToken != null)
+                message.partnerDeepLinkToken = String(object.partnerDeepLinkToken);
             return message;
         };
 
@@ -25772,6 +25878,11 @@ $root.E2E = (function() {
                 object.experienceIds = [];
                 for (var j = 0; j < message.experienceIds.length; ++j)
                     object.experienceIds[j] = message.experienceIds[j];
+            }
+            if (message.partnerDeepLinkToken != null && message.hasOwnProperty("partnerDeepLinkToken")) {
+                object.partnerDeepLinkToken = message.partnerDeepLinkToken;
+                if (options.oneofs)
+                    object._partnerDeepLinkToken = "partnerDeepLinkToken";
             }
             return object;
         };
@@ -28565,6 +28676,7 @@ $root.E2E = (function() {
              * @property {number|null} [agmTitleStrategy] ExternalAdReplyInfo agmTitleStrategy
              * @property {number|null} [agmSubtitleStrategy] ExternalAdReplyInfo agmSubtitleStrategy
              * @property {number|null} [agmHeaderInteractionStrategy] ExternalAdReplyInfo agmHeaderInteractionStrategy
+             * @property {boolean|null} [containsCtwaFlowsAutoLabel] ExternalAdReplyInfo containsCtwaFlowsAutoLabel
              */
 
             /**
@@ -28838,6 +28950,14 @@ $root.E2E = (function() {
              */
             ExternalAdReplyInfo.prototype.agmHeaderInteractionStrategy = null;
 
+            /**
+             * ExternalAdReplyInfo containsCtwaFlowsAutoLabel.
+             * @member {boolean|null|undefined} containsCtwaFlowsAutoLabel
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.containsCtwaFlowsAutoLabel = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -29033,6 +29153,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_containsCtwaFlowsAutoLabel", {
+                get: $util.oneOfGetter($oneOfFields = ["containsCtwaFlowsAutoLabel"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new ExternalAdReplyInfo instance using the specified properties.
              * @function create
@@ -29121,6 +29247,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 31, wireType 0 =*/248).int32(message.agmSubtitleStrategy);
                 if (message.agmHeaderInteractionStrategy != null && Object.hasOwnProperty.call(message, "agmHeaderInteractionStrategy"))
                     writer.uint32(/* id 32, wireType 0 =*/256).int32(message.agmHeaderInteractionStrategy);
+                if (message.containsCtwaFlowsAutoLabel != null && Object.hasOwnProperty.call(message, "containsCtwaFlowsAutoLabel"))
+                    writer.uint32(/* id 33, wireType 0 =*/264).bool(message.containsCtwaFlowsAutoLabel);
                 return writer;
             };
 
@@ -29283,6 +29411,10 @@ $root.E2E = (function() {
                         }
                     case 32: {
                             message.agmHeaderInteractionStrategy = reader.int32();
+                            break;
+                        }
+                    case 33: {
+                            message.containsCtwaFlowsAutoLabel = reader.bool();
                             break;
                         }
                     default:
@@ -29492,6 +29624,11 @@ $root.E2E = (function() {
                     if (!$util.isInteger(message.agmHeaderInteractionStrategy))
                         return "agmHeaderInteractionStrategy: integer expected";
                 }
+                if (message.containsCtwaFlowsAutoLabel != null && message.hasOwnProperty("containsCtwaFlowsAutoLabel")) {
+                    properties._containsCtwaFlowsAutoLabel = 1;
+                    if (typeof message.containsCtwaFlowsAutoLabel !== "boolean")
+                        return "containsCtwaFlowsAutoLabel: boolean expected";
+                }
                 return null;
             };
 
@@ -29606,6 +29743,8 @@ $root.E2E = (function() {
                     message.agmSubtitleStrategy = object.agmSubtitleStrategy | 0;
                 if (object.agmHeaderInteractionStrategy != null)
                     message.agmHeaderInteractionStrategy = object.agmHeaderInteractionStrategy | 0;
+                if (object.containsCtwaFlowsAutoLabel != null)
+                    message.containsCtwaFlowsAutoLabel = Boolean(object.containsCtwaFlowsAutoLabel);
                 return message;
             };
 
@@ -29781,6 +29920,11 @@ $root.E2E = (function() {
                     object.agmHeaderInteractionStrategy = message.agmHeaderInteractionStrategy;
                     if (options.oneofs)
                         object._agmHeaderInteractionStrategy = "agmHeaderInteractionStrategy";
+                }
+                if (message.containsCtwaFlowsAutoLabel != null && message.hasOwnProperty("containsCtwaFlowsAutoLabel")) {
+                    object.containsCtwaFlowsAutoLabel = message.containsCtwaFlowsAutoLabel;
+                    if (options.oneofs)
+                        object._containsCtwaFlowsAutoLabel = "containsCtwaFlowsAutoLabel";
                 }
                 return object;
             };
@@ -32421,6 +32565,8 @@ $root.E2E = (function() {
          * @property {E2E.Message.IStatusLinkPreviewMetadata|null} [statusLinkPreviewMetadata] Message statusLinkPreviewMetadata
          * @property {E2E.Message.IFutureProofMessage|null} [botPlatformRegistrationSuccessMessage] Message botPlatformRegistrationSuccessMessage
          * @property {E2E.Message.IFutureProofMessage|null} [newsletterScheduledMessage] Message newsletterScheduledMessage
+         * @property {E2E.Message.IFutureProofMessage|null} [acp2SettingMessage] Message acp2SettingMessage
+         * @property {E2E.Message.IFutureProofMessage|null} [audioStickerMessage] Message audioStickerMessage
          */
 
         /**
@@ -33326,6 +33472,22 @@ $root.E2E = (function() {
          */
         Message.prototype.newsletterScheduledMessage = null;
 
+        /**
+         * Message acp2SettingMessage.
+         * @member {E2E.Message.IFutureProofMessage|null|undefined} acp2SettingMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.acp2SettingMessage = null;
+
+        /**
+         * Message audioStickerMessage.
+         * @member {E2E.Message.IFutureProofMessage|null|undefined} audioStickerMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.audioStickerMessage = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -33995,6 +34157,18 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_acp2SettingMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["acp2SettingMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_audioStickerMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["audioStickerMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new Message instance using the specified properties.
          * @function create
@@ -34241,6 +34415,10 @@ $root.E2E = (function() {
                 $root.E2E.Message.FutureProofMessage.encode(message.botPlatformRegistrationSuccessMessage, writer.uint32(/* id 131, wireType 2 =*/1050).fork()).ldelim();
             if (message.newsletterScheduledMessage != null && Object.hasOwnProperty.call(message, "newsletterScheduledMessage"))
                 $root.E2E.Message.FutureProofMessage.encode(message.newsletterScheduledMessage, writer.uint32(/* id 132, wireType 2 =*/1058).fork()).ldelim();
+            if (message.acp2SettingMessage != null && Object.hasOwnProperty.call(message, "acp2SettingMessage"))
+                $root.E2E.Message.FutureProofMessage.encode(message.acp2SettingMessage, writer.uint32(/* id 133, wireType 2 =*/1066).fork()).ldelim();
+            if (message.audioStickerMessage != null && Object.hasOwnProperty.call(message, "audioStickerMessage"))
+                $root.E2E.Message.FutureProofMessage.encode(message.audioStickerMessage, writer.uint32(/* id 134, wireType 2 =*/1074).fork()).ldelim();
             return writer;
         };
 
@@ -34719,6 +34897,14 @@ $root.E2E = (function() {
                     }
                 case 132: {
                         message.newsletterScheduledMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 133: {
+                        message.acp2SettingMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 134: {
+                        message.audioStickerMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -35642,6 +35828,22 @@ $root.E2E = (function() {
                         return "newsletterScheduledMessage." + error;
                 }
             }
+            if (message.acp2SettingMessage != null && message.hasOwnProperty("acp2SettingMessage")) {
+                properties._acp2SettingMessage = 1;
+                {
+                    var error = $root.E2E.Message.FutureProofMessage.verify(message.acp2SettingMessage);
+                    if (error)
+                        return "acp2SettingMessage." + error;
+                }
+            }
+            if (message.audioStickerMessage != null && message.hasOwnProperty("audioStickerMessage")) {
+                properties._audioStickerMessage = 1;
+                {
+                    var error = $root.E2E.Message.FutureProofMessage.verify(message.audioStickerMessage);
+                    if (error)
+                        return "audioStickerMessage." + error;
+                }
+            }
             return null;
         };
 
@@ -36208,6 +36410,16 @@ $root.E2E = (function() {
                 if (typeof object.newsletterScheduledMessage !== "object")
                     throw TypeError(".E2E.Message.newsletterScheduledMessage: object expected");
                 message.newsletterScheduledMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.newsletterScheduledMessage);
+            }
+            if (object.acp2SettingMessage != null) {
+                if (typeof object.acp2SettingMessage !== "object")
+                    throw TypeError(".E2E.Message.acp2SettingMessage: object expected");
+                message.acp2SettingMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.acp2SettingMessage);
+            }
+            if (object.audioStickerMessage != null) {
+                if (typeof object.audioStickerMessage !== "object")
+                    throw TypeError(".E2E.Message.audioStickerMessage: object expected");
+                message.audioStickerMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.audioStickerMessage);
             }
             return message;
         };
@@ -36779,6 +36991,16 @@ $root.E2E = (function() {
                 object.newsletterScheduledMessage = $root.E2E.Message.FutureProofMessage.toObject(message.newsletterScheduledMessage, options);
                 if (options.oneofs)
                     object._newsletterScheduledMessage = "newsletterScheduledMessage";
+            }
+            if (message.acp2SettingMessage != null && message.hasOwnProperty("acp2SettingMessage")) {
+                object.acp2SettingMessage = $root.E2E.Message.FutureProofMessage.toObject(message.acp2SettingMessage, options);
+                if (options.oneofs)
+                    object._acp2SettingMessage = "acp2SettingMessage";
+            }
+            if (message.audioStickerMessage != null && message.hasOwnProperty("audioStickerMessage")) {
+                object.audioStickerMessage = $root.E2E.Message.FutureProofMessage.toObject(message.audioStickerMessage, options);
+                if (options.oneofs)
+                    object._audioStickerMessage = "audioStickerMessage";
             }
             return object;
         };
@@ -44002,6 +44224,257 @@ $root.E2E = (function() {
             return Chat;
         })();
 
+        Message.ChatAnimatedWallpaper = (function() {
+
+            /**
+             * Properties of a ChatAnimatedWallpaper.
+             * @memberof E2E.Message
+             * @interface IChatAnimatedWallpaper
+             * @property {string|null} [animatedWallpaperId] ChatAnimatedWallpaper animatedWallpaperId
+             * @property {number|null} [dimLevel] ChatAnimatedWallpaper dimLevel
+             */
+
+            /**
+             * Constructs a new ChatAnimatedWallpaper.
+             * @memberof E2E.Message
+             * @classdesc Represents a ChatAnimatedWallpaper.
+             * @implements IChatAnimatedWallpaper
+             * @constructor
+             * @param {E2E.Message.IChatAnimatedWallpaper=} [properties] Properties to set
+             */
+            function ChatAnimatedWallpaper(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ChatAnimatedWallpaper animatedWallpaperId.
+             * @member {string|null|undefined} animatedWallpaperId
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @instance
+             */
+            ChatAnimatedWallpaper.prototype.animatedWallpaperId = null;
+
+            /**
+             * ChatAnimatedWallpaper dimLevel.
+             * @member {number|null|undefined} dimLevel
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @instance
+             */
+            ChatAnimatedWallpaper.prototype.dimLevel = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ChatAnimatedWallpaper.prototype, "_animatedWallpaperId", {
+                get: $util.oneOfGetter($oneOfFields = ["animatedWallpaperId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ChatAnimatedWallpaper.prototype, "_dimLevel", {
+                get: $util.oneOfGetter($oneOfFields = ["dimLevel"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new ChatAnimatedWallpaper instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {E2E.Message.IChatAnimatedWallpaper=} [properties] Properties to set
+             * @returns {E2E.Message.ChatAnimatedWallpaper} ChatAnimatedWallpaper instance
+             */
+            ChatAnimatedWallpaper.create = function create(properties) {
+                return new ChatAnimatedWallpaper(properties);
+            };
+
+            /**
+             * Encodes the specified ChatAnimatedWallpaper message. Does not implicitly {@link E2E.Message.ChatAnimatedWallpaper.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {E2E.Message.IChatAnimatedWallpaper} message ChatAnimatedWallpaper message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ChatAnimatedWallpaper.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.animatedWallpaperId != null && Object.hasOwnProperty.call(message, "animatedWallpaperId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.animatedWallpaperId);
+                if (message.dimLevel != null && Object.hasOwnProperty.call(message, "dimLevel"))
+                    writer.uint32(/* id 2, wireType 5 =*/21).float(message.dimLevel);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ChatAnimatedWallpaper message, length delimited. Does not implicitly {@link E2E.Message.ChatAnimatedWallpaper.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {E2E.Message.IChatAnimatedWallpaper} message ChatAnimatedWallpaper message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ChatAnimatedWallpaper.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ChatAnimatedWallpaper message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.ChatAnimatedWallpaper} ChatAnimatedWallpaper
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ChatAnimatedWallpaper.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.ChatAnimatedWallpaper();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.animatedWallpaperId = reader.string();
+                            break;
+                        }
+                    case 2: {
+                            message.dimLevel = reader.float();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ChatAnimatedWallpaper message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.ChatAnimatedWallpaper} ChatAnimatedWallpaper
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ChatAnimatedWallpaper.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ChatAnimatedWallpaper message.
+             * @function verify
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ChatAnimatedWallpaper.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.animatedWallpaperId != null && message.hasOwnProperty("animatedWallpaperId")) {
+                    properties._animatedWallpaperId = 1;
+                    if (!$util.isString(message.animatedWallpaperId))
+                        return "animatedWallpaperId: string expected";
+                }
+                if (message.dimLevel != null && message.hasOwnProperty("dimLevel")) {
+                    properties._dimLevel = 1;
+                    if (typeof message.dimLevel !== "number")
+                        return "dimLevel: number expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a ChatAnimatedWallpaper message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.ChatAnimatedWallpaper} ChatAnimatedWallpaper
+             */
+            ChatAnimatedWallpaper.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.ChatAnimatedWallpaper)
+                    return object;
+                var message = new $root.E2E.Message.ChatAnimatedWallpaper();
+                if (object.animatedWallpaperId != null)
+                    message.animatedWallpaperId = String(object.animatedWallpaperId);
+                if (object.dimLevel != null)
+                    message.dimLevel = Number(object.dimLevel);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ChatAnimatedWallpaper message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {E2E.Message.ChatAnimatedWallpaper} message ChatAnimatedWallpaper
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ChatAnimatedWallpaper.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.animatedWallpaperId != null && message.hasOwnProperty("animatedWallpaperId")) {
+                    object.animatedWallpaperId = message.animatedWallpaperId;
+                    if (options.oneofs)
+                        object._animatedWallpaperId = "animatedWallpaperId";
+                }
+                if (message.dimLevel != null && message.hasOwnProperty("dimLevel")) {
+                    object.dimLevel = options.json && !isFinite(message.dimLevel) ? String(message.dimLevel) : message.dimLevel;
+                    if (options.oneofs)
+                        object._dimLevel = "dimLevel";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this ChatAnimatedWallpaper to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ChatAnimatedWallpaper.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for ChatAnimatedWallpaper
+             * @function getTypeUrl
+             * @memberof E2E.Message.ChatAnimatedWallpaper
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            ChatAnimatedWallpaper.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.ChatAnimatedWallpaper";
+            };
+
+            return ChatAnimatedWallpaper;
+        })();
+
         Message.ChatCustomImageWallpaper = (function() {
 
             /**
@@ -45127,6 +45600,7 @@ $root.E2E = (function() {
              * @property {E2E.Message.IChatSolidColorWallpaper|null} [solidColor] ChatThemeSetting solidColor
              * @property {E2E.Message.IChatStockImageWallpaper|null} [stockImage] ChatThemeSetting stockImage
              * @property {E2E.Message.IChatCustomImageWallpaper|null} [customImage] ChatThemeSetting customImage
+             * @property {E2E.Message.IChatAnimatedWallpaper|null} [animatedWallpaper] ChatThemeSetting animatedWallpaper
              */
 
             /**
@@ -45200,6 +45674,14 @@ $root.E2E = (function() {
              */
             ChatThemeSetting.prototype.customImage = null;
 
+            /**
+             * ChatThemeSetting animatedWallpaper.
+             * @member {E2E.Message.IChatAnimatedWallpaper|null|undefined} animatedWallpaper
+             * @memberof E2E.Message.ChatThemeSetting
+             * @instance
+             */
+            ChatThemeSetting.prototype.animatedWallpaper = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -45223,12 +45705,12 @@ $root.E2E = (function() {
 
             /**
              * ChatThemeSetting wallpaper.
-             * @member {"defaultWallpaper"|"solidColor"|"stockImage"|"customImage"|undefined} wallpaper
+             * @member {"defaultWallpaper"|"solidColor"|"stockImage"|"customImage"|"animatedWallpaper"|undefined} wallpaper
              * @memberof E2E.Message.ChatThemeSetting
              * @instance
              */
             Object.defineProperty(ChatThemeSetting.prototype, "wallpaper", {
-                get: $util.oneOfGetter($oneOfFields = ["defaultWallpaper", "solidColor", "stockImage", "customImage"]),
+                get: $util.oneOfGetter($oneOfFields = ["defaultWallpaper", "solidColor", "stockImage", "customImage", "animatedWallpaper"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -45270,6 +45752,8 @@ $root.E2E = (function() {
                     $root.E2E.Message.ChatStockImageWallpaper.encode(message.stockImage, writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
                 if (message.customImage != null && Object.hasOwnProperty.call(message, "customImage"))
                     $root.E2E.Message.ChatCustomImageWallpaper.encode(message.customImage, writer.uint32(/* id 13, wireType 2 =*/106).fork()).ldelim();
+                if (message.animatedWallpaper != null && Object.hasOwnProperty.call(message, "animatedWallpaper"))
+                    $root.E2E.Message.ChatAnimatedWallpaper.encode(message.animatedWallpaper, writer.uint32(/* id 14, wireType 2 =*/114).fork()).ldelim();
                 return writer;
             };
 
@@ -45332,6 +45816,10 @@ $root.E2E = (function() {
                         }
                     case 13: {
                             message.customImage = $root.E2E.Message.ChatCustomImageWallpaper.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 14: {
+                            message.animatedWallpaper = $root.E2E.Message.ChatAnimatedWallpaper.decode(reader, reader.uint32());
                             break;
                         }
                     default:
@@ -45423,6 +45911,16 @@ $root.E2E = (function() {
                             return "customImage." + error;
                     }
                 }
+                if (message.animatedWallpaper != null && message.hasOwnProperty("animatedWallpaper")) {
+                    if (properties.wallpaper === 1)
+                        return "wallpaper: multiple values";
+                    properties.wallpaper = 1;
+                    {
+                        var error = $root.E2E.Message.ChatAnimatedWallpaper.verify(message.animatedWallpaper);
+                        if (error)
+                            return "animatedWallpaper." + error;
+                    }
+                }
                 return null;
             };
 
@@ -45470,6 +45968,11 @@ $root.E2E = (function() {
                     if (typeof object.customImage !== "object")
                         throw TypeError(".E2E.Message.ChatThemeSetting.customImage: object expected");
                     message.customImage = $root.E2E.Message.ChatCustomImageWallpaper.fromObject(object.customImage);
+                }
+                if (object.animatedWallpaper != null) {
+                    if (typeof object.animatedWallpaper !== "object")
+                        throw TypeError(".E2E.Message.ChatThemeSetting.animatedWallpaper: object expected");
+                    message.animatedWallpaper = $root.E2E.Message.ChatAnimatedWallpaper.fromObject(object.animatedWallpaper);
                 }
                 return message;
             };
@@ -45524,6 +46027,11 @@ $root.E2E = (function() {
                     object.customImage = $root.E2E.Message.ChatCustomImageWallpaper.toObject(message.customImage, options);
                     if (options.oneofs)
                         object.wallpaper = "customImage";
+                }
+                if (message.animatedWallpaper != null && message.hasOwnProperty("animatedWallpaper")) {
+                    object.animatedWallpaper = $root.E2E.Message.ChatAnimatedWallpaper.toObject(message.animatedWallpaper, options);
+                    if (options.oneofs)
+                        object.wallpaper = "animatedWallpaper";
                 }
                 return object;
             };
@@ -89317,6 +89825,9 @@ $root.E2E = (function() {
              * @property {AICommon.IAIMetadataOperation|null} [aiMetadataOperation] ProtocolMessage aiMetadataOperation
              * @property {E2E.Message.IMarkAsVerifiedAction|null} [markAsVerifiedAction] ProtocolMessage markAsVerifiedAction
              * @property {ServerSync.ICoexStateSync|null} [coexStateSync] ProtocolMessage coexStateSync
+             * @property {Protocol.IACP2Setting|null} [acp2Setting] ProtocolMessage acp2Setting
+             * @property {E2E.Message.ISharedDeviceContactHashKeyShare|null} [sharedDeviceContactHashKeyShare] ProtocolMessage sharedDeviceContactHashKeyShare
+             * @property {E2E.Message.ISharedDeviceContactHashKeyRequest|null} [sharedDeviceContactHashKeyRequest] ProtocolMessage sharedDeviceContactHashKeyRequest
              */
 
             /**
@@ -89574,6 +90085,30 @@ $root.E2E = (function() {
              */
             ProtocolMessage.prototype.coexStateSync = null;
 
+            /**
+             * ProtocolMessage acp2Setting.
+             * @member {Protocol.IACP2Setting|null|undefined} acp2Setting
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.acp2Setting = null;
+
+            /**
+             * ProtocolMessage sharedDeviceContactHashKeyShare.
+             * @member {E2E.Message.ISharedDeviceContactHashKeyShare|null|undefined} sharedDeviceContactHashKeyShare
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.sharedDeviceContactHashKeyShare = null;
+
+            /**
+             * ProtocolMessage sharedDeviceContactHashKeyRequest.
+             * @member {E2E.Message.ISharedDeviceContactHashKeyRequest|null|undefined} sharedDeviceContactHashKeyRequest
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.sharedDeviceContactHashKeyRequest = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -89757,6 +90292,24 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_acp2Setting", {
+                get: $util.oneOfGetter($oneOfFields = ["acp2Setting"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_sharedDeviceContactHashKeyShare", {
+                get: $util.oneOfGetter($oneOfFields = ["sharedDeviceContactHashKeyShare"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_sharedDeviceContactHashKeyRequest", {
+                get: $util.oneOfGetter($oneOfFields = ["sharedDeviceContactHashKeyRequest"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new ProtocolMessage instance using the specified properties.
              * @function create
@@ -89841,6 +90394,12 @@ $root.E2E = (function() {
                     $root.E2E.Message.MarkAsVerifiedAction.encode(message.markAsVerifiedAction, writer.uint32(/* id 32, wireType 2 =*/258).fork()).ldelim();
                 if (message.coexStateSync != null && Object.hasOwnProperty.call(message, "coexStateSync"))
                     $root.ServerSync.CoexStateSync.encode(message.coexStateSync, writer.uint32(/* id 33, wireType 2 =*/266).fork()).ldelim();
+                if (message.acp2Setting != null && Object.hasOwnProperty.call(message, "acp2Setting"))
+                    $root.Protocol.ACP2Setting.encode(message.acp2Setting, writer.uint32(/* id 35, wireType 2 =*/282).fork()).ldelim();
+                if (message.sharedDeviceContactHashKeyShare != null && Object.hasOwnProperty.call(message, "sharedDeviceContactHashKeyShare"))
+                    $root.E2E.Message.SharedDeviceContactHashKeyShare.encode(message.sharedDeviceContactHashKeyShare, writer.uint32(/* id 36, wireType 2 =*/290).fork()).ldelim();
+                if (message.sharedDeviceContactHashKeyRequest != null && Object.hasOwnProperty.call(message, "sharedDeviceContactHashKeyRequest"))
+                    $root.E2E.Message.SharedDeviceContactHashKeyRequest.encode(message.sharedDeviceContactHashKeyRequest, writer.uint32(/* id 37, wireType 2 =*/298).fork()).ldelim();
                 return writer;
             };
 
@@ -89997,6 +90556,18 @@ $root.E2E = (function() {
                             message.coexStateSync = $root.ServerSync.CoexStateSync.decode(reader, reader.uint32());
                             break;
                         }
+                    case 35: {
+                            message.acp2Setting = $root.Protocol.ACP2Setting.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 36: {
+                            message.sharedDeviceContactHashKeyShare = $root.E2E.Message.SharedDeviceContactHashKeyShare.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 37: {
+                            message.sharedDeviceContactHashKeyRequest = $root.E2E.Message.SharedDeviceContactHashKeyRequest.decode(reader, reader.uint32());
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -90078,6 +90649,9 @@ $root.E2E = (function() {
                     case 35:
                     case 36:
                     case 37:
+                    case 39:
+                    case 40:
+                    case 41:
                         break;
                     }
                 }
@@ -90287,6 +90861,30 @@ $root.E2E = (function() {
                             return "coexStateSync." + error;
                     }
                 }
+                if (message.acp2Setting != null && message.hasOwnProperty("acp2Setting")) {
+                    properties._acp2Setting = 1;
+                    {
+                        var error = $root.Protocol.ACP2Setting.verify(message.acp2Setting);
+                        if (error)
+                            return "acp2Setting." + error;
+                    }
+                }
+                if (message.sharedDeviceContactHashKeyShare != null && message.hasOwnProperty("sharedDeviceContactHashKeyShare")) {
+                    properties._sharedDeviceContactHashKeyShare = 1;
+                    {
+                        var error = $root.E2E.Message.SharedDeviceContactHashKeyShare.verify(message.sharedDeviceContactHashKeyShare);
+                        if (error)
+                            return "sharedDeviceContactHashKeyShare." + error;
+                    }
+                }
+                if (message.sharedDeviceContactHashKeyRequest != null && message.hasOwnProperty("sharedDeviceContactHashKeyRequest")) {
+                    properties._sharedDeviceContactHashKeyRequest = 1;
+                    {
+                        var error = $root.E2E.Message.SharedDeviceContactHashKeyRequest.verify(message.sharedDeviceContactHashKeyRequest);
+                        if (error)
+                            return "sharedDeviceContactHashKeyRequest." + error;
+                    }
+                }
                 return null;
             };
 
@@ -90442,6 +91040,18 @@ $root.E2E = (function() {
                 case 37:
                     message.type = 37;
                     break;
+                case "ACP2_SETTING":
+                case 39:
+                    message.type = 39;
+                    break;
+                case "SHARED_DEVICE_CONTACT_HASH_KEY_SHARE":
+                case 40:
+                    message.type = 40;
+                    break;
+                case "SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST":
+                case 41:
+                    message.type = 41;
+                    break;
                 }
                 if (object.ephemeralExpiration != null)
                     message.ephemeralExpiration = object.ephemeralExpiration >>> 0;
@@ -90581,6 +91191,21 @@ $root.E2E = (function() {
                     if (typeof object.coexStateSync !== "object")
                         throw TypeError(".E2E.Message.ProtocolMessage.coexStateSync: object expected");
                     message.coexStateSync = $root.ServerSync.CoexStateSync.fromObject(object.coexStateSync);
+                }
+                if (object.acp2Setting != null) {
+                    if (typeof object.acp2Setting !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.acp2Setting: object expected");
+                    message.acp2Setting = $root.Protocol.ACP2Setting.fromObject(object.acp2Setting);
+                }
+                if (object.sharedDeviceContactHashKeyShare != null) {
+                    if (typeof object.sharedDeviceContactHashKeyShare !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.sharedDeviceContactHashKeyShare: object expected");
+                    message.sharedDeviceContactHashKeyShare = $root.E2E.Message.SharedDeviceContactHashKeyShare.fromObject(object.sharedDeviceContactHashKeyShare);
+                }
+                if (object.sharedDeviceContactHashKeyRequest != null) {
+                    if (typeof object.sharedDeviceContactHashKeyRequest !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.sharedDeviceContactHashKeyRequest: object expected");
+                    message.sharedDeviceContactHashKeyRequest = $root.E2E.Message.SharedDeviceContactHashKeyRequest.fromObject(object.sharedDeviceContactHashKeyRequest);
                 }
                 return message;
             };
@@ -90754,6 +91379,21 @@ $root.E2E = (function() {
                     if (options.oneofs)
                         object._coexStateSync = "coexStateSync";
                 }
+                if (message.acp2Setting != null && message.hasOwnProperty("acp2Setting")) {
+                    object.acp2Setting = $root.Protocol.ACP2Setting.toObject(message.acp2Setting, options);
+                    if (options.oneofs)
+                        object._acp2Setting = "acp2Setting";
+                }
+                if (message.sharedDeviceContactHashKeyShare != null && message.hasOwnProperty("sharedDeviceContactHashKeyShare")) {
+                    object.sharedDeviceContactHashKeyShare = $root.E2E.Message.SharedDeviceContactHashKeyShare.toObject(message.sharedDeviceContactHashKeyShare, options);
+                    if (options.oneofs)
+                        object._sharedDeviceContactHashKeyShare = "sharedDeviceContactHashKeyShare";
+                }
+                if (message.sharedDeviceContactHashKeyRequest != null && message.hasOwnProperty("sharedDeviceContactHashKeyRequest")) {
+                    object.sharedDeviceContactHashKeyRequest = $root.E2E.Message.SharedDeviceContactHashKeyRequest.toObject(message.sharedDeviceContactHashKeyRequest, options);
+                    if (options.oneofs)
+                        object._sharedDeviceContactHashKeyRequest = "sharedDeviceContactHashKeyRequest";
+                }
                 return object;
             };
 
@@ -90819,6 +91459,9 @@ $root.E2E = (function() {
              * @property {number} AI_METADATA_OPERATION=35 AI_METADATA_OPERATION value
              * @property {number} MARK_AS_VERIFIED_ACTION=36 MARK_AS_VERIFIED_ACTION value
              * @property {number} COEX_STATE_SYNC=37 COEX_STATE_SYNC value
+             * @property {number} ACP2_SETTING=39 ACP2_SETTING value
+             * @property {number} SHARED_DEVICE_CONTACT_HASH_KEY_SHARE=40 SHARED_DEVICE_CONTACT_HASH_KEY_SHARE value
+             * @property {number} SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST=41 SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST value
              */
             ProtocolMessage.Type = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -90854,6 +91497,9 @@ $root.E2E = (function() {
                 values[valuesById[35] = "AI_METADATA_OPERATION"] = 35;
                 values[valuesById[36] = "MARK_AS_VERIFIED_ACTION"] = 36;
                 values[valuesById[37] = "COEX_STATE_SYNC"] = 37;
+                values[valuesById[39] = "ACP2_SETTING"] = 39;
+                values[valuesById[40] = "SHARED_DEVICE_CONTACT_HASH_KEY_SHARE"] = 40;
+                values[valuesById[41] = "SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST"] = 41;
                 return values;
             })();
 
@@ -94338,6 +94984,777 @@ $root.E2E = (function() {
             return SenderKeyDistributionMessage;
         })();
 
+        Message.SharedDeviceContactHashKey = (function() {
+
+            /**
+             * Properties of a SharedDeviceContactHashKey.
+             * @memberof E2E.Message
+             * @interface ISharedDeviceContactHashKey
+             * @property {number|null} [epoch] SharedDeviceContactHashKey epoch
+             * @property {E2E.Message.SharedDeviceContactHashKey.Kind|null} [kind] SharedDeviceContactHashKey kind
+             * @property {Uint8Array|null} [keyData] SharedDeviceContactHashKey keyData
+             */
+
+            /**
+             * Constructs a new SharedDeviceContactHashKey.
+             * @memberof E2E.Message
+             * @classdesc Represents a SharedDeviceContactHashKey.
+             * @implements ISharedDeviceContactHashKey
+             * @constructor
+             * @param {E2E.Message.ISharedDeviceContactHashKey=} [properties] Properties to set
+             */
+            function SharedDeviceContactHashKey(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * SharedDeviceContactHashKey epoch.
+             * @member {number|null|undefined} epoch
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @instance
+             */
+            SharedDeviceContactHashKey.prototype.epoch = null;
+
+            /**
+             * SharedDeviceContactHashKey kind.
+             * @member {E2E.Message.SharedDeviceContactHashKey.Kind|null|undefined} kind
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @instance
+             */
+            SharedDeviceContactHashKey.prototype.kind = null;
+
+            /**
+             * SharedDeviceContactHashKey keyData.
+             * @member {Uint8Array|null|undefined} keyData
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @instance
+             */
+            SharedDeviceContactHashKey.prototype.keyData = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(SharedDeviceContactHashKey.prototype, "_epoch", {
+                get: $util.oneOfGetter($oneOfFields = ["epoch"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(SharedDeviceContactHashKey.prototype, "_kind", {
+                get: $util.oneOfGetter($oneOfFields = ["kind"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(SharedDeviceContactHashKey.prototype, "_keyData", {
+                get: $util.oneOfGetter($oneOfFields = ["keyData"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new SharedDeviceContactHashKey instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKey=} [properties] Properties to set
+             * @returns {E2E.Message.SharedDeviceContactHashKey} SharedDeviceContactHashKey instance
+             */
+            SharedDeviceContactHashKey.create = function create(properties) {
+                return new SharedDeviceContactHashKey(properties);
+            };
+
+            /**
+             * Encodes the specified SharedDeviceContactHashKey message. Does not implicitly {@link E2E.Message.SharedDeviceContactHashKey.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKey} message SharedDeviceContactHashKey message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceContactHashKey.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.epoch != null && Object.hasOwnProperty.call(message, "epoch"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.epoch);
+                if (message.kind != null && Object.hasOwnProperty.call(message, "kind"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.kind);
+                if (message.keyData != null && Object.hasOwnProperty.call(message, "keyData"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.keyData);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified SharedDeviceContactHashKey message, length delimited. Does not implicitly {@link E2E.Message.SharedDeviceContactHashKey.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKey} message SharedDeviceContactHashKey message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceContactHashKey.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a SharedDeviceContactHashKey message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.SharedDeviceContactHashKey} SharedDeviceContactHashKey
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceContactHashKey.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.SharedDeviceContactHashKey();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.epoch = reader.uint32();
+                            break;
+                        }
+                    case 2: {
+                            message.kind = reader.int32();
+                            break;
+                        }
+                    case 3: {
+                            message.keyData = reader.bytes();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a SharedDeviceContactHashKey message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.SharedDeviceContactHashKey} SharedDeviceContactHashKey
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceContactHashKey.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a SharedDeviceContactHashKey message.
+             * @function verify
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SharedDeviceContactHashKey.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.epoch != null && message.hasOwnProperty("epoch")) {
+                    properties._epoch = 1;
+                    if (!$util.isInteger(message.epoch))
+                        return "epoch: integer expected";
+                }
+                if (message.kind != null && message.hasOwnProperty("kind")) {
+                    properties._kind = 1;
+                    switch (message.kind) {
+                    default:
+                        return "kind: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                        break;
+                    }
+                }
+                if (message.keyData != null && message.hasOwnProperty("keyData")) {
+                    properties._keyData = 1;
+                    if (!(message.keyData && typeof message.keyData.length === "number" || $util.isString(message.keyData)))
+                        return "keyData: buffer expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a SharedDeviceContactHashKey message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.SharedDeviceContactHashKey} SharedDeviceContactHashKey
+             */
+            SharedDeviceContactHashKey.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.SharedDeviceContactHashKey)
+                    return object;
+                var message = new $root.E2E.Message.SharedDeviceContactHashKey();
+                if (object.epoch != null)
+                    message.epoch = object.epoch >>> 0;
+                switch (object.kind) {
+                default:
+                    if (typeof object.kind === "number") {
+                        message.kind = object.kind;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.kind = 0;
+                    break;
+                case "LID":
+                case 1:
+                    message.kind = 1;
+                    break;
+                case "PHONE_NUMBER":
+                case 2:
+                    message.kind = 2;
+                    break;
+                }
+                if (object.keyData != null)
+                    if (typeof object.keyData === "string")
+                        $util.base64.decode(object.keyData, message.keyData = $util.newBuffer($util.base64.length(object.keyData)), 0);
+                    else if (object.keyData.length >= 0)
+                        message.keyData = object.keyData;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a SharedDeviceContactHashKey message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {E2E.Message.SharedDeviceContactHashKey} message SharedDeviceContactHashKey
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SharedDeviceContactHashKey.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.epoch != null && message.hasOwnProperty("epoch")) {
+                    object.epoch = message.epoch;
+                    if (options.oneofs)
+                        object._epoch = "epoch";
+                }
+                if (message.kind != null && message.hasOwnProperty("kind")) {
+                    object.kind = options.enums === String ? $root.E2E.Message.SharedDeviceContactHashKey.Kind[message.kind] === undefined ? message.kind : $root.E2E.Message.SharedDeviceContactHashKey.Kind[message.kind] : message.kind;
+                    if (options.oneofs)
+                        object._kind = "kind";
+                }
+                if (message.keyData != null && message.hasOwnProperty("keyData")) {
+                    object.keyData = options.bytes === String ? $util.base64.encode(message.keyData, 0, message.keyData.length) : options.bytes === Array ? Array.prototype.slice.call(message.keyData) : message.keyData;
+                    if (options.oneofs)
+                        object._keyData = "keyData";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this SharedDeviceContactHashKey to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SharedDeviceContactHashKey.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for SharedDeviceContactHashKey
+             * @function getTypeUrl
+             * @memberof E2E.Message.SharedDeviceContactHashKey
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            SharedDeviceContactHashKey.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.SharedDeviceContactHashKey";
+            };
+
+            /**
+             * Kind enum.
+             * @name E2E.Message.SharedDeviceContactHashKey.Kind
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} LID=1 LID value
+             * @property {number} PHONE_NUMBER=2 PHONE_NUMBER value
+             */
+            SharedDeviceContactHashKey.Kind = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "LID"] = 1;
+                values[valuesById[2] = "PHONE_NUMBER"] = 2;
+                return values;
+            })();
+
+            return SharedDeviceContactHashKey;
+        })();
+
+        Message.SharedDeviceContactHashKeyRequest = (function() {
+
+            /**
+             * Properties of a SharedDeviceContactHashKeyRequest.
+             * @memberof E2E.Message
+             * @interface ISharedDeviceContactHashKeyRequest
+             * @property {number|null} [knownEpoch] SharedDeviceContactHashKeyRequest knownEpoch
+             */
+
+            /**
+             * Constructs a new SharedDeviceContactHashKeyRequest.
+             * @memberof E2E.Message
+             * @classdesc Represents a SharedDeviceContactHashKeyRequest.
+             * @implements ISharedDeviceContactHashKeyRequest
+             * @constructor
+             * @param {E2E.Message.ISharedDeviceContactHashKeyRequest=} [properties] Properties to set
+             */
+            function SharedDeviceContactHashKeyRequest(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * SharedDeviceContactHashKeyRequest knownEpoch.
+             * @member {number|null|undefined} knownEpoch
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @instance
+             */
+            SharedDeviceContactHashKeyRequest.prototype.knownEpoch = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(SharedDeviceContactHashKeyRequest.prototype, "_knownEpoch", {
+                get: $util.oneOfGetter($oneOfFields = ["knownEpoch"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new SharedDeviceContactHashKeyRequest instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKeyRequest=} [properties] Properties to set
+             * @returns {E2E.Message.SharedDeviceContactHashKeyRequest} SharedDeviceContactHashKeyRequest instance
+             */
+            SharedDeviceContactHashKeyRequest.create = function create(properties) {
+                return new SharedDeviceContactHashKeyRequest(properties);
+            };
+
+            /**
+             * Encodes the specified SharedDeviceContactHashKeyRequest message. Does not implicitly {@link E2E.Message.SharedDeviceContactHashKeyRequest.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKeyRequest} message SharedDeviceContactHashKeyRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceContactHashKeyRequest.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.knownEpoch != null && Object.hasOwnProperty.call(message, "knownEpoch"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.knownEpoch);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified SharedDeviceContactHashKeyRequest message, length delimited. Does not implicitly {@link E2E.Message.SharedDeviceContactHashKeyRequest.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKeyRequest} message SharedDeviceContactHashKeyRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceContactHashKeyRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a SharedDeviceContactHashKeyRequest message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.SharedDeviceContactHashKeyRequest} SharedDeviceContactHashKeyRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceContactHashKeyRequest.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.SharedDeviceContactHashKeyRequest();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.knownEpoch = reader.uint32();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a SharedDeviceContactHashKeyRequest message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.SharedDeviceContactHashKeyRequest} SharedDeviceContactHashKeyRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceContactHashKeyRequest.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a SharedDeviceContactHashKeyRequest message.
+             * @function verify
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SharedDeviceContactHashKeyRequest.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.knownEpoch != null && message.hasOwnProperty("knownEpoch")) {
+                    properties._knownEpoch = 1;
+                    if (!$util.isInteger(message.knownEpoch))
+                        return "knownEpoch: integer expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a SharedDeviceContactHashKeyRequest message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.SharedDeviceContactHashKeyRequest} SharedDeviceContactHashKeyRequest
+             */
+            SharedDeviceContactHashKeyRequest.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.SharedDeviceContactHashKeyRequest)
+                    return object;
+                var message = new $root.E2E.Message.SharedDeviceContactHashKeyRequest();
+                if (object.knownEpoch != null)
+                    message.knownEpoch = object.knownEpoch >>> 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a SharedDeviceContactHashKeyRequest message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {E2E.Message.SharedDeviceContactHashKeyRequest} message SharedDeviceContactHashKeyRequest
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SharedDeviceContactHashKeyRequest.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.knownEpoch != null && message.hasOwnProperty("knownEpoch")) {
+                    object.knownEpoch = message.knownEpoch;
+                    if (options.oneofs)
+                        object._knownEpoch = "knownEpoch";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this SharedDeviceContactHashKeyRequest to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SharedDeviceContactHashKeyRequest.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for SharedDeviceContactHashKeyRequest
+             * @function getTypeUrl
+             * @memberof E2E.Message.SharedDeviceContactHashKeyRequest
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            SharedDeviceContactHashKeyRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.SharedDeviceContactHashKeyRequest";
+            };
+
+            return SharedDeviceContactHashKeyRequest;
+        })();
+
+        Message.SharedDeviceContactHashKeyShare = (function() {
+
+            /**
+             * Properties of a SharedDeviceContactHashKeyShare.
+             * @memberof E2E.Message
+             * @interface ISharedDeviceContactHashKeyShare
+             * @property {Array.<E2E.Message.ISharedDeviceContactHashKey>|null} [keys] SharedDeviceContactHashKeyShare keys
+             */
+
+            /**
+             * Constructs a new SharedDeviceContactHashKeyShare.
+             * @memberof E2E.Message
+             * @classdesc Represents a SharedDeviceContactHashKeyShare.
+             * @implements ISharedDeviceContactHashKeyShare
+             * @constructor
+             * @param {E2E.Message.ISharedDeviceContactHashKeyShare=} [properties] Properties to set
+             */
+            function SharedDeviceContactHashKeyShare(properties) {
+                this.keys = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * SharedDeviceContactHashKeyShare keys.
+             * @member {Array.<E2E.Message.ISharedDeviceContactHashKey>} keys
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @instance
+             */
+            SharedDeviceContactHashKeyShare.prototype.keys = $util.emptyArray;
+
+            /**
+             * Creates a new SharedDeviceContactHashKeyShare instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKeyShare=} [properties] Properties to set
+             * @returns {E2E.Message.SharedDeviceContactHashKeyShare} SharedDeviceContactHashKeyShare instance
+             */
+            SharedDeviceContactHashKeyShare.create = function create(properties) {
+                return new SharedDeviceContactHashKeyShare(properties);
+            };
+
+            /**
+             * Encodes the specified SharedDeviceContactHashKeyShare message. Does not implicitly {@link E2E.Message.SharedDeviceContactHashKeyShare.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKeyShare} message SharedDeviceContactHashKeyShare message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceContactHashKeyShare.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.keys != null && message.keys.length)
+                    for (var i = 0; i < message.keys.length; ++i)
+                        $root.E2E.Message.SharedDeviceContactHashKey.encode(message.keys[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified SharedDeviceContactHashKeyShare message, length delimited. Does not implicitly {@link E2E.Message.SharedDeviceContactHashKeyShare.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {E2E.Message.ISharedDeviceContactHashKeyShare} message SharedDeviceContactHashKeyShare message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SharedDeviceContactHashKeyShare.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a SharedDeviceContactHashKeyShare message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.SharedDeviceContactHashKeyShare} SharedDeviceContactHashKeyShare
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceContactHashKeyShare.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.SharedDeviceContactHashKeyShare();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            if (!(message.keys && message.keys.length))
+                                message.keys = [];
+                            message.keys.push($root.E2E.Message.SharedDeviceContactHashKey.decode(reader, reader.uint32()));
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a SharedDeviceContactHashKeyShare message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.SharedDeviceContactHashKeyShare} SharedDeviceContactHashKeyShare
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SharedDeviceContactHashKeyShare.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a SharedDeviceContactHashKeyShare message.
+             * @function verify
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SharedDeviceContactHashKeyShare.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.keys != null && message.hasOwnProperty("keys")) {
+                    if (!Array.isArray(message.keys))
+                        return "keys: array expected";
+                    for (var i = 0; i < message.keys.length; ++i) {
+                        var error = $root.E2E.Message.SharedDeviceContactHashKey.verify(message.keys[i]);
+                        if (error)
+                            return "keys." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a SharedDeviceContactHashKeyShare message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.SharedDeviceContactHashKeyShare} SharedDeviceContactHashKeyShare
+             */
+            SharedDeviceContactHashKeyShare.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.SharedDeviceContactHashKeyShare)
+                    return object;
+                var message = new $root.E2E.Message.SharedDeviceContactHashKeyShare();
+                if (object.keys) {
+                    if (!Array.isArray(object.keys))
+                        throw TypeError(".E2E.Message.SharedDeviceContactHashKeyShare.keys: array expected");
+                    message.keys = [];
+                    for (var i = 0; i < object.keys.length; ++i) {
+                        if (typeof object.keys[i] !== "object")
+                            throw TypeError(".E2E.Message.SharedDeviceContactHashKeyShare.keys: object expected");
+                        message.keys[i] = $root.E2E.Message.SharedDeviceContactHashKey.fromObject(object.keys[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a SharedDeviceContactHashKeyShare message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {E2E.Message.SharedDeviceContactHashKeyShare} message SharedDeviceContactHashKeyShare
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SharedDeviceContactHashKeyShare.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.keys = [];
+                if (message.keys && message.keys.length) {
+                    object.keys = [];
+                    for (var j = 0; j < message.keys.length; ++j)
+                        object.keys[j] = $root.E2E.Message.SharedDeviceContactHashKey.toObject(message.keys[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this SharedDeviceContactHashKeyShare to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SharedDeviceContactHashKeyShare.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for SharedDeviceContactHashKeyShare
+             * @function getTypeUrl
+             * @memberof E2E.Message.SharedDeviceContactHashKeyShare
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            SharedDeviceContactHashKeyShare.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.SharedDeviceContactHashKeyShare";
+            };
+
+            return SharedDeviceContactHashKeyShare;
+        })();
+
         Message.SplitPaymentMessage = (function() {
 
             /**
@@ -96937,6 +98354,7 @@ $root.E2E = (function() {
              * @property {string|null} [accessibilityLabel] StickerMessage accessibilityLabel
              * @property {number|null} [premium] StickerMessage premium
              * @property {string|null} [emojis] StickerMessage emojis
+             * @property {E2E.Message.IAudioMessage|null} [audioMessage] StickerMessage audioMessage
              */
 
             /**
@@ -97130,6 +98548,14 @@ $root.E2E = (function() {
              */
             StickerMessage.prototype.emojis = null;
 
+            /**
+             * StickerMessage audioMessage.
+             * @member {E2E.Message.IAudioMessage|null|undefined} audioMessage
+             * @memberof E2E.Message.StickerMessage
+             * @instance
+             */
+            StickerMessage.prototype.audioMessage = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -97266,6 +98692,17 @@ $root.E2E = (function() {
             });
 
             /**
+             * StickerMessage audio.
+             * @member {"audioMessage"|undefined} audio
+             * @memberof E2E.Message.StickerMessage
+             * @instance
+             */
+            Object.defineProperty(StickerMessage.prototype, "audio", {
+                get: $util.oneOfGetter($oneOfFields = ["audioMessage"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
              * Creates a new StickerMessage instance using the specified properties.
              * @function create
              * @memberof E2E.Message.StickerMessage
@@ -97333,6 +98770,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 24, wireType 0 =*/192).int32(message.premium);
                 if (message.emojis != null && Object.hasOwnProperty.call(message, "emojis"))
                     writer.uint32(/* id 25, wireType 2 =*/202).string(message.emojis);
+                if (message.audioMessage != null && Object.hasOwnProperty.call(message, "audioMessage"))
+                    $root.E2E.Message.AudioMessage.encode(message.audioMessage, writer.uint32(/* id 26, wireType 2 =*/210).fork()).ldelim();
                 return writer;
             };
 
@@ -97455,6 +98894,10 @@ $root.E2E = (function() {
                         }
                     case 25: {
                             message.emojis = reader.string();
+                            break;
+                        }
+                    case 26: {
+                            message.audioMessage = $root.E2E.Message.AudioMessage.decode(reader, reader.uint32());
                             break;
                         }
                     default:
@@ -97606,6 +99049,14 @@ $root.E2E = (function() {
                     if (!$util.isString(message.emojis))
                         return "emojis: string expected";
                 }
+                if (message.audioMessage != null && message.hasOwnProperty("audioMessage")) {
+                    properties.audio = 1;
+                    {
+                        var error = $root.E2E.Message.AudioMessage.verify(message.audioMessage);
+                        if (error)
+                            return "audioMessage." + error;
+                    }
+                }
                 return null;
             };
 
@@ -97704,6 +99155,11 @@ $root.E2E = (function() {
                     message.premium = object.premium | 0;
                 if (object.emojis != null)
                     message.emojis = String(object.emojis);
+                if (object.audioMessage != null) {
+                    if (typeof object.audioMessage !== "object")
+                        throw TypeError(".E2E.Message.StickerMessage.audioMessage: object expected");
+                    message.audioMessage = $root.E2E.Message.AudioMessage.fromObject(object.audioMessage);
+                }
                 return message;
             };
 
@@ -97838,6 +99294,11 @@ $root.E2E = (function() {
                     object.emojis = message.emojis;
                     if (options.oneofs)
                         object._emojis = "emojis";
+                }
+                if (message.audioMessage != null && message.hasOwnProperty("audioMessage")) {
+                    object.audioMessage = $root.E2E.Message.AudioMessage.toObject(message.audioMessage, options);
+                    if (options.oneofs)
+                        object.audio = "audioMessage";
                 }
                 return object;
             };
@@ -103382,6 +104843,362 @@ $root.Protocol = (function() {
      * @namespace
      */
     var Protocol = {};
+
+    Protocol.ACP2Setting = (function() {
+
+        /**
+         * Properties of a ACP2Setting.
+         * @memberof Protocol
+         * @interface IACP2Setting
+         * @property {boolean|null} [enabled] ACP2Setting enabled
+         * @property {Protocol.LimitSharing.TriggerType|null} [trigger] ACP2Setting trigger
+         * @property {number|Long|null} [settingTimestamp] ACP2Setting settingTimestamp
+         * @property {boolean|null} [initiatedByMe] ACP2Setting initiatedByMe
+         */
+
+        /**
+         * Constructs a new ACP2Setting.
+         * @memberof Protocol
+         * @classdesc Represents a ACP2Setting.
+         * @implements IACP2Setting
+         * @constructor
+         * @param {Protocol.IACP2Setting=} [properties] Properties to set
+         */
+        function ACP2Setting(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ACP2Setting enabled.
+         * @member {boolean|null|undefined} enabled
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.enabled = null;
+
+        /**
+         * ACP2Setting trigger.
+         * @member {Protocol.LimitSharing.TriggerType|null|undefined} trigger
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.trigger = null;
+
+        /**
+         * ACP2Setting settingTimestamp.
+         * @member {number|Long|null|undefined} settingTimestamp
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.settingTimestamp = null;
+
+        /**
+         * ACP2Setting initiatedByMe.
+         * @member {boolean|null|undefined} initiatedByMe
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         */
+        ACP2Setting.prototype.initiatedByMe = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_enabled", {
+            get: $util.oneOfGetter($oneOfFields = ["enabled"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_trigger", {
+            get: $util.oneOfGetter($oneOfFields = ["trigger"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_settingTimestamp", {
+            get: $util.oneOfGetter($oneOfFields = ["settingTimestamp"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ACP2Setting.prototype, "_initiatedByMe", {
+            get: $util.oneOfGetter($oneOfFields = ["initiatedByMe"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new ACP2Setting instance using the specified properties.
+         * @function create
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.IACP2Setting=} [properties] Properties to set
+         * @returns {Protocol.ACP2Setting} ACP2Setting instance
+         */
+        ACP2Setting.create = function create(properties) {
+            return new ACP2Setting(properties);
+        };
+
+        /**
+         * Encodes the specified ACP2Setting message. Does not implicitly {@link Protocol.ACP2Setting.verify|verify} messages.
+         * @function encode
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.IACP2Setting} message ACP2Setting message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ACP2Setting.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.enabled != null && Object.hasOwnProperty.call(message, "enabled"))
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.enabled);
+            if (message.trigger != null && Object.hasOwnProperty.call(message, "trigger"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.trigger);
+            if (message.settingTimestamp != null && Object.hasOwnProperty.call(message, "settingTimestamp"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int64(message.settingTimestamp);
+            if (message.initiatedByMe != null && Object.hasOwnProperty.call(message, "initiatedByMe"))
+                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.initiatedByMe);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ACP2Setting message, length delimited. Does not implicitly {@link Protocol.ACP2Setting.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.IACP2Setting} message ACP2Setting message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ACP2Setting.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a ACP2Setting message from the specified reader or buffer.
+         * @function decode
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Protocol.ACP2Setting} ACP2Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ACP2Setting.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Protocol.ACP2Setting();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.enabled = reader.bool();
+                        break;
+                    }
+                case 2: {
+                        message.trigger = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.settingTimestamp = reader.int64();
+                        break;
+                    }
+                case 4: {
+                        message.initiatedByMe = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a ACP2Setting message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Protocol.ACP2Setting} ACP2Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ACP2Setting.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ACP2Setting message.
+         * @function verify
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ACP2Setting.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.enabled != null && message.hasOwnProperty("enabled")) {
+                properties._enabled = 1;
+                if (typeof message.enabled !== "boolean")
+                    return "enabled: boolean expected";
+            }
+            if (message.trigger != null && message.hasOwnProperty("trigger")) {
+                properties._trigger = 1;
+                switch (message.trigger) {
+                default:
+                    return "trigger: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    break;
+                }
+            }
+            if (message.settingTimestamp != null && message.hasOwnProperty("settingTimestamp")) {
+                properties._settingTimestamp = 1;
+                if (!$util.isInteger(message.settingTimestamp) && !(message.settingTimestamp && $util.isInteger(message.settingTimestamp.low) && $util.isInteger(message.settingTimestamp.high)))
+                    return "settingTimestamp: integer|Long expected";
+            }
+            if (message.initiatedByMe != null && message.hasOwnProperty("initiatedByMe")) {
+                properties._initiatedByMe = 1;
+                if (typeof message.initiatedByMe !== "boolean")
+                    return "initiatedByMe: boolean expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a ACP2Setting message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Protocol.ACP2Setting} ACP2Setting
+         */
+        ACP2Setting.fromObject = function fromObject(object) {
+            if (object instanceof $root.Protocol.ACP2Setting)
+                return object;
+            var message = new $root.Protocol.ACP2Setting();
+            if (object.enabled != null)
+                message.enabled = Boolean(object.enabled);
+            switch (object.trigger) {
+            default:
+                if (typeof object.trigger === "number") {
+                    message.trigger = object.trigger;
+                    break;
+                }
+                break;
+            case "UNKNOWN":
+            case 0:
+                message.trigger = 0;
+                break;
+            case "CHAT_SETTING":
+            case 1:
+                message.trigger = 1;
+                break;
+            case "BIZ_SUPPORTS_FB_HOSTING":
+            case 2:
+                message.trigger = 2;
+                break;
+            case "UNKNOWN_GROUP":
+            case 3:
+                message.trigger = 3;
+                break;
+            }
+            if (object.settingTimestamp != null)
+                if ($util.Long)
+                    (message.settingTimestamp = $util.Long.fromValue(object.settingTimestamp)).unsigned = false;
+                else if (typeof object.settingTimestamp === "string")
+                    message.settingTimestamp = parseInt(object.settingTimestamp, 10);
+                else if (typeof object.settingTimestamp === "number")
+                    message.settingTimestamp = object.settingTimestamp;
+                else if (typeof object.settingTimestamp === "object")
+                    message.settingTimestamp = new $util.LongBits(object.settingTimestamp.low >>> 0, object.settingTimestamp.high >>> 0).toNumber();
+            if (object.initiatedByMe != null)
+                message.initiatedByMe = Boolean(object.initiatedByMe);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ACP2Setting message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {Protocol.ACP2Setting} message ACP2Setting
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ACP2Setting.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.enabled != null && message.hasOwnProperty("enabled")) {
+                object.enabled = message.enabled;
+                if (options.oneofs)
+                    object._enabled = "enabled";
+            }
+            if (message.trigger != null && message.hasOwnProperty("trigger")) {
+                object.trigger = options.enums === String ? $root.Protocol.LimitSharing.TriggerType[message.trigger] === undefined ? message.trigger : $root.Protocol.LimitSharing.TriggerType[message.trigger] : message.trigger;
+                if (options.oneofs)
+                    object._trigger = "trigger";
+            }
+            if (message.settingTimestamp != null && message.hasOwnProperty("settingTimestamp")) {
+                if (typeof message.settingTimestamp === "number")
+                    object.settingTimestamp = options.longs === String ? String(message.settingTimestamp) : message.settingTimestamp;
+                else
+                    object.settingTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.settingTimestamp) : options.longs === Number ? new $util.LongBits(message.settingTimestamp.low >>> 0, message.settingTimestamp.high >>> 0).toNumber() : message.settingTimestamp;
+                if (options.oneofs)
+                    object._settingTimestamp = "settingTimestamp";
+            }
+            if (message.initiatedByMe != null && message.hasOwnProperty("initiatedByMe")) {
+                object.initiatedByMe = message.initiatedByMe;
+                if (options.oneofs)
+                    object._initiatedByMe = "initiatedByMe";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this ACP2Setting to JSON.
+         * @function toJSON
+         * @memberof Protocol.ACP2Setting
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ACP2Setting.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for ACP2Setting
+         * @function getTypeUrl
+         * @memberof Protocol.ACP2Setting
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        ACP2Setting.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/Protocol.ACP2Setting";
+        };
+
+        return ACP2Setting;
+    })();
 
     Protocol.LimitSharing = (function() {
 
@@ -128225,6 +130042,7 @@ $root.AICommon = (function() {
                     case 68:
                     case 69:
                     case 70:
+                    case 71:
                         break;
                     }
             }
@@ -128538,6 +130356,10 @@ $root.AICommon = (function() {
                     case 70:
                         message.capabilities[i] = 70;
                         break;
+                    case "AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED":
+                    case 71:
+                        message.capabilities[i] = 71;
+                        break;
                     }
             }
             return message;
@@ -128667,6 +130489,7 @@ $root.AICommon = (function() {
          * @property {number} AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED=68 AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED value
          * @property {number} AI_RICH_RESPONSE_REMINDERS_ENABLED=69 AI_RICH_RESPONSE_REMINDERS_ENABLED value
          * @property {number} AI_STOP_GENERATION_ENABLED=70 AI_STOP_GENERATION_ENABLED value
+         * @property {number} AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED=71 AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -128741,6 +130564,7 @@ $root.AICommon = (function() {
             values[valuesById[68] = "AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED"] = 68;
             values[valuesById[69] = "AI_RICH_RESPONSE_REMINDERS_ENABLED"] = 69;
             values[valuesById[70] = "AI_STOP_GENERATION_ENABLED"] = 70;
+            values[valuesById[71] = "AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED"] = 71;
             return values;
         })();
 
@@ -148301,6 +150125,8 @@ $root.CompanionReg = (function() {
                 case 23:
                 case 24:
                 case 25:
+                case 26:
+                case 27:
                     break;
                 }
             }
@@ -148439,6 +150265,14 @@ $root.CompanionReg = (function() {
             case "WAIL":
             case 25:
                 message.deviceType = 25;
+                break;
+            case "WASS":
+            case 26:
+                message.deviceType = 26;
+                break;
+            case "BUSINESS_BACK_OFFICE":
+            case 27:
+                message.deviceType = 27;
                 break;
             }
             if (object.ref != null)
@@ -148777,6 +150611,8 @@ $root.CompanionReg = (function() {
                 case 23:
                 case 24:
                 case 25:
+                case 26:
+                case 27:
                     break;
                 }
             }
@@ -148925,6 +150761,14 @@ $root.CompanionReg = (function() {
             case "WAIL":
             case 25:
                 message.platformType = 25;
+                break;
+            case "WASS":
+            case 26:
+                message.platformType = 26;
+                break;
+            case "BUSINESS_BACK_OFFICE":
+            case 27:
+                message.platformType = 27;
                 break;
             }
             if (object.requireFullSync != null)
@@ -150401,6 +152245,8 @@ $root.CompanionReg = (function() {
          * @property {number} CLOUD_API=23 CLOUD_API value
          * @property {number} SMARTGLASSES=24 SMARTGLASSES value
          * @property {number} WAIL=25 WAIL value
+         * @property {number} WASS=26 WASS value
+         * @property {number} BUSINESS_BACK_OFFICE=27 BUSINESS_BACK_OFFICE value
          */
         DeviceProps.PlatformType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -150430,6 +152276,8 @@ $root.CompanionReg = (function() {
             values[valuesById[23] = "CLOUD_API"] = 23;
             values[valuesById[24] = "SMARTGLASSES"] = 24;
             values[valuesById[25] = "WAIL"] = 25;
+            values[valuesById[26] = "WASS"] = 26;
+            values[valuesById[27] = "BUSINESS_BACK_OFFICE"] = 27;
             return values;
         })();
 
@@ -165364,6 +167212,8 @@ $root.Web = (function() {
                 case 227:
                 case 228:
                 case 230:
+                case 240:
+                case 248:
                     break;
                 }
             }
@@ -166779,6 +168629,14 @@ $root.Web = (function() {
             case 230:
                 message.messageStubType = 230;
                 break;
+            case "CHANGE_ACP2_SETTING":
+            case 240:
+                message.messageStubType = 240;
+                break;
+            case "EPHEMERAL_CHANGED_FOR_COEX":
+            case 248:
+                message.messageStubType = 248;
+                break;
             }
             if (object.clearMedia != null)
                 message.clearMedia = Boolean(object.clearMedia);
@@ -167796,6 +169654,8 @@ $root.Web = (function() {
          * @property {number} IDENTITY_TRUST_UNMARKED=227 IDENTITY_TRUST_UNMARKED value
          * @property {number} IDENTITY_TRUST_REVOKED=228 IDENTITY_TRUST_REVOKED value
          * @property {number} CTWA_CONSUMER_DISCLOSURE=230 CTWA_CONSUMER_DISCLOSURE value
+         * @property {number} CHANGE_ACP2_SETTING=240 CHANGE_ACP2_SETTING value
+         * @property {number} EPHEMERAL_CHANGED_FOR_COEX=248 EPHEMERAL_CHANGED_FOR_COEX value
          */
         WebMessageInfo.StubType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -168029,6 +169889,8 @@ $root.Web = (function() {
             values[valuesById[227] = "IDENTITY_TRUST_UNMARKED"] = 227;
             values[valuesById[228] = "IDENTITY_TRUST_REVOKED"] = 228;
             values[valuesById[230] = "CTWA_CONSUMER_DISCLOSURE"] = 230;
+            values[valuesById[240] = "CHANGE_ACP2_SETTING"] = 240;
+            values[valuesById[248] = "EPHEMERAL_CHANGED_FOR_COEX"] = 248;
             return values;
         })();
 
@@ -175414,6 +177276,8 @@ $root.SyncAction = (function() {
              * @property {number|Long|null} [scheduledTimestamp] BusinessBroadcastCampaignAction scheduledTimestamp
              * @property {number|Long|null} [createTimestamp] BusinessBroadcastCampaignAction createTimestamp
              * @property {SyncAction.SyncActionValue.BusinessBroadcastCampaignStatus|null} [status] BusinessBroadcastCampaignAction status
+             * @property {SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus|null} [bbProStatus] BusinessBroadcastCampaignAction bbProStatus
+             * @property {string|null} [customAudienceFbid] BusinessBroadcastCampaignAction customAudienceFbid
              */
 
             /**
@@ -175503,6 +177367,22 @@ $root.SyncAction = (function() {
              */
             BusinessBroadcastCampaignAction.prototype.status = null;
 
+            /**
+             * BusinessBroadcastCampaignAction bbProStatus.
+             * @member {SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus|null|undefined} bbProStatus
+             * @memberof SyncAction.SyncActionValue.BusinessBroadcastCampaignAction
+             * @instance
+             */
+            BusinessBroadcastCampaignAction.prototype.bbProStatus = null;
+
+            /**
+             * BusinessBroadcastCampaignAction customAudienceFbid.
+             * @member {string|null|undefined} customAudienceFbid
+             * @memberof SyncAction.SyncActionValue.BusinessBroadcastCampaignAction
+             * @instance
+             */
+            BusinessBroadcastCampaignAction.prototype.customAudienceFbid = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -175560,6 +177440,18 @@ $root.SyncAction = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessBroadcastCampaignAction.prototype, "_bbProStatus", {
+                get: $util.oneOfGetter($oneOfFields = ["bbProStatus"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BusinessBroadcastCampaignAction.prototype, "_customAudienceFbid", {
+                get: $util.oneOfGetter($oneOfFields = ["customAudienceFbid"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new BusinessBroadcastCampaignAction instance using the specified properties.
              * @function create
@@ -175602,6 +177494,10 @@ $root.SyncAction = (function() {
                     writer.uint32(/* id 8, wireType 0 =*/64).int64(message.createTimestamp);
                 if (message.status != null && Object.hasOwnProperty.call(message, "status"))
                     writer.uint32(/* id 9, wireType 0 =*/72).int32(message.status);
+                if (message.bbProStatus != null && Object.hasOwnProperty.call(message, "bbProStatus"))
+                    writer.uint32(/* id 10, wireType 0 =*/80).int32(message.bbProStatus);
+                if (message.customAudienceFbid != null && Object.hasOwnProperty.call(message, "customAudienceFbid"))
+                    writer.uint32(/* id 11, wireType 2 =*/90).string(message.customAudienceFbid);
                 return writer;
             };
 
@@ -175672,6 +177568,14 @@ $root.SyncAction = (function() {
                         }
                     case 9: {
                             message.status = reader.int32();
+                            break;
+                        }
+                    case 10: {
+                            message.bbProStatus = reader.int32();
+                            break;
+                        }
+                    case 11: {
+                            message.customAudienceFbid = reader.string();
                             break;
                         }
                     default:
@@ -175763,6 +177667,29 @@ $root.SyncAction = (function() {
                         break;
                     }
                 }
+                if (message.bbProStatus != null && message.hasOwnProperty("bbProStatus")) {
+                    properties._bbProStatus = 1;
+                    switch (message.bbProStatus) {
+                    default:
+                        return "bbProStatus: enum value expected";
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                        break;
+                    }
+                }
+                if (message.customAudienceFbid != null && message.hasOwnProperty("customAudienceFbid")) {
+                    properties._customAudienceFbid = 1;
+                    if (!$util.isString(message.customAudienceFbid))
+                        return "customAudienceFbid: string expected";
+                }
                 return null;
             };
 
@@ -175836,6 +177763,56 @@ $root.SyncAction = (function() {
                     message.status = 5;
                     break;
                 }
+                switch (object.bbProStatus) {
+                default:
+                    if (typeof object.bbProStatus === "number") {
+                        message.bbProStatus = object.bbProStatus;
+                        break;
+                    }
+                    break;
+                case "BB_PRO_ACTIVE":
+                case 1:
+                    message.bbProStatus = 1;
+                    break;
+                case "BB_PRO_COMPLETED":
+                case 2:
+                    message.bbProStatus = 2;
+                    break;
+                case "BB_PRO_IN_DRAFT":
+                case 3:
+                    message.bbProStatus = 3;
+                    break;
+                case "BB_PRO_IN_REVIEW":
+                case 4:
+                    message.bbProStatus = 4;
+                    break;
+                case "BB_PRO_NOT_SENDING":
+                case 5:
+                    message.bbProStatus = 5;
+                    break;
+                case "BB_PRO_OFF":
+                case 6:
+                    message.bbProStatus = 6;
+                    break;
+                case "BB_PRO_REJECTED":
+                case 7:
+                    message.bbProStatus = 7;
+                    break;
+                case "BB_PRO_SCHEDULED":
+                case 8:
+                    message.bbProStatus = 8;
+                    break;
+                case "BB_PRO_SENDING_LIMITED":
+                case 9:
+                    message.bbProStatus = 9;
+                    break;
+                case "BB_PRO_PROCESSING":
+                case 10:
+                    message.bbProStatus = 10;
+                    break;
+                }
+                if (object.customAudienceFbid != null)
+                    message.customAudienceFbid = String(object.customAudienceFbid);
                 return message;
             };
 
@@ -175903,6 +177880,16 @@ $root.SyncAction = (function() {
                     if (options.oneofs)
                         object._status = "status";
                 }
+                if (message.bbProStatus != null && message.hasOwnProperty("bbProStatus")) {
+                    object.bbProStatus = options.enums === String ? $root.SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus[message.bbProStatus] === undefined ? message.bbProStatus : $root.SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus[message.bbProStatus] : message.bbProStatus;
+                    if (options.oneofs)
+                        object._bbProStatus = "bbProStatus";
+                }
+                if (message.customAudienceFbid != null && message.hasOwnProperty("customAudienceFbid")) {
+                    object.customAudienceFbid = message.customAudienceFbid;
+                    if (options.oneofs)
+                        object._customAudienceFbid = "customAudienceFbid";
+                }
                 return object;
             };
 
@@ -175933,6 +177920,36 @@ $root.SyncAction = (function() {
             };
 
             return BusinessBroadcastCampaignAction;
+        })();
+
+        /**
+         * BusinessBroadcastCampaignBBProStatus enum.
+         * @name SyncAction.SyncActionValue.BusinessBroadcastCampaignBBProStatus
+         * @enum {number}
+         * @property {number} BB_PRO_ACTIVE=1 BB_PRO_ACTIVE value
+         * @property {number} BB_PRO_COMPLETED=2 BB_PRO_COMPLETED value
+         * @property {number} BB_PRO_IN_DRAFT=3 BB_PRO_IN_DRAFT value
+         * @property {number} BB_PRO_IN_REVIEW=4 BB_PRO_IN_REVIEW value
+         * @property {number} BB_PRO_NOT_SENDING=5 BB_PRO_NOT_SENDING value
+         * @property {number} BB_PRO_OFF=6 BB_PRO_OFF value
+         * @property {number} BB_PRO_REJECTED=7 BB_PRO_REJECTED value
+         * @property {number} BB_PRO_SCHEDULED=8 BB_PRO_SCHEDULED value
+         * @property {number} BB_PRO_SENDING_LIMITED=9 BB_PRO_SENDING_LIMITED value
+         * @property {number} BB_PRO_PROCESSING=10 BB_PRO_PROCESSING value
+         */
+        SyncActionValue.BusinessBroadcastCampaignBBProStatus = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[1] = "BB_PRO_ACTIVE"] = 1;
+            values[valuesById[2] = "BB_PRO_COMPLETED"] = 2;
+            values[valuesById[3] = "BB_PRO_IN_DRAFT"] = 3;
+            values[valuesById[4] = "BB_PRO_IN_REVIEW"] = 4;
+            values[valuesById[5] = "BB_PRO_NOT_SENDING"] = 5;
+            values[valuesById[6] = "BB_PRO_OFF"] = 6;
+            values[valuesById[7] = "BB_PRO_REJECTED"] = 7;
+            values[valuesById[8] = "BB_PRO_SCHEDULED"] = 8;
+            values[valuesById[9] = "BB_PRO_SENDING_LIMITED"] = 9;
+            values[valuesById[10] = "BB_PRO_PROCESSING"] = 10;
+            return values;
         })();
 
         /**
@@ -183194,6 +185211,7 @@ $root.SyncAction = (function() {
                     case 15:
                     case 16:
                     case 17:
+                    case 18:
                         break;
                     }
                 }
@@ -183312,6 +185330,10 @@ $root.SyncAction = (function() {
                 case "MENTIONS_AND_REPLIES":
                 case 17:
                     message.type = 17;
+                    break;
+                case "REQUESTS":
+                case 18:
+                    message.type = 18;
                     break;
                 }
                 if (object.isImmutable != null)
@@ -183440,6 +185462,7 @@ $root.SyncAction = (function() {
              * @property {number} THIRD_PARTY=15 THIRD_PARTY value
              * @property {number} LEAD=16 LEAD value
              * @property {number} MENTIONS_AND_REPLIES=17 MENTIONS_AND_REPLIES value
+             * @property {number} REQUESTS=18 REQUESTS value
              */
             LabelEditAction.ListType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -183461,6 +185484,7 @@ $root.SyncAction = (function() {
                 values[valuesById[15] = "THIRD_PARTY"] = 15;
                 values[valuesById[16] = "LEAD"] = 16;
                 values[valuesById[17] = "MENTIONS_AND_REPLIES"] = 17;
+                values[valuesById[18] = "REQUESTS"] = 18;
                 return values;
             })();
 
