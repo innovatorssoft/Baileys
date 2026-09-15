@@ -1,6 +1,13 @@
 syntax = "proto3";
 package Protocol;
 
+message ACP2Setting {
+    optional bool enabled = 1;
+    optional LimitSharing.TriggerType trigger = 2;
+    optional int64 settingTimestamp = 3;
+    optional bool initiatedByMe = 4;
+}
+
 message LimitSharing {
     optional bool sharingLimited = 1;
     optional TriggerType trigger = 2;

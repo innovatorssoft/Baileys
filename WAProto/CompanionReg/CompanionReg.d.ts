@@ -1266,7 +1266,9 @@ export namespace CompanionReg {
             VR = 22,
             CLOUD_API = 23,
             SMARTGLASSES = 24,
-            WAIL = 25
+            WAIL = 25,
+            WASS = 26,
+            BUSINESS_BACK_OFFICE = 27
         }
     }
 }

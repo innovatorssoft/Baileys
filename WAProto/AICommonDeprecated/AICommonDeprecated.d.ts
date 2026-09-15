@@ -8623,7 +8623,8 @@ export namespace AICommon {
             AI_RICH_RESPONSE_ARTIFACTS_ENABLED = 67,
             AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED = 68,
             AI_RICH_RESPONSE_REMINDERS_ENABLED = 69,
-            AI_STOP_GENERATION_ENABLED = 70
+            AI_STOP_GENERATION_ENABLED = 70,
+            AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED = 71
         }
     }
 
@@ -11618,6 +11619,121 @@ export namespace AICommon {
 
 /** Namespace Protocol. */
 export namespace Protocol {
+
+    /** Properties of a ACP2Setting. */
+    interface IACP2Setting {
+
+        /** ACP2Setting enabled */
+        enabled?: (boolean|null);
+
+        /** ACP2Setting trigger */
+        trigger?: (Protocol.LimitSharing.TriggerType|null);
+
+        /** ACP2Setting settingTimestamp */
+        settingTimestamp?: (number|Long|null);
+
+        /** ACP2Setting initiatedByMe */
+        initiatedByMe?: (boolean|null);
+    }
+
+    /** Represents a ACP2Setting. */
+    class ACP2Setting implements IACP2Setting {
+
+        /**
+         * Constructs a new ACP2Setting.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: Protocol.IACP2Setting);
+
+        /** ACP2Setting enabled. */
+        public enabled?: (boolean|null);
+
+        /** ACP2Setting trigger. */
+        public trigger?: (Protocol.LimitSharing.TriggerType|null);
+
+        /** ACP2Setting settingTimestamp. */
+        public settingTimestamp?: (number|Long|null);
+
+        /** ACP2Setting initiatedByMe. */
+        public initiatedByMe?: (boolean|null);
+
+        /**
+         * Creates a new ACP2Setting instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ACP2Setting instance
+         */
+        public static create(properties?: Protocol.IACP2Setting): Protocol.ACP2Setting;
+
+        /**
+         * Encodes the specified ACP2Setting message. Does not implicitly {@link Protocol.ACP2Setting.verify|verify} messages.
+         * @param message ACP2Setting message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: Protocol.IACP2Setting, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ACP2Setting message, length delimited. Does not implicitly {@link Protocol.ACP2Setting.verify|verify} messages.
+         * @param message ACP2Setting message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: Protocol.IACP2Setting, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ACP2Setting message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ACP2Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Protocol.ACP2Setting;
+
+        /**
+         * Decodes a ACP2Setting message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ACP2Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Protocol.ACP2Setting;
+
+        /**
+         * Verifies a ACP2Setting message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ACP2Setting message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ACP2Setting
+         */
+        public static fromObject(object: { [k: string]: any }): Protocol.ACP2Setting;
+
+        /**
+         * Creates a plain object from a ACP2Setting message. Also converts values to other types if specified.
+         * @param message ACP2Setting
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: Protocol.ACP2Setting, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ACP2Setting to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ACP2Setting
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
 
     /** Properties of a LimitSharing. */
     interface ILimitSharing {
