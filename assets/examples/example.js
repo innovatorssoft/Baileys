@@ -1280,7 +1280,7 @@ async function startBot() {
                             await sock.sendMessage(normalizedJid, { text: `❌ No incoming call found to reject. Usage: !rejectcall [callId] [reason]` }, { quoted: message });
                             break;
                         }
-                        await sock.rejectCall(targetCallId, undefined, reason);
+await sock.rejectCall(targetCallId, undefined);
                         await sock.sendMessage(normalizedJid, { text: `📞 Rejected call ${targetCallId} (reason: ${reason})` }, { quoted: message });
                     } catch (err) {
                         console.error(err);
