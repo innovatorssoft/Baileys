@@ -47,7 +47,13 @@ async function startBot() {
         auth: state,
         syncFullHistory: false,
         logger: require('pino')({ level: 'silent' }),
-        markOnlineOnConnect: true
+        markOnlineOnConnect: true,
+        // VoIP Configuration & Memory Optimization
+        voip: {
+            pthreadPoolSize: 4, // Memory optimization: 4 worker threads per call (saves ~270MB RAM/call)
+            maxConcurrentCalls: 3, // Maximum concurrent VoIP calls allowed
+            onLimit: 'reject', // Capacity policy: 'reject' (auto-reject busy) or 'queue'
+        }
     });
 
     // Handle pairing code registration if requested
@@ -65,6 +71,71 @@ async function startBot() {
     }
 
     sock.ev.on('creds.update', saveCreds);
+
+    // Track the latest incoming VoIP session for quick commands (!acceptcall, !rejectcall)
+    let lastIncomingSession = null;
+
+    // Register VoIP Incoming Call Event Listener
+    sock.ev.on('call.incoming', async (session) => {
+        lastIncomingSession = session;
+        console.log(`\n📞 [VoIP] Incoming ${session.isVideo ? 'Video' : 'Voice'} Call!`);
+        console.log(`   Call ID: ${session.callId}`);
+        console.log(`   From: ${session.peerJid}`);
+        console.log(`   Caller PN: ${session.callerPn || 'N/A'}`);
+        console.log(`   Status: ${session.status} (waiting: ${session.isWaiting})`);
+
+        // Register lifecycle event listeners
+        session.on('stateChange', (state) => console.log(`[VoIP] Call ${session.callId} state: ${state}`));
+        session.on('accepted', () => console.log(`[VoIP] Call ${session.callId} accepted!`));
+        session.on('connected', () => console.log(`[VoIP] Call ${session.callId} connected! 🟢`));
+        session.on('audioReady', () => console.log(`[VoIP] Call ${session.callId} audio ready! 🎵`));
+        session.on('streaming', () => console.log(`[VoIP] Call ${session.callId} audio streaming active! 📡`));
+        session.on('rejected', (reason) => console.log(`[VoIP] Call ${session.callId} rejected: ${reason}`));
+        session.on('ended', (reason) => {
+            console.log(`[VoIP] Call ${session.callId} ended: ${reason}`);
+            if (lastIncomingSession?.callId === session.callId) {
+                lastIncomingSession = null;
+            }
+        });
+        session.on('audio', (pcmChunk) => {
+            // Decrypted inbound PCM audio chunk received from caller
+        });
+
+        // Automatically accept the incoming call and play audio.mp3
+        const autoAcceptAndStream = async () => {
+            try {
+                const audioPath = path.resolve(__dirname, 'audio.mp3');
+                const audioSource = fs.existsSync(audioPath) ? audioPath : './audio.mp3';
+                console.log(`[VoIP] Automatically accepting incoming call ${session.callId} with audio: ${audioSource}...`);
+                await session.accept({
+                    audioSource,
+                    repeatAudio: true
+                });
+                console.log(`[VoIP] Call ${session.callId} accepted automatically, streaming audio.mp3.`);
+
+                // Notify caller that call was accepted and audio is streaming
+                await sock.sendMessage(session.peerJid, {
+                    text: `📞 *Incoming Call Automatically Accepted!*\n` +
+                        `• Call ID: \`${session.callId}\`\n` +
+                        `• Audio: Streaming \`audio.mp3\` 🎵\n\n` +
+                        `Commands to control:\n` +
+                        `• \`!endcall ${session.callId}\` - End call\n` +
+                        `• \`!mute\` / \`!unmute\` - Mute/unmute microphone`
+                });
+            } catch (err) {
+                console.error(`[VoIP] Error auto-accepting call ${session.callId}:`, err);
+            }
+        };
+
+        if (session.isWaiting) {
+            console.log(`[VoIP] Call ${session.callId} is queued in waiting list, will auto-accept once unblocked.`);
+            session.once('ringing', () => {
+                void autoAcceptAndStream();
+            });
+        } else {
+            void autoAcceptAndStream();
+        }
+    });
 
     // Register MEX Notification Dispatcher Event Listeners
     sock.ev.on('messaging-history.status', ({ syncType, status, explicit }) => {
@@ -246,6 +317,16 @@ async function startBot() {
                         '!viewonceext  - Send image as view-once V2 Ext',
                         '!interactivemsg - Send custom interactive buttons (text, image, or location)',
                         '!call         - Place a voice call and stream audio',
+                        '!vcall        - Place a video call with video/audio feed',
+                        '!calls        - Place concurrent calls to multiple targets',
+                        '!callinfo     - Show active VoIP calls and memory stats',
+                        '!voipstats    - Show VoIP memory, worker & heap metrics',
+                        '!acceptcall   - Accept an incoming call (!acceptcall [callId])',
+                        '!rejectcall   - Reject an incoming call (!rejectcall [callId] [reason])',
+                        '!mute         - Mute an active VoIP call (!mute [callId])',
+                        '!unmute       - Unmute an active VoIP call (!unmute [callId])',
+                        '!endcall      - Hang up a specific call (!endcall <callId>)',
+                        '!endallcalls  - Hang up all active VoIP calls',
                         '!html         - Send interactive rich HTML UI card with background audio (GenAI HTML)',
                         '!snake        - Play CyberSnake HTML5 Canvas Game (GenAI HTML)',
                         '!slots        - Play Fruit Bonanza Slots Game (GenAI HTML)',
@@ -1099,11 +1180,16 @@ async function startBot() {
                 case '!callinfo': {
                     try {
                         const active = await sock.getActiveCalls();
+                        const stats = sock.getVoipMemoryStats();
                         if (!active || active.length === 0) {
-                            await sock.sendMessage(normalizedJid, { text: `📞 No active VoIP calls.` }, { quoted: message });
+                            await sock.sendMessage(normalizedJid, {
+                                text: `📞 No active VoIP calls.\n\n📊 *VoIP Resource Stats:*\n• RSS: ${stats?.process?.rssMb || 0} MB\n• Active Workers: ${stats?.resourceManager?.activeWorkers || 0}\n• Active Relays: ${stats?.resourceManager?.activeRelayConnections || 0}`
+                            }, { quoted: message });
                         } else {
-                            const list = active.map(c => `• [${c.id.slice(0, 8)}] -> ${c.jid} (${c.status}) [started: ${new Date(c.startedAt).toLocaleTimeString()}]`).join('\n');
-                            await sock.sendMessage(normalizedJid, { text: `📞 Active Calls (${active.length}):\n\n${list}` }, { quoted: message });
+                            const list = active.map(c => `• [${c.id.slice(0, 8)}] -> ${c.jid} (${c.status}) [${c.direction || 'outgoing'}] [started: ${new Date(c.startedAt).toLocaleTimeString()}]`).join('\n');
+                            await sock.sendMessage(normalizedJid, {
+                                text: `📞 *Active Calls (${active.length}):*\n\n${list}\n\n📊 *VoIP Resource Stats:*\n• RSS: ${stats?.process?.rssMb || 0} MB | Workers: ${stats?.resourceManager?.activeWorkers || 0}`
+                            }, { quoted: message });
                         }
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
@@ -1156,6 +1242,111 @@ async function startBot() {
                         await sock.sendMessage(normalizedJid, { text: `📞 Terminated all ${count} active calls.` }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!acceptcall': {
+                    try {
+                        const voip = sock.getVoipClient();
+                        const targetCallId = args && args.trim() ? args.trim() : (lastIncomingSession?.callId || Array.from(voip?.calls?.values() || []).find(c => c.isIncoming && !c.ended)?.callId);
+                        if (!targetCallId) {
+                            await sock.sendMessage(normalizedJid, { text: `❌ No incoming call found to accept. Usage: !acceptcall [callId]` }, { quoted: message });
+                            break;
+                        }
+                        await sock.sendMessage(normalizedJid, { text: `📞 Accepting incoming call ${targetCallId}...` }, { quoted: message });
+                        const session = await sock.acceptCall(targetCallId, undefined, false, {
+                            audio: './audio.mp3' // Uses the new in-process native silence generator (0 ffmpeg overhead)
+                        });
+                        await sock.sendMessage(normalizedJid, { text: `✅ Call ${targetCallId} accepted! Audio streaming (silence).` }, { quoted: message });
+                    } catch (err) {
+                        console.error(err);
+                        await sock.sendMessage(normalizedJid, { text: `Accept call error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!rejectcall': {
+                    try {
+                        const voip = sock.getVoipClient();
+                        const parts = args && args.trim() ? args.trim().split(/\s+/) : [];
+                        let targetCallId = parts[0];
+                        let reason = parts[1] || 'declined';
+                        if (!targetCallId || targetCallId === 'busy' || targetCallId === 'declined') {
+                            if (targetCallId === 'busy' || targetCallId === 'declined') {
+                                reason = targetCallId;
+                            }
+                            targetCallId = lastIncomingSession?.callId || Array.from(voip?.calls?.values() || []).find(c => c.isIncoming && !c.ended)?.callId;
+                        }
+                        if (!targetCallId) {
+                            await sock.sendMessage(normalizedJid, { text: `❌ No incoming call found to reject. Usage: !rejectcall [callId] [reason]` }, { quoted: message });
+                            break;
+                        }
+                        await sock.rejectCall(targetCallId, undefined, reason);
+                        await sock.sendMessage(normalizedJid, { text: `📞 Rejected call ${targetCallId} (reason: ${reason})` }, { quoted: message });
+                    } catch (err) {
+                        console.error(err);
+                        await sock.sendMessage(normalizedJid, { text: `Reject call error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!mute': {
+                    try {
+                        const voip = sock.getVoipClient();
+                        const targetCallId = args && args.trim() ? args.trim() : (Array.from(voip?.calls?.values() || []).find(c => !c.ended)?.callId);
+                        if (!targetCallId) {
+                            await sock.sendMessage(normalizedJid, { text: `❌ No active call to mute. Usage: !mute [callId]` }, { quoted: message });
+                            break;
+                        }
+                        const session = voip?.calls?.get(targetCallId);
+                        if (!session) {
+                            await sock.sendMessage(normalizedJid, { text: `❌ Call ${targetCallId} not found.` }, { quoted: message });
+                            break;
+                        }
+                        await session.mute();
+                        await sock.sendMessage(normalizedJid, { text: `🔇 Call ${targetCallId} is now muted.` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Mute error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!unmute': {
+                    try {
+                        const voip = sock.getVoipClient();
+                        const targetCallId = args && args.trim() ? args.trim() : (Array.from(voip?.calls?.values() || []).find(c => !c.ended)?.callId);
+                        if (!targetCallId) {
+                            await sock.sendMessage(normalizedJid, { text: `❌ No active call to unmute. Usage: !unmute [callId]` }, { quoted: message });
+                            break;
+                        }
+                        const session = voip?.calls?.get(targetCallId);
+                        if (!session) {
+                            await sock.sendMessage(normalizedJid, { text: `❌ Call ${targetCallId} not found.` }, { quoted: message });
+                            break;
+                        }
+                        await session.unmute();
+                        await sock.sendMessage(normalizedJid, { text: `🔊 Call ${targetCallId} is now unmuted.` }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Unmute error: ${err.message}` }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!voipstats': {
+                    try {
+                        const stats = sock.getVoipMemoryStats();
+                        if (!stats) {
+                            await sock.sendMessage(normalizedJid, { text: `VoIP subsystem not initialized.` }, { quoted: message });
+                            break;
+                        }
+                        const text = `📊 *VoIP Subsystem & Memory Stats:*\n\n` +
+                            `• *Process RSS:* ${stats.process.rssMb} MB\n` +
+                            `• *Heap Used:* ${stats.process.heapUsedMb} MB / ${stats.process.heapTotalMb} MB\n` +
+                            `• *External Memory:* ${stats.process.externalMb} MB\n` +
+                            `• *Active VoIP Calls:* ${stats.calls.activeCalls}\n` +
+                            `• *Active Workers:* ${stats.resourceManager.activeWorkers}\n` +
+                            `• *Active Relays:* ${stats.resourceManager.activeRelayConnections}\n` +
+                            `• *FFmpeg Processes:* ${stats.resourceManager.activeFfmpegProcesses}\n` +
+                            `• *Cached WASM Modules:* ${stats.resourceManager.compiledModulesCached}`;
+                        await sock.sendMessage(normalizedJid, { text }, { quoted: message });
+                    } catch (err) {
+                        await sock.sendMessage(normalizedJid, { text: `Error fetching VoIP stats: ${err.message}` }, { quoted: message });
                     }
                     break;
                 }
