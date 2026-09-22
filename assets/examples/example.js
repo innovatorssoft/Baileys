@@ -1251,6 +1251,7 @@ async function startBot() {
                         const targetCallId = args && args.trim() ? args.trim() : (lastIncomingSession?.callId || Array.from(voip?.calls?.values() || []).find(c => c.isIncoming && !c.ended)?.callId);
                         if (!targetCallId) {
                             await sock.sendMessage(normalizedJid, { text: `❌ No incoming call found to accept. Usage: !acceptcall [callId]` }, { quoted: message });
+                            console.log("No incoming call found to accept.")
                             break;
                         }
                         const existingSession = voip?.calls?.get(targetCallId) || (lastIncomingSession?.callId === targetCallId ? lastIncomingSession : null);

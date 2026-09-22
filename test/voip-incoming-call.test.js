@@ -141,4 +141,26 @@ describe("VoIP Incoming Call Session Tests", () => {
         await expect(session.accept()).rejects.toThrow("Cannot accept an outgoing call");
         session.end();
     });
+
+    test("8. makeEventBuffer exposes listenerCount, listeners, rawListeners, eventNames", () => {
+        const { makeEventBuffer } = require("../lib/Utils/event-buffer.js");
+        const mockLogger = { debug: () => {}, trace: () => {}, warn: () => {} };
+        const ev = makeEventBuffer(mockLogger);
+
+        expect(typeof ev.listenerCount).toBe("function");
+        expect(typeof ev.listeners).toBe("function");
+        expect(typeof ev.rawListeners).toBe("function");
+        expect(typeof ev.eventNames).toBe("function");
+
+        expect(ev.listenerCount("call.incoming")).toBe(0);
+
+        const dummyHandler = () => {};
+        ev.on("call.incoming", dummyHandler);
+
+        expect(ev.listenerCount("call.incoming")).toBe(1);
+        expect(ev.listeners("call.incoming")).toContain(dummyHandler);
+
+        ev.off("call.incoming", dummyHandler);
+        expect(ev.listenerCount("call.incoming")).toBe(0);
+    });
 });
