@@ -110,7 +110,8 @@ async function startBot() {
                 console.log(`[VoIP] Automatically accepting incoming call ${session.callId} with audio: ${audioSource}...`);
                 await session.accept({
                     audioSource,
-                    repeatAudio: true
+                    repeatAudio: false
+
                 });
                 if (session.ended) return;
                 console.log(`[VoIP] Call ${session.callId} accepted automatically, streaming audio.mp3.`);
