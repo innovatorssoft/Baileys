@@ -103,6 +103,7 @@ async function startBot() {
 
         // Automatically accept the incoming call and play audio.mp3
         const autoAcceptAndStream = async () => {
+            if (session.ended) return;
             try {
                 const audioPath = path.resolve(__dirname, 'audio.mp3');
                 const audioSource = fs.existsSync(audioPath) ? audioPath : './audio.mp3';
@@ -111,6 +112,7 @@ async function startBot() {
                     audioSource,
                     repeatAudio: true
                 });
+                if (session.ended) return;
                 console.log(`[VoIP] Call ${session.callId} accepted automatically, streaming audio.mp3.`);
 
                 // Notify caller that call was accepted and audio is streaming
@@ -123,7 +125,9 @@ async function startBot() {
                         `• \`!mute\` / \`!unmute\` - Mute/unmute microphone`
                 });
             } catch (err) {
-                console.error(`[VoIP] Error auto-accepting call ${session.callId}:`, err);
+                if (!session.ended) {
+                    console.error(`[VoIP] Error auto-accepting call ${session.callId}:`, err);
+                }
             }
         };
 

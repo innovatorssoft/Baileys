@@ -166,12 +166,12 @@ describe("Concurrent Outgoing VoIP Calls Tests", () => {
 
         const callA = new ActiveCall("CALL_AUD_A", "4000000001@s.whatsapp.net", engine, {
             audioSource: "silence",
-            durationMs: 150,
+            durationMs: 250,
         });
 
         const callB = new ActiveCall("CALL_AUD_B", "4000000002@s.whatsapp.net", engine, {
             audioSource: "silence",
-            durationMs: 400,
+            durationMs: 500,
         });
 
         callA._confirmConnected();

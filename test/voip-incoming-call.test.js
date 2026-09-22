@@ -163,4 +163,110 @@ describe("VoIP Incoming Call Session Tests", () => {
         ev.off("call.incoming", dummyHandler);
         expect(ev.listenerCount("call.incoming")).toBe(0);
     });
+
+    test("9. Ended call cannot transition to accepted or be accepted via accept()", async () => {
+        const session = new CallSession({
+            callId: "INC_ENDED_GUARD_1",
+            peerJid: "72993388666967:1@lid",
+            direction: CallDirection.Incoming,
+        });
+
+        session.end("remote_end");
+        await session.waitForEnd();
+        expect(session.ended).toBe(true);
+        expect(session.status).toBe("ended");
+
+        // Firing confirm methods on an ended call should be ignored
+        session._confirmAccepted();
+        expect(session.status).toBe("ended");
+
+        session._confirmConnected();
+        expect(session.status).toBe("ended");
+
+        session._confirmStreaming();
+        expect(session.status).toBe("ended");
+
+        session._confirmRinging();
+        expect(session.status).toBe("ended");
+
+        // Calling accept() on an ended call should reject
+        await expect(session.accept()).rejects.toThrow("already ended");
+    });
+
+    test("10. sendPreacceptStanza retains device JID (:1) so caller phone transitions to ringing", async () => {
+        const { CallManager } = require("../lib/Voip/call-manager.js");
+        let sentStanza = null;
+        const mockSock = {
+            sendNode: async (node) => { sentStanza = node; }
+        };
+
+        const manager = new CallManager({ sock: mockSock });
+        await manager.sendPreacceptStanza("CALL_PREACCEPT_1", "72993388666967@lid", "72993388666967:1@lid", false);
+
+        expect(sentStanza).not.toBeNull();
+        expect(sentStanza.tag).toBe("call");
+        expect(sentStanza.attrs.to).toBe("72993388666967:1@lid");
+        expect(sentStanza.content[0].tag).toBe("preaccept");
+        expect(sentStanza.content[0].attrs["call-id"]).toBe("CALL_PREACCEPT_1");
+        expect(sentStanza.content[0].attrs["call-creator"]).toBe("72993388666967@lid");
+    });
+
+    test("11. sendAcceptStanza prioritizes caller device JID for call key encryption", async () => {
+        const { CallManager } = require("../lib/Voip/call-manager.js");
+        const encryptionTargets = [];
+        let sentStanza = null;
+
+        const mockSock = {
+            sendNode: async (node) => { sentStanza = node; }
+        };
+        const mockSignaling = {
+            encryptCallKey: async (target, key, count) => {
+                encryptionTargets.push(target);
+                return {
+                    encNode: { tag: "enc", attrs: { v: "2", type: "msg", count: "0" }, content: Buffer.from("dummy") },
+                    shouldIncludeDeviceIdentity: false
+                };
+            }
+        };
+
+        const manager = new CallManager({ sock: mockSock, signaling: mockSignaling });
+        const rawKey = Buffer.alloc(32, 7);
+
+        await manager.sendAcceptStanza(
+            "CALL_ACCEPT_TARGET_1",
+            "72993388666967@lid",
+            "72993388666967:1@lid",
+            false,
+            rawKey
+        );
+
+        // The first target attempted MUST be the device JID (72993388666967:1@lid)
+        expect(encryptionTargets.length).toBeGreaterThan(0);
+        expect(encryptionTargets[0]).toBe("72993388666967:1@lid");
+        expect(sentStanza).not.toBeNull();
+        expect(sentStanza.content[0].tag).toBe("accept");
+    });
+
+    test("12. handleIncomingTerminate terminates the session and unblocks queue in CallManager", () => {
+        const { CallManager } = require("../lib/Voip/call-manager.js");
+        const manager = new CallManager({ sock: {} });
+
+        const session = new CallSession({
+            callId: "CALL_TERM_TEST_1",
+            peerJid: "72993388666967:1@lid",
+            direction: CallDirection.Incoming,
+            manager,
+        });
+
+        manager.calls.set(session.callId, session);
+        expect(manager.calls.has(session.callId)).toBe(true);
+        expect(session.ended).toBe(false);
+
+        manager.handleIncomingTerminate(session.callId, "remote_end");
+
+        expect(session.ended).toBe(true);
+        expect(session.status).toBe("ended");
+        expect(manager.calls.has(session.callId)).toBe(false);
+    });
 });
+
