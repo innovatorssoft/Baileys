@@ -1247,10 +1247,15 @@ async function startBot() {
                 }
                 case '!acceptcall': {
                     try {
-                        const voip = sock.getVoipClient();
+                        const voip = await sock.getVoipClient();
                         const targetCallId = args && args.trim() ? args.trim() : (lastIncomingSession?.callId || Array.from(voip?.calls?.values() || []).find(c => c.isIncoming && !c.ended)?.callId);
                         if (!targetCallId) {
                             await sock.sendMessage(normalizedJid, { text: `❌ No incoming call found to accept. Usage: !acceptcall [callId]` }, { quoted: message });
+                            break;
+                        }
+                        const existingSession = voip?.calls?.get(targetCallId) || (lastIncomingSession?.callId === targetCallId ? lastIncomingSession : null);
+                        if (existingSession && (existingSession.status === 'accepted' || existingSession.status === 'connected' || existingSession.status === 'audio_ready' || existingSession.status === 'streaming')) {
+                            await sock.sendMessage(normalizedJid, { text: `ℹ️ Call ${targetCallId} is already accepted (status: ${existingSession.status}).` }, { quoted: message });
                             break;
                         }
                         await sock.sendMessage(normalizedJid, { text: `📞 Accepting incoming call ${targetCallId}...` }, { quoted: message });
@@ -1266,7 +1271,7 @@ async function startBot() {
                 }
                 case '!rejectcall': {
                     try {
-                        const voip = sock.getVoipClient();
+                        const voip = await sock.getVoipClient();
                         const parts = args && args.trim() ? args.trim().split(/\s+/) : [];
                         let targetCallId = parts[0];
                         let reason = parts[1] || 'declined';
@@ -1280,7 +1285,7 @@ async function startBot() {
                             await sock.sendMessage(normalizedJid, { text: `❌ No incoming call found to reject. Usage: !rejectcall [callId] [reason]` }, { quoted: message });
                             break;
                         }
-await sock.rejectCall(targetCallId, undefined);
+                        await sock.rejectCall(targetCallId, undefined, reason);
                         await sock.sendMessage(normalizedJid, { text: `📞 Rejected call ${targetCallId} (reason: ${reason})` }, { quoted: message });
                     } catch (err) {
                         console.error(err);
@@ -1290,18 +1295,20 @@ await sock.rejectCall(targetCallId, undefined);
                 }
                 case '!mute': {
                     try {
-                        const voip = sock.getVoipClient();
-                        const targetCallId = args && args.trim() ? args.trim() : (Array.from(voip?.calls?.values() || []).find(c => !c.ended)?.callId);
+                        const voip = await sock.getVoipClient();
+                        const targetCallId = args && args.trim()
+                            ? args.trim()
+                            : (lastIncomingSession?.callId || Array.from(voip?.calls?.values() || []).find(c => !c.ended)?.callId);
                         if (!targetCallId) {
                             await sock.sendMessage(normalizedJid, { text: `❌ No active call to mute. Usage: !mute [callId]` }, { quoted: message });
                             break;
                         }
-                        const session = voip?.calls?.get(targetCallId);
+                        const session = voip?.calls?.get(targetCallId) || (lastIncomingSession?.callId === targetCallId ? lastIncomingSession : null);
                         if (!session) {
                             await sock.sendMessage(normalizedJid, { text: `❌ Call ${targetCallId} not found.` }, { quoted: message });
                             break;
                         }
-                        await session.mute();
+                        session.mute(true);
                         await sock.sendMessage(normalizedJid, { text: `🔇 Call ${targetCallId} is now muted.` }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Mute error: ${err.message}` }, { quoted: message });
@@ -1310,18 +1317,20 @@ await sock.rejectCall(targetCallId, undefined);
                 }
                 case '!unmute': {
                     try {
-                        const voip = sock.getVoipClient();
-                        const targetCallId = args && args.trim() ? args.trim() : (Array.from(voip?.calls?.values() || []).find(c => !c.ended)?.callId);
+                        const voip = await sock.getVoipClient();
+                        const targetCallId = args && args.trim()
+                            ? args.trim()
+                            : (lastIncomingSession?.callId || Array.from(voip?.calls?.values() || []).find(c => !c.ended)?.callId);
                         if (!targetCallId) {
                             await sock.sendMessage(normalizedJid, { text: `❌ No active call to unmute. Usage: !unmute [callId]` }, { quoted: message });
                             break;
                         }
-                        const session = voip?.calls?.get(targetCallId);
+                        const session = voip?.calls?.get(targetCallId) || (lastIncomingSession?.callId === targetCallId ? lastIncomingSession : null);
                         if (!session) {
                             await sock.sendMessage(normalizedJid, { text: `❌ Call ${targetCallId} not found.` }, { quoted: message });
                             break;
                         }
-                        await session.unmute();
+                        session.unmute();
                         await sock.sendMessage(normalizedJid, { text: `🔊 Call ${targetCallId} is now unmuted.` }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Unmute error: ${err.message}` }, { quoted: message });
@@ -1330,7 +1339,7 @@ await sock.rejectCall(targetCallId, undefined);
                 }
                 case '!voipstats': {
                     try {
-                        const stats = sock.getVoipMemoryStats();
+                        const stats = await sock.getVoipMemoryStats();
                         if (!stats) {
                             await sock.sendMessage(normalizedJid, { text: `VoIP subsystem not initialized.` }, { quoted: message });
                             break;

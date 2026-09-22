@@ -42,7 +42,8 @@ export declare class CallSession extends EventEmitter {
     accept(opts?: { audioSource?: string; videoSource?: string; repeatAudio?: boolean; isMicEnabled?: boolean; isCameraEnabled?: boolean }): Promise<void>;
     reject(reason?: string): Promise<void>;
     end(reason?: string): Promise<void>;
-    mute(muted: boolean): void;
+    mute(muted?: boolean): void;
+    unmute(): void;
     waitForEnd(): Promise<string>;
     startAudio(sampleRate: number, channels: number, framesPerChunk: number, sendAudioChunkFn: (chunk: Float32Array) => void): void;
     stopAudio(): void;
@@ -69,12 +70,15 @@ export declare class VoipClient extends EventEmitter {
     #private;
     constructor(config?: VoipSdkConfig);
     get callManager(): import("./call-manager.mjs").CallManager | null;
+    get calls(): Map<string, CallSession>;
     setOptions: (options: VoipConfigOptions) => void;
     getActiveCalls: () => CallSummary[];
     getCall: (callId: string) => CallSession | undefined;
     getActiveCallCount: () => number;
     acceptCall: (callId: string, options?: { audioSource?: string; videoSource?: string; repeatAudio?: boolean; isMicEnabled?: boolean; isCameraEnabled?: boolean; pthreadPoolSize?: number | "auto" }) => Promise<CallSession>;
     rejectCall: (callId: string, reason?: string) => Promise<void>;
+    muteCall: (callId: string, muted?: boolean) => boolean;
+    unmuteCall: (callId: string) => boolean;
     getMemoryStats: () => any;
     endCall: (callId: string, reason?: string) => void;
     endAllCalls: () => void;

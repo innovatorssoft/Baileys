@@ -257,4 +257,105 @@ describe("VoIP CallManager Tests", () => {
 
         manager.cleanup();
     });
+
+    test("9. parseRelayEndpoints extracts nested relays and participants from <call> with <offer>", () => {
+        const addr = Buffer.from([1, 2, 3, 4, 1, 187]); // 1.2.3.4:443
+        const stanza = {
+            tag: "call",
+            attrs: { from: "caller@s.whatsapp.net" },
+            content: [
+                {
+                    tag: "offer",
+                    attrs: { "call-id": "CALL_RELAY_1", "call-creator": "caller@s.whatsapp.net" },
+                    content: [
+                        {
+                            tag: "relay",
+                            attrs: { token: "token123" },
+                            content: [
+                                { tag: "token", attrs: { id: "0" }, content: "tok456" },
+                                { tag: "te2", attrs: { token_id: "0" }, content: addr }
+                            ]
+                        },
+                        {
+                            tag: "user",
+                            attrs: { jid: "caller@s.whatsapp.net" },
+                            content: [
+                                { tag: "device", attrs: { jid: "caller:1@s.whatsapp.net" } }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const result = parseRelayEndpoints(stanza);
+        expect(result.relays).toHaveLength(1);
+        expect(result.relays[0].token).toBe("tok456");
+        expect(result.relays[0].ip).toBe("1.2.3.4");
+        expect(result.relays[0].port).toBe(443);
+        expect(result.participantJids).toContain("caller:1@s.whatsapp.net");
+    });
+
+    test("10. muteCall and unmuteCall interact properly with CallSession", async () => {
+        const sock = createMockSocket();
+        const manager = new CallManager({ sock });
+
+        const session = await manager.handleIncomingOffer({
+            tag: "call",
+            attrs: { from: "caller@s.whatsapp.net" },
+            content: [{ tag: "offer", attrs: { "call-id": "CALL_MUTE_1", "call-creator": "caller@s.whatsapp.net" }, content: [] }]
+        });
+
+        expect(session).not.toBeNull();
+        const muteSpy = jest.spyOn(session, "mute");
+
+        const muted = manager.muteCall("CALL_MUTE_1", true);
+        expect(muted).toBe(true);
+        expect(muteSpy).toHaveBeenCalledWith(true);
+
+        const unmuted = manager.unmuteCall("CALL_MUTE_1");
+        expect(unmuted).toBe(true);
+        expect(muteSpy).toHaveBeenCalledWith(false);
+
+        expect(manager.muteCall("NON_EXISTENT")).toBe(false);
+
+        manager.cleanup();
+    });
+
+    test("11. handleRelayNode updates existing CallSession relay endpoints", async () => {
+        const sock = createMockSocket();
+        const manager = new CallManager({ sock });
+
+        const session = await manager.handleIncomingOffer({
+            tag: "call",
+            attrs: { from: "caller@s.whatsapp.net" },
+            content: [{ tag: "offer", attrs: { "call-id": "CALL_RELAY_NODE_1", "call-creator": "caller@s.whatsapp.net" }, content: [] }]
+        });
+
+        session.relay = { connectRelays: jest.fn() };
+
+        const addr = Buffer.from([5, 6, 7, 8, 13, 150]); // 5.6.7.8:3478
+        manager.handleRelayNode({
+            tag: "call",
+            attrs: { "call-id": "CALL_RELAY_NODE_1" },
+            content: [
+                {
+                    tag: "relay",
+                    attrs: {},
+                    content: [
+                        { tag: "token", attrs: { id: "0" }, content: "tok789" },
+                        { tag: "te2", attrs: { token_id: "0" }, content: addr }
+                    ]
+                }
+            ]
+        });
+
+        expect(session._relayEndpoints).toEqual(expect.arrayContaining([
+            expect.objectContaining({ ip: "5.6.7.8", port: 3478 })
+        ]));
+        expect(session.relay.connectRelays).toHaveBeenCalled();
+
+        manager.cleanup();
+    });
 });
+
