@@ -54,6 +54,8 @@ export type CallStatus =
     | "initiating"
     | "signaling"
     | "ringing"
+    | "incoming_ringing"
+    | "waiting"
     | "accepted"
     | "media_connecting"
     | "connected"
@@ -129,6 +131,18 @@ export declare const CallState: {
     readonly Ending: 13;
 };
 export type CallState = (typeof CallState)[keyof typeof CallState];
+/** Call direction (incoming or outgoing). */
+export declare const CallDirection: {
+    readonly Outgoing: "outgoing";
+    readonly Incoming: "incoming";
+};
+export type CallDirection = (typeof CallDirection)[keyof typeof CallDirection];
+/** Call media type (audio or video). */
+export declare const CallMediaType: {
+    readonly Audio: "audio";
+    readonly Video: "video";
+};
+export type CallMediaType = (typeof CallMediaType)[keyof typeof CallMediaType];
 /** Relay list update payload from WASM call event 156. */
 export type RelayListUpdate = {
     relay_key: string;

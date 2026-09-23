@@ -41,5 +41,12 @@ export declare class SignalingBridge {
     ensureSessionsForPeers: (jids: string[]) => Promise<void>;
     resolveLid: (pnJid: string) => Promise<string | undefined>;
     issueTcToken: (jid: string) => Promise<boolean>;
+    registerEngine: (callId: string, engine: any) => void;
+    unregisterEngine: (callId: string) => void;
+    setIncomingOfferListener: (listener: (node: any, peerJid: string, callId: string, offerSignalingMsg: any) => void) => void;
+    getCallKey: (callId: string) => Uint8Array | Buffer | undefined;
+    encryptCallKey: (targetJid: string, rawCallKey: Uint8Array | Buffer, count?: number) => Promise<{ encNode: any; shouldIncludeDeviceIdentity: boolean }>;
+    getDeviceIdentity: () => any;
+    maybeDecryptEnc: (voipNode: any, peerJid: string) => Promise<any>;
     getRemoteDeviceJid: (callId: string) => string | undefined;
 }
