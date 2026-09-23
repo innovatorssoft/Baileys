@@ -201,12 +201,14 @@ async function startBot() {
         try {
             if (!update.messages?.length) return;
 
+            /*
             for (const message of update.messages) {
                 const isFromMe = message.key?.fromMe;
                 const remoteJid = message.key?.remoteJid;
                 const messageKeys = Object.keys(message.message || {});
                 console.log(` -> Msg: fromMe=${isFromMe}, JID=${remoteJid}, Keys=[${messageKeys.join(', ')}]`);
             }
+            */
 
             if (update.type !== 'notify') return;
             const [message] = update.messages;
@@ -1185,15 +1187,18 @@ async function startBot() {
                 case '!callinfo': {
                     try {
                         const active = await sock.getActiveCalls();
-                        const stats = sock.getVoipMemoryStats();
+                        const stats = await sock.getVoipMemoryStats();
+                        const rssMb = stats?.process?.rssMb ?? Math.round((stats?.rss || 0) / 1024 / 1024);
+                        const workers = stats?.resourceManager?.activeWorkers ?? stats?.activeWorkers ?? stats?.workerCount ?? 0;
+                        const relays = stats?.resourceManager?.activeRelayConnections ?? stats?.relayConnections ?? stats?.relayConnectionCount ?? 0;
                         if (!active || active.length === 0) {
                             await sock.sendMessage(normalizedJid, {
-                                text: `📞 No active VoIP calls.\n\n📊 *VoIP Resource Stats:*\n• RSS: ${stats?.process?.rssMb || 0} MB\n• Active Workers: ${stats?.resourceManager?.activeWorkers || 0}\n• Active Relays: ${stats?.resourceManager?.activeRelayConnections || 0}`
+                                text: `📞 No active VoIP calls.\n\n📊 *VoIP Resource Stats:*\n• RSS: ${rssMb} MB\n• Active Workers: ${workers}\n• Active Relays: ${relays}`
                             }, { quoted: message });
                         } else {
                             const list = active.map(c => `• [${c.id.slice(0, 8)}] -> ${c.jid} (${c.status}) [${c.direction || 'outgoing'}] [started: ${new Date(c.startedAt).toLocaleTimeString()}]`).join('\n');
                             await sock.sendMessage(normalizedJid, {
-                                text: `📞 *Active Calls (${active.length}):*\n\n${list}\n\n📊 *VoIP Resource Stats:*\n• RSS: ${stats?.process?.rssMb || 0} MB | Workers: ${stats?.resourceManager?.activeWorkers || 0}`
+                                text: `📞 *Active Calls (${active.length}):*\n\n${list}\n\n📊 *VoIP Resource Stats:*\n• RSS: ${rssMb} MB | Workers: ${workers}`
                             }, { quoted: message });
                         }
                     } catch (err) {
@@ -1350,15 +1355,25 @@ async function startBot() {
                             await sock.sendMessage(normalizedJid, { text: `VoIP subsystem not initialized.` }, { quoted: message });
                             break;
                         }
+                        const rssMb = stats?.process?.rssMb ?? Math.round((stats?.rss || 0) / 1024 / 1024);
+                        const heapUsedMb = stats?.process?.heapUsedMb ?? Math.round((stats?.heapUsed || 0) / 1024 / 1024);
+                        const heapTotalMb = stats?.process?.heapTotalMb ?? Math.round((stats?.heapTotal || 0) / 1024 / 1024);
+                        const externalMb = stats?.process?.externalMb ?? Math.round((stats?.external || 0) / 1024 / 1024);
+                        const activeCalls = stats?.calls?.activeCalls ?? stats?.activeCalls ?? stats?.activeCallCount ?? 0;
+                        const activeWorkers = stats?.resourceManager?.activeWorkers ?? stats?.activeWorkers ?? stats?.workerCount ?? 0;
+                        const activeRelays = stats?.resourceManager?.activeRelayConnections ?? stats?.relayConnections ?? stats?.relayConnectionCount ?? 0;
+                        const activeFfmpeg = stats?.resourceManager?.activeFfmpegProcesses ?? stats?.ffmpegProcesses ?? stats?.ffmpegProcessCount ?? 0;
+                        const cachedModules = stats?.resourceManager?.compiledModulesCached ?? stats?.cachedModules ?? 0;
+
                         const text = `📊 *VoIP Subsystem & Memory Stats:*\n\n` +
-                            `• *Process RSS:* ${stats.process.rssMb} MB\n` +
-                            `• *Heap Used:* ${stats.process.heapUsedMb} MB / ${stats.process.heapTotalMb} MB\n` +
-                            `• *External Memory:* ${stats.process.externalMb} MB\n` +
-                            `• *Active VoIP Calls:* ${stats.calls.activeCalls}\n` +
-                            `• *Active Workers:* ${stats.resourceManager.activeWorkers}\n` +
-                            `• *Active Relays:* ${stats.resourceManager.activeRelayConnections}\n` +
-                            `• *FFmpeg Processes:* ${stats.resourceManager.activeFfmpegProcesses}\n` +
-                            `• *Cached WASM Modules:* ${stats.resourceManager.compiledModulesCached}`;
+                            `• *Process RSS:* ${rssMb} MB\n` +
+                            `• *Heap Used:* ${heapUsedMb} MB / ${heapTotalMb} MB\n` +
+                            `• *External Memory:* ${externalMb} MB\n` +
+                            `• *Active VoIP Calls:* ${activeCalls}\n` +
+                            `• *Active Workers:* ${activeWorkers}\n` +
+                            `• *Active Relays:* ${activeRelays}\n` +
+                            `• *FFmpeg Processes:* ${activeFfmpeg}\n` +
+                            `• *Cached WASM Modules:* ${cachedModules}`;
                         await sock.sendMessage(normalizedJid, { text }, { quoted: message });
                     } catch (err) {
                         await sock.sendMessage(normalizedJid, { text: `Error fetching VoIP stats: ${err.message}` }, { quoted: message });

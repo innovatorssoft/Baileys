@@ -245,6 +245,9 @@ describe("VoIP Incoming Call Session Tests", () => {
         expect(encryptionTargets[0]).toBe("72993388666967:1@lid");
         expect(sentStanza).not.toBeNull();
         expect(sentStanza.content[0].tag).toBe("accept");
+        // The stanza itself must target the caller's DEVICE jid too — a bare
+        // address never registers on the caller's phone.
+        expect(sentStanza.attrs.to).toBe("72993388666967:1@lid");
     });
 
     test("12. handleIncomingTerminate terminates the session and unblocks queue in CallManager", () => {
