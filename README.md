@@ -4182,6 +4182,153 @@ await StatusHelper.send(sock, StatusHelper.gif(gifBuffer, 'Animated! 🎭'), jid
 await StatusHelper.send(sock, StatusHelper.voiceNote(audioBuffer), jidList)
 ```
 
+## 🟢 Presence Tracker (`monitorPresence`)
+
+Monitor online/offline presence transitions for one or more WhatsApp contacts in real-time.
+The tracker subscribes via `sock.presenceSubscribe`, listens to `presence.update` events, and
+emits `online`, `offline`, and `session` events. It handles PN ↔ LID correlation, automatic
+re-subscription on reconnect, and exposes last-seen when available from the protocol.
+
+### Import
+
+```ts
+import { monitorPresence } from '@innovatorssoft/baileys'
+```
+
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `logToConsole` | `boolean` | `false` | Log transitions to console automatically |
+| `autoResubscribe` | `boolean` | `false` | Re-subscribe automatically when the socket reconnects |
+| `timezone` | `string` | `undefined` | Display timezone offset, e.g. `'+05:00'` |
+
+### Basic Usage
+
+```ts
+import { makeWASocket, useMultiFileAuthState, monitorPresence } from '@innovatorssoft/baileys'
+
+const { state, saveCreds } = await useMultiFileAuthState('auth')
+const sock = makeWASocket({ auth: state, logger: require('pino')({ level: 'silent' }) })
+
+// Monitor a single contact
+const pm = monitorPresence(sock, '923001234567@s.whatsapp.net', {
+    logToConsole: true,
+    autoResubscribe: true,
+    timezone: '+05:00'
+})
+
+pm.on('online',  data => console.log(`🟢 ${data.jid} ONLINE at ${new Date(data.onlineAt).toLocaleTimeString()}`))
+pm.on('offline', data => console.log(`🔴 ${data.jid} OFFLINE (was online for ${data.duration})`))
+pm.on('session', data => console.log(`📋 Session: ${data.jid} — ${data.duration}`))
+pm.on('error',   err  => console.error('[Presence] Error:', err.message))
+
+// Later, stop monitoring:
+// pm.stop()
+```
+
+### Monitoring Multiple Contacts
+
+```ts
+const pm = monitorPresence(sock, [
+    '923001234567@s.whatsapp.net',
+    '447498792682@s.whatsapp.net'
+], { autoResubscribe: true })
+```
+
+### Event Payloads
+
+**`online`** — emitted on transition from offline → online:
+
+```ts
+{
+    jid: '923001234567@s.whatsapp.net',   // JID as originally requested
+    status: 'online',
+    onlineAt: 1731806400000,               // epoch ms
+    lastSeen?: 1731806400                 // optional, if WhatsApp provides it (unix seconds)
+}
+```
+
+**`offline`** — emitted on transition from online → offline:
+
+```ts
+{
+    jid: '923001234567@s.whatsapp.net',
+    status: 'offline',
+    onlineAt: 1731806400000,
+    offlineAt: 1731806500000,             // epoch ms
+    durationMs: 100000,
+    duration: '00:01:40',                 // HH:MM:SS (hours don't wrap at 24)
+    lastSeen?: 1731806500
+}
+```
+
+**`session`** — same shape as `offline`, emitted after the session is recorded.
+
+### Querying State & Sessions
+
+```ts
+// Current state for one JID
+const state = pm.getState('923001234567@s.whatsapp.net')
+// → { jid, status: 'online'|'offline', onlineAt, offlineAt, durationMs, duration, lastSeen }
+
+// All monitored JIDs
+const allStates = pm.getState()
+// → { '923001234567@s.whatsapp.net': {...}, '447498792682@s.whatsapp.net': {...} }
+
+// Most recent session for a JID
+const lastSession = pm.getSession('923001234567@s.whatsapp.net')
+
+// All sessions for a JID (or for all if omitted)
+const sessions = pm.getSessions()
+
+// Check if a JID is being monitored
+pm.isMonitoring('923001234567@s.whatsapp.net') // → true
+
+// List of originally requested JIDs
+pm.getMonitoredJids() // → ['923001234567@s.whatsapp.net', '447498792682@s.whatsapp.net']
+```
+
+### Full Integration in `connection.update`
+
+```ts
+sock.ev.on('connection.update', async (update) => {
+    const { connection } = update
+
+    if (connection === 'open') {
+        const targets = ['923001234567@s.whatsapp.net', '447498792682@s.whatsapp.net']
+
+        const pm = monitorPresence(sock, targets, {
+            logToConsole: false,
+            autoResubscribe: true,
+            timezone: '+05:00'
+        })
+
+        pm.on('online',  d => console.log(`[Presence] 🟢 ${d.jid} ONLINE at ${new Date(d.onlineAt).toLocaleTimeString()}`))
+        pm.on('offline', d => console.log(`[Presence] 🔴 ${d.jid} OFFLINE (was online for ${d.duration})`))
+        pm.on('session', d => console.log(`[Presence] 📋 Session ended: ${d.jid} — ${d.duration}`))
+        pm.on('error',   e => console.error('[Presence] Error:', e.message))
+    }
+})
+```
+
+### PN / LID Handling
+
+- The monitor first attempts a **PN subscription** (`@s.whatsapp.net`).
+- If `signalRepository.lidMapping` is available, it resolves the corresponding **LID** and subscribes to both.
+- When `lid-mapping.update` fires (asynchronous resolution), it re-subscribes to the newly discovered LID.
+- Presence events are matched by both `participant` and `update.id` so LID-addressed events are still correlated to the original PN target.
+
+### `formatDuration` Utility
+
+```ts
+import { formatDuration } from '@innovatorssoft/baileys'
+
+formatDuration(0)            // '00:00:00'
+formatDuration(90000)       // '00:01:30'
+formatDuration(991504000)   // '27:32:30' (hours don't wrap)
+```
+
 ## 💻 Writing Custom Functionality
 Baileys is written with custom functionality in mind.
 Instead of forking the project & re-writing the internals, you can simply write your own extensions.
