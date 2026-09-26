@@ -7,7 +7,8 @@ const { makeWASocket,
     renderLatexToPng,
     prepareWAMessageMedia,
     uploadUnencryptedToWA,
-    generateWAMessageFromContent }
+    generateWAMessageFromContent,
+    monitorPresence }
     = require('../../lib/index.js');
 const { Boom } = require('@hapi/boom');
 const qrcode = require('qrcode-terminal');
@@ -104,12 +105,27 @@ async function startBot() {
             console.log('WhatsApp Bot is successfully connected!');
             console.log('======================================\n');
 
-            /* try {
-                 // const result = await sock.resolveUsername('midsoune')
-                 // console.log(result)
-             } catch (err) {
-                 console.error('Failed to resolve username:', err);
-             }*/
+            // Start presence monitoring if target JIDs are provided via --presence flag
+            const targets = ['923001234567@s.whatsapp.net', '923006789012@s.whatsapp.net'];
+            if (targets.length > 0) {
+                console.log(`[Presence] Monitoring presence for ${targets.join(', ')}...`);
+                const pm = monitorPresence(sock, targets,{
+                    logToConsole: false,
+                    autoResubscribe: true        
+                    });
+                pm.on('online',  data => 
+                    console.log(`[Presence UPDATE] 🟢 ${data.jid} is ONLINE at ${new Date(data.onlineAt).toLocaleTimeString()}`),
+                );
+                pm.on('offline', data => 
+                    console.log(`[Presence UPDATE] 🔴 ${data.jid} is OFFLINE (was online for ${data.duration})`
+                ));
+                pm.on('session', data => 
+                    console.log(`[Presence UPDATE] 📋 Session ended: ${data.jid} — ${data.duration}`
+                ));
+                pm.on('error',   err => 
+                    console.error(`[Presence UPDATE] Error: ${err.message}`)
+                );
+            }
         }
     });
 
