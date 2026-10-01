@@ -22231,6 +22231,7 @@ $root.E2E = (function() {
              * @property {number|null} [agmSubtitleStrategy] ExternalAdReplyInfo agmSubtitleStrategy
              * @property {number|null} [agmHeaderInteractionStrategy] ExternalAdReplyInfo agmHeaderInteractionStrategy
              * @property {boolean|null} [containsCtwaFlowsAutoLabel] ExternalAdReplyInfo containsCtwaFlowsAutoLabel
+             * @property {string|null} [productId] ExternalAdReplyInfo productId
              */
 
             /**
@@ -22512,6 +22513,14 @@ $root.E2E = (function() {
              */
             ExternalAdReplyInfo.prototype.containsCtwaFlowsAutoLabel = null;
 
+            /**
+             * ExternalAdReplyInfo productId.
+             * @member {string|null|undefined} productId
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.productId = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -22713,6 +22722,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_productId", {
+                get: $util.oneOfGetter($oneOfFields = ["productId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new ExternalAdReplyInfo instance using the specified properties.
              * @function create
@@ -22803,6 +22818,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 32, wireType 0 =*/256).int32(message.agmHeaderInteractionStrategy);
                 if (message.containsCtwaFlowsAutoLabel != null && Object.hasOwnProperty.call(message, "containsCtwaFlowsAutoLabel"))
                     writer.uint32(/* id 33, wireType 0 =*/264).bool(message.containsCtwaFlowsAutoLabel);
+                if (message.productId != null && Object.hasOwnProperty.call(message, "productId"))
+                    writer.uint32(/* id 34, wireType 2 =*/274).string(message.productId);
                 return writer;
             };
 
@@ -22969,6 +22986,10 @@ $root.E2E = (function() {
                         }
                     case 33: {
                             message.containsCtwaFlowsAutoLabel = reader.bool();
+                            break;
+                        }
+                    case 34: {
+                            message.productId = reader.string();
                             break;
                         }
                     default:
@@ -23183,6 +23204,11 @@ $root.E2E = (function() {
                     if (typeof message.containsCtwaFlowsAutoLabel !== "boolean")
                         return "containsCtwaFlowsAutoLabel: boolean expected";
                 }
+                if (message.productId != null && message.hasOwnProperty("productId")) {
+                    properties._productId = 1;
+                    if (!$util.isString(message.productId))
+                        return "productId: string expected";
+                }
                 return null;
             };
 
@@ -23299,6 +23325,8 @@ $root.E2E = (function() {
                     message.agmHeaderInteractionStrategy = object.agmHeaderInteractionStrategy | 0;
                 if (object.containsCtwaFlowsAutoLabel != null)
                     message.containsCtwaFlowsAutoLabel = Boolean(object.containsCtwaFlowsAutoLabel);
+                if (object.productId != null)
+                    message.productId = String(object.productId);
                 return message;
             };
 
@@ -23479,6 +23507,11 @@ $root.E2E = (function() {
                     object.containsCtwaFlowsAutoLabel = message.containsCtwaFlowsAutoLabel;
                     if (options.oneofs)
                         object._containsCtwaFlowsAutoLabel = "containsCtwaFlowsAutoLabel";
+                }
+                if (message.productId != null && message.hasOwnProperty("productId")) {
+                    object.productId = message.productId;
+                    if (options.oneofs)
+                        object._productId = "productId";
                 }
                 return object;
             };
@@ -26121,6 +26154,7 @@ $root.E2E = (function() {
          * @property {E2E.Message.IFutureProofMessage|null} [newsletterScheduledMessage] Message newsletterScheduledMessage
          * @property {E2E.Message.IFutureProofMessage|null} [acp2SettingMessage] Message acp2SettingMessage
          * @property {E2E.Message.IFutureProofMessage|null} [audioStickerMessage] Message audioStickerMessage
+         * @property {E2E.Message.IFutureProofMessage|null} [botGroupParticipantMessage] Message botGroupParticipantMessage
          */
 
         /**
@@ -27042,6 +27076,14 @@ $root.E2E = (function() {
          */
         Message.prototype.audioStickerMessage = null;
 
+        /**
+         * Message botGroupParticipantMessage.
+         * @member {E2E.Message.IFutureProofMessage|null|undefined} botGroupParticipantMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.botGroupParticipantMessage = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -27723,6 +27765,12 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_botGroupParticipantMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["botGroupParticipantMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new Message instance using the specified properties.
          * @function create
@@ -27973,6 +28021,8 @@ $root.E2E = (function() {
                 $root.E2E.Message.FutureProofMessage.encode(message.acp2SettingMessage, writer.uint32(/* id 133, wireType 2 =*/1066).fork()).ldelim();
             if (message.audioStickerMessage != null && Object.hasOwnProperty.call(message, "audioStickerMessage"))
                 $root.E2E.Message.FutureProofMessage.encode(message.audioStickerMessage, writer.uint32(/* id 134, wireType 2 =*/1074).fork()).ldelim();
+            if (message.botGroupParticipantMessage != null && Object.hasOwnProperty.call(message, "botGroupParticipantMessage"))
+                $root.E2E.Message.FutureProofMessage.encode(message.botGroupParticipantMessage, writer.uint32(/* id 137, wireType 2 =*/1098).fork()).ldelim();
             return writer;
         };
 
@@ -28459,6 +28509,10 @@ $root.E2E = (function() {
                     }
                 case 134: {
                         message.audioStickerMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 137: {
+                        message.botGroupParticipantMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -29398,6 +29452,14 @@ $root.E2E = (function() {
                         return "audioStickerMessage." + error;
                 }
             }
+            if (message.botGroupParticipantMessage != null && message.hasOwnProperty("botGroupParticipantMessage")) {
+                properties._botGroupParticipantMessage = 1;
+                {
+                    var error = $root.E2E.Message.FutureProofMessage.verify(message.botGroupParticipantMessage);
+                    if (error)
+                        return "botGroupParticipantMessage." + error;
+                }
+            }
             return null;
         };
 
@@ -29974,6 +30036,11 @@ $root.E2E = (function() {
                 if (typeof object.audioStickerMessage !== "object")
                     throw TypeError(".E2E.Message.audioStickerMessage: object expected");
                 message.audioStickerMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.audioStickerMessage);
+            }
+            if (object.botGroupParticipantMessage != null) {
+                if (typeof object.botGroupParticipantMessage !== "object")
+                    throw TypeError(".E2E.Message.botGroupParticipantMessage: object expected");
+                message.botGroupParticipantMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.botGroupParticipantMessage);
             }
             return message;
         };
@@ -30555,6 +30622,11 @@ $root.E2E = (function() {
                 object.audioStickerMessage = $root.E2E.Message.FutureProofMessage.toObject(message.audioStickerMessage, options);
                 if (options.oneofs)
                     object._audioStickerMessage = "audioStickerMessage";
+            }
+            if (message.botGroupParticipantMessage != null && message.hasOwnProperty("botGroupParticipantMessage")) {
+                object.botGroupParticipantMessage = $root.E2E.Message.FutureProofMessage.toObject(message.botGroupParticipantMessage, options);
+                if (options.oneofs)
+                    object._botGroupParticipantMessage = "botGroupParticipantMessage";
             }
             return object;
         };
@@ -63919,6 +63991,7 @@ $root.E2E = (function() {
              * @property {number|Long|null} [messageCount] MessageHistoryMetadata messageCount
              * @property {Array.<string>|null} [nonHistoryReceivers] MessageHistoryMetadata nonHistoryReceivers
              * @property {number|Long|null} [oldestMessageTimestampInBundle] MessageHistoryMetadata oldestMessageTimestampInBundle
+             * @property {boolean|null} [includesChatTheme] MessageHistoryMetadata includesChatTheme
              */
 
             /**
@@ -63978,6 +64051,14 @@ $root.E2E = (function() {
              */
             MessageHistoryMetadata.prototype.oldestMessageTimestampInBundle = null;
 
+            /**
+             * MessageHistoryMetadata includesChatTheme.
+             * @member {boolean|null|undefined} includesChatTheme
+             * @memberof E2E.Message.MessageHistoryMetadata
+             * @instance
+             */
+            MessageHistoryMetadata.prototype.includesChatTheme = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -63996,6 +64077,12 @@ $root.E2E = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(MessageHistoryMetadata.prototype, "_oldestMessageTimestampInBundle", {
                 get: $util.oneOfGetter($oneOfFields = ["oldestMessageTimestampInBundle"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MessageHistoryMetadata.prototype, "_includesChatTheme", {
+                get: $util.oneOfGetter($oneOfFields = ["includesChatTheme"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -64035,6 +64122,8 @@ $root.E2E = (function() {
                         writer.uint32(/* id 4, wireType 2 =*/34).string(message.nonHistoryReceivers[i]);
                 if (message.oldestMessageTimestampInBundle != null && Object.hasOwnProperty.call(message, "oldestMessageTimestampInBundle"))
                     writer.uint32(/* id 5, wireType 0 =*/40).int64(message.oldestMessageTimestampInBundle);
+                if (message.includesChatTheme != null && Object.hasOwnProperty.call(message, "includesChatTheme"))
+                    writer.uint32(/* id 6, wireType 0 =*/48).bool(message.includesChatTheme);
                 return writer;
             };
 
@@ -64093,6 +64182,10 @@ $root.E2E = (function() {
                         }
                     case 5: {
                             message.oldestMessageTimestampInBundle = reader.int64();
+                            break;
+                        }
+                    case 6: {
+                            message.includesChatTheme = reader.bool();
                             break;
                         }
                     default:
@@ -64160,6 +64253,11 @@ $root.E2E = (function() {
                     if (!$util.isInteger(message.oldestMessageTimestampInBundle) && !(message.oldestMessageTimestampInBundle && $util.isInteger(message.oldestMessageTimestampInBundle.low) && $util.isInteger(message.oldestMessageTimestampInBundle.high)))
                         return "oldestMessageTimestampInBundle: integer|Long expected";
                 }
+                if (message.includesChatTheme != null && message.hasOwnProperty("includesChatTheme")) {
+                    properties._includesChatTheme = 1;
+                    if (typeof message.includesChatTheme !== "boolean")
+                        return "includesChatTheme: boolean expected";
+                }
                 return null;
             };
 
@@ -64216,6 +64314,8 @@ $root.E2E = (function() {
                         message.oldestMessageTimestampInBundle = object.oldestMessageTimestampInBundle;
                     else if (typeof object.oldestMessageTimestampInBundle === "object")
                         message.oldestMessageTimestampInBundle = new $util.LongBits(object.oldestMessageTimestampInBundle.low >>> 0, object.oldestMessageTimestampInBundle.high >>> 0).toNumber();
+                if (object.includesChatTheme != null)
+                    message.includesChatTheme = Boolean(object.includesChatTheme);
                 return message;
             };
 
@@ -64269,6 +64369,11 @@ $root.E2E = (function() {
                         object.oldestMessageTimestampInBundle = options.longs === String ? $util.Long.prototype.toString.call(message.oldestMessageTimestampInBundle) : options.longs === Number ? new $util.LongBits(message.oldestMessageTimestampInBundle.low >>> 0, message.oldestMessageTimestampInBundle.high >>> 0).toNumber() : message.oldestMessageTimestampInBundle;
                     if (options.oneofs)
                         object._oldestMessageTimestampInBundle = "oldestMessageTimestampInBundle";
+                }
+                if (message.includesChatTheme != null && message.hasOwnProperty("includesChatTheme")) {
+                    object.includesChatTheme = message.includesChatTheme;
+                    if (options.oneofs)
+                        object._includesChatTheme = "includesChatTheme";
                 }
                 return object;
             };
@@ -96994,6 +97099,7 @@ $root.E2E = (function() {
              * @property {string|null} [metadataUrl] VideoMessage metadataUrl
              * @property {E2E.Message.VideoMessage.VideoSourceType|null} [videoSourceType] VideoMessage videoSourceType
              * @property {string|null} [dashManifestUrl] VideoMessage dashManifestUrl
+             * @property {number|Long|null} [smartThumbnailTs] VideoMessage smartThumbnailTs
              */
 
             /**
@@ -97262,6 +97368,14 @@ $root.E2E = (function() {
              */
             VideoMessage.prototype.dashManifestUrl = null;
 
+            /**
+             * VideoMessage smartThumbnailTs.
+             * @member {number|Long|null|undefined} smartThumbnailTs
+             * @memberof E2E.Message.VideoMessage
+             * @instance
+             */
+            VideoMessage.prototype.smartThumbnailTs = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -97433,6 +97547,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(VideoMessage.prototype, "_smartThumbnailTs", {
+                get: $util.oneOfGetter($oneOfFields = ["smartThumbnailTs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new VideoMessage instance using the specified properties.
              * @function create
@@ -97522,6 +97642,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 31, wireType 0 =*/248).int32(message.videoSourceType);
                 if (message.dashManifestUrl != null && Object.hasOwnProperty.call(message, "dashManifestUrl"))
                     writer.uint32(/* id 33, wireType 2 =*/266).string(message.dashManifestUrl);
+                if (message.smartThumbnailTs != null && Object.hasOwnProperty.call(message, "smartThumbnailTs"))
+                    writer.uint32(/* id 34, wireType 0 =*/272).int64(message.smartThumbnailTs);
                 return writer;
             };
 
@@ -97686,6 +97808,10 @@ $root.E2E = (function() {
                         }
                     case 33: {
                             message.dashManifestUrl = reader.string();
+                            break;
+                        }
+                    case 34: {
+                            message.smartThumbnailTs = reader.int64();
                             break;
                         }
                     default:
@@ -97906,6 +98032,11 @@ $root.E2E = (function() {
                     if (!$util.isString(message.dashManifestUrl))
                         return "dashManifestUrl: string expected";
                 }
+                if (message.smartThumbnailTs != null && message.hasOwnProperty("smartThumbnailTs")) {
+                    properties._smartThumbnailTs = 1;
+                    if (!$util.isInteger(message.smartThumbnailTs) && !(message.smartThumbnailTs && $util.isInteger(message.smartThumbnailTs.low) && $util.isInteger(message.smartThumbnailTs.high)))
+                        return "smartThumbnailTs: integer|Long expected";
+                }
                 return null;
             };
 
@@ -98088,6 +98219,15 @@ $root.E2E = (function() {
                 }
                 if (object.dashManifestUrl != null)
                     message.dashManifestUrl = String(object.dashManifestUrl);
+                if (object.smartThumbnailTs != null)
+                    if ($util.Long)
+                        (message.smartThumbnailTs = $util.Long.fromValue(object.smartThumbnailTs)).unsigned = false;
+                    else if (typeof object.smartThumbnailTs === "string")
+                        message.smartThumbnailTs = parseInt(object.smartThumbnailTs, 10);
+                    else if (typeof object.smartThumbnailTs === "number")
+                        message.smartThumbnailTs = object.smartThumbnailTs;
+                    else if (typeof object.smartThumbnailTs === "object")
+                        message.smartThumbnailTs = new $util.LongBits(object.smartThumbnailTs.low >>> 0, object.smartThumbnailTs.high >>> 0).toNumber();
                 return message;
             };
 
@@ -98272,6 +98412,14 @@ $root.E2E = (function() {
                     object.dashManifestUrl = message.dashManifestUrl;
                     if (options.oneofs)
                         object._dashManifestUrl = "dashManifestUrl";
+                }
+                if (message.smartThumbnailTs != null && message.hasOwnProperty("smartThumbnailTs")) {
+                    if (typeof message.smartThumbnailTs === "number")
+                        object.smartThumbnailTs = options.longs === String ? String(message.smartThumbnailTs) : message.smartThumbnailTs;
+                    else
+                        object.smartThumbnailTs = options.longs === String ? $util.Long.prototype.toString.call(message.smartThumbnailTs) : options.longs === Number ? new $util.LongBits(message.smartThumbnailTs.low >>> 0, message.smartThumbnailTs.high >>> 0).toNumber() : message.smartThumbnailTs;
+                    if (options.oneofs)
+                        object._smartThumbnailTs = "smartThumbnailTs";
                 }
                 return object;
             };
@@ -123597,6 +123745,7 @@ $root.AICommon = (function() {
                     case 69:
                     case 70:
                     case 71:
+                    case 72:
                         break;
                     }
             }
@@ -123914,6 +124063,10 @@ $root.AICommon = (function() {
                     case 71:
                         message.capabilities[i] = 71;
                         break;
+                    case "HATCH_NOTIFICATION_METADATA_EVENT_ENABLED":
+                    case 72:
+                        message.capabilities[i] = 72;
+                        break;
                     }
             }
             return message;
@@ -124044,6 +124197,7 @@ $root.AICommon = (function() {
          * @property {number} AI_RICH_RESPONSE_REMINDERS_ENABLED=69 AI_RICH_RESPONSE_REMINDERS_ENABLED value
          * @property {number} AI_STOP_GENERATION_ENABLED=70 AI_STOP_GENERATION_ENABLED value
          * @property {number} AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED=71 AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED value
+         * @property {number} HATCH_NOTIFICATION_METADATA_EVENT_ENABLED=72 HATCH_NOTIFICATION_METADATA_EVENT_ENABLED value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -124119,6 +124273,7 @@ $root.AICommon = (function() {
             values[valuesById[69] = "AI_RICH_RESPONSE_REMINDERS_ENABLED"] = 69;
             values[valuesById[70] = "AI_STOP_GENERATION_ENABLED"] = 70;
             values[valuesById[71] = "AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED"] = 71;
+            values[valuesById[72] = "HATCH_NOTIFICATION_METADATA_EVENT_ENABLED"] = 72;
             return values;
         })();
 

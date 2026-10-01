@@ -519,6 +519,7 @@ message ContextInfo {
         optional int32 agmSubtitleStrategy = 31;
         optional int32 agmHeaderInteractionStrategy = 32;
         optional bool containsCtwaFlowsAutoLabel = 33;
+        optional string productId = 34;
         enum AdType {
             CTWA = 0;
             CAWC = 1;
@@ -732,6 +733,7 @@ message Message {
     optional FutureProofMessage newsletterScheduledMessage = 132;
     optional FutureProofMessage acp2SettingMessage = 133;
     optional FutureProofMessage audioStickerMessage = 134;
+    optional FutureProofMessage botGroupParticipantMessage = 137;
     message AlbumMessage {
         optional uint32 expectedImageCount = 2;
         optional uint32 expectedVideoCount = 3;
@@ -1528,6 +1530,7 @@ message Message {
         optional int64 messageCount = 3;
         repeated string nonHistoryReceivers = 4;
         optional int64 oldestMessageTimestampInBundle = 5;
+        optional bool includesChatTheme = 6;
     }
     message MessageHistoryNotice {
         optional ContextInfo contextInfo = 1;
@@ -2347,6 +2350,7 @@ message Message {
         optional string metadataUrl = 30;
         optional VideoSourceType videoSourceType = 31;
         optional string dashManifestUrl = 33;
+        optional int64 smartThumbnailTs = 34;
         enum Attribution {
             NONE = 0;
             GIPHY = 1;

@@ -8887,6 +8887,9 @@ export namespace E2E {
 
             /** ExternalAdReplyInfo containsCtwaFlowsAutoLabel */
             containsCtwaFlowsAutoLabel?: (boolean|null);
+
+            /** ExternalAdReplyInfo productId */
+            productId?: (string|null);
         }
 
         /** Represents an ExternalAdReplyInfo. */
@@ -8996,6 +8999,9 @@ export namespace E2E {
 
             /** ExternalAdReplyInfo containsCtwaFlowsAutoLabel. */
             public containsCtwaFlowsAutoLabel?: (boolean|null);
+
+            /** ExternalAdReplyInfo productId. */
+            public productId?: (string|null);
 
             /**
              * Creates a new ExternalAdReplyInfo instance using the specified properties.
@@ -10366,6 +10372,9 @@ export namespace E2E {
 
         /** Message audioStickerMessage */
         audioStickerMessage?: (E2E.Message.IFutureProofMessage|null);
+
+        /** Message botGroupParticipantMessage */
+        botGroupParticipantMessage?: (E2E.Message.IFutureProofMessage|null);
     }
 
     /** Represents a Message. */
@@ -10715,6 +10724,9 @@ export namespace E2E {
 
         /** Message audioStickerMessage. */
         public audioStickerMessage?: (E2E.Message.IFutureProofMessage|null);
+
+        /** Message botGroupParticipantMessage. */
+        public botGroupParticipantMessage?: (E2E.Message.IFutureProofMessage|null);
 
         /**
          * Creates a new Message instance using the specified properties.
@@ -21774,6 +21786,9 @@ export namespace E2E {
 
             /** MessageHistoryMetadata oldestMessageTimestampInBundle */
             oldestMessageTimestampInBundle?: (number|Long|null);
+
+            /** MessageHistoryMetadata includesChatTheme */
+            includesChatTheme?: (boolean|null);
         }
 
         /** Represents a MessageHistoryMetadata. */
@@ -21799,6 +21814,9 @@ export namespace E2E {
 
             /** MessageHistoryMetadata oldestMessageTimestampInBundle. */
             public oldestMessageTimestampInBundle?: (number|Long|null);
+
+            /** MessageHistoryMetadata includesChatTheme. */
+            public includesChatTheme?: (boolean|null);
 
             /**
              * Creates a new MessageHistoryMetadata instance using the specified properties.
@@ -32701,6 +32719,9 @@ export namespace E2E {
 
             /** VideoMessage dashManifestUrl */
             dashManifestUrl?: (string|null);
+
+            /** VideoMessage smartThumbnailTs */
+            smartThumbnailTs?: (number|Long|null);
         }
 
         /** Represents a VideoMessage. */
@@ -32804,6 +32825,9 @@ export namespace E2E {
 
             /** VideoMessage dashManifestUrl. */
             public dashManifestUrl?: (string|null);
+
+            /** VideoMessage smartThumbnailTs. */
+            public smartThumbnailTs?: (number|Long|null);
 
             /**
              * Creates a new VideoMessage instance using the specified properties.
@@ -41906,7 +41930,8 @@ export namespace AICommon {
             AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED = 68,
             AI_RICH_RESPONSE_REMINDERS_ENABLED = 69,
             AI_STOP_GENERATION_ENABLED = 70,
-            AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED = 71
+            AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED = 71,
+            HATCH_NOTIFICATION_METADATA_EVENT_ENABLED = 72
         }
     }
 
@@ -53958,7 +53983,14 @@ export namespace Web {
             IDENTITY_TRUST_REVOKED = 228,
             CTWA_CONSUMER_DISCLOSURE = 230,
             CHANGE_ACP2_SETTING = 240,
-            EPHEMERAL_CHANGED_FOR_COEX = 248
+            BIZ_CALLBACK_DISABLED = 244,
+            BIZ_CALLBACK_ENABLED = 247,
+            EPHEMERAL_CHANGED_FOR_COEX = 248,
+            UGC_BOT_PROFILE_UPDATED = 249,
+            ORDER_EPHEMERAL_EXEMPTION = 250,
+            CAMEO_CHAT_CREATED = 254,
+            CAMEO_TRANSITIONED = 256,
+            SENDER_SIDE_CONTACT_INFO = 255
         }
     }
 }
@@ -54520,6 +54552,9 @@ export namespace SyncAction {
 
         /** SyncActionValue businessFolderActivationAction */
         businessFolderActivationAction?: (SyncAction.SyncActionValue.IBusinessFolderActivationAction|null);
+
+        /** SyncActionValue groupHistoryToggleAction */
+        groupHistoryToggleAction?: (SyncAction.SyncActionValue.IGroupHistoryToggleAction|null);
     }
 
     /** Represents a SyncActionValue. */
@@ -54791,6 +54826,9 @@ export namespace SyncAction {
 
         /** SyncActionValue businessFolderActivationAction. */
         public businessFolderActivationAction?: (SyncAction.SyncActionValue.IBusinessFolderActivationAction|null);
+
+        /** SyncActionValue groupHistoryToggleAction. */
+        public groupHistoryToggleAction?: (SyncAction.SyncActionValue.IGroupHistoryToggleAction|null);
 
         /**
          * Creates a new SyncActionValue instance using the specified properties.
@@ -58599,6 +58637,113 @@ export namespace SyncAction {
             }
         }
 
+        /** Properties of a GroupHistoryToggleAction. */
+        interface IGroupHistoryToggleAction {
+
+            /** GroupHistoryToggleAction groupHistoryToggleMode */
+            groupHistoryToggleMode?: (SyncAction.SyncActionValue.GroupHistoryToggleAction.GroupHistoryToggleMode|null);
+        }
+
+        /** Represents a GroupHistoryToggleAction. */
+        class GroupHistoryToggleAction implements IGroupHistoryToggleAction {
+
+            /**
+             * Constructs a new GroupHistoryToggleAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.IGroupHistoryToggleAction);
+
+            /** GroupHistoryToggleAction groupHistoryToggleMode. */
+            public groupHistoryToggleMode?: (SyncAction.SyncActionValue.GroupHistoryToggleAction.GroupHistoryToggleMode|null);
+
+            /**
+             * Creates a new GroupHistoryToggleAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns GroupHistoryToggleAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.IGroupHistoryToggleAction): SyncAction.SyncActionValue.GroupHistoryToggleAction;
+
+            /**
+             * Encodes the specified GroupHistoryToggleAction message. Does not implicitly {@link SyncAction.SyncActionValue.GroupHistoryToggleAction.verify|verify} messages.
+             * @param message GroupHistoryToggleAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.IGroupHistoryToggleAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified GroupHistoryToggleAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.GroupHistoryToggleAction.verify|verify} messages.
+             * @param message GroupHistoryToggleAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.IGroupHistoryToggleAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a GroupHistoryToggleAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns GroupHistoryToggleAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.GroupHistoryToggleAction;
+
+            /**
+             * Decodes a GroupHistoryToggleAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns GroupHistoryToggleAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.GroupHistoryToggleAction;
+
+            /**
+             * Verifies a GroupHistoryToggleAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a GroupHistoryToggleAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns GroupHistoryToggleAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.GroupHistoryToggleAction;
+
+            /**
+             * Creates a plain object from a GroupHistoryToggleAction message. Also converts values to other types if specified.
+             * @param message GroupHistoryToggleAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.GroupHistoryToggleAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this GroupHistoryToggleAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for GroupHistoryToggleAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace GroupHistoryToggleAction {
+
+            /** GroupHistoryToggleMode enum. */
+            enum GroupHistoryToggleMode {
+                GROUP_HISTORY_TOGGLE_MODE_UNKNOWN = 0,
+                GROUP_HISTORY_TOGGLE_MODE_ON = 1,
+                GROUP_HISTORY_TOGGLE_MODE_OFF = 2
+            }
+        }
+
         /** Properties of an InteractiveMessageAction. */
         interface IInteractiveMessageAction {
 
@@ -59077,7 +59222,8 @@ export namespace SyncAction {
                 THIRD_PARTY = 15,
                 LEAD = 16,
                 MENTIONS_AND_REPLIES = 17,
-                REQUESTS = 18
+                REQUESTS = 18,
+                BUSINESS = 19
             }
         }
 
@@ -65719,6 +65865,7 @@ export namespace SyncAction {
         SHARED_DEVICE_ALLOWLIST_ACTION = 94,
         CONTACT_MANAGER_METADATA_ACTION = 95,
         BUSINESS_FOLDER_ACTIVATION_ACTION = 96,
+        GROUP_HISTORY_TOGGLE_ACTION = 97,
         SHARE_OWN_PN = 10001,
         BUSINESS_BROADCAST_ACTION = 10002,
         AI_THREAD_DELETE_ACTION = 10003

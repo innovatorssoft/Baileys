@@ -4374,7 +4374,14 @@ export namespace Web {
             IDENTITY_TRUST_REVOKED = 228,
             CTWA_CONSUMER_DISCLOSURE = 230,
             CHANGE_ACP2_SETTING = 240,
-            EPHEMERAL_CHANGED_FOR_COEX = 248
+            BIZ_CALLBACK_DISABLED = 244,
+            BIZ_CALLBACK_ENABLED = 247,
+            EPHEMERAL_CHANGED_FOR_COEX = 248,
+            UGC_BOT_PROFILE_UPDATED = 249,
+            ORDER_EPHEMERAL_EXEMPTION = 250,
+            CAMEO_CHAT_CREATED = 254,
+            CAMEO_TRANSITIONED = 256,
+            SENDER_SIDE_CONTACT_INFO = 255
         }
     }
 }
@@ -10241,6 +10248,9 @@ export namespace E2E {
 
             /** ExternalAdReplyInfo containsCtwaFlowsAutoLabel */
             containsCtwaFlowsAutoLabel?: (boolean|null);
+
+            /** ExternalAdReplyInfo productId */
+            productId?: (string|null);
         }
 
         /** Represents an ExternalAdReplyInfo. */
@@ -10350,6 +10360,9 @@ export namespace E2E {
 
             /** ExternalAdReplyInfo containsCtwaFlowsAutoLabel. */
             public containsCtwaFlowsAutoLabel?: (boolean|null);
+
+            /** ExternalAdReplyInfo productId. */
+            public productId?: (string|null);
 
             /**
              * Creates a new ExternalAdReplyInfo instance using the specified properties.
@@ -11720,6 +11733,9 @@ export namespace E2E {
 
         /** Message audioStickerMessage */
         audioStickerMessage?: (E2E.Message.IFutureProofMessage|null);
+
+        /** Message botGroupParticipantMessage */
+        botGroupParticipantMessage?: (E2E.Message.IFutureProofMessage|null);
     }
 
     /** Represents a Message. */
@@ -12069,6 +12085,9 @@ export namespace E2E {
 
         /** Message audioStickerMessage. */
         public audioStickerMessage?: (E2E.Message.IFutureProofMessage|null);
+
+        /** Message botGroupParticipantMessage. */
+        public botGroupParticipantMessage?: (E2E.Message.IFutureProofMessage|null);
 
         /**
          * Creates a new Message instance using the specified properties.
@@ -23128,6 +23147,9 @@ export namespace E2E {
 
             /** MessageHistoryMetadata oldestMessageTimestampInBundle */
             oldestMessageTimestampInBundle?: (number|Long|null);
+
+            /** MessageHistoryMetadata includesChatTheme */
+            includesChatTheme?: (boolean|null);
         }
 
         /** Represents a MessageHistoryMetadata. */
@@ -23153,6 +23175,9 @@ export namespace E2E {
 
             /** MessageHistoryMetadata oldestMessageTimestampInBundle. */
             public oldestMessageTimestampInBundle?: (number|Long|null);
+
+            /** MessageHistoryMetadata includesChatTheme. */
+            public includesChatTheme?: (boolean|null);
 
             /**
              * Creates a new MessageHistoryMetadata instance using the specified properties.
@@ -34055,6 +34080,9 @@ export namespace E2E {
 
             /** VideoMessage dashManifestUrl */
             dashManifestUrl?: (string|null);
+
+            /** VideoMessage smartThumbnailTs */
+            smartThumbnailTs?: (number|Long|null);
         }
 
         /** Represents a VideoMessage. */
@@ -34158,6 +34186,9 @@ export namespace E2E {
 
             /** VideoMessage dashManifestUrl. */
             public dashManifestUrl?: (string|null);
+
+            /** VideoMessage smartThumbnailTs. */
+            public smartThumbnailTs?: (number|Long|null);
 
             /**
              * Creates a new VideoMessage instance using the specified properties.
@@ -43260,7 +43291,8 @@ export namespace AICommon {
             AI_RICH_RESPONSE_EMAIL_CALENDAR_ENABLED = 68,
             AI_RICH_RESPONSE_REMINDERS_ENABLED = 69,
             AI_STOP_GENERATION_ENABLED = 70,
-            AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED = 71
+            AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED = 71,
+            HATCH_NOTIFICATION_METADATA_EVENT_ENABLED = 72
         }
     }
 

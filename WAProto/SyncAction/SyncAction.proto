@@ -128,6 +128,7 @@ message SyncActionValue {
     optional SharedDeviceAllowlistAction sharedDeviceAllowlistAction = 94;
     optional ContactManagerMetadataAction contactManagerMetadataAction = 95;
     optional BusinessFolderActivationAction businessFolderActivationAction = 96;
+    optional GroupHistoryToggleAction groupHistoryToggleAction = 97;
     message AgentAction {
         optional string name = 1;
         optional int32 deviceId = 2;
@@ -313,6 +314,14 @@ message SyncActionValue {
             optional string id = 1;
         }
     }
+    message GroupHistoryToggleAction {
+        optional GroupHistoryToggleMode groupHistoryToggleMode = 1;
+        enum GroupHistoryToggleMode {
+            GROUP_HISTORY_TOGGLE_MODE_UNKNOWN = 0;
+            GROUP_HISTORY_TOGGLE_MODE_ON = 1;
+            GROUP_HISTORY_TOGGLE_MODE_OFF = 2;
+        }
+    }
     message InteractiveMessageAction {
         optional InteractiveMessageActionMode type = 1;
         optional string agmId = 2;
@@ -357,6 +366,7 @@ message SyncActionValue {
             LEAD = 16;
             MENTIONS_AND_REPLIES = 17;
             REQUESTS = 18;
+            BUSINESS = 19;
         }
     }
     message LabelReorderingAction {
@@ -879,6 +889,7 @@ enum MutationProps {
     SHARED_DEVICE_ALLOWLIST_ACTION = 94;
     CONTACT_MANAGER_METADATA_ACTION = 95;
     BUSINESS_FOLDER_ACTIVATION_ACTION = 96;
+    GROUP_HISTORY_TOGGLE_ACTION = 97;
     SHARE_OWN_PN = 10001;
     BUSINESS_BROADCAST_ACTION = 10002;
     AI_THREAD_DELETE_ACTION = 10003;
