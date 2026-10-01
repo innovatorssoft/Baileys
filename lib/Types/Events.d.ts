@@ -153,6 +153,8 @@ export type BaileysEventMap = {
     }
     /** Receive an update on a call, including when the call was received, rejected, accepted */
     'call': WACallEvent[]
+    /** Receive an incoming VoIP call session */
+    'call.incoming': import('../Voip').CallSession
     'labels.edit': Label
     'labels.association': {
         association: LabelAssociation
@@ -248,6 +250,10 @@ export type BaileysEvent = keyof BaileysEventMap
 export interface BaileysEventEmitter {
     on<T extends keyof BaileysEventMap>(event: T, listener: (arg: BaileysEventMap[T]) => void): void
     off<T extends keyof BaileysEventMap>(event: T, listener: (arg: BaileysEventMap[T]) => void): void
-    removeAllListeners<T extends keyof BaileysEventMap>(event: T): void
+    removeAllListeners<T extends keyof BaileysEventMap>(event?: T): void
     emit<T extends keyof BaileysEventMap>(event: T, arg: BaileysEventMap[T]): boolean
+    listenerCount<T extends keyof BaileysEventMap>(event: T): number
+    listeners<T extends keyof BaileysEventMap>(event: T): Function[]
+    rawListeners<T extends keyof BaileysEventMap>(event: T): Function[]
+    eventNames(): (keyof BaileysEventMap)[]
 }

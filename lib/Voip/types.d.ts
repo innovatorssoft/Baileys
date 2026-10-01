@@ -38,6 +38,8 @@ export type CallStatus =
     | "initiating"
     | "signaling"
     | "ringing"
+    | "incoming_ringing"
+    | "waiting"
     | "accepted"
     | "media_connecting"
     | "connected"
@@ -103,6 +105,16 @@ export declare const CallState: {
     readonly Ending: 13;
 };
 export type CallState = (typeof CallState)[keyof typeof CallState];
+export declare const CallDirection: {
+    readonly Outgoing: "outgoing";
+    readonly Incoming: "incoming";
+};
+export type CallDirection = (typeof CallDirection)[keyof typeof CallDirection];
+export declare const CallMediaType: {
+    readonly Audio: "audio";
+    readonly Video: "video";
+};
+export type CallMediaType = (typeof CallMediaType)[keyof typeof CallMediaType];
 export type RelayListUpdate = {
     relay_key: string;
     relay_tokens: string[];

@@ -333,8 +333,9 @@ import makeWASocket from '@innovatorssoft/baileys'
 | 🖼️ **[Media Messages](#media-messages)** | [GIF](#gif-message) · [Video](#video-message) · [Audio](#audio-message) · [Image](#image-message) · [HD Image](#hd-image-message) · [HD Video](#hd-video-message) · [Album](#album-message) · [PTV](#ptv-video-message) · [ViewOnce](#view-once-message) |
 | ✏️ **[Modify Messages](#modify-messages)** | [Delete](#deleting-messages-for-everyone) · [Edit](#editing-messages) |
 | 📥 **[Manipulating Media](#manipulating-media-messages)** | [Thumbnail](#thumbnail-in-media-messages) · [Download](#downloading-media-messages) · [Re-upload](#re-upload-media-message-to-whatsapp) |
-| 📞 **[Initiate Voice Call](#initiate-voice-call)** | — |
-| 🚫 **[Reject Call](#reject-call)** | — |
+| 📞 **[VoIP Calls & Media Streaming](#-initiate-voice--video-call--stream-audio-single--concurrent)** | [Single Call](#single-call) · [Concurrent Calls](#concurrent-calls) · [Video Calls](#video-calls) · [Incoming Calls & Auto-Accept](#incoming-calls--auto-accept) |
+| 🚫 **[Reject Call](#-reject-call)** | — |
+| 📊 **[VoIP Subsystem & Memory Stats](#-voip-subsystem--memory-stats)** | [Memory Metrics](#monitoring-voip-memory--subsystem-metrics) · [Metrics Overview](#metrics-overview) · [Stats Command Example](#example-voipstats-command) · [VoIP Options](#voip-configuration--concurrency-limits) |
 | ⌨️ **[Send States in Chat](#send-states-in-chat)** | [Reading Messages](#reading-messages) · [Update Presence](#update-presence) · [Typing Indicator](#typing-indicator) · [Read Receipt Control](#read-receipt-control) |
 | 📁 **[Modifying Chats](#modifying-chats)** | [Archive](#archive-a-chat) · [Mute/Unmute](#muteunmute-a-chat) · [Read/Unread](#mark-a-chat-readunread) · [Delete for Me](#delete-a-message-for-me) · [Delete Chat](#delete-a-chat) · [Pin/Unpin](#pin-a-chat) · [Star/Unstar](#starunstar-a-message) · [Disappearing](#disappearing-messages) · [Clear](#clear-messages) |
 | 🔍 **[User Queries](#user-querys)** | [Check ID / onWhatsApp](#check-if-id-exists-in-whatsapp) · [Resolve Username](#resolve-whatsapp-usernames) · [Chat History](#query-chat-history-groups-too) · [Fetch Status](#fetch-status) · [Profile Picture](#fetch-profile-picture-groups-too) · [Business Profile](#fetch-bussines-profile-such-as-description-or-category) · [Presence](#fetch-someones-presence-if-theyre-typing-or-online) · [Message Search](#message-search) |
@@ -3357,12 +3358,176 @@ videoCall.on('error', (err) => console.error(`[${videoCall.callId}] Video Call e
 await sock.endCall(videoCall.callId)
 ```
 
-## 🚫 Reject Call
+### Incoming Calls & Auto-Accept
 
-- You can obtain `callId` and `callFrom` from `call` event
+- Listen for incoming WhatsApp voice and video calls via `sock.ev.on('call.incoming', async (session) => { ... })`
+- Answer incoming calls automatically or manually with `session.accept({ audioSource, repeatAudio })` or `sock.acceptCall(callId, options)`
+- Streams audio files (MP3/WAV/etc.) directly into the call upon answering via WebAssembly VoIP audio pipeline
+- Access real-time call lifecycle events (`stateChange`, `accepted`, `connected`, `audioReady`, `streaming`, `audio`, `rejected`, `ended`)
+- Automatic concurrency queue support (`session.isWaiting`) when max concurrent call limits are reached
 
 ```ts
+// Track the latest incoming VoIP session for quick control
+let activeIncomingSession = null
+
+// Register VoIP Incoming Call Event Listener
+sock.ev.on('call.incoming', async (session) => {
+    activeIncomingSession = session
+
+    console.log(`📞 Incoming ${session.isVideo ? 'Video' : 'Voice'} Call!`)
+    console.log(`   Call ID: ${session.callId}`)
+    console.log(`   From: ${session.peerJid}`)
+    console.log(`   Caller PN: ${session.callerPn || 'N/A'}`)
+    console.log(`   Status: ${session.status} (waiting: ${session.isWaiting})`)
+
+    // Register call session lifecycle event listeners
+    session.on('stateChange', (state) => console.log(`[${session.callId}] State: ${state}`))
+    session.on('accepted', () => console.log(`[${session.callId}] Call accepted!`))
+    session.on('connected', () => console.log(`[${session.callId}] Media connection established! 🟢`))
+    session.on('audioReady', () => console.log(`[${session.callId}] Audio pipeline ready! 🎵`))
+    session.on('streaming', () => console.log(`[${session.callId}] Audio streaming active! 📡`))
+    session.on('rejected', (reason) => console.log(`[${session.callId}] Call rejected: ${reason}`))
+    session.on('ended', (reason) => {
+        console.log(`[${session.callId}] Call ended: ${reason}`)
+        if (activeIncomingSession?.callId === session.callId) {
+            activeIncomingSession = null
+        }
+    })
+    session.on('audio', (pcmChunk) => {
+        // Inbound decrypted 16 kHz Float32Array PCM audio chunk received from caller
+    })
+
+    // Handler to accept the call and stream audio.mp3
+    const autoAcceptAndStream = async () => {
+        if (session.ended) return
+        try {
+            console.log(`Accepting call ${session.callId} and streaming audio...`)
+            await session.accept({
+                audioSource: './audio.mp3', // MP3/WAV file path or "silence"
+                repeatAudio: false          // Set true to loop playback until call ends
+            })
+            console.log(`Call ${session.callId} accepted automatically, streaming audio.`)
+
+            // Optionally notify caller in chat
+            await sock.sendMessage(session.peerJid, {
+                text: `📞 *Incoming Call Automatically Accepted!*\n` +
+                    `• Call ID: \`${session.callId}\`\n` +
+                    `• Audio: Streaming \`audio.mp3\` 🎵`
+            })
+        } catch (err) {
+            if (!session.ended) {
+                console.error(`Error accepting call ${session.callId}:`, err)
+            }
+        }
+    }
+
+    // Handle queued calls if maximum concurrent calls limit is reached
+    if (session.isWaiting) {
+        console.log(`Call ${session.callId} is queued in waiting list, will auto-accept once unblocked.`)
+        session.once('ringing', () => {
+            void autoAcceptAndStream()
+        })
+    } else {
+        void autoAcceptAndStream()
+    }
+})
+
+// Control active session:
+// Mute / Unmute microphone:
+session.mute()
+session.unmute()
+
+// Hang up / end call:
+await session.end('completed') // or await sock.endCall(session.callId)
+
+// Reject incoming call:
+await session.reject('declined') // or await sock.rejectCall(session.callId, session.peerJid)
+```
+
+## 🚫 Reject Call
+
+- You can reject incoming calls directly on the session instance or via socket:
+
+```ts
+// Option A: Reject directly via incoming call session
+await session.reject('declined')
+
+// Option B: Reject via socket using callId and caller JID
 await sock.rejectCall(callId, callFrom)
+```
+
+## 📊 VoIP Subsystem & Memory Stats
+
+Monitor VoIP memory consumption, active call metrics, WebAssembly worker pools, and relay sockets in real-time using `sock.getVoipMemoryStats()`.
+
+### Monitoring VoIP Memory & Subsystem Metrics
+
+```ts
+const stats = await sock.getVoipMemoryStats()
+
+if (!stats) {
+    console.log('VoIP subsystem is not initialized yet.')
+} else {
+    // Process & Memory Metrics (MB)
+    console.log(`• Process RSS: ${stats.process.rssMb} MB`)
+    console.log(`• Heap Used: ${stats.process.heapUsedMb} MB / ${stats.process.heapTotalMb} MB`)
+    console.log(`• External Memory: ${stats.process.externalMb} MB`)
+
+    // Call Metrics
+    console.log(`• Active VoIP Calls: ${stats.calls.activeCalls}`)
+    console.log(`• Waiting in Queue: ${stats.calls.waitingCalls}`)
+    console.log(`• Total Managed Calls: ${stats.calls.totalManagedCalls}`)
+
+    // Subsystem & Worker Resources
+    console.log(`• Active Workers: ${stats.resourceManager.activeWorkers}`)
+    console.log(`• Active Relays: ${stats.resourceManager.activeRelayConnections}`)
+    console.log(`• FFmpeg Processes: ${stats.resourceManager.activeFfmpegProcesses}`)
+    console.log(`• Cached WASM Modules: ${stats.resourceManager.compiledModulesCached}`)
+}
+```
+
+### Metrics Overview
+
+| Category | Metric | Description |
+| :--- | :--- | :--- |
+| **Process Memory** | `stats.process.rssMb` | Resident Set Size (total RAM occupied by the Node.js process) |
+| | `stats.process.heapUsedMb` | Actual V8 heap memory in active use |
+| | `stats.process.heapTotalMb` | Total allocated V8 heap |
+| | `stats.process.externalMb` | Memory bound to C++ and WebAssembly objects outside V8 |
+| **Call Management** | `stats.calls.activeCalls` | Number of currently active VoIP sessions (ringing, accepted, streaming) |
+| | `stats.calls.waitingCalls` | Calls waiting in queue when concurrency limits are reached |
+| | `stats.calls.totalManagedCalls` | Combined count of active and queued calls |
+| **Worker & Relays** | `stats.resourceManager.activeWorkers` | Total active WASM pthread worker threads |
+| | `stats.resourceManager.activeRelayConnections` | Open UDP/TCP media relay sockets communicating with WhatsApp servers |
+| | `stats.resourceManager.activeFfmpegProcesses` | Active FFmpeg audio/video transcoders feeding audio to calls |
+| | `stats.resourceManager.compiledModulesCached` | Number of compiled WebAssembly modules cached in memory (1 or 0) |
+
+> [!NOTE]
+> Backward compatibility: `getVoipMemoryStats()` also provides flat keys (`stats.rss`, `stats.heapUsed`, `stats.workerCount`, `stats.activeCallCount`, `stats.relayConnections`, `stats.ffmpegProcesses`).
+
+### VoIP Configuration & Concurrency Limits
+
+Configure socket-level VoIP options during socket creation or dynamically at runtime:
+
+```ts
+const sock = makeWASocket({
+    auth: state,
+    voip: {
+        pthreadPoolSize: 4,      // Worker threads per call (memory optimization: saves ~270MB RAM/call)
+        maxConcurrentCalls: 3,   // Maximum concurrent active calls
+        onLimit: 'reject',       // Capacity policy: 'reject' (auto-reject busy) or 'queue' (enter waiting list)
+    }
+})
+
+// Or update options dynamically at runtime:
+await sock.setVoipOptions({
+    maxConcurrentCalls: 5,
+    onLimit: 'queue'
+})
+
+// Query active calls and count:
+const activeCalls = await sock.getActiveCalls()
+const activeCount = await sock.getActiveCallCount()
 ```
 
 ## ⌨️ Send States in Chat
