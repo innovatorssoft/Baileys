@@ -38,6 +38,7 @@ message ClientPayload {
     optional int32 processingQueueSize = 46;
     repeated string pairedPeripherals = 47;
     optional bytes testIsolationId = 48;
+    optional int64 messageSts = 49;
     enum AccountType {
         DEFAULT = 0;
         GUEST = 1;

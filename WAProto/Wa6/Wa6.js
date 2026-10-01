@@ -60,6 +60,7 @@ $root.Wa6 = (function() {
          * @property {number|null} [processingQueueSize] ClientPayload processingQueueSize
          * @property {Array.<string>|null} [pairedPeripherals] ClientPayload pairedPeripherals
          * @property {Uint8Array|null} [testIsolationId] ClientPayload testIsolationId
+         * @property {number|Long|null} [messageSts] ClientPayload messageSts
          */
 
         /**
@@ -367,6 +368,14 @@ $root.Wa6 = (function() {
          */
         ClientPayload.prototype.testIsolationId = null;
 
+        /**
+         * ClientPayload messageSts.
+         * @member {number|Long|null|undefined} messageSts
+         * @memberof Wa6.ClientPayload
+         * @instance
+         */
+        ClientPayload.prototype.messageSts = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -574,6 +583,12 @@ $root.Wa6 = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ClientPayload.prototype, "_messageSts", {
+            get: $util.oneOfGetter($oneOfFields = ["messageSts"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ClientPayload instance using the specified properties.
          * @function create
@@ -675,6 +690,8 @@ $root.Wa6 = (function() {
                     writer.uint32(/* id 47, wireType 2 =*/378).string(message.pairedPeripherals[i]);
             if (message.testIsolationId != null && Object.hasOwnProperty.call(message, "testIsolationId"))
                 writer.uint32(/* id 48, wireType 2 =*/386).bytes(message.testIsolationId);
+            if (message.messageSts != null && Object.hasOwnProperty.call(message, "messageSts"))
+                writer.uint32(/* id 49, wireType 0 =*/392).int64(message.messageSts);
             return writer;
         };
 
@@ -862,6 +879,10 @@ $root.Wa6 = (function() {
                     }
                 case 48: {
                         message.testIsolationId = reader.bytes();
+                        break;
+                    }
+                case 49: {
+                        message.messageSts = reader.int64();
                         break;
                     }
                 default:
@@ -1150,6 +1171,11 @@ $root.Wa6 = (function() {
                 properties._testIsolationId = 1;
                 if (!(message.testIsolationId && typeof message.testIsolationId.length === "number" || $util.isString(message.testIsolationId)))
                     return "testIsolationId: buffer expected";
+            }
+            if (message.messageSts != null && message.hasOwnProperty("messageSts")) {
+                properties._messageSts = 1;
+                if (!$util.isInteger(message.messageSts) && !(message.messageSts && $util.isInteger(message.messageSts.low) && $util.isInteger(message.messageSts.high)))
+                    return "messageSts: integer|Long expected";
             }
             return null;
         };
@@ -1464,6 +1490,15 @@ $root.Wa6 = (function() {
                     $util.base64.decode(object.testIsolationId, message.testIsolationId = $util.newBuffer($util.base64.length(object.testIsolationId)), 0);
                 else if (object.testIsolationId.length >= 0)
                     message.testIsolationId = object.testIsolationId;
+            if (object.messageSts != null)
+                if ($util.Long)
+                    (message.messageSts = $util.Long.fromValue(object.messageSts)).unsigned = false;
+                else if (typeof object.messageSts === "string")
+                    message.messageSts = parseInt(object.messageSts, 10);
+                else if (typeof object.messageSts === "number")
+                    message.messageSts = object.messageSts;
+                else if (typeof object.messageSts === "object")
+                    message.messageSts = new $util.LongBits(object.messageSts.low >>> 0, object.messageSts.high >>> 0).toNumber();
             return message;
         };
 
@@ -1669,6 +1704,14 @@ $root.Wa6 = (function() {
                 object.testIsolationId = options.bytes === String ? $util.base64.encode(message.testIsolationId, 0, message.testIsolationId.length) : options.bytes === Array ? Array.prototype.slice.call(message.testIsolationId) : message.testIsolationId;
                 if (options.oneofs)
                     object._testIsolationId = "testIsolationId";
+            }
+            if (message.messageSts != null && message.hasOwnProperty("messageSts")) {
+                if (typeof message.messageSts === "number")
+                    object.messageSts = options.longs === String ? String(message.messageSts) : message.messageSts;
+                else
+                    object.messageSts = options.longs === String ? $util.Long.prototype.toString.call(message.messageSts) : options.longs === Number ? new $util.LongBits(message.messageSts.low >>> 0, message.messageSts.high >>> 0).toNumber() : message.messageSts;
+                if (options.oneofs)
+                    object._messageSts = "messageSts";
             }
             return object;
         };

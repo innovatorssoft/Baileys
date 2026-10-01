@@ -113,6 +113,9 @@ export namespace Wa6 {
 
         /** ClientPayload testIsolationId */
         testIsolationId?: (Uint8Array|null);
+
+        /** ClientPayload messageSts */
+        messageSts?: (number|Long|null);
     }
 
     /** Represents a ClientPayload. */
@@ -231,6 +234,9 @@ export namespace Wa6 {
 
         /** ClientPayload testIsolationId. */
         public testIsolationId?: (Uint8Array|null);
+
+        /** ClientPayload messageSts. */
+        public messageSts?: (number|Long|null);
 
         /**
          * Creates a new ClientPayload instance using the specified properties.
