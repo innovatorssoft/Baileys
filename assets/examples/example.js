@@ -185,7 +185,7 @@ async function startBot() {
             console.log('======================================\n');
 
             let presenceMonitor = null;
-            const targetJid = ['923014434335@s.whatsapp.net', '923230490690@s.whatsapp.net'];
+            const targetJid = ['923001234567@s.whatsapp.net', '923021234567@s.whatsapp.net'];
 
             // Start presence tracking for target JIDs
             if (!presenceMonitor) {
