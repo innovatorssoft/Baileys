@@ -8,13 +8,15 @@ const { makeWASocket,
     prepareWAMessageMedia,
     uploadUnencryptedToWA,
     generateWAMessageFromContent,
-    monitorPresence }
+    monitorPresence,
+    formatDuration,
+    formatTimeAgo,
+    normalizeContactJid }
     = require('../../lib/index.js');
 const { Boom } = require('@hapi/boom');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 const { createSamplePage } = require('./page.js');
 const { createSnakePage } = require('./snake.js');
 const { createLivePage } = require('./live_page.js');
@@ -75,6 +77,7 @@ async function startBot() {
 
     // Track the latest incoming VoIP session for quick commands (!acceptcall, !rejectcall)
     let lastIncomingSession = null;
+
 
     // Register VoIP Incoming Call Event Listener
     sock.ev.on('call.incoming', async (session) => {
@@ -181,50 +184,53 @@ async function startBot() {
             console.log('WhatsApp Bot is successfully connected!');
             console.log('======================================\n');
 
-            // Start presence monitoring if target JIDs are provided via --presence flag
-            const targets = ['923001234567@s.whatsapp.net', '923006789012@s.whatsapp.net'];
-            if (targets.length > 0) {
-                console.log(`[Presence] Monitoring presence for ${targets.join(', ')}...`);
-                const pm = monitorPresence(sock, targets,{
+            let presenceMonitor = null;
+            const targetJid = ['923014434335@s.whatsapp.net', '923230490690@s.whatsapp.net'];
+
+            // Start presence tracking for target JIDs
+            if (!presenceMonitor) {
+                console.log(`[Presence] Starting presence tracking for: ${targetJid.join(', ')}`);
+                presenceMonitor = monitorPresence(sock, targetJid, {
                     logToConsole: false,
-                    autoResubscribe: true        
-                    });
-                pm.on('online',  data => 
-                    console.log(`[Presence UPDATE] 🟢 ${data.jid} is ONLINE at ${new Date(data.onlineAt).toLocaleTimeString()}`),
-                );
-                pm.on('offline', data => 
-                    console.log(`[Presence UPDATE] 🔴 ${data.jid} is OFFLINE (was online for ${data.duration})`
-                ));
-                pm.on('session', data => 
-                    console.log(`[Presence UPDATE] 📋 Session ended: ${data.jid} — ${data.duration}`
-                ));
-                pm.on('error',   err => 
-                    console.error(`[Presence UPDATE] Error: ${err.message}`)
-                );
+                    autoResubscribe: true,
+                    timezone: '+05:00',
+                    trackMessagesAsPresence: false
+                });
+
+                presenceMonitor.on('online', (data) => {
+                    console.log(`🟢 Contact ${data.jid} is ONLINE at ${presenceMonitor.formatTime(data.onlineAt)}`);
+                    console.log('online Data', data)
+                });
+
+                presenceMonitor.on('offline', (data) => {
+                    console.log(`[Presence Event] 🟡 Contact ${data.jid} is OFFLINE at ${presenceMonitor.formatTime(data.offlineAt)}`);
+                    console.log(`[Presence Event] ⏱️ Duration: ${data.duration}`);
+                    if (data.lastSeen) {
+                        console.log(`[Presence Event] 👁️ Last Seen: ${presenceMonitor.formatTime(data.lastSeen)}`);
+                    }
+                    console.log('offline Data', data)
+                });
+
+                presenceMonitor.on('session', (session) => {
+                    console.log(`[Presence Event] 🔴 Session completed for ${session.jid}:`);
+                    console.log(`  • ⏱️ Started : ${presenceMonitor.formatDateTime(session.onlineAt)}`);
+                    console.log(`  • ⏱️ Ended   : ${presenceMonitor.formatDateTime(session.offlineAt)}`);
+                    console.log(`  • ⏱️ Duration: ${session.duration} (${session.durationMs}ms)`);
+                    console.log('session Data', session)
+                });
+
+                presenceMonitor.on('error', (err) => {
+                    console.error(`[Presence UPDATE] Error: ${err.message}`);
+                });
             }
         }
     });
 
     // Listen to messages
     sock.ev.on('messages.upsert', async (update) => {
-        /*
-        console.log(" \n")
-        console.log("Update : ", require('util').inspect(update, { depth: null, colors: true }))
-        console.log(" \n")
-        console.log(`[messages.upsert] Event received. Type: ${update.type}, Messages count: ${update.messages?.length || 0}`);
-        */
 
         try {
             if (!update.messages?.length) return;
-
-            /*
-            for (const message of update.messages) {
-                const isFromMe = message.key?.fromMe;
-                const remoteJid = message.key?.remoteJid;
-                const messageKeys = Object.keys(message.message || {});
-                console.log(` -> Msg: fromMe=${isFromMe}, JID=${remoteJid}, Keys=[${messageKeys.join(', ')}]`);
-            }
-            */
 
             if (update.type !== 'notify') return;
             const [message] = update.messages;
@@ -286,6 +292,118 @@ async function startBot() {
             switch (command) {
                 case '!ping': {
                     await sock.sendMessage(normalizedJid, { text: 'pong! 🏓' }, { quoted: message });
+                    break;
+                }
+                case '!presence': {
+                    const rawArg = args ? args.trim() : '';
+                    if (!presenceMonitor) {
+                        await sock.sendMessage(normalizedJid, { text: '⚠️ Presence tracker is not initialized.' }, { quoted: message });
+                        break;
+                    }
+
+                    if (rawArg && rawArg.toLowerCase() !== 'all') {
+                        // Single contact query
+                        const target = normalizeContactJid(rawArg.replace(/[^0-9@a-z._-]/gi, ''));
+                        await presenceMonitor.resubscribe(target);
+                        const status = presenceMonitor.getStatus(target);
+
+                        if (!status) {
+                            await sock.sendMessage(normalizedJid, {
+                                text: `⚠️ No presence data tracked yet for ${target}.\nSubscribing now to monitor updates.`
+                            }, { quoted: message });
+                            await presenceMonitor.subscribe(target);
+                        } else {
+                            const isOnline = status.currentStatus === 'online';
+                            let text = `📊 *Presence Status for ${status.jid}*:\n\n`;
+                            text += `• Status: *${isOnline ? 'ONLINE 🟢' : 'OFFLINE 🔴'}*\n`;
+                            if (status.lid) {
+                                text += `• Linked LID: ${status.lid}\n`;
+                            }
+                            if (isOnline) {
+                                if (status.currentSessionStart) {
+                                    const activeMs = Math.max(0, Date.now() - status.currentSessionStart.getTime());
+                                    text += `• Online Since: ${presenceMonitor.formatTime(status.currentSessionStart)} (Active: ${formatDuration(activeMs)})\n`;
+                                }
+                            } else {
+                                if (status.lastSeen) {
+                                    text += `• Last Seen: ${presenceMonitor.formatDateTime(status.lastSeen)} (${formatTimeAgo(status.lastSeen)})\n`;
+                                }
+                                if (status.lastOfflineAt) {
+                                    text += `• Last Offline: ${presenceMonitor.formatDateTime(status.lastOfflineAt)} (${formatTimeAgo(status.lastOfflineAt)})\n`;
+                                }
+                                if (status.lastDuration) {
+                                    text += `• Last Online Duration: ${status.lastDuration}\n`;
+                                }
+                            }
+                            if (status.serverLastSeen) {
+                                text += `• WhatsApp Server Last Seen: ${presenceMonitor.formatDateTime(status.serverLastSeen)} (${formatTimeAgo(status.serverLastSeen)})\n`;
+                            }
+                            text += `• Timezone: ${presenceMonitor.getTimezone()}\n`;
+                            text += `• Total Sessions Recorded: ${status.sessions.length}`;
+                            await sock.sendMessage(normalizedJid, { text }, { quoted: message });
+                        }
+                    } else {
+                        // Multi-contact dashboard for all monitored contacts
+                        const allMonitored = Array.from(new Set([...targetJid, ...presenceMonitor.getMonitoredJids()]))
+                            .filter(j => !j.endsWith('@lid')); // Only display primary phone JIDs in summary
+
+                        let text = `📊 *Monitored Contacts Presence Dashboard* (${presenceMonitor.getTimezone()}):\n\n`;
+
+                        for (const jid of allMonitored) {
+                            await presenceMonitor.resubscribe(jid);
+                            const status = presenceMonitor.getStatus(jid);
+                            const cleanNum = jid.split('@')[0];
+
+                            if (!status || status.currentStatus === 'unknown') {
+                                text += `⚪ *${cleanNum}*: Unknown / Pending (Subscribing...)\n\n`;
+                                continue;
+                            }
+
+                            const isOnline = status.currentStatus === 'online';
+                            if (isOnline) {
+                                const activeMs = status.currentSessionStart ? Math.max(0, Date.now() - status.currentSessionStart.getTime()) : 0;
+                                text += `🟢 *${cleanNum}*: *ONLINE*\n`;
+                                text += `  • Online Since: ${status.currentSessionStart ? presenceMonitor.formatTime(status.currentSessionStart) : 'Now'} (Active: ${formatDuration(activeMs)})\n`;
+                                text += `  • Sessions: ${status.sessions.length}\n\n`;
+                            } else {
+                                text += `🔴 *${cleanNum}*: *OFFLINE*\n`;
+                                if (status.lastSeen) {
+                                    text += `  • Last Seen: ${presenceMonitor.formatDateTime(status.lastSeen)} (${formatTimeAgo(status.lastSeen)})\n`;
+                                } else {
+                                    text += `  • Last Seen: Hidden by privacy or not seen yet\n`;
+                                }
+                                if (status.lastDuration) {
+                                    text += `  • Last Duration: ${status.lastDuration}\n`;
+                                }
+                                text += `  • Sessions: ${status.sessions.length}\n\n`;
+                            }
+                        }
+
+                        text += `💡 _Tip: Use !presence <number> for details, or !timezone <+5|Asia/Karachi> to change zone._`;
+                        await sock.sendMessage(normalizedJid, { text }, { quoted: message });
+                    }
+                    break;
+                }
+                case '!timezone':
+                case '!tz': {
+                    const newTz = args ? args.trim() : '';
+                    if (!presenceMonitor) {
+                        await sock.sendMessage(normalizedJid, { text: '⚠️ Presence tracker is not initialized.' }, { quoted: message });
+                        break;
+                    }
+                    if (!newTz) {
+                        const currentTz = presenceMonitor.getTimezone();
+                        const nowFormatted = presenceMonitor.formatDateTime(new Date());
+                        await sock.sendMessage(normalizedJid, {
+                            text: `🕒 *Current Timezone*: ${currentTz}\n• Local Time: *${nowFormatted}*\n\n_To change dynamically, send: !timezone +5, !timezone Asia/Karachi, or !timezone UTC_`
+                        }, { quoted: message });
+                    } else {
+                        presenceMonitor.setTimezone(newTz);
+                        const nowFormatted = presenceMonitor.formatDateTime(new Date());
+                        await sock.sendMessage(normalizedJid, {
+                            text: `✅ *Timezone dynamically updated to*: ${newTz}\n• Current Local Time: *${nowFormatted}*`
+                        }, { quoted: message });
+                    }
                     break;
                 }
                 case '!table': {

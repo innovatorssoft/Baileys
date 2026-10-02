@@ -4364,9 +4364,12 @@ import { monitorPresence } from '@innovatorssoft/baileys'
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `logToConsole` | `boolean` | `false` | Log transitions to console automatically |
-| `autoResubscribe` | `boolean` | `false` | Re-subscribe automatically when the socket reconnects |
-| `timezone` | `string` | `undefined` | Display timezone offset, e.g. `'+05:00'` |
+| `logToConsole` | `boolean` | `true` | Log transitions to console automatically |
+| `autoResubscribe` | `boolean` | `true` | Re-subscribe automatically when the socket reconnects |
+| `resolveLid` | `boolean` | `true` | Automatically resolve LID via USync onWhatsApp if not known |
+| `trackMessagesAsPresence` | `boolean` | `true` | Infer online presence when an incoming message is received from contact |
+| `timezone` | `string \| number` | `'+05:00'` | Custom timezone offset or IANA zone (e.g. `'+05:00'`, `'+5'`, `5`, `'Asia/Karachi'`) |
+| `logger` | `object` | `console` | Custom logger instance |
 
 ### Basic Usage
 
@@ -4434,23 +4437,27 @@ const pm = monitorPresence(sock, [
 
 ```ts
 // Current state for one JID
-const state = pm.getState('923001234567@s.whatsapp.net')
-// → { jid, status: 'online'|'offline', onlineAt, offlineAt, durationMs, duration, lastSeen }
+// Current state for one JID
+const status = pm.getStatus('923001234567@s.whatsapp.net') // or pm.getState(...)
+// → { jid, lid, currentStatus, onlineAt, offlineAt, duration, lastSeen, sessions }
 
-// All monitored JIDs
-const allStates = pm.getState()
-// → { '923001234567@s.whatsapp.net': {...}, '447498792682@s.whatsapp.net': {...} }
+// All monitored contacts' statuses
+const allStatuses = pm.getAllStatuses() // Map<string, ContactPresenceState>
 
 // Most recent session for a JID
 const lastSession = pm.getSession('923001234567@s.whatsapp.net')
 
-// All sessions for a JID (or for all if omitted)
-const sessions = pm.getSessions()
+// Dynamically add contacts to monitor
+await pm.subscribe('923001234567@s.whatsapp.net')
 
-// Check if a JID is being monitored
-pm.isMonitoring('923001234567@s.whatsapp.net') // → true
+// Dynamically change timezone
+pm.setTimezone('Asia/Karachi') // or '+05:00'
 
-// List of originally requested JIDs
+// Format timestamps in configured timezone
+pm.formatDateTime(new Date()) // 'YYYY-MM-DD HH:MM:SS'
+pm.formatTime(new Date())     // 'HH:MM:SS'
+
+// List of currently monitored JIDs
 pm.getMonitoredJids() // → ['923001234567@s.whatsapp.net', '447498792682@s.whatsapp.net']
 ```
 
@@ -4461,7 +4468,7 @@ sock.ev.on('connection.update', async (update) => {
     const { connection } = update
 
     if (connection === 'open') {
-        const targets = ['923001234567@s.whatsapp.net', '447498792682@s.whatsapp.net']
+        const targets = ['923001234567@s.whatsapp.net']
 
         const pm = monitorPresence(sock, targets, {
             logToConsole: false,
