@@ -22,6 +22,8 @@ export interface PresenceTrackerOptions {
     timeZone?: string | number
     /** Alias for timeZone */
     timezone?: string | number
+    /** Periodic heartbeat subscription interval in ms (default: 25000) */
+    resubscribeIntervalMs?: number
     /** Custom logger */
     logger?: PresenceTrackerLogger
 }
@@ -235,6 +237,9 @@ export function normalizeContactJid(jid: string): string {
     } else if (!clean.includes('@')) {
         clean = `${clean}@s.whatsapp.net`
     }
+    if (clean.endsWith('@s.whatsapp.net')) {
+        clean = clean.replace(/^\+/, '')
+    }
     return jidNormalizedUser(clean) || clean
 }
 
@@ -269,6 +274,7 @@ export class PresenceTracker extends EventEmitter {
     private boundConnectionUpdate: (update: Partial<ConnectionState>) => void
     private boundLidMappingUpdate?: (mapping: { lid: string; pn: string }) => void
     private boundMessagesUpsert?: (update: { messages: WAMessage[] }) => void
+    private resubscribeTimer?: ReturnType<typeof setInterval>
 
     constructor(sock: PresenceTrackerSocket, targetsOrOptions?: PresenceTrackerOptions | string | string[], options?: PresenceTrackerOptions) {
         super()
@@ -288,6 +294,7 @@ export class PresenceTracker extends EventEmitter {
             autoResubscribe: resolvedOptions.autoResubscribe !== false,
             resolveLid: resolvedOptions.resolveLid !== false,
             trackMessagesAsPresence: resolvedOptions.trackMessagesAsPresence !== false,
+            resubscribeIntervalMs: resolvedOptions.resubscribeIntervalMs !== undefined ? resolvedOptions.resubscribeIntervalMs : 25000,
             timeZone: this.timeZone,
             timezone: this.timeZone,
             logger: resolvedOptions.logger || console
@@ -311,6 +318,19 @@ export class PresenceTracker extends EventEmitter {
         if (this.options.trackMessagesAsPresence) {
             this.boundMessagesUpsert = this.handleMessagesUpsert.bind(this)
             this.sock.ev.on('messages.upsert' as any, this.boundMessagesUpsert as any)
+        }
+
+        // Periodic presence resubscription heartbeat to prevent WhatsApp multi-device subscription expiration
+        if (this.options.autoResubscribe && (this.options.resubscribeIntervalMs ?? 0) > 0) {
+            this.resubscribeTimer = setInterval(() => {
+                if (this.isDestroyed) return
+                for (const jid of this.monitoredJids) {
+                    this.resubscribe(jid).catch(() => { })
+                }
+            }, this.options.resubscribeIntervalMs)
+            if (this.resubscribeTimer && typeof (this.resubscribeTimer as any).unref === 'function') {
+                (this.resubscribeTimer as any).unref()
+            }
         }
 
         if (initialTargets) {
@@ -404,6 +424,14 @@ export class PresenceTracker extends EventEmitter {
      */
     async subscribe(jid: string | string[]): Promise<void> {
         if (this.isDestroyed) return
+
+        // Ensure client presence is announced as available so WhatsApp delivers presence stanzas
+        if (this.sock && typeof (this.sock as any).sendPresenceUpdate === 'function') {
+            try {
+                await (this.sock as any).sendPresenceUpdate('available')
+            } catch { }
+        }
+
         const jids = Array.isArray(jid) ? jid : [jid]
 
         for (const rawJid of jids) {
@@ -496,6 +524,13 @@ export class PresenceTracker extends EventEmitter {
                 await this.sock.presenceSubscribe(alias)
             } catch { }
         }
+
+        const state = this.contactStates.get(normalized)
+        if (state && state.lid && state.lid !== alias) {
+            try {
+                await this.sock.presenceSubscribe(state.lid)
+            } catch { }
+        }
     }
 
     /**
@@ -583,6 +618,10 @@ export class PresenceTracker extends EventEmitter {
         }
         if (this.boundMessagesUpsert) {
             this.sock.ev.off('messages.upsert' as any, this.boundMessagesUpsert as any)
+        }
+        if (this.resubscribeTimer) {
+            clearInterval(this.resubscribeTimer)
+            this.resubscribeTimer = undefined
         }
         this.monitoredJids.clear()
         this.removeAllListeners()
