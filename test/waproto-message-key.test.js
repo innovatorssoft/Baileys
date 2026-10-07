@@ -24,4 +24,25 @@ describe('WebMessageInfo key', () => {
         expect(message.key.participant).toBe('201016610001@s.whatsapp.net')
         expect(message.key.cipherKey).toBeUndefined()
     })
+
+    test('should round trip reactionMessage.key with participant', () => {
+        const reactionKey = {
+            remoteJid: '120363000000000000@g.us',
+            fromMe: false,
+            id: '3EB0ABCDEF',
+            participant: '1@lid'
+        }
+        const encoded = proto.Message.encode({
+            reactionMessage: {
+                key: reactionKey,
+                text: '👍'
+            }
+        }).finish()
+        const decoded = proto.Message.decode(encoded)
+
+        expect(decoded.reactionMessage.key.remoteJid).toBe(reactionKey.remoteJid)
+        expect(decoded.reactionMessage.key.fromMe).toBe(reactionKey.fromMe)
+        expect(decoded.reactionMessage.key.id).toBe(reactionKey.id)
+        expect(decoded.reactionMessage.key.participant).toBe(reactionKey.participant)
+    })
 })
