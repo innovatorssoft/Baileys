@@ -45,6 +45,7 @@ export declare class SignalingBridge {
     unregisterEngine: (callId: string) => void;
     setIncomingOfferListener: (listener: (node: any, peerJid: string, callId: string, offerSignalingMsg: any) => void) => void;
     getCallKey: (callId: string) => Uint8Array | Buffer | undefined;
+    storeCallKey: (callId: string, callKey: Uint8Array | Buffer) => void;
     encryptCallKey: (targetJid: string, rawCallKey: Uint8Array | Buffer, count?: number) => Promise<{ encNode: any; shouldIncludeDeviceIdentity: boolean }>;
     getDeviceIdentity: () => any;
     maybeDecryptEnc: (voipNode: any, peerJid: string) => Promise<any>;
