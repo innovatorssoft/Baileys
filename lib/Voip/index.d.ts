@@ -59,9 +59,12 @@ export declare class VoipClient extends EventEmitter {
     getActiveCallCount: () => number;
     acceptCall: (callId: string, options?: { audioSource?: string; videoSource?: string; repeatAudio?: boolean; isMicEnabled?: boolean; isCameraEnabled?: boolean; pthreadPoolSize?: number | "auto" }) => Promise<CallSession>;
     rejectCall: (callId: string, reason?: string) => Promise<void>;
+    processIncomingCall: (node: any) => Promise<void>;
     muteCall: (callId: string, muted?: boolean) => Promise<boolean> | boolean;
     unmuteCall: (callId: string) => Promise<boolean> | boolean;
-    getMemoryStats: () => any;
+    getTimeline: (callId: string) => any[];
+    formatTimeline: (callId: string) => string;
+    dumpTimeline: (callId: string) => void;
     endCall: (callId: string, reason?: string) => void;
     endAllCalls: () => void;
     callMany: (requests: CallRequest[]) => Promise<CallSession[]>;
@@ -70,3 +73,5 @@ export declare class VoipClient extends EventEmitter {
     call: (phoneNumber: string, opts?: CallOptions) => Promise<CallSession>;
     disconnect: () => void;
 }
+
+export { voipDiagnostics, VoipDiagnostics, sanitizeJid, summarizeNode } from "./diagnostics";

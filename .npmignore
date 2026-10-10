@@ -10,3 +10,4 @@ auth
 audio.mp3
 /lib/Wasm
 PRD.md
+voip-debug.log

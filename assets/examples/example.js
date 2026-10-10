@@ -11,9 +11,9 @@ const { makeWASocket,
     monitorPresence,
     formatDuration,
     formatTimeAgo,
-    normalizeContactJid }
+    normalizeContactJid,
+    voipDiagnostics }
     = require('../../lib/index.js');
-const { Boom } = require('@hapi/boom');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const path = require('path');
@@ -38,28 +38,35 @@ async function startBot() {
 
     console.log('Initializing connection...');
 
-    // Setup authentication state
     const { state, saveCreds } = await useMultiFileAuthState(authDir);
 
-    // Check if phone number is passed as an argument for pairing code instead of QR
     const usePairingCode = process.argv.includes('--phone');
     const phoneIndex = process.argv.indexOf('--phone');
     const phoneNumber = usePairingCode && phoneIndex !== -1 ? process.argv[phoneIndex + 1] : null;
+
+    // Check if VoIP diagnostic mode is requested via flag or environment variable
+    const debugVoip = process.argv.includes('--debug-voip') || process.env.DEBUG_VOIP === '1';
+    if (debugVoip) {
+        voipDiagnostics.setDiagnosticMode(true);
+        console.log('\n======================================================');
+        console.log('🔍 [VoIP Diagnostics] Detailed VoIP Diagnostics & Tracing ENABLED');
+        console.log('======================================================\n');
+    }
 
     const sock = makeWASocket({
         auth: state,
         syncFullHistory: false,
         logger: require('pino')({ level: 'silent' }),
         markOnlineOnConnect: true,
-        // VoIP Configuration & Memory Optimization
-        /*voip: {
+        debugVoip,
+        voip: {
             pthreadPoolSize: 4,
             maxConcurrentCalls: 3,
-            onLimit: 'reject'
-        }*/
+            onLimit: 'reject',
+            diagnostic: debugVoip
+        }
     });
 
-    // Handle pairing code registration if requested
     if (usePairingCode && phoneNumber && !state.creds.registered) {
         setTimeout(async () => {
             try {
@@ -75,9 +82,7 @@ async function startBot() {
 
     sock.ev.on('creds.update', saveCreds);
 
-    // Track the latest incoming VoIP session for quick commands (!acceptcall, !rejectcall)
     let lastIncomingSession = null;
-    // Track per-call state context for idempotency and lifecycle management (Call ID -> IncomingCallContext)
     const incomingCalls = new Map();
 
     // Register VoIP Incoming Call Event Listener
@@ -126,6 +131,9 @@ async function startBot() {
         session.on('rejected', (reason) => {
             if (context) context.state = 'rejected';
             console.log(`[VoIP] [${callId}] rejected: ${reason}`);
+        });
+        session.on('error', (err) => {
+            console.error(`[VoIP] [${callId}] Call error:`, err);
         });
         session.on('ended', (reason) => {
             if (context) context.state = 'ended';
@@ -176,20 +184,11 @@ async function startBot() {
                 console.log(`[VoIP] [${callId}] Audio initialization started`);
                 console.log(`[VoIP] [${callId}] Streaming started`);
 
-                // Notify caller that call was accepted and audio is streaming
-                /*   await sock.sendMessage(session.peerJid, {
-                       text: `📞 *Incoming Call Automatically Accepted!*\n` +
-                           `• Call ID: \`${callId}\`\n` +
-                           `• Audio: Streaming \`audio.mp3\` 🎵\n\n` +
-                           `Commands to control:\n` +
-                           `• \`!endcall ${callId}\` - End call\n` +
-                           `• \`!mute\` / \`!unmute\` - Mute/unmute microphone`
-                   }).catch(() => {});*/
-
             } catch (err) {
                 context.accepting = false;
                 if (!session.ended && context.state !== 'ended') {
                     console.error(`[VoIP] [${callId}] Error auto-accepting call:`, err);
+                    try { fs.appendFileSync(path.resolve(process.cwd(), "voip-debug.log"), `[VoIP] [${callId}] Error auto-accepting call: ${err?.stack || err}\n`); } catch { }
                 }
             }
         };
@@ -1316,8 +1315,12 @@ async function startBot() {
                         call.on('connected', () => console.log(`[Example] Call ${call.callId} connected!`));
                         call.on('audioReady', () => console.log(`[Example] Call ${call.callId} audio pipeline ready`));
                         call.on('streaming', () => console.log(`[Example] Call ${call.callId} streaming audio`));
-                        call.on('ended', (reason) => console.log(`[Example] Call ${call.callId} ended: ${reason}`));
-                        call.on('error', (err) => console.error(`[Example] Call error:`, err));
+                        call.on('ended', (reason) => {
+                            console.log(`[Example] Call ${call.callId} ended: ${reason}`);
+                        });
+                        call.on('error', (err) => {
+                            console.error(`[Example] Call error:`, err);
+                        });
                     } catch (err) {
                         console.log(err)
                         await sock.sendMessage(normalizedJid, { text: `Call error: ${err.message}` }, { quoted: message });
@@ -1363,8 +1366,12 @@ async function startBot() {
                         call.on('videoEnded', () => console.log(`[Example] Video Call ${call.callId} video stream ended`));
                         call.on('audioReady', () => console.log(`[Example] Video Call ${call.callId} audio pipeline ready`));
                         call.on('streaming', () => console.log(`[Example] Video Call ${call.callId} streaming media`));
-                        call.on('ended', (reason) => console.log(`[Example] Video Call ${call.callId} ended: ${reason}`));
-                        call.on('error', (err) => console.error(`[Example] Video Call error:`, err));
+                        call.on('ended', (reason) => {
+                            console.log(`[Example] Video Call ${call.callId} ended: ${reason}`);
+                        });
+                        call.on('error', (err) => {
+                            console.error(`[Example] Video Call error:`, err);
+                        });
                     } catch (err) {
                         console.log(err);
                         await sock.sendMessage(normalizedJid, { text: `Video Call error: ${err.message}` }, { quoted: message });

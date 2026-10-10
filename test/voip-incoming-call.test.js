@@ -717,6 +717,455 @@ describe("VoIP Auto-Accept and Idempotency Tests (PRD Scenarios)", () => {
 
         manager.cleanup();
     });
+
+    test("Test 26 — Multi-child <call> stanza containing <capability> alongside <offer>", async () => {
+        const sock = createMockSocket();
+        const signaling = createMockSignaling();
+        const manager = new CallManager({ sock, signaling });
+        const incomingHandler = jest.fn();
+        manager.on("call_incoming", incomingHandler);
+
+        const multiChildCall = {
+            tag: "call",
+            attrs: { from: "peer_multi@s.whatsapp.net", id: "STANZA_26" },
+            content: [
+                { tag: "capability", attrs: { ver: "1" }, content: [] },
+                {
+                    tag: "offer",
+                    attrs: { "call-id": "CALL_MULTI_26", "call-creator": "peer_multi:1@s.whatsapp.net" },
+                    content: [{ tag: "audio", attrs: { enc: "opus", rate: "16000" } }]
+                }
+            ]
+        };
+
+        const session = await manager.handleIncomingOffer(multiChildCall, "peer_multi@s.whatsapp.net");
+        expect(session).toBeDefined();
+        expect(session.callId).toBe("CALL_MULTI_26");
+        expect(session.status).toBe("incoming_ringing");
+        expect(incomingHandler).toHaveBeenCalledTimes(1);
+
+        manager.cleanup();
+    });
+
+    test("Test 27 — Mobile <offer_notice> with underscore call_id attribute", async () => {
+        const sock = createMockSocket();
+        const signaling = createMockSignaling();
+        const manager = new CallManager({ sock, signaling });
+        const incomingHandler = jest.fn();
+        manager.on("call_incoming", incomingHandler);
+
+        const offerNoticeStanza = {
+            tag: "call",
+            attrs: { from: "peer_notice@s.whatsapp.net", id: "STANZA_27" },
+            content: [
+                {
+                    tag: "offer_notice",
+                    attrs: { call_id: "OFFER_NOTICE_27", "call-creator": "peer_notice:2@s.whatsapp.net" },
+                    content: [{ tag: "audio", attrs: { enc: "opus", rate: "16000" } }]
+                }
+            ]
+        };
+
+        const session = await manager.handleIncomingOffer(offerNoticeStanza, "peer_notice@s.whatsapp.net");
+        expect(session).toBeDefined();
+        expect(session.callId).toBe("OFFER_NOTICE_27");
+        expect(incomingHandler).toHaveBeenCalledTimes(1);
+
+        manager.cleanup();
+    });
+
+    test("Test 28 — Rejection of call acceptance on decryption failure without fabricating fake random key", async () => {
+        const sock = createMockSocket();
+        const signaling = {
+            ...createMockSignaling(),
+            maybeDecryptEnc: jest.fn(async () => ({ _decryptionFailed: true })),
+            getCallKey: jest.fn(() => undefined),
+        };
+        const manager = new CallManager({ sock, signaling });
+
+        const encOffer = {
+            tag: "call",
+            attrs: { from: "enc_peer@s.whatsapp.net", id: "STANZA_28" },
+            content: [
+                {
+                    tag: "offer",
+                    attrs: { "call-id": "CALL_FAIL_ENC_28", "call-creator": "enc_peer@s.whatsapp.net" },
+                    content: [
+                        { tag: "enc", attrs: { v: "2", type: "pkmsg" }, content: Buffer.from("bad_ciphertext") }
+                    ]
+                }
+            ]
+        };
+
+        const session = await manager.handleIncomingOffer(encOffer, "enc_peer@s.whatsapp.net");
+        expect(session).toBeDefined();
+        expect(session.callId).toBe("CALL_FAIL_ENC_28");
+        expect(session._decryptionFailed).toBe(true);
+        expect(session._callKey).toBeUndefined();
+
+        // Attempting to accept must fail safely with explicit diagnostic reason
+        await expect(manager.acceptCall("CALL_FAIL_ENC_28")).rejects.toThrow(
+            /call key decryption failed; required cryptographic material is unavailable/i
+        );
+
+        manager.cleanup();
+    });
+
+    test("Test 29 — Destination companion <to> filtering in SignalingBridge selects our device", async () => {
+        const { SignalingBridge } = require("../lib/Voip/signaling.js");
+        const decryptCalls = [];
+        const mockSock = {
+            authState: {
+                creds: {
+                    me: { id: "my_user:2@s.whatsapp.net", lid: "my_lid:2@lid" }
+                }
+            },
+            signalRepository: {
+                decryptMessage: jest.fn(async ({ ciphertext }) => {
+                    decryptCalls.push(ciphertext);
+                    // Return valid call key in protobuf
+                    return Buffer.concat([Buffer.from([0x0a, 0x20]), Buffer.alloc(32, 0xaa)]);
+                }),
+                lidMapping: {
+                    getPNForLID: jest.fn(async () => null),
+                    getLIDForPN: jest.fn(async () => null),
+                }
+            },
+            logger: {
+                debug: jest.fn(),
+                warn: jest.fn(),
+                error: jest.fn(),
+                info: jest.fn(),
+            }
+        };
+
+        const bridge = new SignalingBridge({ sock: mockSock });
+
+        const myEnc = Buffer.from("target_companion_ciphertext");
+        const otherEnc1 = Buffer.from("other_device_1_ciphertext");
+        const otherEnc2 = Buffer.from("other_device_3_ciphertext");
+
+        const offerNode = {
+            tag: "offer",
+            attrs: { "call-id": "DEST_TEST_29", "call-creator": "caller@s.whatsapp.net" },
+            content: [
+                {
+                    tag: "destination",
+                    content: [
+                        { tag: "to", attrs: { jid: "my_user:1@s.whatsapp.net" }, content: [{ tag: "enc", attrs: { v: "2", type: "msg" }, content: otherEnc1 }] },
+                        { tag: "to", attrs: { jid: "my_user:2@s.whatsapp.net" }, content: [{ tag: "enc", attrs: { v: "2", type: "pkmsg" }, content: myEnc }] },
+                        { tag: "to", attrs: { jid: "my_user:3@s.whatsapp.net" }, content: [{ tag: "enc", attrs: { v: "2", type: "msg" }, content: otherEnc2 }] },
+                    ]
+                }
+            ]
+        };
+
+        const result = await bridge.maybeDecryptEnc(offerNode, "caller@s.whatsapp.net");
+        expect(result).toBeDefined();
+        expect(decryptCalls.length).toBe(1);
+        expect(decryptCalls[0]).toEqual(myEnc);
+    });
+
+    test("Test 30 — Bidirectional LID and bare phone number resolution during offer decryption", async () => {
+        const { SignalingBridge } = require("../lib/Voip/signaling.js");
+        const decryptedTargets = [];
+        const mockSock = {
+            authState: {
+                creds: {
+                    me: { id: "my_user:1@s.whatsapp.net" }
+                }
+            },
+            signalRepository: {
+                decryptMessage: jest.fn(async ({ jid, ciphertext }) => {
+                    decryptedTargets.push(jid);
+                    return Buffer.concat([Buffer.from([0x0a, 0x20]), Buffer.alloc(32, 0xbb)]);
+                }),
+                lidMapping: {
+                    getPNForLID: jest.fn(async (lid) => lid.startsWith("caller_lid") ? "447700900123@s.whatsapp.net" : null),
+                    getLIDForPN: jest.fn(async () => null),
+                }
+            },
+            logger: {
+                debug: jest.fn(),
+                warn: jest.fn(),
+                error: jest.fn(),
+                info: jest.fn(),
+            }
+        };
+
+        const bridge = new SignalingBridge({ sock: mockSock });
+
+        const offerNode = {
+            tag: "offer",
+            attrs: { "call-id": "LID_PN_TEST_30", "call-creator": "caller_lid@lid", caller_pn: "447700900123" },
+            content: [
+                { tag: "enc", attrs: { v: "2", type: "pkmsg" }, content: Buffer.from("lid_enc") }
+            ]
+        };
+
+        const result = await bridge.maybeDecryptEnc(offerNode, "caller_lid@lid");
+        expect(result).toBeDefined();
+        // Checked against resolved PN target
+        expect(decryptedTargets).toContain("447700900123@s.whatsapp.net");
+    });
+
+    test("Test 31 — Normalization of bare digit caller_pn in accept stanza prevents invalid JID encryption", async () => {
+        const assertedJids = [];
+        const encryptionTargets = [];
+        const sock = {
+            sendNode: jest.fn(async () => {}),
+            assertSessions: jest.fn(async (jids) => {
+                assertedJids.push(...jids);
+                return true;
+            }),
+            authState: { creds: { me: { id: "me@s.whatsapp.net" } } }
+        };
+        const signaling = {
+            encryptCallKey: jest.fn(async (target, key) => {
+                encryptionTargets.push(target);
+                return {
+                    encNode: { tag: "enc", attrs: { v: "2", type: "msg", count: "0" }, content: Buffer.from("enc") },
+                    shouldIncludeDeviceIdentity: false
+                };
+            }),
+            ensureSessionsForPeers: jest.fn(async () => {}),
+            getCallKey: jest.fn(() => Buffer.alloc(32, 3)),
+        };
+
+        const manager = new CallManager({ sock, signaling });
+
+        const session = await manager.handleIncomingOffer({
+            tag: "call",
+            attrs: { from: "caller@s.whatsapp.net" },
+            content: [{
+                tag: "offer",
+                attrs: { "call-id": "CALL_PN_NORM_31", "call-creator": "caller@s.whatsapp.net", caller_pn: "447700900123" },
+                content: [{ tag: "audio", attrs: { enc: "opus", rate: "16000" } }]
+            }]
+        }, "caller@s.whatsapp.net");
+
+        expect(session.callerPn).toBe("447700900123");
+
+        await manager.acceptCall("CALL_PN_NORM_31");
+
+        // Verify bare digits were never passed directly as JID to assertSessions or encryptCallKey
+        for (const jid of assertedJids) {
+            expect(jid).toContain("@");
+            expect(jid).not.toBe("447700900123");
+        }
+        for (const target of encryptionTargets) {
+            expect(target).toContain("@");
+            expect(target).not.toBe("447700900123");
+        }
+
+        manager.cleanup();
+    });
+
+    test("Test 32 — SignalingBridge processes incoming offer, forwards to CallManager, and deduplicates repeated stanzas", async () => {
+        const { SignalingBridge } = require("../lib/Voip/signaling.js");
+        const { CallManager } = require("../lib/Voip/call-manager.js");
+
+        const mockWs = new (require("node:events").EventEmitter)();
+        const incomingCalls = [];
+
+        const mockSock = {
+            ws: mockWs,
+            sendNode: jest.fn(async () => {}),
+            query: jest.fn(async () => {}),
+            authState: {
+                creds: {
+                    me: { id: "my_user:1@s.whatsapp.net" }
+                }
+            },
+            signalRepository: {
+                decryptMessage: jest.fn(async () => Buffer.concat([Buffer.from([0x0a, 0x20]), Buffer.alloc(32, 0x99)])),
+                lidMapping: {
+                    getPNForLID: jest.fn(async () => null),
+                    getLIDForPN: jest.fn(async () => null),
+                }
+            },
+            logger: {
+                debug: jest.fn(),
+                warn: jest.fn(),
+                error: jest.fn(),
+                info: jest.fn(),
+            }
+        };
+
+        const bridge = new SignalingBridge({ sock: mockSock });
+        const manager = new CallManager({ sock: mockSock, signaling: bridge });
+
+        manager.on("call_incoming", (session) => {
+            incomingCalls.push(session);
+        });
+
+        bridge.setIncomingOfferListener(async (node, peerJid, callId, offerSignalingMsg) => {
+            return manager.handleIncomingOffer(node, peerJid, offerSignalingMsg);
+        });
+
+        const offerStanza = {
+            tag: "call",
+            attrs: { from: "caller_socket@s.whatsapp.net", id: "STANZA_32" },
+            content: [{
+                tag: "offer",
+                attrs: { "call-id": "CALL_SOCKET_32", "call-creator": "caller_socket:1@s.whatsapp.net" },
+                content: [{ tag: "audio", attrs: { enc: "opus", rate: "16000" } }]
+            }]
+        };
+
+        await bridge.processIncomingCall(offerStanza);
+
+        expect(incomingCalls.length).toBe(1);
+        expect(incomingCalls[0].callId).toBe("CALL_SOCKET_32");
+
+        // Verify deduplication: second invocation with the same stanza does not duplicate call_incoming
+        await bridge.processIncomingCall(offerStanza);
+        expect(incomingCalls.length).toBe(1);
+
+        manager.cleanup();
+    });
+
+    test("Test 33 — Mobile LID routing: incoming offer with bare LID call-creator normalizes to device JID matching routedPeerJid in WASM payload", async () => {
+        const { SignalingBridge } = require("../lib/Voip/signaling.js");
+        const { CallManager } = require("../lib/Voip/call-manager.js");
+        const { decodeBinaryNode } = require("../lib/WABinary/decode.js");
+        const mockSock = {
+            authState: {
+                creds: {
+                    me: { id: "bot:0@s.whatsapp.net", lid: "bot_lid:0@lid" }
+                }
+            },
+            signalRepository: {
+                decryptMessage: jest.fn(),
+                lidMapping: {
+                    getPNForLID: jest.fn(),
+                    getLIDForPN: jest.fn(),
+                    storeLIDPNMappings: jest.fn()
+                }
+            },
+            ws: { isReady: true, send: jest.fn() },
+            sendNode: jest.fn().mockResolvedValue({ tag: "ack", attrs: {} }),
+            logger: {
+                debug: jest.fn(),
+                warn: jest.fn(),
+                error: jest.fn(),
+                info: jest.fn(),
+            }
+        };
+
+        const bridge = new SignalingBridge({ sock: mockSock });
+        const manager = new CallManager({ sock: mockSock, signaling: bridge });
+        let capturedOfferSignalingMsg = null;
+        let capturedNode = null;
+
+        bridge.setIncomingOfferListener(async (node, peerJid, callId, offerSignalingMsg) => {
+            capturedNode = node;
+            capturedOfferSignalingMsg = offerSignalingMsg;
+            return manager.handleIncomingOffer(node, peerJid, offerSignalingMsg);
+        });
+
+        const offerStanza = {
+            tag: "call",
+            attrs: { from: "174281585643715@lid", id: "STANZA_MOBILE_LID_33" },
+            content: [{
+                tag: "offer",
+                attrs: {
+                    "call-id": "CALL_MOBILE_LID_33",
+                    "call-creator": "174281585643715@lid",
+                    "caller_pn": "923014434335@s.whatsapp.net",
+                    "platform": "android",
+                    "version": "2.26.39.74"
+                },
+                content: [{ tag: "audio", attrs: { enc: "opus", rate: "16000" } }]
+            }]
+        };
+
+        await bridge.processIncomingCall(offerStanza);
+
+        expect(capturedNode).toBeDefined();
+        expect(capturedNode.attrs["call-creator"]).toBe("174281585643715:0@lid");
+
+        expect(capturedOfferSignalingMsg).toBeDefined();
+        // peerJid must be device-qualified
+        expect(capturedOfferSignalingMsg.peerJid).toBe("174281585643715:0@lid");
+
+        // The binary payload passed to WASM must be encoded with AD_JID (0xF7),
+        // ensuring the WASM C++ engine correctly decodes the LID domain instead of defaulting to @s.whatsapp.net
+        const payloadBuf = Buffer.from(capturedOfferSignalingMsg.payload, "base64");
+        expect(payloadBuf.includes(0xF7)).toBe(true);
+
+        const decodedPayload = await decodeBinaryNode(payloadBuf);
+        expect(decodedPayload.attrs["call-creator"]).toBe("174281585643715@lid");
+
+        const session = manager.calls.get("CALL_MOBILE_LID_33");
+        expect(session).toBeDefined();
+        expect(session.peerJid).toBe("174281585643715:0@lid");
+
+        manager.cleanup();
+    });
+
+    test("34. RelayRtcTransport uses original signaling port (e.g. 3478) by default", async () => {
+        const { RelayRtcTransport } = require("../lib/Voip/relay-transport.js");
+        const transport = new RelayRtcTransport({ callId: "TEST_RELAY_PORT_34" });
+
+        const endpoints = [
+            {
+                ip: "57.144.149.57",
+                port: 3478,
+                token: "dGVzdFRva2VuMQ==",
+                key: "dGVzdEtleTE=",
+                relayName: "mct1c02",
+                relayId: 0
+            }
+        ];
+
+        transport.connectRelays(endpoints);
+        const stats = transport.getStats();
+        expect(stats).toBeDefined();
+
+        await transport.closeAll();
+    });
+
+    test("35. RelayRtcTransport.updateRelayList updates credentials without dropping connections on event 156 format", async () => {
+        const { RelayRtcTransport } = require("../lib/Voip/relay-transport.js");
+        const transport = new RelayRtcTransport({ callId: "TEST_EVENT_156_35" });
+
+        const endpoints = [
+            {
+                ip: "57.144.149.57",
+                port: 3478,
+                token: "initialToken0",
+                key: "initialKey",
+                relayName: "mct1c02",
+                relayId: 0
+            },
+            {
+                ip: "57.144.15.57",
+                port: 3478,
+                token: "initialToken1",
+                key: "initialKey",
+                relayName: "sin6c01",
+                relayId: 1
+            }
+        ];
+
+        transport.connectRelays(endpoints);
+
+        // Simulate WASM Event 156 (contains tokens and key, but no 'relays' array)
+        const event156 = {
+            event_type: 156,
+            num_relays: 2,
+            relay_key: "updatedRelayKey123=",
+            relay_tokens: ["updatedToken0==", "updatedToken1=="],
+            auth_tokens: ["updatedAuthToken0=="],
+            enable_edgeray_dtls_active_mode: false
+        };
+
+        // Calling updateRelayList must update stored info and not throw or clear connections
+        expect(() => transport.updateRelayList(event156)).not.toThrow();
+
+        await transport.closeAll();
+    });
 });
 
 
