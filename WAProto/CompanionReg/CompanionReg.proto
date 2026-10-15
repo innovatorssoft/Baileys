@@ -80,6 +80,8 @@ message DeviceProps {
         repeated string supportedBotChannelFbids = 23;
         optional bool supportInlineContacts = 24;
         optional bool supportNewsletter = 25;
+        optional bool supportUniversalReachChat = 26;
+        optional bool supportOmittedConversationIndex = 27;
     }
     enum PlatformType {
         UNKNOWN = 0;
@@ -110,5 +112,8 @@ message DeviceProps {
         WAIL = 25;
         WASS = 26;
         BUSINESS_BACK_OFFICE = 27;
+        WAIL_WAI = 28;
+        WAIL_ALEXA = 29;
+        AUTOMOTIVE = 30;
     }
 }

@@ -560,6 +560,12 @@ export namespace SyncAction {
 
         /** SyncActionValue groupHistoryToggleAction */
         groupHistoryToggleAction?: (SyncAction.SyncActionValue.IGroupHistoryToggleAction|null);
+
+        /** SyncActionValue bbProPendingCustomerBaseAction */
+        bbProPendingCustomerBaseAction?: (SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction|null);
+
+        /** SyncActionValue communityNestingStateAction */
+        communityNestingStateAction?: (SyncAction.SyncActionValue.ICommunityNestingStateAction|null);
     }
 
     /** Represents a SyncActionValue. */
@@ -834,6 +840,12 @@ export namespace SyncAction {
 
         /** SyncActionValue groupHistoryToggleAction. */
         public groupHistoryToggleAction?: (SyncAction.SyncActionValue.IGroupHistoryToggleAction|null);
+
+        /** SyncActionValue bbProPendingCustomerBaseAction. */
+        public bbProPendingCustomerBaseAction?: (SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction|null);
+
+        /** SyncActionValue communityNestingStateAction. */
+        public communityNestingStateAction?: (SyncAction.SyncActionValue.ICommunityNestingStateAction|null);
 
         /**
          * Creates a new SyncActionValue instance using the specified properties.
@@ -1529,6 +1541,103 @@ export namespace SyncAction {
                 CREATED = 1,
                 DELETED = 2
             }
+        }
+
+        /** Properties of a BBProPendingCustomerBaseAction. */
+        interface IBBProPendingCustomerBaseAction {
+
+            /** BBProPendingCustomerBaseAction pending */
+            pending?: (boolean|null);
+        }
+
+        /** Represents a BBProPendingCustomerBaseAction. */
+        class BBProPendingCustomerBaseAction implements IBBProPendingCustomerBaseAction {
+
+            /**
+             * Constructs a new BBProPendingCustomerBaseAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction);
+
+            /** BBProPendingCustomerBaseAction pending. */
+            public pending?: (boolean|null);
+
+            /**
+             * Creates a new BBProPendingCustomerBaseAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BBProPendingCustomerBaseAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction): SyncAction.SyncActionValue.BBProPendingCustomerBaseAction;
+
+            /**
+             * Encodes the specified BBProPendingCustomerBaseAction message. Does not implicitly {@link SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.verify|verify} messages.
+             * @param message BBProPendingCustomerBaseAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BBProPendingCustomerBaseAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.verify|verify} messages.
+             * @param message BBProPendingCustomerBaseAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BBProPendingCustomerBaseAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BBProPendingCustomerBaseAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.BBProPendingCustomerBaseAction;
+
+            /**
+             * Decodes a BBProPendingCustomerBaseAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BBProPendingCustomerBaseAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.BBProPendingCustomerBaseAction;
+
+            /**
+             * Verifies a BBProPendingCustomerBaseAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BBProPendingCustomerBaseAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BBProPendingCustomerBaseAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.BBProPendingCustomerBaseAction;
+
+            /**
+             * Creates a plain object from a BBProPendingCustomerBaseAction message. Also converts values to other types if specified.
+             * @param message BBProPendingCustomerBaseAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.BBProPendingCustomerBaseAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BBProPendingCustomerBaseAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for BBProPendingCustomerBaseAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
         /** Properties of a BizAISettingsNudgeAction. */
@@ -3058,6 +3167,113 @@ export namespace SyncAction {
             public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
+        /** Properties of a CommunityNestingStateAction. */
+        interface ICommunityNestingStateAction {
+
+            /** CommunityNestingStateAction nestingState */
+            nestingState?: (SyncAction.SyncActionValue.CommunityNestingStateAction.NestingState|null);
+        }
+
+        /** Represents a CommunityNestingStateAction. */
+        class CommunityNestingStateAction implements ICommunityNestingStateAction {
+
+            /**
+             * Constructs a new CommunityNestingStateAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.ICommunityNestingStateAction);
+
+            /** CommunityNestingStateAction nestingState. */
+            public nestingState?: (SyncAction.SyncActionValue.CommunityNestingStateAction.NestingState|null);
+
+            /**
+             * Creates a new CommunityNestingStateAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns CommunityNestingStateAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.ICommunityNestingStateAction): SyncAction.SyncActionValue.CommunityNestingStateAction;
+
+            /**
+             * Encodes the specified CommunityNestingStateAction message. Does not implicitly {@link SyncAction.SyncActionValue.CommunityNestingStateAction.verify|verify} messages.
+             * @param message CommunityNestingStateAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.ICommunityNestingStateAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified CommunityNestingStateAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.CommunityNestingStateAction.verify|verify} messages.
+             * @param message CommunityNestingStateAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.ICommunityNestingStateAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a CommunityNestingStateAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns CommunityNestingStateAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.CommunityNestingStateAction;
+
+            /**
+             * Decodes a CommunityNestingStateAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns CommunityNestingStateAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.CommunityNestingStateAction;
+
+            /**
+             * Verifies a CommunityNestingStateAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a CommunityNestingStateAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns CommunityNestingStateAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.CommunityNestingStateAction;
+
+            /**
+             * Creates a plain object from a CommunityNestingStateAction message. Also converts values to other types if specified.
+             * @param message CommunityNestingStateAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.CommunityNestingStateAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this CommunityNestingStateAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for CommunityNestingStateAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace CommunityNestingStateAction {
+
+            /** NestingState enum. */
+            enum NestingState {
+                NESTING_STATE_UNKNOWN = 0,
+                NESTING_STATE_NESTED = 1,
+                NESTING_STATE_UNNESTED = 2
+            }
+        }
+
         /** Properties of a ContactAction. */
         interface IContactAction {
 
@@ -3078,6 +3294,9 @@ export namespace SyncAction {
 
             /** ContactAction username */
             username?: (string|null);
+
+            /** ContactAction birthday */
+            birthday?: (string|null);
         }
 
         /** Represents a ContactAction. */
@@ -3106,6 +3325,9 @@ export namespace SyncAction {
 
             /** ContactAction username. */
             public username?: (string|null);
+
+            /** ContactAction birthday. */
+            public birthday?: (string|null);
 
             /**
              * Creates a new ContactAction instance using the specified properties.
@@ -5228,7 +5450,8 @@ export namespace SyncAction {
                 LEAD = 16,
                 MENTIONS_AND_REPLIES = 17,
                 REQUESTS = 18,
-                BUSINESS = 19
+                BUSINESS = 19,
+                ONE_ON_ONE = 20
             }
         }
 
@@ -5437,6 +5660,9 @@ export namespace SyncAction {
 
             /** LidContactAction username */
             username?: (string|null);
+
+            /** LidContactAction birthday */
+            birthday?: (string|null);
         }
 
         /** Represents a LidContactAction. */
@@ -5456,6 +5682,9 @@ export namespace SyncAction {
 
             /** LidContactAction username. */
             public username?: (string|null);
+
+            /** LidContactAction birthday. */
+            public birthday?: (string|null);
 
             /**
              * Creates a new LidContactAction instance using the specified properties.
@@ -11563,6 +11792,103 @@ export namespace SyncAction {
             VOICE_CHAT = 2
         }
 
+        /** Properties of a GuestInfo. */
+        interface IGuestInfo {
+
+            /** GuestInfo pushName */
+            pushName?: (string|null);
+        }
+
+        /** Represents a GuestInfo. */
+        class GuestInfo implements IGuestInfo {
+
+            /**
+             * Constructs a new GuestInfo.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.CallLogRecord.IGuestInfo);
+
+            /** GuestInfo pushName. */
+            public pushName?: (string|null);
+
+            /**
+             * Creates a new GuestInfo instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns GuestInfo instance
+             */
+            public static create(properties?: SyncAction.CallLogRecord.IGuestInfo): SyncAction.CallLogRecord.GuestInfo;
+
+            /**
+             * Encodes the specified GuestInfo message. Does not implicitly {@link SyncAction.CallLogRecord.GuestInfo.verify|verify} messages.
+             * @param message GuestInfo message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.CallLogRecord.IGuestInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified GuestInfo message, length delimited. Does not implicitly {@link SyncAction.CallLogRecord.GuestInfo.verify|verify} messages.
+             * @param message GuestInfo message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.CallLogRecord.IGuestInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a GuestInfo message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns GuestInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.CallLogRecord.GuestInfo;
+
+            /**
+             * Decodes a GuestInfo message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns GuestInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.CallLogRecord.GuestInfo;
+
+            /**
+             * Verifies a GuestInfo message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a GuestInfo message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns GuestInfo
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.CallLogRecord.GuestInfo;
+
+            /**
+             * Creates a plain object from a GuestInfo message. Also converts values to other types if specified.
+             * @param message GuestInfo
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.CallLogRecord.GuestInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this GuestInfo to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for GuestInfo
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Properties of a ParticipantInfo. */
         interface IParticipantInfo {
 
@@ -11571,6 +11897,9 @@ export namespace SyncAction {
 
             /** ParticipantInfo callResult */
             callResult?: (SyncAction.CallLogRecord.CallResult|null);
+
+            /** ParticipantInfo guestInfo */
+            guestInfo?: (SyncAction.CallLogRecord.IGuestInfo|null);
         }
 
         /** Represents a ParticipantInfo. */
@@ -11587,6 +11916,9 @@ export namespace SyncAction {
 
             /** ParticipantInfo callResult. */
             public callResult?: (SyncAction.CallLogRecord.CallResult|null);
+
+            /** ParticipantInfo guestInfo. */
+            public guestInfo?: (SyncAction.CallLogRecord.IGuestInfo|null);
 
             /**
              * Creates a new ParticipantInfo instance using the specified properties.
@@ -11871,6 +12203,8 @@ export namespace SyncAction {
         CONTACT_MANAGER_METADATA_ACTION = 95,
         BUSINESS_FOLDER_ACTIVATION_ACTION = 96,
         GROUP_HISTORY_TOGGLE_ACTION = 97,
+        BB_PRO_PENDING_CUSTOMER_BASE_ACTION = 98,
+        COMMUNITY_NESTING_STATE_ACTION = 99,
         SHARE_OWN_PN = 10001,
         BUSINESS_BROADCAST_ACTION = 10002,
         AI_THREAD_DELETE_ACTION = 10003
@@ -12733,6 +13067,12 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities contactRefresh */
         contactRefresh?: (DeviceCapabilities.DeviceCapabilities.IContactRefresh|null);
+
+        /** DeviceCapabilities reverseHistorySync */
+        reverseHistorySync?: (DeviceCapabilities.DeviceCapabilities.IReverseHistorySync|null);
+
+        /** DeviceCapabilities newsletterChatsMigration */
+        newsletterChatsMigration?: (DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null);
     }
 
     /** Represents a DeviceCapabilities. */
@@ -12770,6 +13110,12 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities contactRefresh. */
         public contactRefresh?: (DeviceCapabilities.DeviceCapabilities.IContactRefresh|null);
+
+        /** DeviceCapabilities reverseHistorySync. */
+        public reverseHistorySync?: (DeviceCapabilities.DeviceCapabilities.IReverseHistorySync|null);
+
+        /** DeviceCapabilities newsletterChatsMigration. */
+        public newsletterChatsMigration?: (DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null);
 
         /**
          * Creates a new DeviceCapabilities instance using the specified properties.
@@ -13491,6 +13837,221 @@ export namespace DeviceCapabilities {
             DISABLED = 0,
             RECEIVER_ENABLED = 1,
             SENDER_ENABLED = 2
+        }
+
+        /** Properties of a NewsletterChatsMigration. */
+        interface INewsletterChatsMigration {
+
+            /** NewsletterChatsMigration effectiveMigrated */
+            effectiveMigrated?: (boolean|null);
+
+            /** NewsletterChatsMigration countdownEndsAt */
+            countdownEndsAt?: (number|Long|null);
+
+            /** NewsletterChatsMigration rolledBack */
+            rolledBack?: (boolean|null);
+        }
+
+        /** Represents a NewsletterChatsMigration. */
+        class NewsletterChatsMigration implements INewsletterChatsMigration {
+
+            /**
+             * Constructs a new NewsletterChatsMigration.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration);
+
+            /** NewsletterChatsMigration effectiveMigrated. */
+            public effectiveMigrated?: (boolean|null);
+
+            /** NewsletterChatsMigration countdownEndsAt. */
+            public countdownEndsAt?: (number|Long|null);
+
+            /** NewsletterChatsMigration rolledBack. */
+            public rolledBack?: (boolean|null);
+
+            /**
+             * Creates a new NewsletterChatsMigration instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns NewsletterChatsMigration instance
+             */
+            public static create(properties?: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Encodes the specified NewsletterChatsMigration message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.verify|verify} messages.
+             * @param message NewsletterChatsMigration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified NewsletterChatsMigration message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.verify|verify} messages.
+             * @param message NewsletterChatsMigration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a NewsletterChatsMigration message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns NewsletterChatsMigration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Decodes a NewsletterChatsMigration message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns NewsletterChatsMigration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Verifies a NewsletterChatsMigration message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a NewsletterChatsMigration message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns NewsletterChatsMigration
+             */
+            public static fromObject(object: { [k: string]: any }): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Creates a plain object from a NewsletterChatsMigration message. Also converts values to other types if specified.
+             * @param message NewsletterChatsMigration
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this NewsletterChatsMigration to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for NewsletterChatsMigration
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a ReverseHistorySync. */
+        interface IReverseHistorySync {
+
+            /** ReverseHistorySync enabledProducts */
+            enabledProducts?: (DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product[]|null);
+        }
+
+        /** Represents a ReverseHistorySync. */
+        class ReverseHistorySync implements IReverseHistorySync {
+
+            /**
+             * Constructs a new ReverseHistorySync.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync);
+
+            /** ReverseHistorySync enabledProducts. */
+            public enabledProducts: DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product[];
+
+            /**
+             * Creates a new ReverseHistorySync instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ReverseHistorySync instance
+             */
+            public static create(properties?: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Encodes the specified ReverseHistorySync message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.verify|verify} messages.
+             * @param message ReverseHistorySync message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ReverseHistorySync message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.verify|verify} messages.
+             * @param message ReverseHistorySync message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ReverseHistorySync message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ReverseHistorySync
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Decodes a ReverseHistorySync message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ReverseHistorySync
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Verifies a ReverseHistorySync message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ReverseHistorySync message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ReverseHistorySync
+             */
+            public static fromObject(object: { [k: string]: any }): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Creates a plain object from a ReverseHistorySync message. Also converts values to other types if specified.
+             * @param message ReverseHistorySync
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: DeviceCapabilities.DeviceCapabilities.ReverseHistorySync, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ReverseHistorySync to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for ReverseHistorySync
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace ReverseHistorySync {
+
+            /** Product enum. */
+            enum Product {
+                PRODUCT_UNSPECIFIED = 0,
+                HATCH = 1
+            }
         }
 
         /** Properties of a UserHasAvatar. */

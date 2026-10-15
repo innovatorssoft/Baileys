@@ -200,6 +200,7 @@ message Conversation {
     optional string authAgentObaPhoneNumber = 62;
     optional IdentityVerificationState identityVerification = 63;
     optional Protocol.ACP2Setting acp2Setting = 64;
+    optional bool acp2HistoryWithheld = 65;
     enum EndOfHistoryTransferType {
         COMPLETE_BUT_MORE_MESSAGES_REMAIN_ON_PRIMARY = 0;
         COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY = 1;
@@ -212,6 +213,11 @@ message Conversation {
         APPEAL_APPROVED = 2;
         APPEAL_REJECTED = 3;
     }
+}
+
+message RecoverableHistoryConversation {
+    optional string historyChatId = 1;
+    optional string accountLid = 2;
 }
 
 message HistorySync {
@@ -235,6 +241,9 @@ message HistorySync {
     optional bytes nctSalt = 19;
     repeated InlineContact inlineContacts = 20;
     optional bool inlineContactsProvided = 21;
+    repeated StickerMetadata favoriteStickers = 22;
+    repeated RecoverableHistoryConversation omittedConversations = 23;
+    optional bool omittedConversationsProvided = 24;
     enum BotAIWaitListState {
         IN_WAITLIST = 0;
         AI_AVAILABLE = 1;

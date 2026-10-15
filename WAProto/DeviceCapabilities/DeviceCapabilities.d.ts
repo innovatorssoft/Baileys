@@ -32,6 +32,12 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities contactRefresh */
         contactRefresh?: (DeviceCapabilities.DeviceCapabilities.IContactRefresh|null);
+
+        /** DeviceCapabilities reverseHistorySync */
+        reverseHistorySync?: (DeviceCapabilities.DeviceCapabilities.IReverseHistorySync|null);
+
+        /** DeviceCapabilities newsletterChatsMigration */
+        newsletterChatsMigration?: (DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null);
     }
 
     /** Represents a DeviceCapabilities. */
@@ -69,6 +75,12 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities contactRefresh. */
         public contactRefresh?: (DeviceCapabilities.DeviceCapabilities.IContactRefresh|null);
+
+        /** DeviceCapabilities reverseHistorySync. */
+        public reverseHistorySync?: (DeviceCapabilities.DeviceCapabilities.IReverseHistorySync|null);
+
+        /** DeviceCapabilities newsletterChatsMigration. */
+        public newsletterChatsMigration?: (DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null);
 
         /**
          * Creates a new DeviceCapabilities instance using the specified properties.
@@ -790,6 +802,221 @@ export namespace DeviceCapabilities {
             DISABLED = 0,
             RECEIVER_ENABLED = 1,
             SENDER_ENABLED = 2
+        }
+
+        /** Properties of a NewsletterChatsMigration. */
+        interface INewsletterChatsMigration {
+
+            /** NewsletterChatsMigration effectiveMigrated */
+            effectiveMigrated?: (boolean|null);
+
+            /** NewsletterChatsMigration countdownEndsAt */
+            countdownEndsAt?: (number|Long|null);
+
+            /** NewsletterChatsMigration rolledBack */
+            rolledBack?: (boolean|null);
+        }
+
+        /** Represents a NewsletterChatsMigration. */
+        class NewsletterChatsMigration implements INewsletterChatsMigration {
+
+            /**
+             * Constructs a new NewsletterChatsMigration.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration);
+
+            /** NewsletterChatsMigration effectiveMigrated. */
+            public effectiveMigrated?: (boolean|null);
+
+            /** NewsletterChatsMigration countdownEndsAt. */
+            public countdownEndsAt?: (number|Long|null);
+
+            /** NewsletterChatsMigration rolledBack. */
+            public rolledBack?: (boolean|null);
+
+            /**
+             * Creates a new NewsletterChatsMigration instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns NewsletterChatsMigration instance
+             */
+            public static create(properties?: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Encodes the specified NewsletterChatsMigration message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.verify|verify} messages.
+             * @param message NewsletterChatsMigration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified NewsletterChatsMigration message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.verify|verify} messages.
+             * @param message NewsletterChatsMigration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a NewsletterChatsMigration message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns NewsletterChatsMigration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Decodes a NewsletterChatsMigration message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns NewsletterChatsMigration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Verifies a NewsletterChatsMigration message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a NewsletterChatsMigration message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns NewsletterChatsMigration
+             */
+            public static fromObject(object: { [k: string]: any }): DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration;
+
+            /**
+             * Creates a plain object from a NewsletterChatsMigration message. Also converts values to other types if specified.
+             * @param message NewsletterChatsMigration
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this NewsletterChatsMigration to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for NewsletterChatsMigration
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a ReverseHistorySync. */
+        interface IReverseHistorySync {
+
+            /** ReverseHistorySync enabledProducts */
+            enabledProducts?: (DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product[]|null);
+        }
+
+        /** Represents a ReverseHistorySync. */
+        class ReverseHistorySync implements IReverseHistorySync {
+
+            /**
+             * Constructs a new ReverseHistorySync.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync);
+
+            /** ReverseHistorySync enabledProducts. */
+            public enabledProducts: DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product[];
+
+            /**
+             * Creates a new ReverseHistorySync instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ReverseHistorySync instance
+             */
+            public static create(properties?: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Encodes the specified ReverseHistorySync message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.verify|verify} messages.
+             * @param message ReverseHistorySync message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ReverseHistorySync message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.verify|verify} messages.
+             * @param message ReverseHistorySync message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: DeviceCapabilities.DeviceCapabilities.IReverseHistorySync, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ReverseHistorySync message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ReverseHistorySync
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Decodes a ReverseHistorySync message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ReverseHistorySync
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Verifies a ReverseHistorySync message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ReverseHistorySync message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ReverseHistorySync
+             */
+            public static fromObject(object: { [k: string]: any }): DeviceCapabilities.DeviceCapabilities.ReverseHistorySync;
+
+            /**
+             * Creates a plain object from a ReverseHistorySync message. Also converts values to other types if specified.
+             * @param message ReverseHistorySync
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: DeviceCapabilities.DeviceCapabilities.ReverseHistorySync, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ReverseHistorySync to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for ReverseHistorySync
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace ReverseHistorySync {
+
+            /** Product enum. */
+            enum Product {
+                PRODUCT_UNSPECIFIED = 0,
+                HATCH = 1
+            }
         }
 
         /** Properties of a UserHasAvatar. */
