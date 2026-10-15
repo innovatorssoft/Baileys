@@ -129,6 +129,8 @@ message SyncActionValue {
     optional ContactManagerMetadataAction contactManagerMetadataAction = 95;
     optional BusinessFolderActivationAction businessFolderActivationAction = 96;
     optional GroupHistoryToggleAction groupHistoryToggleAction = 97;
+    optional BBProPendingCustomerBaseAction bbProPendingCustomerBaseAction = 98;
+    optional CommunityNestingStateAction communityNestingStateAction = 99;
     message AgentAction {
         optional string name = 1;
         optional int32 deviceId = 2;
@@ -155,6 +157,9 @@ message SyncActionValue {
             CREATED = 1;
             DELETED = 2;
         }
+    }
+    message BBProPendingCustomerBaseAction {
+        optional bool pending = 1;
     }
     message BizAISettingsNudgeAction {
         optional BizAISettingsCategory category = 1;
@@ -248,6 +253,14 @@ message SyncActionValue {
     message CoexV2VersionAction {
         optional uint64 version = 1;
     }
+    message CommunityNestingStateAction {
+        optional NestingState nestingState = 1;
+        enum NestingState {
+            NESTING_STATE_UNKNOWN = 0;
+            NESTING_STATE_NESTED = 1;
+            NESTING_STATE_UNNESTED = 2;
+        }
+    }
     message ContactAction {
         optional string fullName = 1;
         optional string firstName = 2;
@@ -255,6 +268,7 @@ message SyncActionValue {
         optional bool saveOnPrimaryAddressbook = 4;
         optional string pnJid = 5;
         optional string username = 6;
+        optional string birthday = 7;
     }
     message ContactManagerMetadataAction {
         optional bool isHidden = 1;
@@ -367,6 +381,7 @@ message SyncActionValue {
             MENTIONS_AND_REPLIES = 17;
             REQUESTS = 18;
             BUSINESS = 19;
+            ONE_ON_ONE = 20;
         }
     }
     message LabelReorderingAction {
@@ -379,6 +394,7 @@ message SyncActionValue {
         optional string fullName = 1;
         optional string firstName = 2;
         optional string username = 3;
+        optional string birthday = 4;
     }
     message LocaleSetting {
         optional string locale = 1;
@@ -781,9 +797,13 @@ message CallLogRecord {
         SCHEDULED_CALL = 1;
         VOICE_CHAT = 2;
     }
+    message GuestInfo {
+        optional string pushName = 1;
+    }
     message ParticipantInfo {
         optional string userJid = 1;
         optional CallLogRecord.CallResult callResult = 2;
+        optional CallLogRecord.GuestInfo guestInfo = 3;
     }
     enum SilenceReason {
         NONE = 0;
@@ -890,6 +910,8 @@ enum MutationProps {
     CONTACT_MANAGER_METADATA_ACTION = 95;
     BUSINESS_FOLDER_ACTIVATION_ACTION = 96;
     GROUP_HISTORY_TOGGLE_ACTION = 97;
+    BB_PRO_PENDING_CUSTOMER_BASE_ACTION = 98;
+    COMMUNITY_NESTING_STATE_ACTION = 99;
     SHARE_OWN_PN = 10001;
     BUSINESS_BROADCAST_ACTION = 10002;
     AI_THREAD_DELETE_ACTION = 10003;

@@ -9560,6 +9560,7 @@ $root.AICommon = (function() {
                 case 56:
                 case 57:
                 case 58:
+                case 59:
                     break;
                 }
             }
@@ -9789,6 +9790,10 @@ $root.AICommon = (function() {
             case "NEW_3P_AGENT_CREATION":
             case 58:
                 message.botEntryPointOrigin = 58;
+                break;
+            case "SHARE":
+            case 59:
+                message.botEntryPointOrigin = 59;
                 break;
             }
             if (object.forwardScore != null)
@@ -18487,6 +18492,7 @@ $root.AICommon = (function() {
                     case 1:
                     case 2:
                     case 3:
+                    case 4:
                         break;
                     }
                 }
@@ -18532,6 +18538,10 @@ $root.AICommon = (function() {
                 case "SIDE_CHAT":
                 case 3:
                     message.type = 3;
+                    break;
+                case "PRIVATE_SEARCH_CHAT":
+                case 4:
+                    message.type = 4;
                     break;
                 }
                 if (object.sourceChatJid != null)
@@ -18599,6 +18609,7 @@ $root.AICommon = (function() {
              * @property {number} DEFAULT=1 DEFAULT value
              * @property {number} INCOGNITO=2 INCOGNITO value
              * @property {number} SIDE_CHAT=3 SIDE_CHAT value
+             * @property {number} PRIVATE_SEARCH_CHAT=4 PRIVATE_SEARCH_CHAT value
              */
             AIThreadClientInfo.AIThreadType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -18606,6 +18617,7 @@ $root.AICommon = (function() {
                 values[valuesById[1] = "DEFAULT"] = 1;
                 values[valuesById[2] = "INCOGNITO"] = 2;
                 values[valuesById[3] = "SIDE_CHAT"] = 3;
+                values[valuesById[4] = "PRIVATE_SEARCH_CHAT"] = 4;
                 return values;
             })();
 
@@ -24159,6 +24171,16 @@ $root.AICommon = (function() {
                     case 70:
                     case 71:
                     case 72:
+                    case 73:
+                    case 74:
+                    case 75:
+                    case 76:
+                    case 77:
+                    case 78:
+                    case 79:
+                    case 80:
+                    case 81:
+                    case 82:
                         break;
                     }
             }
@@ -24480,6 +24502,46 @@ $root.AICommon = (function() {
                     case 72:
                         message.capabilities[i] = 72;
                         break;
+                    case "AI_SUGGESTED_REPLIES_ENABLED":
+                    case 73:
+                        message.capabilities[i] = 73;
+                        break;
+                    case "RICH_RESPONSE_IN_APP_SURVEY_BLOKS":
+                    case 74:
+                        message.capabilities[i] = 74;
+                        break;
+                    case "RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION":
+                    case 75:
+                        message.capabilities[i] = 75;
+                        break;
+                    case "HATCH_CONNECTOR_ACTION_CARD_ENABLED":
+                    case 76:
+                        message.capabilities[i] = 76;
+                        break;
+                    case "HATCH_SECURE_CREDENTIAL_CARD_ENABLED":
+                    case 77:
+                        message.capabilities[i] = 77;
+                        break;
+                    case "HATCH_BROWSER_TASK_CARD_ENABLED":
+                    case 78:
+                        message.capabilities[i] = 78;
+                        break;
+                    case "HATCH_ARTIFACT_CARD_ENABLED":
+                    case 79:
+                        message.capabilities[i] = 79;
+                        break;
+                    case "AI_STUDY_CENTER_ENABLED":
+                    case 80:
+                        message.capabilities[i] = 80;
+                        break;
+                    case "AI_MUSE_JARVIS_SCHEMA_ENABLED":
+                    case 81:
+                        message.capabilities[i] = 81;
+                        break;
+                    case "AI_STUDY_QUIZ_ENABLED":
+                    case 82:
+                        message.capabilities[i] = 82;
+                        break;
                     }
             }
             return message;
@@ -24611,6 +24673,16 @@ $root.AICommon = (function() {
          * @property {number} AI_STOP_GENERATION_ENABLED=70 AI_STOP_GENERATION_ENABLED value
          * @property {number} AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED=71 AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED value
          * @property {number} HATCH_NOTIFICATION_METADATA_EVENT_ENABLED=72 HATCH_NOTIFICATION_METADATA_EVENT_ENABLED value
+         * @property {number} AI_SUGGESTED_REPLIES_ENABLED=73 AI_SUGGESTED_REPLIES_ENABLED value
+         * @property {number} RICH_RESPONSE_IN_APP_SURVEY_BLOKS=74 RICH_RESPONSE_IN_APP_SURVEY_BLOKS value
+         * @property {number} RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION=75 RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION value
+         * @property {number} HATCH_CONNECTOR_ACTION_CARD_ENABLED=76 HATCH_CONNECTOR_ACTION_CARD_ENABLED value
+         * @property {number} HATCH_SECURE_CREDENTIAL_CARD_ENABLED=77 HATCH_SECURE_CREDENTIAL_CARD_ENABLED value
+         * @property {number} HATCH_BROWSER_TASK_CARD_ENABLED=78 HATCH_BROWSER_TASK_CARD_ENABLED value
+         * @property {number} HATCH_ARTIFACT_CARD_ENABLED=79 HATCH_ARTIFACT_CARD_ENABLED value
+         * @property {number} AI_STUDY_CENTER_ENABLED=80 AI_STUDY_CENTER_ENABLED value
+         * @property {number} AI_MUSE_JARVIS_SCHEMA_ENABLED=81 AI_MUSE_JARVIS_SCHEMA_ENABLED value
+         * @property {number} AI_STUDY_QUIZ_ENABLED=82 AI_STUDY_QUIZ_ENABLED value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -24687,6 +24759,16 @@ $root.AICommon = (function() {
             values[valuesById[70] = "AI_STOP_GENERATION_ENABLED"] = 70;
             values[valuesById[71] = "AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED"] = 71;
             values[valuesById[72] = "HATCH_NOTIFICATION_METADATA_EVENT_ENABLED"] = 72;
+            values[valuesById[73] = "AI_SUGGESTED_REPLIES_ENABLED"] = 73;
+            values[valuesById[74] = "RICH_RESPONSE_IN_APP_SURVEY_BLOKS"] = 74;
+            values[valuesById[75] = "RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION"] = 75;
+            values[valuesById[76] = "HATCH_CONNECTOR_ACTION_CARD_ENABLED"] = 76;
+            values[valuesById[77] = "HATCH_SECURE_CREDENTIAL_CARD_ENABLED"] = 77;
+            values[valuesById[78] = "HATCH_BROWSER_TASK_CARD_ENABLED"] = 78;
+            values[valuesById[79] = "HATCH_ARTIFACT_CARD_ENABLED"] = 79;
+            values[valuesById[80] = "AI_STUDY_CENTER_ENABLED"] = 80;
+            values[valuesById[81] = "AI_MUSE_JARVIS_SCHEMA_ENABLED"] = 81;
+            values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
             return values;
         })();
 
@@ -28545,6 +28627,7 @@ $root.AICommon = (function() {
                 case 56:
                 case 57:
                 case 58:
+                case 59:
                     break;
                 }
             }
@@ -28784,6 +28867,10 @@ $root.AICommon = (function() {
             case "NEW_3P_AGENT_CREATION":
             case 58:
                 message.destinationEntryPoint = 58;
+                break;
+            case "SHARE":
+            case 59:
+                message.destinationEntryPoint = 59;
                 break;
             }
             switch (object.threadOrigin) {
@@ -33370,6 +33457,7 @@ $root.AICommon = (function() {
      * @property {number} NEW_CHAT_LIST=56 NEW_CHAT_LIST value
      * @property {number} CONTACTS_TAB=57 CONTACTS_TAB value
      * @property {number} NEW_3P_AGENT_CREATION=58 NEW_3P_AGENT_CREATION value
+     * @property {number} SHARE=59 SHARE value
      */
     AICommon.BotMetricsEntryPoint = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -33423,6 +33511,7 @@ $root.AICommon = (function() {
         values[valuesById[56] = "NEW_CHAT_LIST"] = 56;
         values[valuesById[57] = "CONTACTS_TAB"] = 57;
         values[valuesById[58] = "NEW_3P_AGENT_CREATION"] = 58;
+        values[valuesById[59] = "SHARE"] = 59;
         return values;
     })();
 

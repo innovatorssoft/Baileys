@@ -59,6 +59,7 @@ message MessageAddOn {
         EVENT_RESPONSE = 2;
         POLL_UPDATE = 3;
         PIN_IN_CHAT = 4;
+        REQUEST_LOCATION_UPDATE = 5;
     }
 }
 
@@ -105,6 +106,10 @@ message KeepInChat {
     optional int64 serverTimestampMs = 6;
 }
 
+message EventInviteAdditionalMetadata {
+    optional bool isUpdated = 1;
+}
+
 message EventAdditionalMetadata {
     optional bool isStale = 1;
 }
@@ -116,6 +121,7 @@ message InteractiveMessageAdditionalMetadata {
 message PollAdditionalMetadata {
     optional bool pollInvalidated = 1;
     repeated PollNameHashHistoryEntry pollNameHashHistory = 2;
+    repeated E2E.Message.PollCreationMessage.Option originalOptions = 3;
     message PollNameHashHistoryEntry {
         optional string editStanzaId = 1;
         optional bytes pollNameHash = 2;
@@ -382,6 +388,7 @@ message WebMessageInfo {
     optional ScheduledMessageMetadata scheduledMessageMetadata = 81;
     optional string decisionId = 82;
     repeated string decisionSources = 83;
+    optional EventInviteAdditionalMetadata eventInviteAdditionalMetadata = 84;
     enum BizPrivacyStatus {
         E2EE = 0;
         FB = 2;
@@ -633,8 +640,34 @@ message WebMessageInfo {
         EPHEMERAL_CHANGED_FOR_COEX = 248;
         UGC_BOT_PROFILE_UPDATED = 249;
         ORDER_EPHEMERAL_EXEMPTION = 250;
+        GROUP_DEFAULT_SUB_GROUP_DEMOTE = 251;
+        BIZ_BUSINESS_BROADCAST_ENTRY_POINT = 252;
+        BOT_INLINE_TOS_CHAT = 253;
         CAMEO_CHAT_CREATED = 254;
-        CAMEO_TRANSITIONED = 256;
         SENDER_SIDE_CONTACT_INFO = 255;
+        CAMEO_TRANSITIONED = 256;
+        CAMEO_REGISTERED_WITH_NEW_CHAT = 257;
+        PRIVACY_SYSTEM_MESSAGE = 258;
+        BIZ_AI_LEARNING_ENABLED_DISCLOSURE = 259;
+        BIZ_AI_LEARNING_DISABLED_DISCLOSURE = 260;
+        BIZ_AI_REPLIES_MUTED_HISTORICAL_CHAT = 261;
+        INVITE_FROM_IG = 262;
+        GROUP_ADMIN_FIRST_JOIN_VIA_LINK = 263;
+        GROUP_ADMIN_FLOOD_JOIN_VIA_LINK = 264;
+        BIZ_AI_REPLIES_MUTED_IRRELEVANT_HISTORICAL_CHAT = 265;
+        PENDING_INVITE_CREATED = 266;
+        CAMEO_CHAT_EXPIRED = 267;
+        GROUP_PUSHNAME_SHARED = 270;
+        BIZ_POST_SEND_OPT_OUT = 271;
+        BB_PRO_BROADCAST_CHAT_CARD = 272;
+        BOT_PROACTIVE_MESSAGE_ENABLED = 273;
+        BOT_PROACTIVE_MESSAGE_DISABLED = 274;
+        BOT_PROACTIVE_MESSAGE_FIRST_TIME = 275;
+        DYNAMIC_AUDIENCE_LIST_CREATE = 276;
+        DYNAMIC_AUDIENCE_LIST_UPDATE_LINK = 277;
+        CHAT_WITH_BUSINESS_IN_DIRECTORY = 283;
+        META_AI_THREAD_CREATED = 284;
+        META_AI_CONNECTOR_LINKED = 285;
+        SPLIT_PAYMENT_MARKED_AS_PAID = 289;
     }
 }

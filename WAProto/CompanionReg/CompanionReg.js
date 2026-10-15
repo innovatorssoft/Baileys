@@ -1915,6 +1915,9 @@ $root.CompanionReg = (function() {
                 case 25:
                 case 26:
                 case 27:
+                case 28:
+                case 29:
+                case 30:
                     break;
                 }
             }
@@ -2061,6 +2064,18 @@ $root.CompanionReg = (function() {
             case "BUSINESS_BACK_OFFICE":
             case 27:
                 message.deviceType = 27;
+                break;
+            case "WAIL_WAI":
+            case 28:
+                message.deviceType = 28;
+                break;
+            case "WAIL_ALEXA":
+            case 29:
+                message.deviceType = 29;
+                break;
+            case "AUTOMOTIVE":
+            case 30:
+                message.deviceType = 30;
                 break;
             }
             if (object.ref != null)
@@ -2401,6 +2416,9 @@ $root.CompanionReg = (function() {
                 case 25:
                 case 26:
                 case 27:
+                case 28:
+                case 29:
+                case 30:
                     break;
                 }
             }
@@ -2557,6 +2575,18 @@ $root.CompanionReg = (function() {
             case "BUSINESS_BACK_OFFICE":
             case 27:
                 message.platformType = 27;
+                break;
+            case "WAIL_WAI":
+            case 28:
+                message.platformType = 28;
+                break;
+            case "WAIL_ALEXA":
+            case 29:
+                message.platformType = 29;
+                break;
+            case "AUTOMOTIVE":
+            case 30:
+                message.platformType = 30;
                 break;
             }
             if (object.requireFullSync != null)
@@ -3017,6 +3047,8 @@ $root.CompanionReg = (function() {
              * @property {Array.<string>|null} [supportedBotChannelFbids] HistorySyncConfig supportedBotChannelFbids
              * @property {boolean|null} [supportInlineContacts] HistorySyncConfig supportInlineContacts
              * @property {boolean|null} [supportNewsletter] HistorySyncConfig supportNewsletter
+             * @property {boolean|null} [supportUniversalReachChat] HistorySyncConfig supportUniversalReachChat
+             * @property {boolean|null} [supportOmittedConversationIndex] HistorySyncConfig supportOmittedConversationIndex
              */
 
             /**
@@ -3235,6 +3267,22 @@ $root.CompanionReg = (function() {
              */
             HistorySyncConfig.prototype.supportNewsletter = null;
 
+            /**
+             * HistorySyncConfig supportUniversalReachChat.
+             * @member {boolean|null|undefined} supportUniversalReachChat
+             * @memberof CompanionReg.DeviceProps.HistorySyncConfig
+             * @instance
+             */
+            HistorySyncConfig.prototype.supportUniversalReachChat = null;
+
+            /**
+             * HistorySyncConfig supportOmittedConversationIndex.
+             * @member {boolean|null|undefined} supportOmittedConversationIndex
+             * @memberof CompanionReg.DeviceProps.HistorySyncConfig
+             * @instance
+             */
+            HistorySyncConfig.prototype.supportOmittedConversationIndex = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -3382,6 +3430,18 @@ $root.CompanionReg = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(HistorySyncConfig.prototype, "_supportUniversalReachChat", {
+                get: $util.oneOfGetter($oneOfFields = ["supportUniversalReachChat"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(HistorySyncConfig.prototype, "_supportOmittedConversationIndex", {
+                get: $util.oneOfGetter($oneOfFields = ["supportOmittedConversationIndex"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new HistorySyncConfig instance using the specified properties.
              * @function create
@@ -3457,6 +3517,10 @@ $root.CompanionReg = (function() {
                     writer.uint32(/* id 24, wireType 0 =*/192).bool(message.supportInlineContacts);
                 if (message.supportNewsletter != null && Object.hasOwnProperty.call(message, "supportNewsletter"))
                     writer.uint32(/* id 25, wireType 0 =*/200).bool(message.supportNewsletter);
+                if (message.supportUniversalReachChat != null && Object.hasOwnProperty.call(message, "supportUniversalReachChat"))
+                    writer.uint32(/* id 26, wireType 0 =*/208).bool(message.supportUniversalReachChat);
+                if (message.supportOmittedConversationIndex != null && Object.hasOwnProperty.call(message, "supportOmittedConversationIndex"))
+                    writer.uint32(/* id 27, wireType 0 =*/216).bool(message.supportOmittedConversationIndex);
                 return writer;
             };
 
@@ -3593,6 +3657,14 @@ $root.CompanionReg = (function() {
                         }
                     case 25: {
                             message.supportNewsletter = reader.bool();
+                            break;
+                        }
+                    case 26: {
+                            message.supportUniversalReachChat = reader.bool();
+                            break;
+                        }
+                    case 27: {
+                            message.supportOmittedConversationIndex = reader.bool();
                             break;
                         }
                     default:
@@ -3758,6 +3830,16 @@ $root.CompanionReg = (function() {
                     if (typeof message.supportNewsletter !== "boolean")
                         return "supportNewsletter: boolean expected";
                 }
+                if (message.supportUniversalReachChat != null && message.hasOwnProperty("supportUniversalReachChat")) {
+                    properties._supportUniversalReachChat = 1;
+                    if (typeof message.supportUniversalReachChat !== "boolean")
+                        return "supportUniversalReachChat: boolean expected";
+                }
+                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
+                    properties._supportOmittedConversationIndex = 1;
+                    if (typeof message.supportOmittedConversationIndex !== "boolean")
+                        return "supportOmittedConversationIndex: boolean expected";
+                }
                 return null;
             };
 
@@ -3828,6 +3910,10 @@ $root.CompanionReg = (function() {
                     message.supportInlineContacts = Boolean(object.supportInlineContacts);
                 if (object.supportNewsletter != null)
                     message.supportNewsletter = Boolean(object.supportNewsletter);
+                if (object.supportUniversalReachChat != null)
+                    message.supportUniversalReachChat = Boolean(object.supportUniversalReachChat);
+                if (object.supportOmittedConversationIndex != null)
+                    message.supportOmittedConversationIndex = Boolean(object.supportOmittedConversationIndex);
                 return message;
             };
 
@@ -3971,6 +4057,16 @@ $root.CompanionReg = (function() {
                     if (options.oneofs)
                         object._supportNewsletter = "supportNewsletter";
                 }
+                if (message.supportUniversalReachChat != null && message.hasOwnProperty("supportUniversalReachChat")) {
+                    object.supportUniversalReachChat = message.supportUniversalReachChat;
+                    if (options.oneofs)
+                        object._supportUniversalReachChat = "supportUniversalReachChat";
+                }
+                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
+                    object.supportOmittedConversationIndex = message.supportOmittedConversationIndex;
+                    if (options.oneofs)
+                        object._supportOmittedConversationIndex = "supportOmittedConversationIndex";
+                }
                 return object;
             };
 
@@ -4035,6 +4131,9 @@ $root.CompanionReg = (function() {
          * @property {number} WAIL=25 WAIL value
          * @property {number} WASS=26 WASS value
          * @property {number} BUSINESS_BACK_OFFICE=27 BUSINESS_BACK_OFFICE value
+         * @property {number} WAIL_WAI=28 WAIL_WAI value
+         * @property {number} WAIL_ALEXA=29 WAIL_ALEXA value
+         * @property {number} AUTOMOTIVE=30 AUTOMOTIVE value
          */
         DeviceProps.PlatformType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -4066,6 +4165,9 @@ $root.CompanionReg = (function() {
             values[valuesById[25] = "WAIL"] = 25;
             values[valuesById[26] = "WASS"] = 26;
             values[valuesById[27] = "BUSINESS_BACK_OFFICE"] = 27;
+            values[valuesById[28] = "WAIL_WAI"] = 28;
+            values[valuesById[29] = "WAIL_ALEXA"] = 29;
+            values[valuesById[30] = "AUTOMOTIVE"] = 30;
             return values;
         })();
 

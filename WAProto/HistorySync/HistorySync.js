@@ -5559,6 +5559,7 @@ $root.HistorySync = (function() {
          * @property {string|null} [authAgentObaPhoneNumber] Conversation authAgentObaPhoneNumber
          * @property {HistorySync.IIdentityVerificationState|null} [identityVerification] Conversation identityVerification
          * @property {Protocol.IACP2Setting|null} [acp2Setting] Conversation acp2Setting
+         * @property {boolean|null} [acp2HistoryWithheld] Conversation acp2HistoryWithheld
          */
 
         /**
@@ -6090,6 +6091,14 @@ $root.HistorySync = (function() {
          */
         Conversation.prototype.acp2Setting = null;
 
+        /**
+         * Conversation acp2HistoryWithheld.
+         * @member {boolean|null|undefined} acp2HistoryWithheld
+         * @memberof HistorySync.Conversation
+         * @instance
+         */
+        Conversation.prototype.acp2HistoryWithheld = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -6465,6 +6474,12 @@ $root.HistorySync = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Conversation.prototype, "_acp2HistoryWithheld", {
+            get: $util.oneOfGetter($oneOfFields = ["acp2HistoryWithheld"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new Conversation instance using the specified properties.
          * @function create
@@ -6619,6 +6634,8 @@ $root.HistorySync = (function() {
                 $root.HistorySync.IdentityVerificationState.encode(message.identityVerification, writer.uint32(/* id 63, wireType 2 =*/506).fork()).ldelim();
             if (message.acp2Setting != null && Object.hasOwnProperty.call(message, "acp2Setting"))
                 $root.Protocol.ACP2Setting.encode(message.acp2Setting, writer.uint32(/* id 64, wireType 2 =*/514).fork()).ldelim();
+            if (message.acp2HistoryWithheld != null && Object.hasOwnProperty.call(message, "acp2HistoryWithheld"))
+                writer.uint32(/* id 65, wireType 0 =*/520).bool(message.acp2HistoryWithheld);
             return writer;
         };
 
@@ -6913,6 +6930,10 @@ $root.HistorySync = (function() {
                     }
                 case 64: {
                         message.acp2Setting = $root.Protocol.ACP2Setting.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 65: {
+                        message.acp2HistoryWithheld = reader.bool();
                         break;
                     }
                 default:
@@ -7324,6 +7345,11 @@ $root.HistorySync = (function() {
                         return "acp2Setting." + error;
                 }
             }
+            if (message.acp2HistoryWithheld != null && message.hasOwnProperty("acp2HistoryWithheld")) {
+                properties._acp2HistoryWithheld = 1;
+                if (typeof message.acp2HistoryWithheld !== "boolean")
+                    return "acp2HistoryWithheld: boolean expected";
+            }
             return null;
         };
 
@@ -7666,6 +7692,8 @@ $root.HistorySync = (function() {
                     throw TypeError(".HistorySync.Conversation.acp2Setting: object expected");
                 message.acp2Setting = $root.Protocol.ACP2Setting.fromObject(object.acp2Setting);
             }
+            if (object.acp2HistoryWithheld != null)
+                message.acp2HistoryWithheld = Boolean(object.acp2HistoryWithheld);
             return message;
         };
 
@@ -8033,6 +8061,11 @@ $root.HistorySync = (function() {
                 if (options.oneofs)
                     object._acp2Setting = "acp2Setting";
             }
+            if (message.acp2HistoryWithheld != null && message.hasOwnProperty("acp2HistoryWithheld")) {
+                object.acp2HistoryWithheld = message.acp2HistoryWithheld;
+                if (options.oneofs)
+                    object._acp2HistoryWithheld = "acp2HistoryWithheld";
+            }
             return object;
         };
 
@@ -8101,6 +8134,257 @@ $root.HistorySync = (function() {
         return Conversation;
     })();
 
+    HistorySync.RecoverableHistoryConversation = (function() {
+
+        /**
+         * Properties of a RecoverableHistoryConversation.
+         * @memberof HistorySync
+         * @interface IRecoverableHistoryConversation
+         * @property {string|null} [historyChatId] RecoverableHistoryConversation historyChatId
+         * @property {string|null} [accountLid] RecoverableHistoryConversation accountLid
+         */
+
+        /**
+         * Constructs a new RecoverableHistoryConversation.
+         * @memberof HistorySync
+         * @classdesc Represents a RecoverableHistoryConversation.
+         * @implements IRecoverableHistoryConversation
+         * @constructor
+         * @param {HistorySync.IRecoverableHistoryConversation=} [properties] Properties to set
+         */
+        function RecoverableHistoryConversation(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * RecoverableHistoryConversation historyChatId.
+         * @member {string|null|undefined} historyChatId
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @instance
+         */
+        RecoverableHistoryConversation.prototype.historyChatId = null;
+
+        /**
+         * RecoverableHistoryConversation accountLid.
+         * @member {string|null|undefined} accountLid
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @instance
+         */
+        RecoverableHistoryConversation.prototype.accountLid = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(RecoverableHistoryConversation.prototype, "_historyChatId", {
+            get: $util.oneOfGetter($oneOfFields = ["historyChatId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(RecoverableHistoryConversation.prototype, "_accountLid", {
+            get: $util.oneOfGetter($oneOfFields = ["accountLid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new RecoverableHistoryConversation instance using the specified properties.
+         * @function create
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {HistorySync.IRecoverableHistoryConversation=} [properties] Properties to set
+         * @returns {HistorySync.RecoverableHistoryConversation} RecoverableHistoryConversation instance
+         */
+        RecoverableHistoryConversation.create = function create(properties) {
+            return new RecoverableHistoryConversation(properties);
+        };
+
+        /**
+         * Encodes the specified RecoverableHistoryConversation message. Does not implicitly {@link HistorySync.RecoverableHistoryConversation.verify|verify} messages.
+         * @function encode
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {HistorySync.IRecoverableHistoryConversation} message RecoverableHistoryConversation message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RecoverableHistoryConversation.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.historyChatId != null && Object.hasOwnProperty.call(message, "historyChatId"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.historyChatId);
+            if (message.accountLid != null && Object.hasOwnProperty.call(message, "accountLid"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.accountLid);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified RecoverableHistoryConversation message, length delimited. Does not implicitly {@link HistorySync.RecoverableHistoryConversation.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {HistorySync.IRecoverableHistoryConversation} message RecoverableHistoryConversation message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RecoverableHistoryConversation.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a RecoverableHistoryConversation message from the specified reader or buffer.
+         * @function decode
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {HistorySync.RecoverableHistoryConversation} RecoverableHistoryConversation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RecoverableHistoryConversation.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.HistorySync.RecoverableHistoryConversation();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.historyChatId = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.accountLid = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a RecoverableHistoryConversation message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {HistorySync.RecoverableHistoryConversation} RecoverableHistoryConversation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RecoverableHistoryConversation.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a RecoverableHistoryConversation message.
+         * @function verify
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        RecoverableHistoryConversation.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.historyChatId != null && message.hasOwnProperty("historyChatId")) {
+                properties._historyChatId = 1;
+                if (!$util.isString(message.historyChatId))
+                    return "historyChatId: string expected";
+            }
+            if (message.accountLid != null && message.hasOwnProperty("accountLid")) {
+                properties._accountLid = 1;
+                if (!$util.isString(message.accountLid))
+                    return "accountLid: string expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a RecoverableHistoryConversation message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {HistorySync.RecoverableHistoryConversation} RecoverableHistoryConversation
+         */
+        RecoverableHistoryConversation.fromObject = function fromObject(object) {
+            if (object instanceof $root.HistorySync.RecoverableHistoryConversation)
+                return object;
+            var message = new $root.HistorySync.RecoverableHistoryConversation();
+            if (object.historyChatId != null)
+                message.historyChatId = String(object.historyChatId);
+            if (object.accountLid != null)
+                message.accountLid = String(object.accountLid);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a RecoverableHistoryConversation message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {HistorySync.RecoverableHistoryConversation} message RecoverableHistoryConversation
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        RecoverableHistoryConversation.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.historyChatId != null && message.hasOwnProperty("historyChatId")) {
+                object.historyChatId = message.historyChatId;
+                if (options.oneofs)
+                    object._historyChatId = "historyChatId";
+            }
+            if (message.accountLid != null && message.hasOwnProperty("accountLid")) {
+                object.accountLid = message.accountLid;
+                if (options.oneofs)
+                    object._accountLid = "accountLid";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this RecoverableHistoryConversation to JSON.
+         * @function toJSON
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        RecoverableHistoryConversation.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for RecoverableHistoryConversation
+         * @function getTypeUrl
+         * @memberof HistorySync.RecoverableHistoryConversation
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        RecoverableHistoryConversation.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/HistorySync.RecoverableHistoryConversation";
+        };
+
+        return RecoverableHistoryConversation;
+    })();
+
     HistorySync.HistorySync = (function() {
 
         /**
@@ -8127,6 +8411,9 @@ $root.HistorySync = (function() {
          * @property {Uint8Array|null} [nctSalt] HistorySync nctSalt
          * @property {Array.<HistorySync.IInlineContact>|null} [inlineContacts] HistorySync inlineContacts
          * @property {boolean|null} [inlineContactsProvided] HistorySync inlineContactsProvided
+         * @property {Array.<HistorySync.IStickerMetadata>|null} [favoriteStickers] HistorySync favoriteStickers
+         * @property {Array.<HistorySync.IRecoverableHistoryConversation>|null} [omittedConversations] HistorySync omittedConversations
+         * @property {boolean|null} [omittedConversationsProvided] HistorySync omittedConversationsProvided
          */
 
         /**
@@ -8147,6 +8434,8 @@ $root.HistorySync = (function() {
             this.phoneNumberToLidMappings = [];
             this.accounts = [];
             this.inlineContacts = [];
+            this.favoriteStickers = [];
+            this.omittedConversations = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -8313,6 +8602,30 @@ $root.HistorySync = (function() {
          */
         HistorySync.prototype.inlineContactsProvided = null;
 
+        /**
+         * HistorySync favoriteStickers.
+         * @member {Array.<HistorySync.IStickerMetadata>} favoriteStickers
+         * @memberof HistorySync.HistorySync
+         * @instance
+         */
+        HistorySync.prototype.favoriteStickers = $util.emptyArray;
+
+        /**
+         * HistorySync omittedConversations.
+         * @member {Array.<HistorySync.IRecoverableHistoryConversation>} omittedConversations
+         * @memberof HistorySync.HistorySync
+         * @instance
+         */
+        HistorySync.prototype.omittedConversations = $util.emptyArray;
+
+        /**
+         * HistorySync omittedConversationsProvided.
+         * @member {boolean|null|undefined} omittedConversationsProvided
+         * @memberof HistorySync.HistorySync
+         * @instance
+         */
+        HistorySync.prototype.omittedConversationsProvided = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -8379,6 +8692,12 @@ $root.HistorySync = (function() {
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(HistorySync.prototype, "_inlineContactsProvided", {
             get: $util.oneOfGetter($oneOfFields = ["inlineContactsProvided"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(HistorySync.prototype, "_omittedConversationsProvided", {
+            get: $util.oneOfGetter($oneOfFields = ["omittedConversationsProvided"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -8455,6 +8774,14 @@ $root.HistorySync = (function() {
                     $root.HistorySync.InlineContact.encode(message.inlineContacts[i], writer.uint32(/* id 20, wireType 2 =*/162).fork()).ldelim();
             if (message.inlineContactsProvided != null && Object.hasOwnProperty.call(message, "inlineContactsProvided"))
                 writer.uint32(/* id 21, wireType 0 =*/168).bool(message.inlineContactsProvided);
+            if (message.favoriteStickers != null && message.favoriteStickers.length)
+                for (var i = 0; i < message.favoriteStickers.length; ++i)
+                    $root.HistorySync.StickerMetadata.encode(message.favoriteStickers[i], writer.uint32(/* id 22, wireType 2 =*/178).fork()).ldelim();
+            if (message.omittedConversations != null && message.omittedConversations.length)
+                for (var i = 0; i < message.omittedConversations.length; ++i)
+                    $root.HistorySync.RecoverableHistoryConversation.encode(message.omittedConversations[i], writer.uint32(/* id 23, wireType 2 =*/186).fork()).ldelim();
+            if (message.omittedConversationsProvided != null && Object.hasOwnProperty.call(message, "omittedConversationsProvided"))
+                writer.uint32(/* id 24, wireType 0 =*/192).bool(message.omittedConversationsProvided);
             return writer;
         };
 
@@ -8587,6 +8914,22 @@ $root.HistorySync = (function() {
                     }
                 case 21: {
                         message.inlineContactsProvided = reader.bool();
+                        break;
+                    }
+                case 22: {
+                        if (!(message.favoriteStickers && message.favoriteStickers.length))
+                            message.favoriteStickers = [];
+                        message.favoriteStickers.push($root.HistorySync.StickerMetadata.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 23: {
+                        if (!(message.omittedConversations && message.omittedConversations.length))
+                            message.omittedConversations = [];
+                        message.omittedConversations.push($root.HistorySync.RecoverableHistoryConversation.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 24: {
+                        message.omittedConversationsProvided = reader.bool();
                         break;
                     }
                 default:
@@ -8779,6 +9122,29 @@ $root.HistorySync = (function() {
                 if (typeof message.inlineContactsProvided !== "boolean")
                     return "inlineContactsProvided: boolean expected";
             }
+            if (message.favoriteStickers != null && message.hasOwnProperty("favoriteStickers")) {
+                if (!Array.isArray(message.favoriteStickers))
+                    return "favoriteStickers: array expected";
+                for (var i = 0; i < message.favoriteStickers.length; ++i) {
+                    var error = $root.HistorySync.StickerMetadata.verify(message.favoriteStickers[i]);
+                    if (error)
+                        return "favoriteStickers." + error;
+                }
+            }
+            if (message.omittedConversations != null && message.hasOwnProperty("omittedConversations")) {
+                if (!Array.isArray(message.omittedConversations))
+                    return "omittedConversations: array expected";
+                for (var i = 0; i < message.omittedConversations.length; ++i) {
+                    var error = $root.HistorySync.RecoverableHistoryConversation.verify(message.omittedConversations[i]);
+                    if (error)
+                        return "omittedConversations." + error;
+                }
+            }
+            if (message.omittedConversationsProvided != null && message.hasOwnProperty("omittedConversationsProvided")) {
+                properties._omittedConversationsProvided = 1;
+                if (typeof message.omittedConversationsProvided !== "boolean")
+                    return "omittedConversationsProvided: boolean expected";
+            }
             return null;
         };
 
@@ -8966,6 +9332,28 @@ $root.HistorySync = (function() {
             }
             if (object.inlineContactsProvided != null)
                 message.inlineContactsProvided = Boolean(object.inlineContactsProvided);
+            if (object.favoriteStickers) {
+                if (!Array.isArray(object.favoriteStickers))
+                    throw TypeError(".HistorySync.HistorySync.favoriteStickers: array expected");
+                message.favoriteStickers = [];
+                for (var i = 0; i < object.favoriteStickers.length; ++i) {
+                    if (typeof object.favoriteStickers[i] !== "object")
+                        throw TypeError(".HistorySync.HistorySync.favoriteStickers: object expected");
+                    message.favoriteStickers[i] = $root.HistorySync.StickerMetadata.fromObject(object.favoriteStickers[i]);
+                }
+            }
+            if (object.omittedConversations) {
+                if (!Array.isArray(object.omittedConversations))
+                    throw TypeError(".HistorySync.HistorySync.omittedConversations: array expected");
+                message.omittedConversations = [];
+                for (var i = 0; i < object.omittedConversations.length; ++i) {
+                    if (typeof object.omittedConversations[i] !== "object")
+                        throw TypeError(".HistorySync.HistorySync.omittedConversations: object expected");
+                    message.omittedConversations[i] = $root.HistorySync.RecoverableHistoryConversation.fromObject(object.omittedConversations[i]);
+                }
+            }
+            if (object.omittedConversationsProvided != null)
+                message.omittedConversationsProvided = Boolean(object.omittedConversationsProvided);
             return message;
         };
 
@@ -8992,6 +9380,8 @@ $root.HistorySync = (function() {
                 object.phoneNumberToLidMappings = [];
                 object.accounts = [];
                 object.inlineContacts = [];
+                object.favoriteStickers = [];
+                object.omittedConversations = [];
             }
             if (message.syncType != null && message.hasOwnProperty("syncType")) {
                 object.syncType = options.enums === String ? $root.HistorySync.HistorySync.HistorySyncType[message.syncType] === undefined ? message.syncType : $root.HistorySync.HistorySync.HistorySyncType[message.syncType] : message.syncType;
@@ -9092,6 +9482,21 @@ $root.HistorySync = (function() {
                 object.inlineContactsProvided = message.inlineContactsProvided;
                 if (options.oneofs)
                     object._inlineContactsProvided = "inlineContactsProvided";
+            }
+            if (message.favoriteStickers && message.favoriteStickers.length) {
+                object.favoriteStickers = [];
+                for (var j = 0; j < message.favoriteStickers.length; ++j)
+                    object.favoriteStickers[j] = $root.HistorySync.StickerMetadata.toObject(message.favoriteStickers[j], options);
+            }
+            if (message.omittedConversations && message.omittedConversations.length) {
+                object.omittedConversations = [];
+                for (var j = 0; j < message.omittedConversations.length; ++j)
+                    object.omittedConversations[j] = $root.HistorySync.RecoverableHistoryConversation.toObject(message.omittedConversations[j], options);
+            }
+            if (message.omittedConversationsProvided != null && message.hasOwnProperty("omittedConversationsProvided")) {
+                object.omittedConversationsProvided = message.omittedConversationsProvided;
+                if (options.oneofs)
+                    object._omittedConversationsProvided = "omittedConversationsProvided";
             }
             return object;
         };
@@ -22904,6 +23309,8 @@ $root.E2E = (function() {
                 case 18:
                 case 19:
                 case 20:
+                case 21:
+                case 22:
                     break;
                 }
             }
@@ -23026,6 +23433,14 @@ $root.E2E = (function() {
             case 20:
                 message.associationType = 20;
                 break;
+            case "AV1_VIDEO_DUAL_UPLOAD":
+            case 21:
+                message.associationType = 21;
+                break;
+            case "STREAMED_HD_VIDEO_DUAL_UPLOAD":
+            case 22:
+                message.associationType = 22;
+                break;
             }
             if (object.parentMessageKey != null) {
                 if (typeof object.parentMessageKey !== "object")
@@ -23119,6 +23534,8 @@ $root.E2E = (function() {
          * @property {number} STATUS_REACTION=18 STATUS_REACTION value
          * @property {number} HEVC_VIDEO_DUAL_UPLOAD=19 HEVC_VIDEO_DUAL_UPLOAD value
          * @property {number} POLL_ADD_OPTION=20 POLL_ADD_OPTION value
+         * @property {number} AV1_VIDEO_DUAL_UPLOAD=21 AV1_VIDEO_DUAL_UPLOAD value
+         * @property {number} STREAMED_HD_VIDEO_DUAL_UPLOAD=22 STREAMED_HD_VIDEO_DUAL_UPLOAD value
          */
         MessageAssociation.AssociationType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -23143,6 +23560,8 @@ $root.E2E = (function() {
             values[valuesById[18] = "STATUS_REACTION"] = 18;
             values[valuesById[19] = "HEVC_VIDEO_DUAL_UPLOAD"] = 19;
             values[valuesById[20] = "POLL_ADD_OPTION"] = 20;
+            values[valuesById[21] = "AV1_VIDEO_DUAL_UPLOAD"] = 21;
+            values[valuesById[22] = "STREAMED_HD_VIDEO_DUAL_UPLOAD"] = 22;
             return values;
         })();
 
@@ -24934,6 +25353,10 @@ $root.E2E = (function() {
                 case 6:
                 case 7:
                 case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
                     break;
                 }
             }
@@ -25349,6 +25772,22 @@ $root.E2E = (function() {
             case "HEVC_VIDEO_CHILD":
             case 8:
                 message.pairedMediaType = 8;
+                break;
+            case "AV1_VIDEO_PARENT":
+            case 9:
+                message.pairedMediaType = 9;
+                break;
+            case "AV1_VIDEO_CHILD":
+            case 10:
+                message.pairedMediaType = 10;
+                break;
+            case "STREAMED_VIDEO_PARENT":
+            case 11:
+                message.pairedMediaType = 11;
+                break;
+            case "STREAMED_VIDEO_CHILD":
+            case 12:
+                message.pairedMediaType = 12;
                 break;
             }
             if (object.rankingVersion != null)
@@ -28678,6 +29117,13 @@ $root.E2E = (function() {
              * @property {number|null} [agmHeaderInteractionStrategy] ExternalAdReplyInfo agmHeaderInteractionStrategy
              * @property {boolean|null} [containsCtwaFlowsAutoLabel] ExternalAdReplyInfo containsCtwaFlowsAutoLabel
              * @property {string|null} [productId] ExternalAdReplyInfo productId
+             * @property {boolean|null} [containsCtwaPromo] ExternalAdReplyInfo containsCtwaPromo
+             * @property {string|null} [ctwaPromoResponseId] ExternalAdReplyInfo ctwaPromoResponseId
+             * @property {string|null} [ctwaPromoOfferId] ExternalAdReplyInfo ctwaPromoOfferId
+             * @property {string|null} [ctwaPromoAdEntryId] ExternalAdReplyInfo ctwaPromoAdEntryId
+             * @property {number|Long|null} [ctwaPromoResponseExpiresAtSeconds] ExternalAdReplyInfo ctwaPromoResponseExpiresAtSeconds
+             * @property {number|null} [ctwaPromoSchemaVersion] ExternalAdReplyInfo ctwaPromoSchemaVersion
+             * @property {string|null} [ctwaPromoAdgroupId] ExternalAdReplyInfo ctwaPromoAdgroupId
              */
 
             /**
@@ -28967,6 +29413,62 @@ $root.E2E = (function() {
              */
             ExternalAdReplyInfo.prototype.productId = null;
 
+            /**
+             * ExternalAdReplyInfo containsCtwaPromo.
+             * @member {boolean|null|undefined} containsCtwaPromo
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.containsCtwaPromo = null;
+
+            /**
+             * ExternalAdReplyInfo ctwaPromoResponseId.
+             * @member {string|null|undefined} ctwaPromoResponseId
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.ctwaPromoResponseId = null;
+
+            /**
+             * ExternalAdReplyInfo ctwaPromoOfferId.
+             * @member {string|null|undefined} ctwaPromoOfferId
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.ctwaPromoOfferId = null;
+
+            /**
+             * ExternalAdReplyInfo ctwaPromoAdEntryId.
+             * @member {string|null|undefined} ctwaPromoAdEntryId
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.ctwaPromoAdEntryId = null;
+
+            /**
+             * ExternalAdReplyInfo ctwaPromoResponseExpiresAtSeconds.
+             * @member {number|Long|null|undefined} ctwaPromoResponseExpiresAtSeconds
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.ctwaPromoResponseExpiresAtSeconds = null;
+
+            /**
+             * ExternalAdReplyInfo ctwaPromoSchemaVersion.
+             * @member {number|null|undefined} ctwaPromoSchemaVersion
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.ctwaPromoSchemaVersion = null;
+
+            /**
+             * ExternalAdReplyInfo ctwaPromoAdgroupId.
+             * @member {string|null|undefined} ctwaPromoAdgroupId
+             * @memberof E2E.ContextInfo.ExternalAdReplyInfo
+             * @instance
+             */
+            ExternalAdReplyInfo.prototype.ctwaPromoAdgroupId = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -29174,6 +29676,48 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_containsCtwaPromo", {
+                get: $util.oneOfGetter($oneOfFields = ["containsCtwaPromo"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_ctwaPromoResponseId", {
+                get: $util.oneOfGetter($oneOfFields = ["ctwaPromoResponseId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_ctwaPromoOfferId", {
+                get: $util.oneOfGetter($oneOfFields = ["ctwaPromoOfferId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_ctwaPromoAdEntryId", {
+                get: $util.oneOfGetter($oneOfFields = ["ctwaPromoAdEntryId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_ctwaPromoResponseExpiresAtSeconds", {
+                get: $util.oneOfGetter($oneOfFields = ["ctwaPromoResponseExpiresAtSeconds"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_ctwaPromoSchemaVersion", {
+                get: $util.oneOfGetter($oneOfFields = ["ctwaPromoSchemaVersion"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ExternalAdReplyInfo.prototype, "_ctwaPromoAdgroupId", {
+                get: $util.oneOfGetter($oneOfFields = ["ctwaPromoAdgroupId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new ExternalAdReplyInfo instance using the specified properties.
              * @function create
@@ -29266,6 +29810,20 @@ $root.E2E = (function() {
                     writer.uint32(/* id 33, wireType 0 =*/264).bool(message.containsCtwaFlowsAutoLabel);
                 if (message.productId != null && Object.hasOwnProperty.call(message, "productId"))
                     writer.uint32(/* id 34, wireType 2 =*/274).string(message.productId);
+                if (message.containsCtwaPromo != null && Object.hasOwnProperty.call(message, "containsCtwaPromo"))
+                    writer.uint32(/* id 35, wireType 0 =*/280).bool(message.containsCtwaPromo);
+                if (message.ctwaPromoResponseId != null && Object.hasOwnProperty.call(message, "ctwaPromoResponseId"))
+                    writer.uint32(/* id 36, wireType 2 =*/290).string(message.ctwaPromoResponseId);
+                if (message.ctwaPromoOfferId != null && Object.hasOwnProperty.call(message, "ctwaPromoOfferId"))
+                    writer.uint32(/* id 37, wireType 2 =*/298).string(message.ctwaPromoOfferId);
+                if (message.ctwaPromoAdEntryId != null && Object.hasOwnProperty.call(message, "ctwaPromoAdEntryId"))
+                    writer.uint32(/* id 38, wireType 2 =*/306).string(message.ctwaPromoAdEntryId);
+                if (message.ctwaPromoResponseExpiresAtSeconds != null && Object.hasOwnProperty.call(message, "ctwaPromoResponseExpiresAtSeconds"))
+                    writer.uint32(/* id 39, wireType 0 =*/312).uint64(message.ctwaPromoResponseExpiresAtSeconds);
+                if (message.ctwaPromoSchemaVersion != null && Object.hasOwnProperty.call(message, "ctwaPromoSchemaVersion"))
+                    writer.uint32(/* id 40, wireType 0 =*/320).uint32(message.ctwaPromoSchemaVersion);
+                if (message.ctwaPromoAdgroupId != null && Object.hasOwnProperty.call(message, "ctwaPromoAdgroupId"))
+                    writer.uint32(/* id 41, wireType 2 =*/330).string(message.ctwaPromoAdgroupId);
                 return writer;
             };
 
@@ -29436,6 +29994,34 @@ $root.E2E = (function() {
                         }
                     case 34: {
                             message.productId = reader.string();
+                            break;
+                        }
+                    case 35: {
+                            message.containsCtwaPromo = reader.bool();
+                            break;
+                        }
+                    case 36: {
+                            message.ctwaPromoResponseId = reader.string();
+                            break;
+                        }
+                    case 37: {
+                            message.ctwaPromoOfferId = reader.string();
+                            break;
+                        }
+                    case 38: {
+                            message.ctwaPromoAdEntryId = reader.string();
+                            break;
+                        }
+                    case 39: {
+                            message.ctwaPromoResponseExpiresAtSeconds = reader.uint64();
+                            break;
+                        }
+                    case 40: {
+                            message.ctwaPromoSchemaVersion = reader.uint32();
+                            break;
+                        }
+                    case 41: {
+                            message.ctwaPromoAdgroupId = reader.string();
                             break;
                         }
                     default:
@@ -29655,6 +30241,41 @@ $root.E2E = (function() {
                     if (!$util.isString(message.productId))
                         return "productId: string expected";
                 }
+                if (message.containsCtwaPromo != null && message.hasOwnProperty("containsCtwaPromo")) {
+                    properties._containsCtwaPromo = 1;
+                    if (typeof message.containsCtwaPromo !== "boolean")
+                        return "containsCtwaPromo: boolean expected";
+                }
+                if (message.ctwaPromoResponseId != null && message.hasOwnProperty("ctwaPromoResponseId")) {
+                    properties._ctwaPromoResponseId = 1;
+                    if (!$util.isString(message.ctwaPromoResponseId))
+                        return "ctwaPromoResponseId: string expected";
+                }
+                if (message.ctwaPromoOfferId != null && message.hasOwnProperty("ctwaPromoOfferId")) {
+                    properties._ctwaPromoOfferId = 1;
+                    if (!$util.isString(message.ctwaPromoOfferId))
+                        return "ctwaPromoOfferId: string expected";
+                }
+                if (message.ctwaPromoAdEntryId != null && message.hasOwnProperty("ctwaPromoAdEntryId")) {
+                    properties._ctwaPromoAdEntryId = 1;
+                    if (!$util.isString(message.ctwaPromoAdEntryId))
+                        return "ctwaPromoAdEntryId: string expected";
+                }
+                if (message.ctwaPromoResponseExpiresAtSeconds != null && message.hasOwnProperty("ctwaPromoResponseExpiresAtSeconds")) {
+                    properties._ctwaPromoResponseExpiresAtSeconds = 1;
+                    if (!$util.isInteger(message.ctwaPromoResponseExpiresAtSeconds) && !(message.ctwaPromoResponseExpiresAtSeconds && $util.isInteger(message.ctwaPromoResponseExpiresAtSeconds.low) && $util.isInteger(message.ctwaPromoResponseExpiresAtSeconds.high)))
+                        return "ctwaPromoResponseExpiresAtSeconds: integer|Long expected";
+                }
+                if (message.ctwaPromoSchemaVersion != null && message.hasOwnProperty("ctwaPromoSchemaVersion")) {
+                    properties._ctwaPromoSchemaVersion = 1;
+                    if (!$util.isInteger(message.ctwaPromoSchemaVersion))
+                        return "ctwaPromoSchemaVersion: integer expected";
+                }
+                if (message.ctwaPromoAdgroupId != null && message.hasOwnProperty("ctwaPromoAdgroupId")) {
+                    properties._ctwaPromoAdgroupId = 1;
+                    if (!$util.isString(message.ctwaPromoAdgroupId))
+                        return "ctwaPromoAdgroupId: string expected";
+                }
                 return null;
             };
 
@@ -29773,6 +30394,27 @@ $root.E2E = (function() {
                     message.containsCtwaFlowsAutoLabel = Boolean(object.containsCtwaFlowsAutoLabel);
                 if (object.productId != null)
                     message.productId = String(object.productId);
+                if (object.containsCtwaPromo != null)
+                    message.containsCtwaPromo = Boolean(object.containsCtwaPromo);
+                if (object.ctwaPromoResponseId != null)
+                    message.ctwaPromoResponseId = String(object.ctwaPromoResponseId);
+                if (object.ctwaPromoOfferId != null)
+                    message.ctwaPromoOfferId = String(object.ctwaPromoOfferId);
+                if (object.ctwaPromoAdEntryId != null)
+                    message.ctwaPromoAdEntryId = String(object.ctwaPromoAdEntryId);
+                if (object.ctwaPromoResponseExpiresAtSeconds != null)
+                    if ($util.Long)
+                        (message.ctwaPromoResponseExpiresAtSeconds = $util.Long.fromValue(object.ctwaPromoResponseExpiresAtSeconds)).unsigned = true;
+                    else if (typeof object.ctwaPromoResponseExpiresAtSeconds === "string")
+                        message.ctwaPromoResponseExpiresAtSeconds = parseInt(object.ctwaPromoResponseExpiresAtSeconds, 10);
+                    else if (typeof object.ctwaPromoResponseExpiresAtSeconds === "number")
+                        message.ctwaPromoResponseExpiresAtSeconds = object.ctwaPromoResponseExpiresAtSeconds;
+                    else if (typeof object.ctwaPromoResponseExpiresAtSeconds === "object")
+                        message.ctwaPromoResponseExpiresAtSeconds = new $util.LongBits(object.ctwaPromoResponseExpiresAtSeconds.low >>> 0, object.ctwaPromoResponseExpiresAtSeconds.high >>> 0).toNumber(true);
+                if (object.ctwaPromoSchemaVersion != null)
+                    message.ctwaPromoSchemaVersion = object.ctwaPromoSchemaVersion >>> 0;
+                if (object.ctwaPromoAdgroupId != null)
+                    message.ctwaPromoAdgroupId = String(object.ctwaPromoAdgroupId);
                 return message;
             };
 
@@ -29958,6 +30600,44 @@ $root.E2E = (function() {
                     object.productId = message.productId;
                     if (options.oneofs)
                         object._productId = "productId";
+                }
+                if (message.containsCtwaPromo != null && message.hasOwnProperty("containsCtwaPromo")) {
+                    object.containsCtwaPromo = message.containsCtwaPromo;
+                    if (options.oneofs)
+                        object._containsCtwaPromo = "containsCtwaPromo";
+                }
+                if (message.ctwaPromoResponseId != null && message.hasOwnProperty("ctwaPromoResponseId")) {
+                    object.ctwaPromoResponseId = message.ctwaPromoResponseId;
+                    if (options.oneofs)
+                        object._ctwaPromoResponseId = "ctwaPromoResponseId";
+                }
+                if (message.ctwaPromoOfferId != null && message.hasOwnProperty("ctwaPromoOfferId")) {
+                    object.ctwaPromoOfferId = message.ctwaPromoOfferId;
+                    if (options.oneofs)
+                        object._ctwaPromoOfferId = "ctwaPromoOfferId";
+                }
+                if (message.ctwaPromoAdEntryId != null && message.hasOwnProperty("ctwaPromoAdEntryId")) {
+                    object.ctwaPromoAdEntryId = message.ctwaPromoAdEntryId;
+                    if (options.oneofs)
+                        object._ctwaPromoAdEntryId = "ctwaPromoAdEntryId";
+                }
+                if (message.ctwaPromoResponseExpiresAtSeconds != null && message.hasOwnProperty("ctwaPromoResponseExpiresAtSeconds")) {
+                    if (typeof message.ctwaPromoResponseExpiresAtSeconds === "number")
+                        object.ctwaPromoResponseExpiresAtSeconds = options.longs === String ? String(message.ctwaPromoResponseExpiresAtSeconds) : message.ctwaPromoResponseExpiresAtSeconds;
+                    else
+                        object.ctwaPromoResponseExpiresAtSeconds = options.longs === String ? $util.Long.prototype.toString.call(message.ctwaPromoResponseExpiresAtSeconds) : options.longs === Number ? new $util.LongBits(message.ctwaPromoResponseExpiresAtSeconds.low >>> 0, message.ctwaPromoResponseExpiresAtSeconds.high >>> 0).toNumber(true) : message.ctwaPromoResponseExpiresAtSeconds;
+                    if (options.oneofs)
+                        object._ctwaPromoResponseExpiresAtSeconds = "ctwaPromoResponseExpiresAtSeconds";
+                }
+                if (message.ctwaPromoSchemaVersion != null && message.hasOwnProperty("ctwaPromoSchemaVersion")) {
+                    object.ctwaPromoSchemaVersion = message.ctwaPromoSchemaVersion;
+                    if (options.oneofs)
+                        object._ctwaPromoSchemaVersion = "ctwaPromoSchemaVersion";
+                }
+                if (message.ctwaPromoAdgroupId != null && message.hasOwnProperty("ctwaPromoAdgroupId")) {
+                    object.ctwaPromoAdgroupId = message.ctwaPromoAdgroupId;
+                    if (options.oneofs)
+                        object._ctwaPromoAdgroupId = "ctwaPromoAdgroupId";
                 }
                 return object;
             };
@@ -31047,6 +31727,10 @@ $root.E2E = (function() {
          * @property {number} MOTION_PHOTO_CHILD=6 MOTION_PHOTO_CHILD value
          * @property {number} HEVC_VIDEO_PARENT=7 HEVC_VIDEO_PARENT value
          * @property {number} HEVC_VIDEO_CHILD=8 HEVC_VIDEO_CHILD value
+         * @property {number} AV1_VIDEO_PARENT=9 AV1_VIDEO_PARENT value
+         * @property {number} AV1_VIDEO_CHILD=10 AV1_VIDEO_CHILD value
+         * @property {number} STREAMED_VIDEO_PARENT=11 STREAMED_VIDEO_PARENT value
+         * @property {number} STREAMED_VIDEO_CHILD=12 STREAMED_VIDEO_CHILD value
          */
         ContextInfo.PairedMediaType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -31059,6 +31743,10 @@ $root.E2E = (function() {
             values[valuesById[6] = "MOTION_PHOTO_CHILD"] = 6;
             values[valuesById[7] = "HEVC_VIDEO_PARENT"] = 7;
             values[valuesById[8] = "HEVC_VIDEO_CHILD"] = 8;
+            values[valuesById[9] = "AV1_VIDEO_PARENT"] = 9;
+            values[valuesById[10] = "AV1_VIDEO_CHILD"] = 10;
+            values[valuesById[11] = "STREAMED_VIDEO_PARENT"] = 11;
+            values[valuesById[12] = "STREAMED_VIDEO_CHILD"] = 12;
             return values;
         })();
 
@@ -32600,7 +33288,10 @@ $root.E2E = (function() {
          * @property {E2E.Message.IFutureProofMessage|null} [newsletterScheduledMessage] Message newsletterScheduledMessage
          * @property {E2E.Message.IFutureProofMessage|null} [acp2SettingMessage] Message acp2SettingMessage
          * @property {E2E.Message.IFutureProofMessage|null} [audioStickerMessage] Message audioStickerMessage
+         * @property {E2E.Message.IImageMessage|null} [instantImageMessage] Message instantImageMessage
+         * @property {E2E.Message.IRequestLocationMessage|null} [requestLocationMessage] Message requestLocationMessage
          * @property {E2E.Message.IFutureProofMessage|null} [botGroupParticipantMessage] Message botGroupParticipantMessage
+         * @property {E2E.Message.IRequestLocationUpdateMessage|null} [requestLocationUpdateMessage] Message requestLocationUpdateMessage
          */
 
         /**
@@ -33523,12 +34214,36 @@ $root.E2E = (function() {
         Message.prototype.audioStickerMessage = null;
 
         /**
+         * Message instantImageMessage.
+         * @member {E2E.Message.IImageMessage|null|undefined} instantImageMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.instantImageMessage = null;
+
+        /**
+         * Message requestLocationMessage.
+         * @member {E2E.Message.IRequestLocationMessage|null|undefined} requestLocationMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.requestLocationMessage = null;
+
+        /**
          * Message botGroupParticipantMessage.
          * @member {E2E.Message.IFutureProofMessage|null|undefined} botGroupParticipantMessage
          * @memberof E2E.Message
          * @instance
          */
         Message.prototype.botGroupParticipantMessage = null;
+
+        /**
+         * Message requestLocationUpdateMessage.
+         * @member {E2E.Message.IRequestLocationUpdateMessage|null|undefined} requestLocationUpdateMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.requestLocationUpdateMessage = null;
 
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
@@ -34212,8 +34927,26 @@ $root.E2E = (function() {
         });
 
         // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_instantImageMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["instantImageMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_requestLocationMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["requestLocationMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
         Object.defineProperty(Message.prototype, "_botGroupParticipantMessage", {
             get: $util.oneOfGetter($oneOfFields = ["botGroupParticipantMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_requestLocationUpdateMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["requestLocationUpdateMessage"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -34467,8 +35200,14 @@ $root.E2E = (function() {
                 $root.E2E.Message.FutureProofMessage.encode(message.acp2SettingMessage, writer.uint32(/* id 133, wireType 2 =*/1066).fork()).ldelim();
             if (message.audioStickerMessage != null && Object.hasOwnProperty.call(message, "audioStickerMessage"))
                 $root.E2E.Message.FutureProofMessage.encode(message.audioStickerMessage, writer.uint32(/* id 134, wireType 2 =*/1074).fork()).ldelim();
+            if (message.instantImageMessage != null && Object.hasOwnProperty.call(message, "instantImageMessage"))
+                $root.E2E.Message.ImageMessage.encode(message.instantImageMessage, writer.uint32(/* id 135, wireType 2 =*/1082).fork()).ldelim();
+            if (message.requestLocationMessage != null && Object.hasOwnProperty.call(message, "requestLocationMessage"))
+                $root.E2E.Message.RequestLocationMessage.encode(message.requestLocationMessage, writer.uint32(/* id 136, wireType 2 =*/1090).fork()).ldelim();
             if (message.botGroupParticipantMessage != null && Object.hasOwnProperty.call(message, "botGroupParticipantMessage"))
                 $root.E2E.Message.FutureProofMessage.encode(message.botGroupParticipantMessage, writer.uint32(/* id 137, wireType 2 =*/1098).fork()).ldelim();
+            if (message.requestLocationUpdateMessage != null && Object.hasOwnProperty.call(message, "requestLocationUpdateMessage"))
+                $root.E2E.Message.RequestLocationUpdateMessage.encode(message.requestLocationUpdateMessage, writer.uint32(/* id 138, wireType 2 =*/1106).fork()).ldelim();
             return writer;
         };
 
@@ -34957,8 +35696,20 @@ $root.E2E = (function() {
                         message.audioStickerMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
                         break;
                     }
+                case 135: {
+                        message.instantImageMessage = $root.E2E.Message.ImageMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 136: {
+                        message.requestLocationMessage = $root.E2E.Message.RequestLocationMessage.decode(reader, reader.uint32());
+                        break;
+                    }
                 case 137: {
                         message.botGroupParticipantMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 138: {
+                        message.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -35898,12 +36649,36 @@ $root.E2E = (function() {
                         return "audioStickerMessage." + error;
                 }
             }
+            if (message.instantImageMessage != null && message.hasOwnProperty("instantImageMessage")) {
+                properties._instantImageMessage = 1;
+                {
+                    var error = $root.E2E.Message.ImageMessage.verify(message.instantImageMessage);
+                    if (error)
+                        return "instantImageMessage." + error;
+                }
+            }
+            if (message.requestLocationMessage != null && message.hasOwnProperty("requestLocationMessage")) {
+                properties._requestLocationMessage = 1;
+                {
+                    var error = $root.E2E.Message.RequestLocationMessage.verify(message.requestLocationMessage);
+                    if (error)
+                        return "requestLocationMessage." + error;
+                }
+            }
             if (message.botGroupParticipantMessage != null && message.hasOwnProperty("botGroupParticipantMessage")) {
                 properties._botGroupParticipantMessage = 1;
                 {
                     var error = $root.E2E.Message.FutureProofMessage.verify(message.botGroupParticipantMessage);
                     if (error)
                         return "botGroupParticipantMessage." + error;
+                }
+            }
+            if (message.requestLocationUpdateMessage != null && message.hasOwnProperty("requestLocationUpdateMessage")) {
+                properties._requestLocationUpdateMessage = 1;
+                {
+                    var error = $root.E2E.Message.RequestLocationUpdateMessage.verify(message.requestLocationUpdateMessage);
+                    if (error)
+                        return "requestLocationUpdateMessage." + error;
                 }
             }
             return null;
@@ -36483,10 +37258,25 @@ $root.E2E = (function() {
                     throw TypeError(".E2E.Message.audioStickerMessage: object expected");
                 message.audioStickerMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.audioStickerMessage);
             }
+            if (object.instantImageMessage != null) {
+                if (typeof object.instantImageMessage !== "object")
+                    throw TypeError(".E2E.Message.instantImageMessage: object expected");
+                message.instantImageMessage = $root.E2E.Message.ImageMessage.fromObject(object.instantImageMessage);
+            }
+            if (object.requestLocationMessage != null) {
+                if (typeof object.requestLocationMessage !== "object")
+                    throw TypeError(".E2E.Message.requestLocationMessage: object expected");
+                message.requestLocationMessage = $root.E2E.Message.RequestLocationMessage.fromObject(object.requestLocationMessage);
+            }
             if (object.botGroupParticipantMessage != null) {
                 if (typeof object.botGroupParticipantMessage !== "object")
                     throw TypeError(".E2E.Message.botGroupParticipantMessage: object expected");
                 message.botGroupParticipantMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.botGroupParticipantMessage);
+            }
+            if (object.requestLocationUpdateMessage != null) {
+                if (typeof object.requestLocationUpdateMessage !== "object")
+                    throw TypeError(".E2E.Message.requestLocationUpdateMessage: object expected");
+                message.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.fromObject(object.requestLocationUpdateMessage);
             }
             return message;
         };
@@ -37069,10 +37859,25 @@ $root.E2E = (function() {
                 if (options.oneofs)
                     object._audioStickerMessage = "audioStickerMessage";
             }
+            if (message.instantImageMessage != null && message.hasOwnProperty("instantImageMessage")) {
+                object.instantImageMessage = $root.E2E.Message.ImageMessage.toObject(message.instantImageMessage, options);
+                if (options.oneofs)
+                    object._instantImageMessage = "instantImageMessage";
+            }
+            if (message.requestLocationMessage != null && message.hasOwnProperty("requestLocationMessage")) {
+                object.requestLocationMessage = $root.E2E.Message.RequestLocationMessage.toObject(message.requestLocationMessage, options);
+                if (options.oneofs)
+                    object._requestLocationMessage = "requestLocationMessage";
+            }
             if (message.botGroupParticipantMessage != null && message.hasOwnProperty("botGroupParticipantMessage")) {
                 object.botGroupParticipantMessage = $root.E2E.Message.FutureProofMessage.toObject(message.botGroupParticipantMessage, options);
                 if (options.oneofs)
                     object._botGroupParticipantMessage = "botGroupParticipantMessage";
+            }
+            if (message.requestLocationUpdateMessage != null && message.hasOwnProperty("requestLocationUpdateMessage")) {
+                object.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.toObject(message.requestLocationUpdateMessage, options);
+                if (options.oneofs)
+                    object._requestLocationUpdateMessage = "requestLocationUpdateMessage";
             }
             return object;
         };
@@ -45130,9 +45935,11 @@ $root.E2E = (function() {
              * Properties of a ChatSolidColorWallpaper.
              * @memberof E2E.Message
              * @interface IChatSolidColorWallpaper
-             * @property {string|null} [colorLight] ChatSolidColorWallpaper colorLight
-             * @property {string|null} [colorDark] ChatSolidColorWallpaper colorDark
+             * @property {number|null} [backgroundLightArgb] ChatSolidColorWallpaper backgroundLightArgb
+             * @property {number|null} [backgroundDarkArgb] ChatSolidColorWallpaper backgroundDarkArgb
              * @property {boolean|null} [isDoodleEnabled] ChatSolidColorWallpaper isDoodleEnabled
+             * @property {number|null} [doodleLightArgb] ChatSolidColorWallpaper doodleLightArgb
+             * @property {number|null} [doodleDarkArgb] ChatSolidColorWallpaper doodleDarkArgb
              */
 
             /**
@@ -45151,20 +45958,20 @@ $root.E2E = (function() {
             }
 
             /**
-             * ChatSolidColorWallpaper colorLight.
-             * @member {string|null|undefined} colorLight
+             * ChatSolidColorWallpaper backgroundLightArgb.
+             * @member {number|null|undefined} backgroundLightArgb
              * @memberof E2E.Message.ChatSolidColorWallpaper
              * @instance
              */
-            ChatSolidColorWallpaper.prototype.colorLight = null;
+            ChatSolidColorWallpaper.prototype.backgroundLightArgb = null;
 
             /**
-             * ChatSolidColorWallpaper colorDark.
-             * @member {string|null|undefined} colorDark
+             * ChatSolidColorWallpaper backgroundDarkArgb.
+             * @member {number|null|undefined} backgroundDarkArgb
              * @memberof E2E.Message.ChatSolidColorWallpaper
              * @instance
              */
-            ChatSolidColorWallpaper.prototype.colorDark = null;
+            ChatSolidColorWallpaper.prototype.backgroundDarkArgb = null;
 
             /**
              * ChatSolidColorWallpaper isDoodleEnabled.
@@ -45174,24 +45981,52 @@ $root.E2E = (function() {
              */
             ChatSolidColorWallpaper.prototype.isDoodleEnabled = null;
 
+            /**
+             * ChatSolidColorWallpaper doodleLightArgb.
+             * @member {number|null|undefined} doodleLightArgb
+             * @memberof E2E.Message.ChatSolidColorWallpaper
+             * @instance
+             */
+            ChatSolidColorWallpaper.prototype.doodleLightArgb = null;
+
+            /**
+             * ChatSolidColorWallpaper doodleDarkArgb.
+             * @member {number|null|undefined} doodleDarkArgb
+             * @memberof E2E.Message.ChatSolidColorWallpaper
+             * @instance
+             */
+            ChatSolidColorWallpaper.prototype.doodleDarkArgb = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
             // Virtual OneOf for proto3 optional field
-            Object.defineProperty(ChatSolidColorWallpaper.prototype, "_colorLight", {
-                get: $util.oneOfGetter($oneOfFields = ["colorLight"]),
+            Object.defineProperty(ChatSolidColorWallpaper.prototype, "_backgroundLightArgb", {
+                get: $util.oneOfGetter($oneOfFields = ["backgroundLightArgb"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
             // Virtual OneOf for proto3 optional field
-            Object.defineProperty(ChatSolidColorWallpaper.prototype, "_colorDark", {
-                get: $util.oneOfGetter($oneOfFields = ["colorDark"]),
+            Object.defineProperty(ChatSolidColorWallpaper.prototype, "_backgroundDarkArgb", {
+                get: $util.oneOfGetter($oneOfFields = ["backgroundDarkArgb"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(ChatSolidColorWallpaper.prototype, "_isDoodleEnabled", {
                 get: $util.oneOfGetter($oneOfFields = ["isDoodleEnabled"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ChatSolidColorWallpaper.prototype, "_doodleLightArgb", {
+                get: $util.oneOfGetter($oneOfFields = ["doodleLightArgb"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ChatSolidColorWallpaper.prototype, "_doodleDarkArgb", {
+                get: $util.oneOfGetter($oneOfFields = ["doodleDarkArgb"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -45219,12 +46054,16 @@ $root.E2E = (function() {
             ChatSolidColorWallpaper.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.colorLight != null && Object.hasOwnProperty.call(message, "colorLight"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.colorLight);
-                if (message.colorDark != null && Object.hasOwnProperty.call(message, "colorDark"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.colorDark);
+                if (message.backgroundLightArgb != null && Object.hasOwnProperty.call(message, "backgroundLightArgb"))
+                    writer.uint32(/* id 1, wireType 5 =*/13).fixed32(message.backgroundLightArgb);
+                if (message.backgroundDarkArgb != null && Object.hasOwnProperty.call(message, "backgroundDarkArgb"))
+                    writer.uint32(/* id 2, wireType 5 =*/21).fixed32(message.backgroundDarkArgb);
                 if (message.isDoodleEnabled != null && Object.hasOwnProperty.call(message, "isDoodleEnabled"))
                     writer.uint32(/* id 3, wireType 0 =*/24).bool(message.isDoodleEnabled);
+                if (message.doodleLightArgb != null && Object.hasOwnProperty.call(message, "doodleLightArgb"))
+                    writer.uint32(/* id 4, wireType 5 =*/37).fixed32(message.doodleLightArgb);
+                if (message.doodleDarkArgb != null && Object.hasOwnProperty.call(message, "doodleDarkArgb"))
+                    writer.uint32(/* id 5, wireType 5 =*/45).fixed32(message.doodleDarkArgb);
                 return writer;
             };
 
@@ -45262,15 +46101,23 @@ $root.E2E = (function() {
                         break;
                     switch (tag >>> 3) {
                     case 1: {
-                            message.colorLight = reader.string();
+                            message.backgroundLightArgb = reader.fixed32();
                             break;
                         }
                     case 2: {
-                            message.colorDark = reader.string();
+                            message.backgroundDarkArgb = reader.fixed32();
                             break;
                         }
                     case 3: {
                             message.isDoodleEnabled = reader.bool();
+                            break;
+                        }
+                    case 4: {
+                            message.doodleLightArgb = reader.fixed32();
+                            break;
+                        }
+                    case 5: {
+                            message.doodleDarkArgb = reader.fixed32();
                             break;
                         }
                     default:
@@ -45309,20 +46156,30 @@ $root.E2E = (function() {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 var properties = {};
-                if (message.colorLight != null && message.hasOwnProperty("colorLight")) {
-                    properties._colorLight = 1;
-                    if (!$util.isString(message.colorLight))
-                        return "colorLight: string expected";
+                if (message.backgroundLightArgb != null && message.hasOwnProperty("backgroundLightArgb")) {
+                    properties._backgroundLightArgb = 1;
+                    if (!$util.isInteger(message.backgroundLightArgb))
+                        return "backgroundLightArgb: integer expected";
                 }
-                if (message.colorDark != null && message.hasOwnProperty("colorDark")) {
-                    properties._colorDark = 1;
-                    if (!$util.isString(message.colorDark))
-                        return "colorDark: string expected";
+                if (message.backgroundDarkArgb != null && message.hasOwnProperty("backgroundDarkArgb")) {
+                    properties._backgroundDarkArgb = 1;
+                    if (!$util.isInteger(message.backgroundDarkArgb))
+                        return "backgroundDarkArgb: integer expected";
                 }
                 if (message.isDoodleEnabled != null && message.hasOwnProperty("isDoodleEnabled")) {
                     properties._isDoodleEnabled = 1;
                     if (typeof message.isDoodleEnabled !== "boolean")
                         return "isDoodleEnabled: boolean expected";
+                }
+                if (message.doodleLightArgb != null && message.hasOwnProperty("doodleLightArgb")) {
+                    properties._doodleLightArgb = 1;
+                    if (!$util.isInteger(message.doodleLightArgb))
+                        return "doodleLightArgb: integer expected";
+                }
+                if (message.doodleDarkArgb != null && message.hasOwnProperty("doodleDarkArgb")) {
+                    properties._doodleDarkArgb = 1;
+                    if (!$util.isInteger(message.doodleDarkArgb))
+                        return "doodleDarkArgb: integer expected";
                 }
                 return null;
             };
@@ -45339,12 +46196,16 @@ $root.E2E = (function() {
                 if (object instanceof $root.E2E.Message.ChatSolidColorWallpaper)
                     return object;
                 var message = new $root.E2E.Message.ChatSolidColorWallpaper();
-                if (object.colorLight != null)
-                    message.colorLight = String(object.colorLight);
-                if (object.colorDark != null)
-                    message.colorDark = String(object.colorDark);
+                if (object.backgroundLightArgb != null)
+                    message.backgroundLightArgb = object.backgroundLightArgb >>> 0;
+                if (object.backgroundDarkArgb != null)
+                    message.backgroundDarkArgb = object.backgroundDarkArgb >>> 0;
                 if (object.isDoodleEnabled != null)
                     message.isDoodleEnabled = Boolean(object.isDoodleEnabled);
+                if (object.doodleLightArgb != null)
+                    message.doodleLightArgb = object.doodleLightArgb >>> 0;
+                if (object.doodleDarkArgb != null)
+                    message.doodleDarkArgb = object.doodleDarkArgb >>> 0;
                 return message;
             };
 
@@ -45361,20 +46222,30 @@ $root.E2E = (function() {
                 if (!options)
                     options = {};
                 var object = {};
-                if (message.colorLight != null && message.hasOwnProperty("colorLight")) {
-                    object.colorLight = message.colorLight;
+                if (message.backgroundLightArgb != null && message.hasOwnProperty("backgroundLightArgb")) {
+                    object.backgroundLightArgb = message.backgroundLightArgb;
                     if (options.oneofs)
-                        object._colorLight = "colorLight";
+                        object._backgroundLightArgb = "backgroundLightArgb";
                 }
-                if (message.colorDark != null && message.hasOwnProperty("colorDark")) {
-                    object.colorDark = message.colorDark;
+                if (message.backgroundDarkArgb != null && message.hasOwnProperty("backgroundDarkArgb")) {
+                    object.backgroundDarkArgb = message.backgroundDarkArgb;
                     if (options.oneofs)
-                        object._colorDark = "colorDark";
+                        object._backgroundDarkArgb = "backgroundDarkArgb";
                 }
                 if (message.isDoodleEnabled != null && message.hasOwnProperty("isDoodleEnabled")) {
                     object.isDoodleEnabled = message.isDoodleEnabled;
                     if (options.oneofs)
                         object._isDoodleEnabled = "isDoodleEnabled";
+                }
+                if (message.doodleLightArgb != null && message.hasOwnProperty("doodleLightArgb")) {
+                    object.doodleLightArgb = message.doodleLightArgb;
+                    if (options.oneofs)
+                        object._doodleLightArgb = "doodleLightArgb";
+                }
+                if (message.doodleDarkArgb != null && message.hasOwnProperty("doodleDarkArgb")) {
+                    object.doodleDarkArgb = message.doodleDarkArgb;
+                    if (options.oneofs)
+                        object._doodleDarkArgb = "doodleDarkArgb";
                 }
                 return object;
             };
@@ -46832,6 +47703,267 @@ $root.E2E = (function() {
             })();
 
             return CloudAPIThreadControlNotification;
+        })();
+
+        Message.CoexConnectionDescriptor = (function() {
+
+            /**
+             * Properties of a CoexConnectionDescriptor.
+             * @memberof E2E.Message
+             * @interface ICoexConnectionDescriptor
+             * @property {number|Long|null} [providerId] CoexConnectionDescriptor providerId
+             * @property {string|null} [product] CoexConnectionDescriptor product
+             */
+
+            /**
+             * Constructs a new CoexConnectionDescriptor.
+             * @memberof E2E.Message
+             * @classdesc Represents a CoexConnectionDescriptor.
+             * @implements ICoexConnectionDescriptor
+             * @constructor
+             * @param {E2E.Message.ICoexConnectionDescriptor=} [properties] Properties to set
+             */
+            function CoexConnectionDescriptor(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * CoexConnectionDescriptor providerId.
+             * @member {number|Long|null|undefined} providerId
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @instance
+             */
+            CoexConnectionDescriptor.prototype.providerId = null;
+
+            /**
+             * CoexConnectionDescriptor product.
+             * @member {string|null|undefined} product
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @instance
+             */
+            CoexConnectionDescriptor.prototype.product = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(CoexConnectionDescriptor.prototype, "_providerId", {
+                get: $util.oneOfGetter($oneOfFields = ["providerId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(CoexConnectionDescriptor.prototype, "_product", {
+                get: $util.oneOfGetter($oneOfFields = ["product"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new CoexConnectionDescriptor instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {E2E.Message.ICoexConnectionDescriptor=} [properties] Properties to set
+             * @returns {E2E.Message.CoexConnectionDescriptor} CoexConnectionDescriptor instance
+             */
+            CoexConnectionDescriptor.create = function create(properties) {
+                return new CoexConnectionDescriptor(properties);
+            };
+
+            /**
+             * Encodes the specified CoexConnectionDescriptor message. Does not implicitly {@link E2E.Message.CoexConnectionDescriptor.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {E2E.Message.ICoexConnectionDescriptor} message CoexConnectionDescriptor message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CoexConnectionDescriptor.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.providerId != null && Object.hasOwnProperty.call(message, "providerId"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.providerId);
+                if (message.product != null && Object.hasOwnProperty.call(message, "product"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.product);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified CoexConnectionDescriptor message, length delimited. Does not implicitly {@link E2E.Message.CoexConnectionDescriptor.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {E2E.Message.ICoexConnectionDescriptor} message CoexConnectionDescriptor message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CoexConnectionDescriptor.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a CoexConnectionDescriptor message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.CoexConnectionDescriptor} CoexConnectionDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CoexConnectionDescriptor.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.CoexConnectionDescriptor();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.providerId = reader.int64();
+                            break;
+                        }
+                    case 2: {
+                            message.product = reader.string();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a CoexConnectionDescriptor message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.CoexConnectionDescriptor} CoexConnectionDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CoexConnectionDescriptor.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a CoexConnectionDescriptor message.
+             * @function verify
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CoexConnectionDescriptor.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.providerId != null && message.hasOwnProperty("providerId")) {
+                    properties._providerId = 1;
+                    if (!$util.isInteger(message.providerId) && !(message.providerId && $util.isInteger(message.providerId.low) && $util.isInteger(message.providerId.high)))
+                        return "providerId: integer|Long expected";
+                }
+                if (message.product != null && message.hasOwnProperty("product")) {
+                    properties._product = 1;
+                    if (!$util.isString(message.product))
+                        return "product: string expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a CoexConnectionDescriptor message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.CoexConnectionDescriptor} CoexConnectionDescriptor
+             */
+            CoexConnectionDescriptor.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.CoexConnectionDescriptor)
+                    return object;
+                var message = new $root.E2E.Message.CoexConnectionDescriptor();
+                if (object.providerId != null)
+                    if ($util.Long)
+                        (message.providerId = $util.Long.fromValue(object.providerId)).unsigned = false;
+                    else if (typeof object.providerId === "string")
+                        message.providerId = parseInt(object.providerId, 10);
+                    else if (typeof object.providerId === "number")
+                        message.providerId = object.providerId;
+                    else if (typeof object.providerId === "object")
+                        message.providerId = new $util.LongBits(object.providerId.low >>> 0, object.providerId.high >>> 0).toNumber();
+                if (object.product != null)
+                    message.product = String(object.product);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a CoexConnectionDescriptor message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {E2E.Message.CoexConnectionDescriptor} message CoexConnectionDescriptor
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CoexConnectionDescriptor.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.providerId != null && message.hasOwnProperty("providerId")) {
+                    if (typeof message.providerId === "number")
+                        object.providerId = options.longs === String ? String(message.providerId) : message.providerId;
+                    else
+                        object.providerId = options.longs === String ? $util.Long.prototype.toString.call(message.providerId) : options.longs === Number ? new $util.LongBits(message.providerId.low >>> 0, message.providerId.high >>> 0).toNumber() : message.providerId;
+                    if (options.oneofs)
+                        object._providerId = "providerId";
+                }
+                if (message.product != null && message.hasOwnProperty("product")) {
+                    object.product = message.product;
+                    if (options.oneofs)
+                        object._product = "product";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this CoexConnectionDescriptor to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CoexConnectionDescriptor.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for CoexConnectionDescriptor
+             * @function getTypeUrl
+             * @memberof E2E.Message.CoexConnectionDescriptor
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            CoexConnectionDescriptor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.CoexConnectionDescriptor";
+            };
+
+            return CoexConnectionDescriptor;
         })();
 
         Message.CommentMessage = (function() {
@@ -50417,6 +51549,10 @@ $root.E2E = (function() {
              * @property {boolean|null} [isCanceled] EventInviteMessage isCanceled
              * @property {number|Long|null} [endTime] EventInviteMessage endTime
              * @property {string|null} [callLink] EventInviteMessage callLink
+             * @property {string|null} [coverImageHandle] EventInviteMessage coverImageHandle
+             * @property {string|null} [locationName] EventInviteMessage locationName
+             * @property {number|Long|null} [lastUpdatedTsUsec] EventInviteMessage lastUpdatedTsUsec
+             * @property {E2E.Message.EventInviteMessage.EventStatus|null} [status] EventInviteMessage status
              */
 
             /**
@@ -50506,6 +51642,38 @@ $root.E2E = (function() {
              */
             EventInviteMessage.prototype.callLink = null;
 
+            /**
+             * EventInviteMessage coverImageHandle.
+             * @member {string|null|undefined} coverImageHandle
+             * @memberof E2E.Message.EventInviteMessage
+             * @instance
+             */
+            EventInviteMessage.prototype.coverImageHandle = null;
+
+            /**
+             * EventInviteMessage locationName.
+             * @member {string|null|undefined} locationName
+             * @memberof E2E.Message.EventInviteMessage
+             * @instance
+             */
+            EventInviteMessage.prototype.locationName = null;
+
+            /**
+             * EventInviteMessage lastUpdatedTsUsec.
+             * @member {number|Long|null|undefined} lastUpdatedTsUsec
+             * @memberof E2E.Message.EventInviteMessage
+             * @instance
+             */
+            EventInviteMessage.prototype.lastUpdatedTsUsec = null;
+
+            /**
+             * EventInviteMessage status.
+             * @member {E2E.Message.EventInviteMessage.EventStatus|null|undefined} status
+             * @memberof E2E.Message.EventInviteMessage
+             * @instance
+             */
+            EventInviteMessage.prototype.status = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -50563,6 +51731,30 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(EventInviteMessage.prototype, "_coverImageHandle", {
+                get: $util.oneOfGetter($oneOfFields = ["coverImageHandle"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(EventInviteMessage.prototype, "_locationName", {
+                get: $util.oneOfGetter($oneOfFields = ["locationName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(EventInviteMessage.prototype, "_lastUpdatedTsUsec", {
+                get: $util.oneOfGetter($oneOfFields = ["lastUpdatedTsUsec"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(EventInviteMessage.prototype, "_status", {
+                get: $util.oneOfGetter($oneOfFields = ["status"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new EventInviteMessage instance using the specified properties.
              * @function create
@@ -50605,6 +51797,14 @@ $root.E2E = (function() {
                     writer.uint32(/* id 8, wireType 0 =*/64).int64(message.endTime);
                 if (message.callLink != null && Object.hasOwnProperty.call(message, "callLink"))
                     writer.uint32(/* id 9, wireType 2 =*/74).string(message.callLink);
+                if (message.coverImageHandle != null && Object.hasOwnProperty.call(message, "coverImageHandle"))
+                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.coverImageHandle);
+                if (message.locationName != null && Object.hasOwnProperty.call(message, "locationName"))
+                    writer.uint32(/* id 11, wireType 2 =*/90).string(message.locationName);
+                if (message.lastUpdatedTsUsec != null && Object.hasOwnProperty.call(message, "lastUpdatedTsUsec"))
+                    writer.uint32(/* id 12, wireType 0 =*/96).int64(message.lastUpdatedTsUsec);
+                if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                    writer.uint32(/* id 13, wireType 0 =*/104).int32(message.status);
                 return writer;
             };
 
@@ -50675,6 +51875,22 @@ $root.E2E = (function() {
                         }
                     case 9: {
                             message.callLink = reader.string();
+                            break;
+                        }
+                    case 10: {
+                            message.coverImageHandle = reader.string();
+                            break;
+                        }
+                    case 11: {
+                            message.locationName = reader.string();
+                            break;
+                        }
+                    case 12: {
+                            message.lastUpdatedTsUsec = reader.int64();
+                            break;
+                        }
+                    case 13: {
+                            message.status = reader.int32();
                             break;
                         }
                     default:
@@ -50761,6 +51977,36 @@ $root.E2E = (function() {
                     if (!$util.isString(message.callLink))
                         return "callLink: string expected";
                 }
+                if (message.coverImageHandle != null && message.hasOwnProperty("coverImageHandle")) {
+                    properties._coverImageHandle = 1;
+                    if (!$util.isString(message.coverImageHandle))
+                        return "coverImageHandle: string expected";
+                }
+                if (message.locationName != null && message.hasOwnProperty("locationName")) {
+                    properties._locationName = 1;
+                    if (!$util.isString(message.locationName))
+                        return "locationName: string expected";
+                }
+                if (message.lastUpdatedTsUsec != null && message.hasOwnProperty("lastUpdatedTsUsec")) {
+                    properties._lastUpdatedTsUsec = 1;
+                    if (!$util.isInteger(message.lastUpdatedTsUsec) && !(message.lastUpdatedTsUsec && $util.isInteger(message.lastUpdatedTsUsec.low) && $util.isInteger(message.lastUpdatedTsUsec.high)))
+                        return "lastUpdatedTsUsec: integer|Long expected";
+                }
+                if (message.status != null && message.hasOwnProperty("status")) {
+                    properties._status = 1;
+                    switch (message.status) {
+                    default:
+                        return "status: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        break;
+                    }
+                }
                 return null;
             };
 
@@ -50814,6 +52060,55 @@ $root.E2E = (function() {
                         message.endTime = new $util.LongBits(object.endTime.low >>> 0, object.endTime.high >>> 0).toNumber();
                 if (object.callLink != null)
                     message.callLink = String(object.callLink);
+                if (object.coverImageHandle != null)
+                    message.coverImageHandle = String(object.coverImageHandle);
+                if (object.locationName != null)
+                    message.locationName = String(object.locationName);
+                if (object.lastUpdatedTsUsec != null)
+                    if ($util.Long)
+                        (message.lastUpdatedTsUsec = $util.Long.fromValue(object.lastUpdatedTsUsec)).unsigned = false;
+                    else if (typeof object.lastUpdatedTsUsec === "string")
+                        message.lastUpdatedTsUsec = parseInt(object.lastUpdatedTsUsec, 10);
+                    else if (typeof object.lastUpdatedTsUsec === "number")
+                        message.lastUpdatedTsUsec = object.lastUpdatedTsUsec;
+                    else if (typeof object.lastUpdatedTsUsec === "object")
+                        message.lastUpdatedTsUsec = new $util.LongBits(object.lastUpdatedTsUsec.low >>> 0, object.lastUpdatedTsUsec.high >>> 0).toNumber();
+                switch (object.status) {
+                default:
+                    if (typeof object.status === "number") {
+                        message.status = object.status;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.status = 0;
+                    break;
+                case "ACTIVE":
+                case 1:
+                    message.status = 1;
+                    break;
+                case "CANCELED":
+                case 2:
+                    message.status = 2;
+                    break;
+                case "SUSPENDED":
+                case 3:
+                    message.status = 3;
+                    break;
+                case "DELETED":
+                case 4:
+                    message.status = 4;
+                    break;
+                case "LEFT_EVENT":
+                case 5:
+                    message.status = 5;
+                    break;
+                case "REMOVED_FROM_INVITE_LIST":
+                case 6:
+                    message.status = 6;
+                    break;
+                }
                 return message;
             };
 
@@ -50881,6 +52176,29 @@ $root.E2E = (function() {
                     if (options.oneofs)
                         object._callLink = "callLink";
                 }
+                if (message.coverImageHandle != null && message.hasOwnProperty("coverImageHandle")) {
+                    object.coverImageHandle = message.coverImageHandle;
+                    if (options.oneofs)
+                        object._coverImageHandle = "coverImageHandle";
+                }
+                if (message.locationName != null && message.hasOwnProperty("locationName")) {
+                    object.locationName = message.locationName;
+                    if (options.oneofs)
+                        object._locationName = "locationName";
+                }
+                if (message.lastUpdatedTsUsec != null && message.hasOwnProperty("lastUpdatedTsUsec")) {
+                    if (typeof message.lastUpdatedTsUsec === "number")
+                        object.lastUpdatedTsUsec = options.longs === String ? String(message.lastUpdatedTsUsec) : message.lastUpdatedTsUsec;
+                    else
+                        object.lastUpdatedTsUsec = options.longs === String ? $util.Long.prototype.toString.call(message.lastUpdatedTsUsec) : options.longs === Number ? new $util.LongBits(message.lastUpdatedTsUsec.low >>> 0, message.lastUpdatedTsUsec.high >>> 0).toNumber() : message.lastUpdatedTsUsec;
+                    if (options.oneofs)
+                        object._lastUpdatedTsUsec = "lastUpdatedTsUsec";
+                }
+                if (message.status != null && message.hasOwnProperty("status")) {
+                    object.status = options.enums === String ? $root.E2E.Message.EventInviteMessage.EventStatus[message.status] === undefined ? message.status : $root.E2E.Message.EventInviteMessage.EventStatus[message.status] : message.status;
+                    if (options.oneofs)
+                        object._status = "status";
+                }
                 return object;
             };
 
@@ -50909,6 +52227,30 @@ $root.E2E = (function() {
                 }
                 return typeUrlPrefix + "/E2E.Message.EventInviteMessage";
             };
+
+            /**
+             * EventStatus enum.
+             * @name E2E.Message.EventInviteMessage.EventStatus
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} ACTIVE=1 ACTIVE value
+             * @property {number} CANCELED=2 CANCELED value
+             * @property {number} SUSPENDED=3 SUSPENDED value
+             * @property {number} DELETED=4 DELETED value
+             * @property {number} LEFT_EVENT=5 LEFT_EVENT value
+             * @property {number} REMOVED_FROM_INVITE_LIST=6 REMOVED_FROM_INVITE_LIST value
+             */
+            EventInviteMessage.EventStatus = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "ACTIVE"] = 1;
+                values[valuesById[2] = "CANCELED"] = 2;
+                values[valuesById[3] = "SUSPENDED"] = 3;
+                values[valuesById[4] = "DELETED"] = 4;
+                values[valuesById[5] = "LEFT_EVENT"] = 5;
+                values[valuesById[6] = "REMOVED_FROM_INVITE_LIST"] = 6;
+                return values;
+            })();
 
             return EventInviteMessage;
         })();
@@ -53673,6 +55015,7 @@ $root.E2E = (function() {
              * @property {string|null} [requestId] FullHistorySyncOnDemandRequestMetadata requestId
              * @property {string|null} [businessProduct] FullHistorySyncOnDemandRequestMetadata businessProduct
              * @property {Uint8Array|null} [opaqueClientData] FullHistorySyncOnDemandRequestMetadata opaqueClientData
+             * @property {E2E.Message.ICoexConnectionDescriptor|null} [connection] FullHistorySyncOnDemandRequestMetadata connection
              */
 
             /**
@@ -53714,6 +55057,14 @@ $root.E2E = (function() {
              */
             FullHistorySyncOnDemandRequestMetadata.prototype.opaqueClientData = null;
 
+            /**
+             * FullHistorySyncOnDemandRequestMetadata connection.
+             * @member {E2E.Message.ICoexConnectionDescriptor|null|undefined} connection
+             * @memberof E2E.Message.FullHistorySyncOnDemandRequestMetadata
+             * @instance
+             */
+            FullHistorySyncOnDemandRequestMetadata.prototype.connection = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -53732,6 +55083,12 @@ $root.E2E = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(FullHistorySyncOnDemandRequestMetadata.prototype, "_opaqueClientData", {
                 get: $util.oneOfGetter($oneOfFields = ["opaqueClientData"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(FullHistorySyncOnDemandRequestMetadata.prototype, "_connection", {
+                get: $util.oneOfGetter($oneOfFields = ["connection"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -53765,6 +55122,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.businessProduct);
                 if (message.opaqueClientData != null && Object.hasOwnProperty.call(message, "opaqueClientData"))
                     writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.opaqueClientData);
+                if (message.connection != null && Object.hasOwnProperty.call(message, "connection"))
+                    $root.E2E.Message.CoexConnectionDescriptor.encode(message.connection, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                 return writer;
             };
 
@@ -53811,6 +55170,10 @@ $root.E2E = (function() {
                         }
                     case 3: {
                             message.opaqueClientData = reader.bytes();
+                            break;
+                        }
+                    case 4: {
+                            message.connection = $root.E2E.Message.CoexConnectionDescriptor.decode(reader, reader.uint32());
                             break;
                         }
                     default:
@@ -53864,6 +55227,14 @@ $root.E2E = (function() {
                     if (!(message.opaqueClientData && typeof message.opaqueClientData.length === "number" || $util.isString(message.opaqueClientData)))
                         return "opaqueClientData: buffer expected";
                 }
+                if (message.connection != null && message.hasOwnProperty("connection")) {
+                    properties._connection = 1;
+                    {
+                        var error = $root.E2E.Message.CoexConnectionDescriptor.verify(message.connection);
+                        if (error)
+                            return "connection." + error;
+                    }
+                }
                 return null;
             };
 
@@ -53888,6 +55259,11 @@ $root.E2E = (function() {
                         $util.base64.decode(object.opaqueClientData, message.opaqueClientData = $util.newBuffer($util.base64.length(object.opaqueClientData)), 0);
                     else if (object.opaqueClientData.length >= 0)
                         message.opaqueClientData = object.opaqueClientData;
+                if (object.connection != null) {
+                    if (typeof object.connection !== "object")
+                        throw TypeError(".E2E.Message.FullHistorySyncOnDemandRequestMetadata.connection: object expected");
+                    message.connection = $root.E2E.Message.CoexConnectionDescriptor.fromObject(object.connection);
+                }
                 return message;
             };
 
@@ -53918,6 +55294,11 @@ $root.E2E = (function() {
                     object.opaqueClientData = options.bytes === String ? $util.base64.encode(message.opaqueClientData, 0, message.opaqueClientData.length) : options.bytes === Array ? Array.prototype.slice.call(message.opaqueClientData) : message.opaqueClientData;
                     if (options.oneofs)
                         object._opaqueClientData = "opaqueClientData";
+                }
+                if (message.connection != null && message.hasOwnProperty("connection")) {
+                    object.connection = $root.E2E.Message.CoexConnectionDescriptor.toObject(message.connection, options);
+                    if (options.oneofs)
+                        object._connection = "connection";
                 }
                 return object;
             };
@@ -71520,11 +72901,15 @@ $root.E2E = (function() {
              * @enum {number}
              * @property {number} UNKNOWN=0 UNKNOWN value
              * @property {number} VINYL=1 VINYL value
+             * @property {number} MESSAGE_BUBBLE=2 MESSAGE_BUBBLE value
+             * @property {number} LYRICS=3 LYRICS value
              */
             MusicMessage.MusicMessageStyle = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "UNKNOWN"] = 0;
                 values[valuesById[1] = "VINYL"] = 1;
+                values[valuesById[2] = "MESSAGE_BUBBLE"] = 2;
+                values[valuesById[3] = "LYRICS"] = 3;
                 return values;
             })();
 
@@ -89933,6 +91318,7 @@ $root.E2E = (function() {
              * @property {Protocol.IACP2Setting|null} [acp2Setting] ProtocolMessage acp2Setting
              * @property {E2E.Message.ISharedDeviceContactHashKeyShare|null} [sharedDeviceContactHashKeyShare] ProtocolMessage sharedDeviceContactHashKeyShare
              * @property {E2E.Message.ISharedDeviceContactHashKeyRequest|null} [sharedDeviceContactHashKeyRequest] ProtocolMessage sharedDeviceContactHashKeyRequest
+             * @property {Array.<string>|null} [additionalPromptIds] ProtocolMessage additionalPromptIds
              */
 
             /**
@@ -89944,6 +91330,7 @@ $root.E2E = (function() {
              * @param {E2E.Message.IProtocolMessage=} [properties] Properties to set
              */
             function ProtocolMessage(properties) {
+                this.additionalPromptIds = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -90213,6 +91600,14 @@ $root.E2E = (function() {
              * @instance
              */
             ProtocolMessage.prototype.sharedDeviceContactHashKeyRequest = null;
+
+            /**
+             * ProtocolMessage additionalPromptIds.
+             * @member {Array.<string>} additionalPromptIds
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.additionalPromptIds = $util.emptyArray;
 
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
@@ -90505,6 +91900,9 @@ $root.E2E = (function() {
                     $root.E2E.Message.SharedDeviceContactHashKeyShare.encode(message.sharedDeviceContactHashKeyShare, writer.uint32(/* id 36, wireType 2 =*/290).fork()).ldelim();
                 if (message.sharedDeviceContactHashKeyRequest != null && Object.hasOwnProperty.call(message, "sharedDeviceContactHashKeyRequest"))
                     $root.E2E.Message.SharedDeviceContactHashKeyRequest.encode(message.sharedDeviceContactHashKeyRequest, writer.uint32(/* id 37, wireType 2 =*/298).fork()).ldelim();
+                if (message.additionalPromptIds != null && message.additionalPromptIds.length)
+                    for (var i = 0; i < message.additionalPromptIds.length; ++i)
+                        writer.uint32(/* id 38, wireType 2 =*/306).string(message.additionalPromptIds[i]);
                 return writer;
             };
 
@@ -90671,6 +92069,12 @@ $root.E2E = (function() {
                         }
                     case 37: {
                             message.sharedDeviceContactHashKeyRequest = $root.E2E.Message.SharedDeviceContactHashKeyRequest.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 38: {
+                            if (!(message.additionalPromptIds && message.additionalPromptIds.length))
+                                message.additionalPromptIds = [];
+                            message.additionalPromptIds.push(reader.string());
                             break;
                         }
                     default:
@@ -90989,6 +92393,13 @@ $root.E2E = (function() {
                         if (error)
                             return "sharedDeviceContactHashKeyRequest." + error;
                     }
+                }
+                if (message.additionalPromptIds != null && message.hasOwnProperty("additionalPromptIds")) {
+                    if (!Array.isArray(message.additionalPromptIds))
+                        return "additionalPromptIds: array expected";
+                    for (var i = 0; i < message.additionalPromptIds.length; ++i)
+                        if (!$util.isString(message.additionalPromptIds[i]))
+                            return "additionalPromptIds: string[] expected";
                 }
                 return null;
             };
@@ -91312,6 +92723,13 @@ $root.E2E = (function() {
                         throw TypeError(".E2E.Message.ProtocolMessage.sharedDeviceContactHashKeyRequest: object expected");
                     message.sharedDeviceContactHashKeyRequest = $root.E2E.Message.SharedDeviceContactHashKeyRequest.fromObject(object.sharedDeviceContactHashKeyRequest);
                 }
+                if (object.additionalPromptIds) {
+                    if (!Array.isArray(object.additionalPromptIds))
+                        throw TypeError(".E2E.Message.ProtocolMessage.additionalPromptIds: array expected");
+                    message.additionalPromptIds = [];
+                    for (var i = 0; i < object.additionalPromptIds.length; ++i)
+                        message.additionalPromptIds[i] = String(object.additionalPromptIds[i]);
+                }
                 return message;
             };
 
@@ -91328,6 +92746,8 @@ $root.E2E = (function() {
                 if (!options)
                     options = {};
                 var object = {};
+                if (options.arrays || options.defaults)
+                    object.additionalPromptIds = [];
                 if (message.key != null && message.hasOwnProperty("key")) {
                     object.key = $root.Protocol.MessageKey.toObject(message.key, options);
                     if (options.oneofs)
@@ -91498,6 +92918,11 @@ $root.E2E = (function() {
                     object.sharedDeviceContactHashKeyRequest = $root.E2E.Message.SharedDeviceContactHashKeyRequest.toObject(message.sharedDeviceContactHashKeyRequest, options);
                     if (options.oneofs)
                         object._sharedDeviceContactHashKeyRequest = "sharedDeviceContactHashKeyRequest";
+                }
+                if (message.additionalPromptIds && message.additionalPromptIds.length) {
+                    object.additionalPromptIds = [];
+                    for (var j = 0; j < message.additionalPromptIds.length; ++j)
+                        object.additionalPromptIds[j] = message.additionalPromptIds[j];
                 }
                 return object;
             };
@@ -92199,6 +93624,563 @@ $root.E2E = (function() {
             };
 
             return ReactionMessage;
+        })();
+
+        Message.RequestLocationMessage = (function() {
+
+            /**
+             * Properties of a RequestLocationMessage.
+             * @memberof E2E.Message
+             * @interface IRequestLocationMessage
+             * @property {E2E.IContextInfo|null} [contextInfo] RequestLocationMessage contextInfo
+             */
+
+            /**
+             * Constructs a new RequestLocationMessage.
+             * @memberof E2E.Message
+             * @classdesc Represents a RequestLocationMessage.
+             * @implements IRequestLocationMessage
+             * @constructor
+             * @param {E2E.Message.IRequestLocationMessage=} [properties] Properties to set
+             */
+            function RequestLocationMessage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * RequestLocationMessage contextInfo.
+             * @member {E2E.IContextInfo|null|undefined} contextInfo
+             * @memberof E2E.Message.RequestLocationMessage
+             * @instance
+             */
+            RequestLocationMessage.prototype.contextInfo = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(RequestLocationMessage.prototype, "_contextInfo", {
+                get: $util.oneOfGetter($oneOfFields = ["contextInfo"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new RequestLocationMessage instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {E2E.Message.IRequestLocationMessage=} [properties] Properties to set
+             * @returns {E2E.Message.RequestLocationMessage} RequestLocationMessage instance
+             */
+            RequestLocationMessage.create = function create(properties) {
+                return new RequestLocationMessage(properties);
+            };
+
+            /**
+             * Encodes the specified RequestLocationMessage message. Does not implicitly {@link E2E.Message.RequestLocationMessage.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {E2E.Message.IRequestLocationMessage} message RequestLocationMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            RequestLocationMessage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.contextInfo != null && Object.hasOwnProperty.call(message, "contextInfo"))
+                    $root.E2E.ContextInfo.encode(message.contextInfo, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified RequestLocationMessage message, length delimited. Does not implicitly {@link E2E.Message.RequestLocationMessage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {E2E.Message.IRequestLocationMessage} message RequestLocationMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            RequestLocationMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a RequestLocationMessage message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.RequestLocationMessage} RequestLocationMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            RequestLocationMessage.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.RequestLocationMessage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.contextInfo = $root.E2E.ContextInfo.decode(reader, reader.uint32());
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a RequestLocationMessage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.RequestLocationMessage} RequestLocationMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            RequestLocationMessage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a RequestLocationMessage message.
+             * @function verify
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            RequestLocationMessage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.contextInfo != null && message.hasOwnProperty("contextInfo")) {
+                    properties._contextInfo = 1;
+                    {
+                        var error = $root.E2E.ContextInfo.verify(message.contextInfo);
+                        if (error)
+                            return "contextInfo." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a RequestLocationMessage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.RequestLocationMessage} RequestLocationMessage
+             */
+            RequestLocationMessage.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.RequestLocationMessage)
+                    return object;
+                var message = new $root.E2E.Message.RequestLocationMessage();
+                if (object.contextInfo != null) {
+                    if (typeof object.contextInfo !== "object")
+                        throw TypeError(".E2E.Message.RequestLocationMessage.contextInfo: object expected");
+                    message.contextInfo = $root.E2E.ContextInfo.fromObject(object.contextInfo);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a RequestLocationMessage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {E2E.Message.RequestLocationMessage} message RequestLocationMessage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            RequestLocationMessage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.contextInfo != null && message.hasOwnProperty("contextInfo")) {
+                    object.contextInfo = $root.E2E.ContextInfo.toObject(message.contextInfo, options);
+                    if (options.oneofs)
+                        object._contextInfo = "contextInfo";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this RequestLocationMessage to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.RequestLocationMessage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            RequestLocationMessage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for RequestLocationMessage
+             * @function getTypeUrl
+             * @memberof E2E.Message.RequestLocationMessage
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            RequestLocationMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.RequestLocationMessage";
+            };
+
+            return RequestLocationMessage;
+        })();
+
+        Message.RequestLocationUpdateMessage = (function() {
+
+            /**
+             * Properties of a RequestLocationUpdateMessage.
+             * @memberof E2E.Message
+             * @interface IRequestLocationUpdateMessage
+             * @property {Protocol.IMessageKey|null} [key] RequestLocationUpdateMessage key
+             * @property {E2E.Message.RequestLocationUpdateMessage.UpdateType|null} [updateType] RequestLocationUpdateMessage updateType
+             * @property {number|Long|null} [senderTimestampMs] RequestLocationUpdateMessage senderTimestampMs
+             */
+
+            /**
+             * Constructs a new RequestLocationUpdateMessage.
+             * @memberof E2E.Message
+             * @classdesc Represents a RequestLocationUpdateMessage.
+             * @implements IRequestLocationUpdateMessage
+             * @constructor
+             * @param {E2E.Message.IRequestLocationUpdateMessage=} [properties] Properties to set
+             */
+            function RequestLocationUpdateMessage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * RequestLocationUpdateMessage key.
+             * @member {Protocol.IMessageKey|null|undefined} key
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @instance
+             */
+            RequestLocationUpdateMessage.prototype.key = null;
+
+            /**
+             * RequestLocationUpdateMessage updateType.
+             * @member {E2E.Message.RequestLocationUpdateMessage.UpdateType|null|undefined} updateType
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @instance
+             */
+            RequestLocationUpdateMessage.prototype.updateType = null;
+
+            /**
+             * RequestLocationUpdateMessage senderTimestampMs.
+             * @member {number|Long|null|undefined} senderTimestampMs
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @instance
+             */
+            RequestLocationUpdateMessage.prototype.senderTimestampMs = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(RequestLocationUpdateMessage.prototype, "_key", {
+                get: $util.oneOfGetter($oneOfFields = ["key"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(RequestLocationUpdateMessage.prototype, "_updateType", {
+                get: $util.oneOfGetter($oneOfFields = ["updateType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(RequestLocationUpdateMessage.prototype, "_senderTimestampMs", {
+                get: $util.oneOfGetter($oneOfFields = ["senderTimestampMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new RequestLocationUpdateMessage instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {E2E.Message.IRequestLocationUpdateMessage=} [properties] Properties to set
+             * @returns {E2E.Message.RequestLocationUpdateMessage} RequestLocationUpdateMessage instance
+             */
+            RequestLocationUpdateMessage.create = function create(properties) {
+                return new RequestLocationUpdateMessage(properties);
+            };
+
+            /**
+             * Encodes the specified RequestLocationUpdateMessage message. Does not implicitly {@link E2E.Message.RequestLocationUpdateMessage.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {E2E.Message.IRequestLocationUpdateMessage} message RequestLocationUpdateMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            RequestLocationUpdateMessage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.key != null && Object.hasOwnProperty.call(message, "key"))
+                    $root.Protocol.MessageKey.encode(message.key, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.updateType != null && Object.hasOwnProperty.call(message, "updateType"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.updateType);
+                if (message.senderTimestampMs != null && Object.hasOwnProperty.call(message, "senderTimestampMs"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.senderTimestampMs);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified RequestLocationUpdateMessage message, length delimited. Does not implicitly {@link E2E.Message.RequestLocationUpdateMessage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {E2E.Message.IRequestLocationUpdateMessage} message RequestLocationUpdateMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            RequestLocationUpdateMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a RequestLocationUpdateMessage message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.RequestLocationUpdateMessage} RequestLocationUpdateMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            RequestLocationUpdateMessage.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.RequestLocationUpdateMessage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.key = $root.Protocol.MessageKey.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 2: {
+                            message.updateType = reader.int32();
+                            break;
+                        }
+                    case 3: {
+                            message.senderTimestampMs = reader.int64();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a RequestLocationUpdateMessage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.RequestLocationUpdateMessage} RequestLocationUpdateMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            RequestLocationUpdateMessage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a RequestLocationUpdateMessage message.
+             * @function verify
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            RequestLocationUpdateMessage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.key != null && message.hasOwnProperty("key")) {
+                    properties._key = 1;
+                    {
+                        var error = $root.Protocol.MessageKey.verify(message.key);
+                        if (error)
+                            return "key." + error;
+                    }
+                }
+                if (message.updateType != null && message.hasOwnProperty("updateType")) {
+                    properties._updateType = 1;
+                    switch (message.updateType) {
+                    default:
+                        return "updateType: enum value expected";
+                    case 0:
+                    case 1:
+                        break;
+                    }
+                }
+                if (message.senderTimestampMs != null && message.hasOwnProperty("senderTimestampMs")) {
+                    properties._senderTimestampMs = 1;
+                    if (!$util.isInteger(message.senderTimestampMs) && !(message.senderTimestampMs && $util.isInteger(message.senderTimestampMs.low) && $util.isInteger(message.senderTimestampMs.high)))
+                        return "senderTimestampMs: integer|Long expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a RequestLocationUpdateMessage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.RequestLocationUpdateMessage} RequestLocationUpdateMessage
+             */
+            RequestLocationUpdateMessage.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.RequestLocationUpdateMessage)
+                    return object;
+                var message = new $root.E2E.Message.RequestLocationUpdateMessage();
+                if (object.key != null) {
+                    if (typeof object.key !== "object")
+                        throw TypeError(".E2E.Message.RequestLocationUpdateMessage.key: object expected");
+                    message.key = $root.Protocol.MessageKey.fromObject(object.key);
+                }
+                switch (object.updateType) {
+                default:
+                    if (typeof object.updateType === "number") {
+                        message.updateType = object.updateType;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.updateType = 0;
+                    break;
+                case "CANCEL":
+                case 1:
+                    message.updateType = 1;
+                    break;
+                }
+                if (object.senderTimestampMs != null)
+                    if ($util.Long)
+                        (message.senderTimestampMs = $util.Long.fromValue(object.senderTimestampMs)).unsigned = false;
+                    else if (typeof object.senderTimestampMs === "string")
+                        message.senderTimestampMs = parseInt(object.senderTimestampMs, 10);
+                    else if (typeof object.senderTimestampMs === "number")
+                        message.senderTimestampMs = object.senderTimestampMs;
+                    else if (typeof object.senderTimestampMs === "object")
+                        message.senderTimestampMs = new $util.LongBits(object.senderTimestampMs.low >>> 0, object.senderTimestampMs.high >>> 0).toNumber();
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a RequestLocationUpdateMessage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {E2E.Message.RequestLocationUpdateMessage} message RequestLocationUpdateMessage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            RequestLocationUpdateMessage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.key != null && message.hasOwnProperty("key")) {
+                    object.key = $root.Protocol.MessageKey.toObject(message.key, options);
+                    if (options.oneofs)
+                        object._key = "key";
+                }
+                if (message.updateType != null && message.hasOwnProperty("updateType")) {
+                    object.updateType = options.enums === String ? $root.E2E.Message.RequestLocationUpdateMessage.UpdateType[message.updateType] === undefined ? message.updateType : $root.E2E.Message.RequestLocationUpdateMessage.UpdateType[message.updateType] : message.updateType;
+                    if (options.oneofs)
+                        object._updateType = "updateType";
+                }
+                if (message.senderTimestampMs != null && message.hasOwnProperty("senderTimestampMs")) {
+                    if (typeof message.senderTimestampMs === "number")
+                        object.senderTimestampMs = options.longs === String ? String(message.senderTimestampMs) : message.senderTimestampMs;
+                    else
+                        object.senderTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.senderTimestampMs) : options.longs === Number ? new $util.LongBits(message.senderTimestampMs.low >>> 0, message.senderTimestampMs.high >>> 0).toNumber() : message.senderTimestampMs;
+                    if (options.oneofs)
+                        object._senderTimestampMs = "senderTimestampMs";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this RequestLocationUpdateMessage to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            RequestLocationUpdateMessage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for RequestLocationUpdateMessage
+             * @function getTypeUrl
+             * @memberof E2E.Message.RequestLocationUpdateMessage
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            RequestLocationUpdateMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.RequestLocationUpdateMessage";
+            };
+
+            /**
+             * UpdateType enum.
+             * @name E2E.Message.RequestLocationUpdateMessage.UpdateType
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} CANCEL=1 CANCEL value
+             */
+            RequestLocationUpdateMessage.UpdateType = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "CANCEL"] = 1;
+                return values;
+            })();
+
+            return RequestLocationUpdateMessage;
         })();
 
         Message.RequestPaymentMessage = (function() {
@@ -115593,6 +117575,7 @@ $root.AICommon = (function() {
                 case 56:
                 case 57:
                 case 58:
+                case 59:
                     break;
                 }
             }
@@ -115822,6 +117805,10 @@ $root.AICommon = (function() {
             case "NEW_3P_AGENT_CREATION":
             case 58:
                 message.botEntryPointOrigin = 58;
+                break;
+            case "SHARE":
+            case 59:
+                message.botEntryPointOrigin = 59;
                 break;
             }
             if (object.forwardScore != null)
@@ -124520,6 +126507,7 @@ $root.AICommon = (function() {
                     case 1:
                     case 2:
                     case 3:
+                    case 4:
                         break;
                     }
                 }
@@ -124565,6 +126553,10 @@ $root.AICommon = (function() {
                 case "SIDE_CHAT":
                 case 3:
                     message.type = 3;
+                    break;
+                case "PRIVATE_SEARCH_CHAT":
+                case 4:
+                    message.type = 4;
                     break;
                 }
                 if (object.sourceChatJid != null)
@@ -124632,6 +126624,7 @@ $root.AICommon = (function() {
              * @property {number} DEFAULT=1 DEFAULT value
              * @property {number} INCOGNITO=2 INCOGNITO value
              * @property {number} SIDE_CHAT=3 SIDE_CHAT value
+             * @property {number} PRIVATE_SEARCH_CHAT=4 PRIVATE_SEARCH_CHAT value
              */
             AIThreadClientInfo.AIThreadType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -124639,6 +126632,7 @@ $root.AICommon = (function() {
                 values[valuesById[1] = "DEFAULT"] = 1;
                 values[valuesById[2] = "INCOGNITO"] = 2;
                 values[valuesById[3] = "SIDE_CHAT"] = 3;
+                values[valuesById[4] = "PRIVATE_SEARCH_CHAT"] = 4;
                 return values;
             })();
 
@@ -130192,6 +132186,16 @@ $root.AICommon = (function() {
                     case 70:
                     case 71:
                     case 72:
+                    case 73:
+                    case 74:
+                    case 75:
+                    case 76:
+                    case 77:
+                    case 78:
+                    case 79:
+                    case 80:
+                    case 81:
+                    case 82:
                         break;
                     }
             }
@@ -130513,6 +132517,46 @@ $root.AICommon = (function() {
                     case 72:
                         message.capabilities[i] = 72;
                         break;
+                    case "AI_SUGGESTED_REPLIES_ENABLED":
+                    case 73:
+                        message.capabilities[i] = 73;
+                        break;
+                    case "RICH_RESPONSE_IN_APP_SURVEY_BLOKS":
+                    case 74:
+                        message.capabilities[i] = 74;
+                        break;
+                    case "RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION":
+                    case 75:
+                        message.capabilities[i] = 75;
+                        break;
+                    case "HATCH_CONNECTOR_ACTION_CARD_ENABLED":
+                    case 76:
+                        message.capabilities[i] = 76;
+                        break;
+                    case "HATCH_SECURE_CREDENTIAL_CARD_ENABLED":
+                    case 77:
+                        message.capabilities[i] = 77;
+                        break;
+                    case "HATCH_BROWSER_TASK_CARD_ENABLED":
+                    case 78:
+                        message.capabilities[i] = 78;
+                        break;
+                    case "HATCH_ARTIFACT_CARD_ENABLED":
+                    case 79:
+                        message.capabilities[i] = 79;
+                        break;
+                    case "AI_STUDY_CENTER_ENABLED":
+                    case 80:
+                        message.capabilities[i] = 80;
+                        break;
+                    case "AI_MUSE_JARVIS_SCHEMA_ENABLED":
+                    case 81:
+                        message.capabilities[i] = 81;
+                        break;
+                    case "AI_STUDY_QUIZ_ENABLED":
+                    case 82:
+                        message.capabilities[i] = 82;
+                        break;
                     }
             }
             return message;
@@ -130644,6 +132688,16 @@ $root.AICommon = (function() {
          * @property {number} AI_STOP_GENERATION_ENABLED=70 AI_STOP_GENERATION_ENABLED value
          * @property {number} AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED=71 AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED value
          * @property {number} HATCH_NOTIFICATION_METADATA_EVENT_ENABLED=72 HATCH_NOTIFICATION_METADATA_EVENT_ENABLED value
+         * @property {number} AI_SUGGESTED_REPLIES_ENABLED=73 AI_SUGGESTED_REPLIES_ENABLED value
+         * @property {number} RICH_RESPONSE_IN_APP_SURVEY_BLOKS=74 RICH_RESPONSE_IN_APP_SURVEY_BLOKS value
+         * @property {number} RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION=75 RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION value
+         * @property {number} HATCH_CONNECTOR_ACTION_CARD_ENABLED=76 HATCH_CONNECTOR_ACTION_CARD_ENABLED value
+         * @property {number} HATCH_SECURE_CREDENTIAL_CARD_ENABLED=77 HATCH_SECURE_CREDENTIAL_CARD_ENABLED value
+         * @property {number} HATCH_BROWSER_TASK_CARD_ENABLED=78 HATCH_BROWSER_TASK_CARD_ENABLED value
+         * @property {number} HATCH_ARTIFACT_CARD_ENABLED=79 HATCH_ARTIFACT_CARD_ENABLED value
+         * @property {number} AI_STUDY_CENTER_ENABLED=80 AI_STUDY_CENTER_ENABLED value
+         * @property {number} AI_MUSE_JARVIS_SCHEMA_ENABLED=81 AI_MUSE_JARVIS_SCHEMA_ENABLED value
+         * @property {number} AI_STUDY_QUIZ_ENABLED=82 AI_STUDY_QUIZ_ENABLED value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -130720,6 +132774,16 @@ $root.AICommon = (function() {
             values[valuesById[70] = "AI_STOP_GENERATION_ENABLED"] = 70;
             values[valuesById[71] = "AI_RICH_RESPONSE_3P_LINKING_CARD_ENABLED"] = 71;
             values[valuesById[72] = "HATCH_NOTIFICATION_METADATA_EVENT_ENABLED"] = 72;
+            values[valuesById[73] = "AI_SUGGESTED_REPLIES_ENABLED"] = 73;
+            values[valuesById[74] = "RICH_RESPONSE_IN_APP_SURVEY_BLOKS"] = 74;
+            values[valuesById[75] = "RICH_RESPONSE_IMAGE_SOURCE_ATTRIBUTION"] = 75;
+            values[valuesById[76] = "HATCH_CONNECTOR_ACTION_CARD_ENABLED"] = 76;
+            values[valuesById[77] = "HATCH_SECURE_CREDENTIAL_CARD_ENABLED"] = 77;
+            values[valuesById[78] = "HATCH_BROWSER_TASK_CARD_ENABLED"] = 78;
+            values[valuesById[79] = "HATCH_ARTIFACT_CARD_ENABLED"] = 79;
+            values[valuesById[80] = "AI_STUDY_CENTER_ENABLED"] = 80;
+            values[valuesById[81] = "AI_MUSE_JARVIS_SCHEMA_ENABLED"] = 81;
+            values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
             return values;
         })();
 
@@ -134578,6 +136642,7 @@ $root.AICommon = (function() {
                 case 56:
                 case 57:
                 case 58:
+                case 59:
                     break;
                 }
             }
@@ -134817,6 +136882,10 @@ $root.AICommon = (function() {
             case "NEW_3P_AGENT_CREATION":
             case 58:
                 message.destinationEntryPoint = 58;
+                break;
+            case "SHARE":
+            case 59:
+                message.destinationEntryPoint = 59;
                 break;
             }
             switch (object.threadOrigin) {
@@ -139403,6 +141472,7 @@ $root.AICommon = (function() {
      * @property {number} NEW_CHAT_LIST=56 NEW_CHAT_LIST value
      * @property {number} CONTACTS_TAB=57 CONTACTS_TAB value
      * @property {number} NEW_3P_AGENT_CREATION=58 NEW_3P_AGENT_CREATION value
+     * @property {number} SHARE=59 SHARE value
      */
     AICommon.BotMetricsEntryPoint = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -139456,6 +141526,7 @@ $root.AICommon = (function() {
         values[valuesById[56] = "NEW_CHAT_LIST"] = 56;
         values[valuesById[57] = "CONTACTS_TAB"] = 57;
         values[valuesById[58] = "NEW_3P_AGENT_CREATION"] = 58;
+        values[valuesById[59] = "SHARE"] = 59;
         return values;
     })();
 
@@ -150282,6 +152353,9 @@ $root.CompanionReg = (function() {
                 case 25:
                 case 26:
                 case 27:
+                case 28:
+                case 29:
+                case 30:
                     break;
                 }
             }
@@ -150428,6 +152502,18 @@ $root.CompanionReg = (function() {
             case "BUSINESS_BACK_OFFICE":
             case 27:
                 message.deviceType = 27;
+                break;
+            case "WAIL_WAI":
+            case 28:
+                message.deviceType = 28;
+                break;
+            case "WAIL_ALEXA":
+            case 29:
+                message.deviceType = 29;
+                break;
+            case "AUTOMOTIVE":
+            case 30:
+                message.deviceType = 30;
                 break;
             }
             if (object.ref != null)
@@ -150768,6 +152854,9 @@ $root.CompanionReg = (function() {
                 case 25:
                 case 26:
                 case 27:
+                case 28:
+                case 29:
+                case 30:
                     break;
                 }
             }
@@ -150924,6 +153013,18 @@ $root.CompanionReg = (function() {
             case "BUSINESS_BACK_OFFICE":
             case 27:
                 message.platformType = 27;
+                break;
+            case "WAIL_WAI":
+            case 28:
+                message.platformType = 28;
+                break;
+            case "WAIL_ALEXA":
+            case 29:
+                message.platformType = 29;
+                break;
+            case "AUTOMOTIVE":
+            case 30:
+                message.platformType = 30;
                 break;
             }
             if (object.requireFullSync != null)
@@ -151384,6 +153485,8 @@ $root.CompanionReg = (function() {
              * @property {Array.<string>|null} [supportedBotChannelFbids] HistorySyncConfig supportedBotChannelFbids
              * @property {boolean|null} [supportInlineContacts] HistorySyncConfig supportInlineContacts
              * @property {boolean|null} [supportNewsletter] HistorySyncConfig supportNewsletter
+             * @property {boolean|null} [supportUniversalReachChat] HistorySyncConfig supportUniversalReachChat
+             * @property {boolean|null} [supportOmittedConversationIndex] HistorySyncConfig supportOmittedConversationIndex
              */
 
             /**
@@ -151602,6 +153705,22 @@ $root.CompanionReg = (function() {
              */
             HistorySyncConfig.prototype.supportNewsletter = null;
 
+            /**
+             * HistorySyncConfig supportUniversalReachChat.
+             * @member {boolean|null|undefined} supportUniversalReachChat
+             * @memberof CompanionReg.DeviceProps.HistorySyncConfig
+             * @instance
+             */
+            HistorySyncConfig.prototype.supportUniversalReachChat = null;
+
+            /**
+             * HistorySyncConfig supportOmittedConversationIndex.
+             * @member {boolean|null|undefined} supportOmittedConversationIndex
+             * @memberof CompanionReg.DeviceProps.HistorySyncConfig
+             * @instance
+             */
+            HistorySyncConfig.prototype.supportOmittedConversationIndex = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -151749,6 +153868,18 @@ $root.CompanionReg = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(HistorySyncConfig.prototype, "_supportUniversalReachChat", {
+                get: $util.oneOfGetter($oneOfFields = ["supportUniversalReachChat"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(HistorySyncConfig.prototype, "_supportOmittedConversationIndex", {
+                get: $util.oneOfGetter($oneOfFields = ["supportOmittedConversationIndex"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new HistorySyncConfig instance using the specified properties.
              * @function create
@@ -151824,6 +153955,10 @@ $root.CompanionReg = (function() {
                     writer.uint32(/* id 24, wireType 0 =*/192).bool(message.supportInlineContacts);
                 if (message.supportNewsletter != null && Object.hasOwnProperty.call(message, "supportNewsletter"))
                     writer.uint32(/* id 25, wireType 0 =*/200).bool(message.supportNewsletter);
+                if (message.supportUniversalReachChat != null && Object.hasOwnProperty.call(message, "supportUniversalReachChat"))
+                    writer.uint32(/* id 26, wireType 0 =*/208).bool(message.supportUniversalReachChat);
+                if (message.supportOmittedConversationIndex != null && Object.hasOwnProperty.call(message, "supportOmittedConversationIndex"))
+                    writer.uint32(/* id 27, wireType 0 =*/216).bool(message.supportOmittedConversationIndex);
                 return writer;
             };
 
@@ -151960,6 +154095,14 @@ $root.CompanionReg = (function() {
                         }
                     case 25: {
                             message.supportNewsletter = reader.bool();
+                            break;
+                        }
+                    case 26: {
+                            message.supportUniversalReachChat = reader.bool();
+                            break;
+                        }
+                    case 27: {
+                            message.supportOmittedConversationIndex = reader.bool();
                             break;
                         }
                     default:
@@ -152125,6 +154268,16 @@ $root.CompanionReg = (function() {
                     if (typeof message.supportNewsletter !== "boolean")
                         return "supportNewsletter: boolean expected";
                 }
+                if (message.supportUniversalReachChat != null && message.hasOwnProperty("supportUniversalReachChat")) {
+                    properties._supportUniversalReachChat = 1;
+                    if (typeof message.supportUniversalReachChat !== "boolean")
+                        return "supportUniversalReachChat: boolean expected";
+                }
+                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
+                    properties._supportOmittedConversationIndex = 1;
+                    if (typeof message.supportOmittedConversationIndex !== "boolean")
+                        return "supportOmittedConversationIndex: boolean expected";
+                }
                 return null;
             };
 
@@ -152195,6 +154348,10 @@ $root.CompanionReg = (function() {
                     message.supportInlineContacts = Boolean(object.supportInlineContacts);
                 if (object.supportNewsletter != null)
                     message.supportNewsletter = Boolean(object.supportNewsletter);
+                if (object.supportUniversalReachChat != null)
+                    message.supportUniversalReachChat = Boolean(object.supportUniversalReachChat);
+                if (object.supportOmittedConversationIndex != null)
+                    message.supportOmittedConversationIndex = Boolean(object.supportOmittedConversationIndex);
                 return message;
             };
 
@@ -152338,6 +154495,16 @@ $root.CompanionReg = (function() {
                     if (options.oneofs)
                         object._supportNewsletter = "supportNewsletter";
                 }
+                if (message.supportUniversalReachChat != null && message.hasOwnProperty("supportUniversalReachChat")) {
+                    object.supportUniversalReachChat = message.supportUniversalReachChat;
+                    if (options.oneofs)
+                        object._supportUniversalReachChat = "supportUniversalReachChat";
+                }
+                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
+                    object.supportOmittedConversationIndex = message.supportOmittedConversationIndex;
+                    if (options.oneofs)
+                        object._supportOmittedConversationIndex = "supportOmittedConversationIndex";
+                }
                 return object;
             };
 
@@ -152402,6 +154569,9 @@ $root.CompanionReg = (function() {
          * @property {number} WAIL=25 WAIL value
          * @property {number} WASS=26 WASS value
          * @property {number} BUSINESS_BACK_OFFICE=27 BUSINESS_BACK_OFFICE value
+         * @property {number} WAIL_WAI=28 WAIL_WAI value
+         * @property {number} WAIL_ALEXA=29 WAIL_ALEXA value
+         * @property {number} AUTOMOTIVE=30 AUTOMOTIVE value
          */
         DeviceProps.PlatformType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -152433,6 +154603,9 @@ $root.CompanionReg = (function() {
             values[valuesById[25] = "WAIL"] = 25;
             values[valuesById[26] = "WASS"] = 26;
             values[valuesById[27] = "BUSINESS_BACK_OFFICE"] = 27;
+            values[valuesById[28] = "WAIL_WAI"] = 28;
+            values[valuesById[29] = "WAIL_ALEXA"] = 29;
+            values[valuesById[30] = "AUTOMOTIVE"] = 30;
             return values;
         })();
 
@@ -155015,6 +157188,7 @@ $root.Web = (function() {
                 case 2:
                 case 3:
                 case 4:
+                case 5:
                     break;
                 }
             }
@@ -155115,6 +157289,10 @@ $root.Web = (function() {
             case "PIN_IN_CHAT":
             case 4:
                 message.messageAddOnType = 4;
+                break;
+            case "REQUEST_LOCATION_UPDATE":
+            case 5:
+                message.messageAddOnType = 5;
                 break;
             }
             if (object.messageAddOn != null) {
@@ -155287,6 +157465,7 @@ $root.Web = (function() {
          * @property {number} EVENT_RESPONSE=2 EVENT_RESPONSE value
          * @property {number} POLL_UPDATE=3 POLL_UPDATE value
          * @property {number} PIN_IN_CHAT=4 PIN_IN_CHAT value
+         * @property {number} REQUEST_LOCATION_UPDATE=5 REQUEST_LOCATION_UPDATE value
          */
         MessageAddOn.MessageAddOnType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -155295,6 +157474,7 @@ $root.Web = (function() {
             values[valuesById[2] = "EVENT_RESPONSE"] = 2;
             values[valuesById[3] = "POLL_UPDATE"] = 3;
             values[valuesById[4] = "PIN_IN_CHAT"] = 4;
+            values[valuesById[5] = "REQUEST_LOCATION_UPDATE"] = 5;
             return values;
         })();
 
@@ -157256,6 +159436,224 @@ $root.Web = (function() {
         return KeepInChat;
     })();
 
+    Web.EventInviteAdditionalMetadata = (function() {
+
+        /**
+         * Properties of an EventInviteAdditionalMetadata.
+         * @memberof Web
+         * @interface IEventInviteAdditionalMetadata
+         * @property {boolean|null} [isUpdated] EventInviteAdditionalMetadata isUpdated
+         */
+
+        /**
+         * Constructs a new EventInviteAdditionalMetadata.
+         * @memberof Web
+         * @classdesc Represents an EventInviteAdditionalMetadata.
+         * @implements IEventInviteAdditionalMetadata
+         * @constructor
+         * @param {Web.IEventInviteAdditionalMetadata=} [properties] Properties to set
+         */
+        function EventInviteAdditionalMetadata(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * EventInviteAdditionalMetadata isUpdated.
+         * @member {boolean|null|undefined} isUpdated
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @instance
+         */
+        EventInviteAdditionalMetadata.prototype.isUpdated = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(EventInviteAdditionalMetadata.prototype, "_isUpdated", {
+            get: $util.oneOfGetter($oneOfFields = ["isUpdated"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new EventInviteAdditionalMetadata instance using the specified properties.
+         * @function create
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {Web.IEventInviteAdditionalMetadata=} [properties] Properties to set
+         * @returns {Web.EventInviteAdditionalMetadata} EventInviteAdditionalMetadata instance
+         */
+        EventInviteAdditionalMetadata.create = function create(properties) {
+            return new EventInviteAdditionalMetadata(properties);
+        };
+
+        /**
+         * Encodes the specified EventInviteAdditionalMetadata message. Does not implicitly {@link Web.EventInviteAdditionalMetadata.verify|verify} messages.
+         * @function encode
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {Web.IEventInviteAdditionalMetadata} message EventInviteAdditionalMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        EventInviteAdditionalMetadata.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.isUpdated != null && Object.hasOwnProperty.call(message, "isUpdated"))
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.isUpdated);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified EventInviteAdditionalMetadata message, length delimited. Does not implicitly {@link Web.EventInviteAdditionalMetadata.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {Web.IEventInviteAdditionalMetadata} message EventInviteAdditionalMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        EventInviteAdditionalMetadata.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an EventInviteAdditionalMetadata message from the specified reader or buffer.
+         * @function decode
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Web.EventInviteAdditionalMetadata} EventInviteAdditionalMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        EventInviteAdditionalMetadata.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Web.EventInviteAdditionalMetadata();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.isUpdated = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an EventInviteAdditionalMetadata message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Web.EventInviteAdditionalMetadata} EventInviteAdditionalMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        EventInviteAdditionalMetadata.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an EventInviteAdditionalMetadata message.
+         * @function verify
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        EventInviteAdditionalMetadata.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.isUpdated != null && message.hasOwnProperty("isUpdated")) {
+                properties._isUpdated = 1;
+                if (typeof message.isUpdated !== "boolean")
+                    return "isUpdated: boolean expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates an EventInviteAdditionalMetadata message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Web.EventInviteAdditionalMetadata} EventInviteAdditionalMetadata
+         */
+        EventInviteAdditionalMetadata.fromObject = function fromObject(object) {
+            if (object instanceof $root.Web.EventInviteAdditionalMetadata)
+                return object;
+            var message = new $root.Web.EventInviteAdditionalMetadata();
+            if (object.isUpdated != null)
+                message.isUpdated = Boolean(object.isUpdated);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an EventInviteAdditionalMetadata message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {Web.EventInviteAdditionalMetadata} message EventInviteAdditionalMetadata
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        EventInviteAdditionalMetadata.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.isUpdated != null && message.hasOwnProperty("isUpdated")) {
+                object.isUpdated = message.isUpdated;
+                if (options.oneofs)
+                    object._isUpdated = "isUpdated";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this EventInviteAdditionalMetadata to JSON.
+         * @function toJSON
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        EventInviteAdditionalMetadata.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for EventInviteAdditionalMetadata
+         * @function getTypeUrl
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        EventInviteAdditionalMetadata.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/Web.EventInviteAdditionalMetadata";
+        };
+
+        return EventInviteAdditionalMetadata;
+    })();
+
     Web.EventAdditionalMetadata = (function() {
 
         /**
@@ -157700,6 +160098,7 @@ $root.Web = (function() {
          * @interface IPollAdditionalMetadata
          * @property {boolean|null} [pollInvalidated] PollAdditionalMetadata pollInvalidated
          * @property {Array.<Web.PollAdditionalMetadata.IPollNameHashHistoryEntry>|null} [pollNameHashHistory] PollAdditionalMetadata pollNameHashHistory
+         * @property {Array.<E2E.Message.PollCreationMessage.IOption>|null} [originalOptions] PollAdditionalMetadata originalOptions
          */
 
         /**
@@ -157712,6 +160111,7 @@ $root.Web = (function() {
          */
         function PollAdditionalMetadata(properties) {
             this.pollNameHashHistory = [];
+            this.originalOptions = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -157733,6 +160133,14 @@ $root.Web = (function() {
          * @instance
          */
         PollAdditionalMetadata.prototype.pollNameHashHistory = $util.emptyArray;
+
+        /**
+         * PollAdditionalMetadata originalOptions.
+         * @member {Array.<E2E.Message.PollCreationMessage.IOption>} originalOptions
+         * @memberof Web.PollAdditionalMetadata
+         * @instance
+         */
+        PollAdditionalMetadata.prototype.originalOptions = $util.emptyArray;
 
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
@@ -157772,6 +160180,9 @@ $root.Web = (function() {
             if (message.pollNameHashHistory != null && message.pollNameHashHistory.length)
                 for (var i = 0; i < message.pollNameHashHistory.length; ++i)
                     $root.Web.PollAdditionalMetadata.PollNameHashHistoryEntry.encode(message.pollNameHashHistory[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.originalOptions != null && message.originalOptions.length)
+                for (var i = 0; i < message.originalOptions.length; ++i)
+                    $root.E2E.Message.PollCreationMessage.Option.encode(message.originalOptions[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
         };
 
@@ -157816,6 +160227,12 @@ $root.Web = (function() {
                         if (!(message.pollNameHashHistory && message.pollNameHashHistory.length))
                             message.pollNameHashHistory = [];
                         message.pollNameHashHistory.push($root.Web.PollAdditionalMetadata.PollNameHashHistoryEntry.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 3: {
+                        if (!(message.originalOptions && message.originalOptions.length))
+                            message.originalOptions = [];
+                        message.originalOptions.push($root.E2E.Message.PollCreationMessage.Option.decode(reader, reader.uint32()));
                         break;
                     }
                 default:
@@ -157868,6 +160285,15 @@ $root.Web = (function() {
                         return "pollNameHashHistory." + error;
                 }
             }
+            if (message.originalOptions != null && message.hasOwnProperty("originalOptions")) {
+                if (!Array.isArray(message.originalOptions))
+                    return "originalOptions: array expected";
+                for (var i = 0; i < message.originalOptions.length; ++i) {
+                    var error = $root.E2E.Message.PollCreationMessage.Option.verify(message.originalOptions[i]);
+                    if (error)
+                        return "originalOptions." + error;
+                }
+            }
             return null;
         };
 
@@ -157895,6 +160321,16 @@ $root.Web = (function() {
                     message.pollNameHashHistory[i] = $root.Web.PollAdditionalMetadata.PollNameHashHistoryEntry.fromObject(object.pollNameHashHistory[i]);
                 }
             }
+            if (object.originalOptions) {
+                if (!Array.isArray(object.originalOptions))
+                    throw TypeError(".Web.PollAdditionalMetadata.originalOptions: array expected");
+                message.originalOptions = [];
+                for (var i = 0; i < object.originalOptions.length; ++i) {
+                    if (typeof object.originalOptions[i] !== "object")
+                        throw TypeError(".Web.PollAdditionalMetadata.originalOptions: object expected");
+                    message.originalOptions[i] = $root.E2E.Message.PollCreationMessage.Option.fromObject(object.originalOptions[i]);
+                }
+            }
             return message;
         };
 
@@ -157911,8 +160347,10 @@ $root.Web = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.arrays || options.defaults)
+            if (options.arrays || options.defaults) {
                 object.pollNameHashHistory = [];
+                object.originalOptions = [];
+            }
             if (message.pollInvalidated != null && message.hasOwnProperty("pollInvalidated")) {
                 object.pollInvalidated = message.pollInvalidated;
                 if (options.oneofs)
@@ -157922,6 +160360,11 @@ $root.Web = (function() {
                 object.pollNameHashHistory = [];
                 for (var j = 0; j < message.pollNameHashHistory.length; ++j)
                     object.pollNameHashHistory[j] = $root.Web.PollAdditionalMetadata.PollNameHashHistoryEntry.toObject(message.pollNameHashHistory[j], options);
+            }
+            if (message.originalOptions && message.originalOptions.length) {
+                object.originalOptions = [];
+                for (var j = 0; j < message.originalOptions.length; ++j)
+                    object.originalOptions[j] = $root.E2E.Message.PollCreationMessage.Option.toObject(message.originalOptions[j], options);
             }
             return object;
         };
@@ -165513,6 +167956,7 @@ $root.Web = (function() {
          * @property {Web.IScheduledMessageMetadata|null} [scheduledMessageMetadata] WebMessageInfo scheduledMessageMetadata
          * @property {string|null} [decisionId] WebMessageInfo decisionId
          * @property {Array.<string>|null} [decisionSources] WebMessageInfo decisionSources
+         * @property {Web.IEventInviteAdditionalMetadata|null} [eventInviteAdditionalMetadata] WebMessageInfo eventInviteAdditionalMetadata
          */
 
         /**
@@ -166117,6 +168561,14 @@ $root.Web = (function() {
          */
         WebMessageInfo.prototype.decisionSources = $util.emptyArray;
 
+        /**
+         * WebMessageInfo eventInviteAdditionalMetadata.
+         * @member {Web.IEventInviteAdditionalMetadata|null|undefined} eventInviteAdditionalMetadata
+         * @memberof Web.WebMessageInfo
+         * @instance
+         */
+        WebMessageInfo.prototype.eventInviteAdditionalMetadata = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -166486,6 +168938,12 @@ $root.Web = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(WebMessageInfo.prototype, "_eventInviteAdditionalMetadata", {
+            get: $util.oneOfGetter($oneOfFields = ["eventInviteAdditionalMetadata"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new WebMessageInfo instance using the specified properties.
          * @function create
@@ -166665,6 +169123,8 @@ $root.Web = (function() {
             if (message.decisionSources != null && message.decisionSources.length)
                 for (var i = 0; i < message.decisionSources.length; ++i)
                     writer.uint32(/* id 83, wireType 2 =*/666).string(message.decisionSources[i]);
+            if (message.eventInviteAdditionalMetadata != null && Object.hasOwnProperty.call(message, "eventInviteAdditionalMetadata"))
+                $root.Web.EventInviteAdditionalMetadata.encode(message.eventInviteAdditionalMetadata, writer.uint32(/* id 84, wireType 2 =*/674).fork()).ldelim();
             return writer;
         };
 
@@ -167009,6 +169469,10 @@ $root.Web = (function() {
                         if (!(message.decisionSources && message.decisionSources.length))
                             message.decisionSources = [];
                         message.decisionSources.push(reader.string());
+                        break;
+                    }
+                case 84: {
+                        message.eventInviteAdditionalMetadata = $root.Web.EventInviteAdditionalMetadata.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -167373,9 +169837,35 @@ $root.Web = (function() {
                 case 248:
                 case 249:
                 case 250:
+                case 251:
+                case 252:
+                case 253:
                 case 254:
-                case 256:
                 case 255:
+                case 256:
+                case 257:
+                case 258:
+                case 259:
+                case 260:
+                case 261:
+                case 262:
+                case 263:
+                case 264:
+                case 265:
+                case 266:
+                case 267:
+                case 270:
+                case 271:
+                case 272:
+                case 273:
+                case 274:
+                case 275:
+                case 276:
+                case 277:
+                case 283:
+                case 284:
+                case 285:
+                case 289:
                     break;
                 }
             }
@@ -167767,6 +170257,14 @@ $root.Web = (function() {
                 for (var i = 0; i < message.decisionSources.length; ++i)
                     if (!$util.isString(message.decisionSources[i]))
                         return "decisionSources: string[] expected";
+            }
+            if (message.eventInviteAdditionalMetadata != null && message.hasOwnProperty("eventInviteAdditionalMetadata")) {
+                properties._eventInviteAdditionalMetadata = 1;
+                {
+                    var error = $root.Web.EventInviteAdditionalMetadata.verify(message.eventInviteAdditionalMetadata);
+                    if (error)
+                        return "eventInviteAdditionalMetadata." + error;
+                }
             }
             return null;
         };
@@ -168815,17 +171313,121 @@ $root.Web = (function() {
             case 250:
                 message.messageStubType = 250;
                 break;
+            case "GROUP_DEFAULT_SUB_GROUP_DEMOTE":
+            case 251:
+                message.messageStubType = 251;
+                break;
+            case "BIZ_BUSINESS_BROADCAST_ENTRY_POINT":
+            case 252:
+                message.messageStubType = 252;
+                break;
+            case "BOT_INLINE_TOS_CHAT":
+            case 253:
+                message.messageStubType = 253;
+                break;
             case "CAMEO_CHAT_CREATED":
             case 254:
                 message.messageStubType = 254;
+                break;
+            case "SENDER_SIDE_CONTACT_INFO":
+            case 255:
+                message.messageStubType = 255;
                 break;
             case "CAMEO_TRANSITIONED":
             case 256:
                 message.messageStubType = 256;
                 break;
-            case "SENDER_SIDE_CONTACT_INFO":
-            case 255:
-                message.messageStubType = 255;
+            case "CAMEO_REGISTERED_WITH_NEW_CHAT":
+            case 257:
+                message.messageStubType = 257;
+                break;
+            case "PRIVACY_SYSTEM_MESSAGE":
+            case 258:
+                message.messageStubType = 258;
+                break;
+            case "BIZ_AI_LEARNING_ENABLED_DISCLOSURE":
+            case 259:
+                message.messageStubType = 259;
+                break;
+            case "BIZ_AI_LEARNING_DISABLED_DISCLOSURE":
+            case 260:
+                message.messageStubType = 260;
+                break;
+            case "BIZ_AI_REPLIES_MUTED_HISTORICAL_CHAT":
+            case 261:
+                message.messageStubType = 261;
+                break;
+            case "INVITE_FROM_IG":
+            case 262:
+                message.messageStubType = 262;
+                break;
+            case "GROUP_ADMIN_FIRST_JOIN_VIA_LINK":
+            case 263:
+                message.messageStubType = 263;
+                break;
+            case "GROUP_ADMIN_FLOOD_JOIN_VIA_LINK":
+            case 264:
+                message.messageStubType = 264;
+                break;
+            case "BIZ_AI_REPLIES_MUTED_IRRELEVANT_HISTORICAL_CHAT":
+            case 265:
+                message.messageStubType = 265;
+                break;
+            case "PENDING_INVITE_CREATED":
+            case 266:
+                message.messageStubType = 266;
+                break;
+            case "CAMEO_CHAT_EXPIRED":
+            case 267:
+                message.messageStubType = 267;
+                break;
+            case "GROUP_PUSHNAME_SHARED":
+            case 270:
+                message.messageStubType = 270;
+                break;
+            case "BIZ_POST_SEND_OPT_OUT":
+            case 271:
+                message.messageStubType = 271;
+                break;
+            case "BB_PRO_BROADCAST_CHAT_CARD":
+            case 272:
+                message.messageStubType = 272;
+                break;
+            case "BOT_PROACTIVE_MESSAGE_ENABLED":
+            case 273:
+                message.messageStubType = 273;
+                break;
+            case "BOT_PROACTIVE_MESSAGE_DISABLED":
+            case 274:
+                message.messageStubType = 274;
+                break;
+            case "BOT_PROACTIVE_MESSAGE_FIRST_TIME":
+            case 275:
+                message.messageStubType = 275;
+                break;
+            case "DYNAMIC_AUDIENCE_LIST_CREATE":
+            case 276:
+                message.messageStubType = 276;
+                break;
+            case "DYNAMIC_AUDIENCE_LIST_UPDATE_LINK":
+            case 277:
+                message.messageStubType = 277;
+                break;
+            case "CHAT_WITH_BUSINESS_IN_DIRECTORY":
+            case 283:
+                message.messageStubType = 283;
+                break;
+            case "META_AI_THREAD_CREATED":
+            case 284:
+                message.messageStubType = 284;
+                break;
+            case "META_AI_CONNECTOR_LINKED":
+            case 285:
+                message.messageStubType = 285;
+                break;
+            case "SPLIT_PAYMENT_MARKED_AS_PAID":
+            case 289:
+                message.messageStubType = 289;
                 break;
             }
             if (object.clearMedia != null)
@@ -169133,6 +171735,11 @@ $root.Web = (function() {
                 message.decisionSources = [];
                 for (var i = 0; i < object.decisionSources.length; ++i)
                     message.decisionSources[i] = String(object.decisionSources[i]);
+            }
+            if (object.eventInviteAdditionalMetadata != null) {
+                if (typeof object.eventInviteAdditionalMetadata !== "object")
+                    throw TypeError(".Web.WebMessageInfo.eventInviteAdditionalMetadata: object expected");
+                message.eventInviteAdditionalMetadata = $root.Web.EventInviteAdditionalMetadata.fromObject(object.eventInviteAdditionalMetadata);
             }
             return message;
         };
@@ -169541,6 +172148,11 @@ $root.Web = (function() {
                 for (var j = 0; j < message.decisionSources.length; ++j)
                     object.decisionSources[j] = message.decisionSources[j];
             }
+            if (message.eventInviteAdditionalMetadata != null && message.hasOwnProperty("eventInviteAdditionalMetadata")) {
+                object.eventInviteAdditionalMetadata = $root.Web.EventInviteAdditionalMetadata.toObject(message.eventInviteAdditionalMetadata, options);
+                if (options.oneofs)
+                    object._eventInviteAdditionalMetadata = "eventInviteAdditionalMetadata";
+            }
             return object;
         };
 
@@ -169850,9 +172462,35 @@ $root.Web = (function() {
          * @property {number} EPHEMERAL_CHANGED_FOR_COEX=248 EPHEMERAL_CHANGED_FOR_COEX value
          * @property {number} UGC_BOT_PROFILE_UPDATED=249 UGC_BOT_PROFILE_UPDATED value
          * @property {number} ORDER_EPHEMERAL_EXEMPTION=250 ORDER_EPHEMERAL_EXEMPTION value
+         * @property {number} GROUP_DEFAULT_SUB_GROUP_DEMOTE=251 GROUP_DEFAULT_SUB_GROUP_DEMOTE value
+         * @property {number} BIZ_BUSINESS_BROADCAST_ENTRY_POINT=252 BIZ_BUSINESS_BROADCAST_ENTRY_POINT value
+         * @property {number} BOT_INLINE_TOS_CHAT=253 BOT_INLINE_TOS_CHAT value
          * @property {number} CAMEO_CHAT_CREATED=254 CAMEO_CHAT_CREATED value
-         * @property {number} CAMEO_TRANSITIONED=256 CAMEO_TRANSITIONED value
          * @property {number} SENDER_SIDE_CONTACT_INFO=255 SENDER_SIDE_CONTACT_INFO value
+         * @property {number} CAMEO_TRANSITIONED=256 CAMEO_TRANSITIONED value
+         * @property {number} CAMEO_REGISTERED_WITH_NEW_CHAT=257 CAMEO_REGISTERED_WITH_NEW_CHAT value
+         * @property {number} PRIVACY_SYSTEM_MESSAGE=258 PRIVACY_SYSTEM_MESSAGE value
+         * @property {number} BIZ_AI_LEARNING_ENABLED_DISCLOSURE=259 BIZ_AI_LEARNING_ENABLED_DISCLOSURE value
+         * @property {number} BIZ_AI_LEARNING_DISABLED_DISCLOSURE=260 BIZ_AI_LEARNING_DISABLED_DISCLOSURE value
+         * @property {number} BIZ_AI_REPLIES_MUTED_HISTORICAL_CHAT=261 BIZ_AI_REPLIES_MUTED_HISTORICAL_CHAT value
+         * @property {number} INVITE_FROM_IG=262 INVITE_FROM_IG value
+         * @property {number} GROUP_ADMIN_FIRST_JOIN_VIA_LINK=263 GROUP_ADMIN_FIRST_JOIN_VIA_LINK value
+         * @property {number} GROUP_ADMIN_FLOOD_JOIN_VIA_LINK=264 GROUP_ADMIN_FLOOD_JOIN_VIA_LINK value
+         * @property {number} BIZ_AI_REPLIES_MUTED_IRRELEVANT_HISTORICAL_CHAT=265 BIZ_AI_REPLIES_MUTED_IRRELEVANT_HISTORICAL_CHAT value
+         * @property {number} PENDING_INVITE_CREATED=266 PENDING_INVITE_CREATED value
+         * @property {number} CAMEO_CHAT_EXPIRED=267 CAMEO_CHAT_EXPIRED value
+         * @property {number} GROUP_PUSHNAME_SHARED=270 GROUP_PUSHNAME_SHARED value
+         * @property {number} BIZ_POST_SEND_OPT_OUT=271 BIZ_POST_SEND_OPT_OUT value
+         * @property {number} BB_PRO_BROADCAST_CHAT_CARD=272 BB_PRO_BROADCAST_CHAT_CARD value
+         * @property {number} BOT_PROACTIVE_MESSAGE_ENABLED=273 BOT_PROACTIVE_MESSAGE_ENABLED value
+         * @property {number} BOT_PROACTIVE_MESSAGE_DISABLED=274 BOT_PROACTIVE_MESSAGE_DISABLED value
+         * @property {number} BOT_PROACTIVE_MESSAGE_FIRST_TIME=275 BOT_PROACTIVE_MESSAGE_FIRST_TIME value
+         * @property {number} DYNAMIC_AUDIENCE_LIST_CREATE=276 DYNAMIC_AUDIENCE_LIST_CREATE value
+         * @property {number} DYNAMIC_AUDIENCE_LIST_UPDATE_LINK=277 DYNAMIC_AUDIENCE_LIST_UPDATE_LINK value
+         * @property {number} CHAT_WITH_BUSINESS_IN_DIRECTORY=283 CHAT_WITH_BUSINESS_IN_DIRECTORY value
+         * @property {number} META_AI_THREAD_CREATED=284 META_AI_THREAD_CREATED value
+         * @property {number} META_AI_CONNECTOR_LINKED=285 META_AI_CONNECTOR_LINKED value
+         * @property {number} SPLIT_PAYMENT_MARKED_AS_PAID=289 SPLIT_PAYMENT_MARKED_AS_PAID value
          */
         WebMessageInfo.StubType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -170092,9 +172730,35 @@ $root.Web = (function() {
             values[valuesById[248] = "EPHEMERAL_CHANGED_FOR_COEX"] = 248;
             values[valuesById[249] = "UGC_BOT_PROFILE_UPDATED"] = 249;
             values[valuesById[250] = "ORDER_EPHEMERAL_EXEMPTION"] = 250;
+            values[valuesById[251] = "GROUP_DEFAULT_SUB_GROUP_DEMOTE"] = 251;
+            values[valuesById[252] = "BIZ_BUSINESS_BROADCAST_ENTRY_POINT"] = 252;
+            values[valuesById[253] = "BOT_INLINE_TOS_CHAT"] = 253;
             values[valuesById[254] = "CAMEO_CHAT_CREATED"] = 254;
-            values[valuesById[256] = "CAMEO_TRANSITIONED"] = 256;
             values[valuesById[255] = "SENDER_SIDE_CONTACT_INFO"] = 255;
+            values[valuesById[256] = "CAMEO_TRANSITIONED"] = 256;
+            values[valuesById[257] = "CAMEO_REGISTERED_WITH_NEW_CHAT"] = 257;
+            values[valuesById[258] = "PRIVACY_SYSTEM_MESSAGE"] = 258;
+            values[valuesById[259] = "BIZ_AI_LEARNING_ENABLED_DISCLOSURE"] = 259;
+            values[valuesById[260] = "BIZ_AI_LEARNING_DISABLED_DISCLOSURE"] = 260;
+            values[valuesById[261] = "BIZ_AI_REPLIES_MUTED_HISTORICAL_CHAT"] = 261;
+            values[valuesById[262] = "INVITE_FROM_IG"] = 262;
+            values[valuesById[263] = "GROUP_ADMIN_FIRST_JOIN_VIA_LINK"] = 263;
+            values[valuesById[264] = "GROUP_ADMIN_FLOOD_JOIN_VIA_LINK"] = 264;
+            values[valuesById[265] = "BIZ_AI_REPLIES_MUTED_IRRELEVANT_HISTORICAL_CHAT"] = 265;
+            values[valuesById[266] = "PENDING_INVITE_CREATED"] = 266;
+            values[valuesById[267] = "CAMEO_CHAT_EXPIRED"] = 267;
+            values[valuesById[270] = "GROUP_PUSHNAME_SHARED"] = 270;
+            values[valuesById[271] = "BIZ_POST_SEND_OPT_OUT"] = 271;
+            values[valuesById[272] = "BB_PRO_BROADCAST_CHAT_CARD"] = 272;
+            values[valuesById[273] = "BOT_PROACTIVE_MESSAGE_ENABLED"] = 273;
+            values[valuesById[274] = "BOT_PROACTIVE_MESSAGE_DISABLED"] = 274;
+            values[valuesById[275] = "BOT_PROACTIVE_MESSAGE_FIRST_TIME"] = 275;
+            values[valuesById[276] = "DYNAMIC_AUDIENCE_LIST_CREATE"] = 276;
+            values[valuesById[277] = "DYNAMIC_AUDIENCE_LIST_UPDATE_LINK"] = 277;
+            values[valuesById[283] = "CHAT_WITH_BUSINESS_IN_DIRECTORY"] = 283;
+            values[valuesById[284] = "META_AI_THREAD_CREATED"] = 284;
+            values[valuesById[285] = "META_AI_CONNECTOR_LINKED"] = 285;
+            values[valuesById[289] = "SPLIT_PAYMENT_MARKED_AS_PAID"] = 289;
             return values;
         })();
 
@@ -171205,6 +173869,8 @@ $root.SyncAction = (function() {
          * @property {SyncAction.SyncActionValue.IContactManagerMetadataAction|null} [contactManagerMetadataAction] SyncActionValue contactManagerMetadataAction
          * @property {SyncAction.SyncActionValue.IBusinessFolderActivationAction|null} [businessFolderActivationAction] SyncActionValue businessFolderActivationAction
          * @property {SyncAction.SyncActionValue.IGroupHistoryToggleAction|null} [groupHistoryToggleAction] SyncActionValue groupHistoryToggleAction
+         * @property {SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction|null} [bbProPendingCustomerBaseAction] SyncActionValue bbProPendingCustomerBaseAction
+         * @property {SyncAction.SyncActionValue.ICommunityNestingStateAction|null} [communityNestingStateAction] SyncActionValue communityNestingStateAction
          */
 
         /**
@@ -171926,6 +174592,22 @@ $root.SyncAction = (function() {
          */
         SyncActionValue.prototype.groupHistoryToggleAction = null;
 
+        /**
+         * SyncActionValue bbProPendingCustomerBaseAction.
+         * @member {SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction|null|undefined} bbProPendingCustomerBaseAction
+         * @memberof SyncAction.SyncActionValue
+         * @instance
+         */
+        SyncActionValue.prototype.bbProPendingCustomerBaseAction = null;
+
+        /**
+         * SyncActionValue communityNestingStateAction.
+         * @member {SyncAction.SyncActionValue.ICommunityNestingStateAction|null|undefined} communityNestingStateAction
+         * @memberof SyncAction.SyncActionValue
+         * @instance
+         */
+        SyncActionValue.prototype.communityNestingStateAction = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -172457,6 +175139,18 @@ $root.SyncAction = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SyncActionValue.prototype, "_bbProPendingCustomerBaseAction", {
+            get: $util.oneOfGetter($oneOfFields = ["bbProPendingCustomerBaseAction"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SyncActionValue.prototype, "_communityNestingStateAction", {
+            get: $util.oneOfGetter($oneOfFields = ["communityNestingStateAction"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new SyncActionValue instance using the specified properties.
          * @function create
@@ -172657,6 +175351,10 @@ $root.SyncAction = (function() {
                 $root.SyncAction.SyncActionValue.BusinessFolderActivationAction.encode(message.businessFolderActivationAction, writer.uint32(/* id 96, wireType 2 =*/770).fork()).ldelim();
             if (message.groupHistoryToggleAction != null && Object.hasOwnProperty.call(message, "groupHistoryToggleAction"))
                 $root.SyncAction.SyncActionValue.GroupHistoryToggleAction.encode(message.groupHistoryToggleAction, writer.uint32(/* id 97, wireType 2 =*/778).fork()).ldelim();
+            if (message.bbProPendingCustomerBaseAction != null && Object.hasOwnProperty.call(message, "bbProPendingCustomerBaseAction"))
+                $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.encode(message.bbProPendingCustomerBaseAction, writer.uint32(/* id 98, wireType 2 =*/786).fork()).ldelim();
+            if (message.communityNestingStateAction != null && Object.hasOwnProperty.call(message, "communityNestingStateAction"))
+                $root.SyncAction.SyncActionValue.CommunityNestingStateAction.encode(message.communityNestingStateAction, writer.uint32(/* id 99, wireType 2 =*/794).fork()).ldelim();
             return writer;
         };
 
@@ -173043,6 +175741,14 @@ $root.SyncAction = (function() {
                     }
                 case 97: {
                         message.groupHistoryToggleAction = $root.SyncAction.SyncActionValue.GroupHistoryToggleAction.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 98: {
+                        message.bbProPendingCustomerBaseAction = $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 99: {
+                        message.communityNestingStateAction = $root.SyncAction.SyncActionValue.CommunityNestingStateAction.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -173782,6 +176488,22 @@ $root.SyncAction = (function() {
                         return "groupHistoryToggleAction." + error;
                 }
             }
+            if (message.bbProPendingCustomerBaseAction != null && message.hasOwnProperty("bbProPendingCustomerBaseAction")) {
+                properties._bbProPendingCustomerBaseAction = 1;
+                {
+                    var error = $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.verify(message.bbProPendingCustomerBaseAction);
+                    if (error)
+                        return "bbProPendingCustomerBaseAction." + error;
+                }
+            }
+            if (message.communityNestingStateAction != null && message.hasOwnProperty("communityNestingStateAction")) {
+                properties._communityNestingStateAction = 1;
+                {
+                    var error = $root.SyncAction.SyncActionValue.CommunityNestingStateAction.verify(message.communityNestingStateAction);
+                    if (error)
+                        return "communityNestingStateAction." + error;
+                }
+            }
             return null;
         };
 
@@ -174241,6 +176963,16 @@ $root.SyncAction = (function() {
                     throw TypeError(".SyncAction.SyncActionValue.groupHistoryToggleAction: object expected");
                 message.groupHistoryToggleAction = $root.SyncAction.SyncActionValue.GroupHistoryToggleAction.fromObject(object.groupHistoryToggleAction);
             }
+            if (object.bbProPendingCustomerBaseAction != null) {
+                if (typeof object.bbProPendingCustomerBaseAction !== "object")
+                    throw TypeError(".SyncAction.SyncActionValue.bbProPendingCustomerBaseAction: object expected");
+                message.bbProPendingCustomerBaseAction = $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.fromObject(object.bbProPendingCustomerBaseAction);
+            }
+            if (object.communityNestingStateAction != null) {
+                if (typeof object.communityNestingStateAction !== "object")
+                    throw TypeError(".SyncAction.SyncActionValue.communityNestingStateAction: object expected");
+                message.communityNestingStateAction = $root.SyncAction.SyncActionValue.CommunityNestingStateAction.fromObject(object.communityNestingStateAction);
+            }
             return message;
         };
 
@@ -174699,6 +177431,16 @@ $root.SyncAction = (function() {
                 object.groupHistoryToggleAction = $root.SyncAction.SyncActionValue.GroupHistoryToggleAction.toObject(message.groupHistoryToggleAction, options);
                 if (options.oneofs)
                     object._groupHistoryToggleAction = "groupHistoryToggleAction";
+            }
+            if (message.bbProPendingCustomerBaseAction != null && message.hasOwnProperty("bbProPendingCustomerBaseAction")) {
+                object.bbProPendingCustomerBaseAction = $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.toObject(message.bbProPendingCustomerBaseAction, options);
+                if (options.oneofs)
+                    object._bbProPendingCustomerBaseAction = "bbProPendingCustomerBaseAction";
+            }
+            if (message.communityNestingStateAction != null && message.hasOwnProperty("communityNestingStateAction")) {
+                object.communityNestingStateAction = $root.SyncAction.SyncActionValue.CommunityNestingStateAction.toObject(message.communityNestingStateAction, options);
+                if (options.oneofs)
+                    object._communityNestingStateAction = "communityNestingStateAction";
             }
             return object;
         };
@@ -176225,6 +178967,224 @@ $root.SyncAction = (function() {
             })();
 
             return AvatarUpdatedAction;
+        })();
+
+        SyncActionValue.BBProPendingCustomerBaseAction = (function() {
+
+            /**
+             * Properties of a BBProPendingCustomerBaseAction.
+             * @memberof SyncAction.SyncActionValue
+             * @interface IBBProPendingCustomerBaseAction
+             * @property {boolean|null} [pending] BBProPendingCustomerBaseAction pending
+             */
+
+            /**
+             * Constructs a new BBProPendingCustomerBaseAction.
+             * @memberof SyncAction.SyncActionValue
+             * @classdesc Represents a BBProPendingCustomerBaseAction.
+             * @implements IBBProPendingCustomerBaseAction
+             * @constructor
+             * @param {SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction=} [properties] Properties to set
+             */
+            function BBProPendingCustomerBaseAction(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * BBProPendingCustomerBaseAction pending.
+             * @member {boolean|null|undefined} pending
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @instance
+             */
+            BBProPendingCustomerBaseAction.prototype.pending = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BBProPendingCustomerBaseAction.prototype, "_pending", {
+                get: $util.oneOfGetter($oneOfFields = ["pending"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new BBProPendingCustomerBaseAction instance using the specified properties.
+             * @function create
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction=} [properties] Properties to set
+             * @returns {SyncAction.SyncActionValue.BBProPendingCustomerBaseAction} BBProPendingCustomerBaseAction instance
+             */
+            BBProPendingCustomerBaseAction.create = function create(properties) {
+                return new BBProPendingCustomerBaseAction(properties);
+            };
+
+            /**
+             * Encodes the specified BBProPendingCustomerBaseAction message. Does not implicitly {@link SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.verify|verify} messages.
+             * @function encode
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction} message BBProPendingCustomerBaseAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            BBProPendingCustomerBaseAction.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.pending != null && Object.hasOwnProperty.call(message, "pending"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.pending);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified BBProPendingCustomerBaseAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.BBProPendingCustomerBaseAction.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {SyncAction.SyncActionValue.IBBProPendingCustomerBaseAction} message BBProPendingCustomerBaseAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            BBProPendingCustomerBaseAction.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a BBProPendingCustomerBaseAction message from the specified reader or buffer.
+             * @function decode
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {SyncAction.SyncActionValue.BBProPendingCustomerBaseAction} BBProPendingCustomerBaseAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            BBProPendingCustomerBaseAction.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.pending = reader.bool();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a BBProPendingCustomerBaseAction message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {SyncAction.SyncActionValue.BBProPendingCustomerBaseAction} BBProPendingCustomerBaseAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            BBProPendingCustomerBaseAction.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a BBProPendingCustomerBaseAction message.
+             * @function verify
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            BBProPendingCustomerBaseAction.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.pending != null && message.hasOwnProperty("pending")) {
+                    properties._pending = 1;
+                    if (typeof message.pending !== "boolean")
+                        return "pending: boolean expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a BBProPendingCustomerBaseAction message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {SyncAction.SyncActionValue.BBProPendingCustomerBaseAction} BBProPendingCustomerBaseAction
+             */
+            BBProPendingCustomerBaseAction.fromObject = function fromObject(object) {
+                if (object instanceof $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction)
+                    return object;
+                var message = new $root.SyncAction.SyncActionValue.BBProPendingCustomerBaseAction();
+                if (object.pending != null)
+                    message.pending = Boolean(object.pending);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a BBProPendingCustomerBaseAction message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {SyncAction.SyncActionValue.BBProPendingCustomerBaseAction} message BBProPendingCustomerBaseAction
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            BBProPendingCustomerBaseAction.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.pending != null && message.hasOwnProperty("pending")) {
+                    object.pending = message.pending;
+                    if (options.oneofs)
+                        object._pending = "pending";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this BBProPendingCustomerBaseAction to JSON.
+             * @function toJSON
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            BBProPendingCustomerBaseAction.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for BBProPendingCustomerBaseAction
+             * @function getTypeUrl
+             * @memberof SyncAction.SyncActionValue.BBProPendingCustomerBaseAction
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            BBProPendingCustomerBaseAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/SyncAction.SyncActionValue.BBProPendingCustomerBaseAction";
+            };
+
+            return BBProPendingCustomerBaseAction;
         })();
 
         SyncActionValue.BizAISettingsNudgeAction = (function() {
@@ -180297,6 +183257,264 @@ $root.SyncAction = (function() {
             return CoexV2VersionAction;
         })();
 
+        SyncActionValue.CommunityNestingStateAction = (function() {
+
+            /**
+             * Properties of a CommunityNestingStateAction.
+             * @memberof SyncAction.SyncActionValue
+             * @interface ICommunityNestingStateAction
+             * @property {SyncAction.SyncActionValue.CommunityNestingStateAction.NestingState|null} [nestingState] CommunityNestingStateAction nestingState
+             */
+
+            /**
+             * Constructs a new CommunityNestingStateAction.
+             * @memberof SyncAction.SyncActionValue
+             * @classdesc Represents a CommunityNestingStateAction.
+             * @implements ICommunityNestingStateAction
+             * @constructor
+             * @param {SyncAction.SyncActionValue.ICommunityNestingStateAction=} [properties] Properties to set
+             */
+            function CommunityNestingStateAction(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * CommunityNestingStateAction nestingState.
+             * @member {SyncAction.SyncActionValue.CommunityNestingStateAction.NestingState|null|undefined} nestingState
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @instance
+             */
+            CommunityNestingStateAction.prototype.nestingState = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(CommunityNestingStateAction.prototype, "_nestingState", {
+                get: $util.oneOfGetter($oneOfFields = ["nestingState"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new CommunityNestingStateAction instance using the specified properties.
+             * @function create
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {SyncAction.SyncActionValue.ICommunityNestingStateAction=} [properties] Properties to set
+             * @returns {SyncAction.SyncActionValue.CommunityNestingStateAction} CommunityNestingStateAction instance
+             */
+            CommunityNestingStateAction.create = function create(properties) {
+                return new CommunityNestingStateAction(properties);
+            };
+
+            /**
+             * Encodes the specified CommunityNestingStateAction message. Does not implicitly {@link SyncAction.SyncActionValue.CommunityNestingStateAction.verify|verify} messages.
+             * @function encode
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {SyncAction.SyncActionValue.ICommunityNestingStateAction} message CommunityNestingStateAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CommunityNestingStateAction.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.nestingState != null && Object.hasOwnProperty.call(message, "nestingState"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.nestingState);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified CommunityNestingStateAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.CommunityNestingStateAction.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {SyncAction.SyncActionValue.ICommunityNestingStateAction} message CommunityNestingStateAction message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CommunityNestingStateAction.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a CommunityNestingStateAction message from the specified reader or buffer.
+             * @function decode
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {SyncAction.SyncActionValue.CommunityNestingStateAction} CommunityNestingStateAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CommunityNestingStateAction.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SyncAction.SyncActionValue.CommunityNestingStateAction();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.nestingState = reader.int32();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a CommunityNestingStateAction message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {SyncAction.SyncActionValue.CommunityNestingStateAction} CommunityNestingStateAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CommunityNestingStateAction.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a CommunityNestingStateAction message.
+             * @function verify
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CommunityNestingStateAction.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.nestingState != null && message.hasOwnProperty("nestingState")) {
+                    properties._nestingState = 1;
+                    switch (message.nestingState) {
+                    default:
+                        return "nestingState: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                        break;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a CommunityNestingStateAction message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {SyncAction.SyncActionValue.CommunityNestingStateAction} CommunityNestingStateAction
+             */
+            CommunityNestingStateAction.fromObject = function fromObject(object) {
+                if (object instanceof $root.SyncAction.SyncActionValue.CommunityNestingStateAction)
+                    return object;
+                var message = new $root.SyncAction.SyncActionValue.CommunityNestingStateAction();
+                switch (object.nestingState) {
+                default:
+                    if (typeof object.nestingState === "number") {
+                        message.nestingState = object.nestingState;
+                        break;
+                    }
+                    break;
+                case "NESTING_STATE_UNKNOWN":
+                case 0:
+                    message.nestingState = 0;
+                    break;
+                case "NESTING_STATE_NESTED":
+                case 1:
+                    message.nestingState = 1;
+                    break;
+                case "NESTING_STATE_UNNESTED":
+                case 2:
+                    message.nestingState = 2;
+                    break;
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a CommunityNestingStateAction message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {SyncAction.SyncActionValue.CommunityNestingStateAction} message CommunityNestingStateAction
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CommunityNestingStateAction.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.nestingState != null && message.hasOwnProperty("nestingState")) {
+                    object.nestingState = options.enums === String ? $root.SyncAction.SyncActionValue.CommunityNestingStateAction.NestingState[message.nestingState] === undefined ? message.nestingState : $root.SyncAction.SyncActionValue.CommunityNestingStateAction.NestingState[message.nestingState] : message.nestingState;
+                    if (options.oneofs)
+                        object._nestingState = "nestingState";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this CommunityNestingStateAction to JSON.
+             * @function toJSON
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CommunityNestingStateAction.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for CommunityNestingStateAction
+             * @function getTypeUrl
+             * @memberof SyncAction.SyncActionValue.CommunityNestingStateAction
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            CommunityNestingStateAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/SyncAction.SyncActionValue.CommunityNestingStateAction";
+            };
+
+            /**
+             * NestingState enum.
+             * @name SyncAction.SyncActionValue.CommunityNestingStateAction.NestingState
+             * @enum {number}
+             * @property {number} NESTING_STATE_UNKNOWN=0 NESTING_STATE_UNKNOWN value
+             * @property {number} NESTING_STATE_NESTED=1 NESTING_STATE_NESTED value
+             * @property {number} NESTING_STATE_UNNESTED=2 NESTING_STATE_UNNESTED value
+             */
+            CommunityNestingStateAction.NestingState = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "NESTING_STATE_UNKNOWN"] = 0;
+                values[valuesById[1] = "NESTING_STATE_NESTED"] = 1;
+                values[valuesById[2] = "NESTING_STATE_UNNESTED"] = 2;
+                return values;
+            })();
+
+            return CommunityNestingStateAction;
+        })();
+
         SyncActionValue.ContactAction = (function() {
 
             /**
@@ -180309,6 +183527,7 @@ $root.SyncAction = (function() {
              * @property {boolean|null} [saveOnPrimaryAddressbook] ContactAction saveOnPrimaryAddressbook
              * @property {string|null} [pnJid] ContactAction pnJid
              * @property {string|null} [username] ContactAction username
+             * @property {string|null} [birthday] ContactAction birthday
              */
 
             /**
@@ -180374,6 +183593,14 @@ $root.SyncAction = (function() {
              */
             ContactAction.prototype.username = null;
 
+            /**
+             * ContactAction birthday.
+             * @member {string|null|undefined} birthday
+             * @memberof SyncAction.SyncActionValue.ContactAction
+             * @instance
+             */
+            ContactAction.prototype.birthday = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -180413,6 +183640,12 @@ $root.SyncAction = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ContactAction.prototype, "_birthday", {
+                get: $util.oneOfGetter($oneOfFields = ["birthday"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new ContactAction instance using the specified properties.
              * @function create
@@ -180449,6 +183682,8 @@ $root.SyncAction = (function() {
                     writer.uint32(/* id 5, wireType 2 =*/42).string(message.pnJid);
                 if (message.username != null && Object.hasOwnProperty.call(message, "username"))
                     writer.uint32(/* id 6, wireType 2 =*/50).string(message.username);
+                if (message.birthday != null && Object.hasOwnProperty.call(message, "birthday"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.birthday);
                 return writer;
             };
 
@@ -180507,6 +183742,10 @@ $root.SyncAction = (function() {
                         }
                     case 6: {
                             message.username = reader.string();
+                            break;
+                        }
+                    case 7: {
+                            message.birthday = reader.string();
                             break;
                         }
                     default:
@@ -180575,6 +183814,11 @@ $root.SyncAction = (function() {
                     if (!$util.isString(message.username))
                         return "username: string expected";
                 }
+                if (message.birthday != null && message.hasOwnProperty("birthday")) {
+                    properties._birthday = 1;
+                    if (!$util.isString(message.birthday))
+                        return "birthday: string expected";
+                }
                 return null;
             };
 
@@ -180602,6 +183846,8 @@ $root.SyncAction = (function() {
                     message.pnJid = String(object.pnJid);
                 if (object.username != null)
                     message.username = String(object.username);
+                if (object.birthday != null)
+                    message.birthday = String(object.birthday);
                 return message;
             };
 
@@ -180647,6 +183893,11 @@ $root.SyncAction = (function() {
                     object.username = message.username;
                     if (options.oneofs)
                         object._username = "username";
+                }
+                if (message.birthday != null && message.hasOwnProperty("birthday")) {
+                    object.birthday = message.birthday;
+                    if (options.oneofs)
+                        object._birthday = "birthday";
                 }
                 return object;
             };
@@ -185714,6 +188965,7 @@ $root.SyncAction = (function() {
                     case 17:
                     case 18:
                     case 19:
+                    case 20:
                         break;
                     }
                 }
@@ -185840,6 +189092,10 @@ $root.SyncAction = (function() {
                 case "BUSINESS":
                 case 19:
                     message.type = 19;
+                    break;
+                case "ONE_ON_ONE":
+                case 20:
+                    message.type = 20;
                     break;
                 }
                 if (object.isImmutable != null)
@@ -185970,6 +189226,7 @@ $root.SyncAction = (function() {
              * @property {number} MENTIONS_AND_REPLIES=17 MENTIONS_AND_REPLIES value
              * @property {number} REQUESTS=18 REQUESTS value
              * @property {number} BUSINESS=19 BUSINESS value
+             * @property {number} ONE_ON_ONE=20 ONE_ON_ONE value
              */
             LabelEditAction.ListType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -185993,6 +189250,7 @@ $root.SyncAction = (function() {
                 values[valuesById[17] = "MENTIONS_AND_REPLIES"] = 17;
                 values[valuesById[18] = "REQUESTS"] = 18;
                 values[valuesById[19] = "BUSINESS"] = 19;
+                values[valuesById[20] = "ONE_ON_ONE"] = 20;
                 return values;
             })();
 
@@ -186455,6 +189713,7 @@ $root.SyncAction = (function() {
              * @property {string|null} [fullName] LidContactAction fullName
              * @property {string|null} [firstName] LidContactAction firstName
              * @property {string|null} [username] LidContactAction username
+             * @property {string|null} [birthday] LidContactAction birthday
              */
 
             /**
@@ -186496,6 +189755,14 @@ $root.SyncAction = (function() {
              */
             LidContactAction.prototype.username = null;
 
+            /**
+             * LidContactAction birthday.
+             * @member {string|null|undefined} birthday
+             * @memberof SyncAction.SyncActionValue.LidContactAction
+             * @instance
+             */
+            LidContactAction.prototype.birthday = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -186514,6 +189781,12 @@ $root.SyncAction = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(LidContactAction.prototype, "_username", {
                 get: $util.oneOfGetter($oneOfFields = ["username"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(LidContactAction.prototype, "_birthday", {
+                get: $util.oneOfGetter($oneOfFields = ["birthday"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -186547,6 +189820,8 @@ $root.SyncAction = (function() {
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.firstName);
                 if (message.username != null && Object.hasOwnProperty.call(message, "username"))
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.username);
+                if (message.birthday != null && Object.hasOwnProperty.call(message, "birthday"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.birthday);
                 return writer;
             };
 
@@ -186593,6 +189868,10 @@ $root.SyncAction = (function() {
                         }
                     case 3: {
                             message.username = reader.string();
+                            break;
+                        }
+                    case 4: {
+                            message.birthday = reader.string();
                             break;
                         }
                     default:
@@ -186646,6 +189925,11 @@ $root.SyncAction = (function() {
                     if (!$util.isString(message.username))
                         return "username: string expected";
                 }
+                if (message.birthday != null && message.hasOwnProperty("birthday")) {
+                    properties._birthday = 1;
+                    if (!$util.isString(message.birthday))
+                        return "birthday: string expected";
+                }
                 return null;
             };
 
@@ -186667,6 +189951,8 @@ $root.SyncAction = (function() {
                     message.firstName = String(object.firstName);
                 if (object.username != null)
                     message.username = String(object.username);
+                if (object.birthday != null)
+                    message.birthday = String(object.birthday);
                 return message;
             };
 
@@ -186697,6 +189983,11 @@ $root.SyncAction = (function() {
                     object.username = message.username;
                     if (options.oneofs)
                         object._username = "username";
+                }
+                if (message.birthday != null && message.hasOwnProperty("birthday")) {
+                    object.birthday = message.birthday;
+                    if (options.oneofs)
+                        object._birthday = "birthday";
                 }
                 return object;
             };
@@ -203223,6 +206514,224 @@ $root.SyncAction = (function() {
             return values;
         })();
 
+        CallLogRecord.GuestInfo = (function() {
+
+            /**
+             * Properties of a GuestInfo.
+             * @memberof SyncAction.CallLogRecord
+             * @interface IGuestInfo
+             * @property {string|null} [pushName] GuestInfo pushName
+             */
+
+            /**
+             * Constructs a new GuestInfo.
+             * @memberof SyncAction.CallLogRecord
+             * @classdesc Represents a GuestInfo.
+             * @implements IGuestInfo
+             * @constructor
+             * @param {SyncAction.CallLogRecord.IGuestInfo=} [properties] Properties to set
+             */
+            function GuestInfo(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * GuestInfo pushName.
+             * @member {string|null|undefined} pushName
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @instance
+             */
+            GuestInfo.prototype.pushName = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(GuestInfo.prototype, "_pushName", {
+                get: $util.oneOfGetter($oneOfFields = ["pushName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new GuestInfo instance using the specified properties.
+             * @function create
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {SyncAction.CallLogRecord.IGuestInfo=} [properties] Properties to set
+             * @returns {SyncAction.CallLogRecord.GuestInfo} GuestInfo instance
+             */
+            GuestInfo.create = function create(properties) {
+                return new GuestInfo(properties);
+            };
+
+            /**
+             * Encodes the specified GuestInfo message. Does not implicitly {@link SyncAction.CallLogRecord.GuestInfo.verify|verify} messages.
+             * @function encode
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {SyncAction.CallLogRecord.IGuestInfo} message GuestInfo message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GuestInfo.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.pushName != null && Object.hasOwnProperty.call(message, "pushName"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.pushName);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified GuestInfo message, length delimited. Does not implicitly {@link SyncAction.CallLogRecord.GuestInfo.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {SyncAction.CallLogRecord.IGuestInfo} message GuestInfo message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GuestInfo.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a GuestInfo message from the specified reader or buffer.
+             * @function decode
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {SyncAction.CallLogRecord.GuestInfo} GuestInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GuestInfo.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SyncAction.CallLogRecord.GuestInfo();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.pushName = reader.string();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a GuestInfo message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {SyncAction.CallLogRecord.GuestInfo} GuestInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GuestInfo.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a GuestInfo message.
+             * @function verify
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            GuestInfo.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.pushName != null && message.hasOwnProperty("pushName")) {
+                    properties._pushName = 1;
+                    if (!$util.isString(message.pushName))
+                        return "pushName: string expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a GuestInfo message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {SyncAction.CallLogRecord.GuestInfo} GuestInfo
+             */
+            GuestInfo.fromObject = function fromObject(object) {
+                if (object instanceof $root.SyncAction.CallLogRecord.GuestInfo)
+                    return object;
+                var message = new $root.SyncAction.CallLogRecord.GuestInfo();
+                if (object.pushName != null)
+                    message.pushName = String(object.pushName);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a GuestInfo message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {SyncAction.CallLogRecord.GuestInfo} message GuestInfo
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            GuestInfo.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.pushName != null && message.hasOwnProperty("pushName")) {
+                    object.pushName = message.pushName;
+                    if (options.oneofs)
+                        object._pushName = "pushName";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this GuestInfo to JSON.
+             * @function toJSON
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            GuestInfo.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for GuestInfo
+             * @function getTypeUrl
+             * @memberof SyncAction.CallLogRecord.GuestInfo
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            GuestInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/SyncAction.CallLogRecord.GuestInfo";
+            };
+
+            return GuestInfo;
+        })();
+
         CallLogRecord.ParticipantInfo = (function() {
 
             /**
@@ -203231,6 +206740,7 @@ $root.SyncAction = (function() {
              * @interface IParticipantInfo
              * @property {string|null} [userJid] ParticipantInfo userJid
              * @property {SyncAction.CallLogRecord.CallResult|null} [callResult] ParticipantInfo callResult
+             * @property {SyncAction.CallLogRecord.IGuestInfo|null} [guestInfo] ParticipantInfo guestInfo
              */
 
             /**
@@ -203264,6 +206774,14 @@ $root.SyncAction = (function() {
              */
             ParticipantInfo.prototype.callResult = null;
 
+            /**
+             * ParticipantInfo guestInfo.
+             * @member {SyncAction.CallLogRecord.IGuestInfo|null|undefined} guestInfo
+             * @memberof SyncAction.CallLogRecord.ParticipantInfo
+             * @instance
+             */
+            ParticipantInfo.prototype.guestInfo = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -203276,6 +206794,12 @@ $root.SyncAction = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(ParticipantInfo.prototype, "_callResult", {
                 get: $util.oneOfGetter($oneOfFields = ["callResult"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ParticipantInfo.prototype, "_guestInfo", {
+                get: $util.oneOfGetter($oneOfFields = ["guestInfo"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -203307,6 +206831,8 @@ $root.SyncAction = (function() {
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.userJid);
                 if (message.callResult != null && Object.hasOwnProperty.call(message, "callResult"))
                     writer.uint32(/* id 2, wireType 0 =*/16).int32(message.callResult);
+                if (message.guestInfo != null && Object.hasOwnProperty.call(message, "guestInfo"))
+                    $root.SyncAction.CallLogRecord.GuestInfo.encode(message.guestInfo, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                 return writer;
             };
 
@@ -203349,6 +206875,10 @@ $root.SyncAction = (function() {
                         }
                     case 2: {
                             message.callResult = reader.int32();
+                            break;
+                        }
+                    case 3: {
+                            message.guestInfo = $root.SyncAction.CallLogRecord.GuestInfo.decode(reader, reader.uint32());
                             break;
                         }
                     default:
@@ -203409,6 +206939,14 @@ $root.SyncAction = (function() {
                     case 9:
                     case 10:
                         break;
+                    }
+                }
+                if (message.guestInfo != null && message.hasOwnProperty("guestInfo")) {
+                    properties._guestInfo = 1;
+                    {
+                        var error = $root.SyncAction.CallLogRecord.GuestInfo.verify(message.guestInfo);
+                        if (error)
+                            return "guestInfo." + error;
                     }
                 }
                 return null;
@@ -203480,6 +207018,11 @@ $root.SyncAction = (function() {
                     message.callResult = 10;
                     break;
                 }
+                if (object.guestInfo != null) {
+                    if (typeof object.guestInfo !== "object")
+                        throw TypeError(".SyncAction.CallLogRecord.ParticipantInfo.guestInfo: object expected");
+                    message.guestInfo = $root.SyncAction.CallLogRecord.GuestInfo.fromObject(object.guestInfo);
+                }
                 return message;
             };
 
@@ -203505,6 +207048,11 @@ $root.SyncAction = (function() {
                     object.callResult = options.enums === String ? $root.SyncAction.CallLogRecord.CallResult[message.callResult] === undefined ? message.callResult : $root.SyncAction.CallLogRecord.CallResult[message.callResult] : message.callResult;
                     if (options.oneofs)
                         object._callResult = "callResult";
+                }
+                if (message.guestInfo != null && message.hasOwnProperty("guestInfo")) {
+                    object.guestInfo = $root.SyncAction.CallLogRecord.GuestInfo.toObject(message.guestInfo, options);
+                    if (options.oneofs)
+                        object._guestInfo = "guestInfo";
                 }
                 return object;
             };
@@ -203905,6 +207453,8 @@ $root.SyncAction = (function() {
      * @property {number} CONTACT_MANAGER_METADATA_ACTION=95 CONTACT_MANAGER_METADATA_ACTION value
      * @property {number} BUSINESS_FOLDER_ACTIVATION_ACTION=96 BUSINESS_FOLDER_ACTIVATION_ACTION value
      * @property {number} GROUP_HISTORY_TOGGLE_ACTION=97 GROUP_HISTORY_TOGGLE_ACTION value
+     * @property {number} BB_PRO_PENDING_CUSTOMER_BASE_ACTION=98 BB_PRO_PENDING_CUSTOMER_BASE_ACTION value
+     * @property {number} COMMUNITY_NESTING_STATE_ACTION=99 COMMUNITY_NESTING_STATE_ACTION value
      * @property {number} SHARE_OWN_PN=10001 SHARE_OWN_PN value
      * @property {number} BUSINESS_BROADCAST_ACTION=10002 BUSINESS_BROADCAST_ACTION value
      * @property {number} AI_THREAD_DELETE_ACTION=10003 AI_THREAD_DELETE_ACTION value
@@ -204002,6 +207552,8 @@ $root.SyncAction = (function() {
         values[valuesById[95] = "CONTACT_MANAGER_METADATA_ACTION"] = 95;
         values[valuesById[96] = "BUSINESS_FOLDER_ACTIVATION_ACTION"] = 96;
         values[valuesById[97] = "GROUP_HISTORY_TOGGLE_ACTION"] = 97;
+        values[valuesById[98] = "BB_PRO_PENDING_CUSTOMER_BASE_ACTION"] = 98;
+        values[valuesById[99] = "COMMUNITY_NESTING_STATE_ACTION"] = 99;
         values[valuesById[10001] = "SHARE_OWN_PN"] = 10001;
         values[valuesById[10002] = "BUSINESS_BROADCAST_ACTION"] = 10002;
         values[valuesById[10003] = "AI_THREAD_DELETE_ACTION"] = 10003;
@@ -204057,6 +207609,8 @@ $root.DeviceCapabilities = (function() {
          * @property {DeviceCapabilities.DeviceCapabilities.IAiFbidMigration|null} [aiFbidMigration] DeviceCapabilities aiFbidMigration
          * @property {DeviceCapabilities.DeviceCapabilities.IBizAiSettingsSync|null} [bizAiSettingsSync] DeviceCapabilities bizAiSettingsSync
          * @property {DeviceCapabilities.DeviceCapabilities.IContactRefresh|null} [contactRefresh] DeviceCapabilities contactRefresh
+         * @property {DeviceCapabilities.DeviceCapabilities.IReverseHistorySync|null} [reverseHistorySync] DeviceCapabilities reverseHistorySync
+         * @property {DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null} [newsletterChatsMigration] DeviceCapabilities newsletterChatsMigration
          */
 
         /**
@@ -204146,6 +207700,22 @@ $root.DeviceCapabilities = (function() {
          */
         DeviceCapabilities.prototype.contactRefresh = null;
 
+        /**
+         * DeviceCapabilities reverseHistorySync.
+         * @member {DeviceCapabilities.DeviceCapabilities.IReverseHistorySync|null|undefined} reverseHistorySync
+         * @memberof DeviceCapabilities.DeviceCapabilities
+         * @instance
+         */
+        DeviceCapabilities.prototype.reverseHistorySync = null;
+
+        /**
+         * DeviceCapabilities newsletterChatsMigration.
+         * @member {DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null|undefined} newsletterChatsMigration
+         * @memberof DeviceCapabilities.DeviceCapabilities
+         * @instance
+         */
+        DeviceCapabilities.prototype.newsletterChatsMigration = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -204203,6 +207773,18 @@ $root.DeviceCapabilities = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(DeviceCapabilities.prototype, "_reverseHistorySync", {
+            get: $util.oneOfGetter($oneOfFields = ["reverseHistorySync"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(DeviceCapabilities.prototype, "_newsletterChatsMigration", {
+            get: $util.oneOfGetter($oneOfFields = ["newsletterChatsMigration"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new DeviceCapabilities instance using the specified properties.
          * @function create
@@ -204245,6 +207827,10 @@ $root.DeviceCapabilities = (function() {
                 $root.DeviceCapabilities.DeviceCapabilities.BizAiSettingsSync.encode(message.bizAiSettingsSync, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
             if (message.contactRefresh != null && Object.hasOwnProperty.call(message, "contactRefresh"))
                 $root.DeviceCapabilities.DeviceCapabilities.ContactRefresh.encode(message.contactRefresh, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+            if (message.reverseHistorySync != null && Object.hasOwnProperty.call(message, "reverseHistorySync"))
+                $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.encode(message.reverseHistorySync, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
+            if (message.newsletterChatsMigration != null && Object.hasOwnProperty.call(message, "newsletterChatsMigration"))
+                $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.encode(message.newsletterChatsMigration, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
             return writer;
         };
 
@@ -204315,6 +207901,14 @@ $root.DeviceCapabilities = (function() {
                     }
                 case 9: {
                         message.contactRefresh = $root.DeviceCapabilities.DeviceCapabilities.ContactRefresh.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 10: {
+                        message.reverseHistorySync = $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 11: {
+                        message.newsletterChatsMigration = $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -204431,6 +208025,22 @@ $root.DeviceCapabilities = (function() {
                         return "contactRefresh." + error;
                 }
             }
+            if (message.reverseHistorySync != null && message.hasOwnProperty("reverseHistorySync")) {
+                properties._reverseHistorySync = 1;
+                {
+                    var error = $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.verify(message.reverseHistorySync);
+                    if (error)
+                        return "reverseHistorySync." + error;
+                }
+            }
+            if (message.newsletterChatsMigration != null && message.hasOwnProperty("newsletterChatsMigration")) {
+                properties._newsletterChatsMigration = 1;
+                {
+                    var error = $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.verify(message.newsletterChatsMigration);
+                    if (error)
+                        return "newsletterChatsMigration." + error;
+                }
+            }
             return null;
         };
 
@@ -204521,6 +208131,16 @@ $root.DeviceCapabilities = (function() {
                     throw TypeError(".DeviceCapabilities.DeviceCapabilities.contactRefresh: object expected");
                 message.contactRefresh = $root.DeviceCapabilities.DeviceCapabilities.ContactRefresh.fromObject(object.contactRefresh);
             }
+            if (object.reverseHistorySync != null) {
+                if (typeof object.reverseHistorySync !== "object")
+                    throw TypeError(".DeviceCapabilities.DeviceCapabilities.reverseHistorySync: object expected");
+                message.reverseHistorySync = $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.fromObject(object.reverseHistorySync);
+            }
+            if (object.newsletterChatsMigration != null) {
+                if (typeof object.newsletterChatsMigration !== "object")
+                    throw TypeError(".DeviceCapabilities.DeviceCapabilities.newsletterChatsMigration: object expected");
+                message.newsletterChatsMigration = $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.fromObject(object.newsletterChatsMigration);
+            }
             return message;
         };
 
@@ -204581,6 +208201,16 @@ $root.DeviceCapabilities = (function() {
                 object.contactRefresh = $root.DeviceCapabilities.DeviceCapabilities.ContactRefresh.toObject(message.contactRefresh, options);
                 if (options.oneofs)
                     object._contactRefresh = "contactRefresh";
+            }
+            if (message.reverseHistorySync != null && message.hasOwnProperty("reverseHistorySync")) {
+                object.reverseHistorySync = $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.toObject(message.reverseHistorySync, options);
+                if (options.oneofs)
+                    object._reverseHistorySync = "reverseHistorySync";
+            }
+            if (message.newsletterChatsMigration != null && message.hasOwnProperty("newsletterChatsMigration")) {
+                object.newsletterChatsMigration = $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.toObject(message.newsletterChatsMigration, options);
+                if (options.oneofs)
+                    object._newsletterChatsMigration = "newsletterChatsMigration";
             }
             return object;
         };
@@ -206207,6 +209837,562 @@ $root.DeviceCapabilities = (function() {
             values[valuesById[1] = "RECEIVER_ENABLED"] = 1;
             values[valuesById[2] = "SENDER_ENABLED"] = 2;
             return values;
+        })();
+
+        DeviceCapabilities.NewsletterChatsMigration = (function() {
+
+            /**
+             * Properties of a NewsletterChatsMigration.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @interface INewsletterChatsMigration
+             * @property {boolean|null} [effectiveMigrated] NewsletterChatsMigration effectiveMigrated
+             * @property {number|Long|null} [countdownEndsAt] NewsletterChatsMigration countdownEndsAt
+             * @property {boolean|null} [rolledBack] NewsletterChatsMigration rolledBack
+             */
+
+            /**
+             * Constructs a new NewsletterChatsMigration.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @classdesc Represents a NewsletterChatsMigration.
+             * @implements INewsletterChatsMigration
+             * @constructor
+             * @param {DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration=} [properties] Properties to set
+             */
+            function NewsletterChatsMigration(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * NewsletterChatsMigration effectiveMigrated.
+             * @member {boolean|null|undefined} effectiveMigrated
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @instance
+             */
+            NewsletterChatsMigration.prototype.effectiveMigrated = null;
+
+            /**
+             * NewsletterChatsMigration countdownEndsAt.
+             * @member {number|Long|null|undefined} countdownEndsAt
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @instance
+             */
+            NewsletterChatsMigration.prototype.countdownEndsAt = null;
+
+            /**
+             * NewsletterChatsMigration rolledBack.
+             * @member {boolean|null|undefined} rolledBack
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @instance
+             */
+            NewsletterChatsMigration.prototype.rolledBack = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(NewsletterChatsMigration.prototype, "_effectiveMigrated", {
+                get: $util.oneOfGetter($oneOfFields = ["effectiveMigrated"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(NewsletterChatsMigration.prototype, "_countdownEndsAt", {
+                get: $util.oneOfGetter($oneOfFields = ["countdownEndsAt"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(NewsletterChatsMigration.prototype, "_rolledBack", {
+                get: $util.oneOfGetter($oneOfFields = ["rolledBack"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new NewsletterChatsMigration instance using the specified properties.
+             * @function create
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration=} [properties] Properties to set
+             * @returns {DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration} NewsletterChatsMigration instance
+             */
+            NewsletterChatsMigration.create = function create(properties) {
+                return new NewsletterChatsMigration(properties);
+            };
+
+            /**
+             * Encodes the specified NewsletterChatsMigration message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.verify|verify} messages.
+             * @function encode
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration} message NewsletterChatsMigration message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            NewsletterChatsMigration.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.effectiveMigrated != null && Object.hasOwnProperty.call(message, "effectiveMigrated"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.effectiveMigrated);
+                if (message.countdownEndsAt != null && Object.hasOwnProperty.call(message, "countdownEndsAt"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.countdownEndsAt);
+                if (message.rolledBack != null && Object.hasOwnProperty.call(message, "rolledBack"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.rolledBack);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified NewsletterChatsMigration message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration} message NewsletterChatsMigration message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            NewsletterChatsMigration.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a NewsletterChatsMigration message from the specified reader or buffer.
+             * @function decode
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration} NewsletterChatsMigration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            NewsletterChatsMigration.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.effectiveMigrated = reader.bool();
+                            break;
+                        }
+                    case 2: {
+                            message.countdownEndsAt = reader.int64();
+                            break;
+                        }
+                    case 3: {
+                            message.rolledBack = reader.bool();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a NewsletterChatsMigration message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration} NewsletterChatsMigration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            NewsletterChatsMigration.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a NewsletterChatsMigration message.
+             * @function verify
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            NewsletterChatsMigration.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.effectiveMigrated != null && message.hasOwnProperty("effectiveMigrated")) {
+                    properties._effectiveMigrated = 1;
+                    if (typeof message.effectiveMigrated !== "boolean")
+                        return "effectiveMigrated: boolean expected";
+                }
+                if (message.countdownEndsAt != null && message.hasOwnProperty("countdownEndsAt")) {
+                    properties._countdownEndsAt = 1;
+                    if (!$util.isInteger(message.countdownEndsAt) && !(message.countdownEndsAt && $util.isInteger(message.countdownEndsAt.low) && $util.isInteger(message.countdownEndsAt.high)))
+                        return "countdownEndsAt: integer|Long expected";
+                }
+                if (message.rolledBack != null && message.hasOwnProperty("rolledBack")) {
+                    properties._rolledBack = 1;
+                    if (typeof message.rolledBack !== "boolean")
+                        return "rolledBack: boolean expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a NewsletterChatsMigration message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration} NewsletterChatsMigration
+             */
+            NewsletterChatsMigration.fromObject = function fromObject(object) {
+                if (object instanceof $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration)
+                    return object;
+                var message = new $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration();
+                if (object.effectiveMigrated != null)
+                    message.effectiveMigrated = Boolean(object.effectiveMigrated);
+                if (object.countdownEndsAt != null)
+                    if ($util.Long)
+                        (message.countdownEndsAt = $util.Long.fromValue(object.countdownEndsAt)).unsigned = false;
+                    else if (typeof object.countdownEndsAt === "string")
+                        message.countdownEndsAt = parseInt(object.countdownEndsAt, 10);
+                    else if (typeof object.countdownEndsAt === "number")
+                        message.countdownEndsAt = object.countdownEndsAt;
+                    else if (typeof object.countdownEndsAt === "object")
+                        message.countdownEndsAt = new $util.LongBits(object.countdownEndsAt.low >>> 0, object.countdownEndsAt.high >>> 0).toNumber();
+                if (object.rolledBack != null)
+                    message.rolledBack = Boolean(object.rolledBack);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a NewsletterChatsMigration message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration} message NewsletterChatsMigration
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            NewsletterChatsMigration.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.effectiveMigrated != null && message.hasOwnProperty("effectiveMigrated")) {
+                    object.effectiveMigrated = message.effectiveMigrated;
+                    if (options.oneofs)
+                        object._effectiveMigrated = "effectiveMigrated";
+                }
+                if (message.countdownEndsAt != null && message.hasOwnProperty("countdownEndsAt")) {
+                    if (typeof message.countdownEndsAt === "number")
+                        object.countdownEndsAt = options.longs === String ? String(message.countdownEndsAt) : message.countdownEndsAt;
+                    else
+                        object.countdownEndsAt = options.longs === String ? $util.Long.prototype.toString.call(message.countdownEndsAt) : options.longs === Number ? new $util.LongBits(message.countdownEndsAt.low >>> 0, message.countdownEndsAt.high >>> 0).toNumber() : message.countdownEndsAt;
+                    if (options.oneofs)
+                        object._countdownEndsAt = "countdownEndsAt";
+                }
+                if (message.rolledBack != null && message.hasOwnProperty("rolledBack")) {
+                    object.rolledBack = message.rolledBack;
+                    if (options.oneofs)
+                        object._rolledBack = "rolledBack";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this NewsletterChatsMigration to JSON.
+             * @function toJSON
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            NewsletterChatsMigration.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for NewsletterChatsMigration
+             * @function getTypeUrl
+             * @memberof DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            NewsletterChatsMigration.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration";
+            };
+
+            return NewsletterChatsMigration;
+        })();
+
+        DeviceCapabilities.ReverseHistorySync = (function() {
+
+            /**
+             * Properties of a ReverseHistorySync.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @interface IReverseHistorySync
+             * @property {Array.<DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product>|null} [enabledProducts] ReverseHistorySync enabledProducts
+             */
+
+            /**
+             * Constructs a new ReverseHistorySync.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @classdesc Represents a ReverseHistorySync.
+             * @implements IReverseHistorySync
+             * @constructor
+             * @param {DeviceCapabilities.DeviceCapabilities.IReverseHistorySync=} [properties] Properties to set
+             */
+            function ReverseHistorySync(properties) {
+                this.enabledProducts = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ReverseHistorySync enabledProducts.
+             * @member {Array.<DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product>} enabledProducts
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @instance
+             */
+            ReverseHistorySync.prototype.enabledProducts = $util.emptyArray;
+
+            /**
+             * Creates a new ReverseHistorySync instance using the specified properties.
+             * @function create
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IReverseHistorySync=} [properties] Properties to set
+             * @returns {DeviceCapabilities.DeviceCapabilities.ReverseHistorySync} ReverseHistorySync instance
+             */
+            ReverseHistorySync.create = function create(properties) {
+                return new ReverseHistorySync(properties);
+            };
+
+            /**
+             * Encodes the specified ReverseHistorySync message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.verify|verify} messages.
+             * @function encode
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IReverseHistorySync} message ReverseHistorySync message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ReverseHistorySync.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.enabledProducts != null && message.enabledProducts.length) {
+                    writer.uint32(/* id 1, wireType 2 =*/10).fork();
+                    for (var i = 0; i < message.enabledProducts.length; ++i)
+                        writer.int32(message.enabledProducts[i]);
+                    writer.ldelim();
+                }
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ReverseHistorySync message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IReverseHistorySync} message ReverseHistorySync message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ReverseHistorySync.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ReverseHistorySync message from the specified reader or buffer.
+             * @function decode
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {DeviceCapabilities.DeviceCapabilities.ReverseHistorySync} ReverseHistorySync
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ReverseHistorySync.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            if (!(message.enabledProducts && message.enabledProducts.length))
+                                message.enabledProducts = [];
+                            if ((tag & 7) === 2) {
+                                var end2 = reader.uint32() + reader.pos;
+                                while (reader.pos < end2)
+                                    message.enabledProducts.push(reader.int32());
+                            } else
+                                message.enabledProducts.push(reader.int32());
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ReverseHistorySync message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {DeviceCapabilities.DeviceCapabilities.ReverseHistorySync} ReverseHistorySync
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ReverseHistorySync.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ReverseHistorySync message.
+             * @function verify
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ReverseHistorySync.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.enabledProducts != null && message.hasOwnProperty("enabledProducts")) {
+                    if (!Array.isArray(message.enabledProducts))
+                        return "enabledProducts: array expected";
+                    for (var i = 0; i < message.enabledProducts.length; ++i)
+                        switch (message.enabledProducts[i]) {
+                        default:
+                            return "enabledProducts: enum value[] expected";
+                        case 0:
+                        case 1:
+                            break;
+                        }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a ReverseHistorySync message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {DeviceCapabilities.DeviceCapabilities.ReverseHistorySync} ReverseHistorySync
+             */
+            ReverseHistorySync.fromObject = function fromObject(object) {
+                if (object instanceof $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync)
+                    return object;
+                var message = new $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync();
+                if (object.enabledProducts) {
+                    if (!Array.isArray(object.enabledProducts))
+                        throw TypeError(".DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.enabledProducts: array expected");
+                    message.enabledProducts = [];
+                    for (var i = 0; i < object.enabledProducts.length; ++i)
+                        switch (object.enabledProducts[i]) {
+                        default:
+                            if (typeof object.enabledProducts[i] === "number") {
+                                message.enabledProducts[i] = object.enabledProducts[i];
+                                break;
+                            }
+                        case "PRODUCT_UNSPECIFIED":
+                        case 0:
+                            message.enabledProducts[i] = 0;
+                            break;
+                        case "HATCH":
+                        case 1:
+                            message.enabledProducts[i] = 1;
+                            break;
+                        }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ReverseHistorySync message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.ReverseHistorySync} message ReverseHistorySync
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ReverseHistorySync.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.enabledProducts = [];
+                if (message.enabledProducts && message.enabledProducts.length) {
+                    object.enabledProducts = [];
+                    for (var j = 0; j < message.enabledProducts.length; ++j)
+                        object.enabledProducts[j] = options.enums === String ? $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product[message.enabledProducts[j]] === undefined ? message.enabledProducts[j] : $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product[message.enabledProducts[j]] : message.enabledProducts[j];
+                }
+                return object;
+            };
+
+            /**
+             * Converts this ReverseHistorySync to JSON.
+             * @function toJSON
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ReverseHistorySync.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for ReverseHistorySync
+             * @function getTypeUrl
+             * @memberof DeviceCapabilities.DeviceCapabilities.ReverseHistorySync
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            ReverseHistorySync.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/DeviceCapabilities.DeviceCapabilities.ReverseHistorySync";
+            };
+
+            /**
+             * Product enum.
+             * @name DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.Product
+             * @enum {number}
+             * @property {number} PRODUCT_UNSPECIFIED=0 PRODUCT_UNSPECIFIED value
+             * @property {number} HATCH=1 HATCH value
+             */
+            ReverseHistorySync.Product = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "PRODUCT_UNSPECIFIED"] = 0;
+                values[valuesById[1] = "HATCH"] = 1;
+                return values;
+            })();
+
+            return ReverseHistorySync;
         })();
 
         DeviceCapabilities.UserHasAvatar = (function() {
