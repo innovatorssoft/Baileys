@@ -605,6 +605,13 @@ export class PresenceTracker extends EventEmitter {
     }
 
     /**
+     * Format timestamp into human-readable relative time (e.g. "2m ago")
+     */
+    formatTimeAgo(date: Date | number): string {
+        return formatTimeAgo(date)
+    }
+
+    /**
      * Stop tracking and clean up event listeners
      */
     destroy(): void {

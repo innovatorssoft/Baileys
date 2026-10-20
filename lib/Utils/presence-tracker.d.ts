@@ -193,6 +193,10 @@ export declare class PresenceTracker extends EventEmitter {
      */
     formatDateTime(date: Date | number): string;
     /**
+     * Format timestamp into human-readable relative time (e.g. "2m ago")
+     */
+    formatTimeAgo(date: Date | number): string;
+    /**
      * Stop tracking and clean up event listeners
      */
     destroy(): void;
