@@ -81,6 +81,8 @@ $root.MdStorageMsgRowOpaqueData = (function() {
          * @property {string|null} [sharableEventInviteCallLink] MsgOpaqueData sharableEventInviteCallLink
          * @property {string|null} [mediaPngThumbnail] MsgOpaqueData mediaPngThumbnail
          * @property {string|null} [qrUrl] MsgOpaqueData qrUrl
+         * @property {MdStorageMsgRowOpaqueData.MsgOpaqueData.IMusicData|null} [musicData] MsgOpaqueData musicData
+         * @property {string|null} [pollAddedOptionName] MsgOpaqueData pollAddedOptionName
          */
 
         /**
@@ -555,6 +557,22 @@ $root.MdStorageMsgRowOpaqueData = (function() {
          */
         MsgOpaqueData.prototype.qrUrl = null;
 
+        /**
+         * MsgOpaqueData musicData.
+         * @member {MdStorageMsgRowOpaqueData.MsgOpaqueData.IMusicData|null|undefined} musicData
+         * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+         * @instance
+         */
+        MsgOpaqueData.prototype.musicData = null;
+
+        /**
+         * MsgOpaqueData pollAddedOptionName.
+         * @member {string|null|undefined} pollAddedOptionName
+         * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+         * @instance
+         */
+        MsgOpaqueData.prototype.pollAddedOptionName = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -894,6 +912,18 @@ $root.MdStorageMsgRowOpaqueData = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MsgOpaqueData.prototype, "_musicData", {
+            get: $util.oneOfGetter($oneOfFields = ["musicData"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MsgOpaqueData.prototype, "_pollAddedOptionName", {
+            get: $util.oneOfGetter($oneOfFields = ["pollAddedOptionName"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new MsgOpaqueData instance using the specified properties.
          * @function create
@@ -1033,6 +1063,10 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                 writer.uint32(/* id 61, wireType 2 =*/490).string(message.mediaPngThumbnail);
             if (message.qrUrl != null && Object.hasOwnProperty.call(message, "qrUrl"))
                 writer.uint32(/* id 62, wireType 2 =*/498).string(message.qrUrl);
+            if (message.musicData != null && Object.hasOwnProperty.call(message, "musicData"))
+                $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.encode(message.musicData, writer.uint32(/* id 63, wireType 2 =*/506).fork()).ldelim();
+            if (message.pollAddedOptionName != null && Object.hasOwnProperty.call(message, "pollAddedOptionName"))
+                writer.uint32(/* id 64, wireType 2 =*/514).string(message.pollAddedOptionName);
             return writer;
         };
 
@@ -1297,6 +1331,14 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                     }
                 case 62: {
                         message.qrUrl = reader.string();
+                        break;
+                    }
+                case 63: {
+                        message.musicData = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 64: {
+                        message.pollAddedOptionName = reader.string();
                         break;
                     }
                 default:
@@ -1644,6 +1686,19 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                 if (!$util.isString(message.qrUrl))
                     return "qrUrl: string expected";
             }
+            if (message.musicData != null && message.hasOwnProperty("musicData")) {
+                properties._musicData = 1;
+                {
+                    var error = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.verify(message.musicData);
+                    if (error)
+                        return "musicData." + error;
+                }
+            }
+            if (message.pollAddedOptionName != null && message.hasOwnProperty("pollAddedOptionName")) {
+                properties._pollAddedOptionName = 1;
+                if (!$util.isString(message.pollAddedOptionName))
+                    return "pollAddedOptionName: string expected";
+            }
             return null;
         };
 
@@ -1891,6 +1946,13 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                 message.mediaPngThumbnail = String(object.mediaPngThumbnail);
             if (object.qrUrl != null)
                 message.qrUrl = String(object.qrUrl);
+            if (object.musicData != null) {
+                if (typeof object.musicData !== "object")
+                    throw TypeError(".MdStorageMsgRowOpaqueData.MsgOpaqueData.musicData: object expected");
+                message.musicData = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.fromObject(object.musicData);
+            }
+            if (object.pollAddedOptionName != null)
+                message.pollAddedOptionName = String(object.pollAddedOptionName);
             return message;
         };
 
@@ -2211,6 +2273,16 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                 object.qrUrl = message.qrUrl;
                 if (options.oneofs)
                     object._qrUrl = "qrUrl";
+            }
+            if (message.musicData != null && message.hasOwnProperty("musicData")) {
+                object.musicData = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.toObject(message.musicData, options);
+                if (options.oneofs)
+                    object._musicData = "musicData";
+            }
+            if (message.pollAddedOptionName != null && message.hasOwnProperty("pollAddedOptionName")) {
+                object.pollAddedOptionName = message.pollAddedOptionName;
+                if (options.oneofs)
+                    object._pollAddedOptionName = "pollAddedOptionName";
             }
             return object;
         };
@@ -2627,6 +2699,1541 @@ $root.MdStorageMsgRowOpaqueData = (function() {
             return EventLocation;
         })();
 
+        MsgOpaqueData.MusicData = (function() {
+
+            /**
+             * Properties of a MusicData.
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+             * @interface IMusicData
+             * @property {string|null} [musicContentMediaId] MusicData musicContentMediaId
+             * @property {string|null} [songId] MusicData songId
+             * @property {string|null} [author] MusicData author
+             * @property {string|null} [title] MusicData title
+             * @property {string|null} [songUri] MusicData songUri
+             * @property {string|null} [artworkUri] MusicData artworkUri
+             * @property {number|null} [style] MusicData style
+             * @property {number|null} [songStartTimeMs] MusicData songStartTimeMs
+             * @property {number|null} [clipDurationMs] MusicData clipDurationMs
+             * @property {boolean|null} [isExplicit] MusicData isExplicit
+             * @property {Uint8Array|null} [countryBlocklist] MusicData countryBlocklist
+             * @property {string|null} [artistAttribution] MusicData artistAttribution
+             * @property {string|null} [artworkDirectPath] MusicData artworkDirectPath
+             * @property {Uint8Array|null} [artworkSha256] MusicData artworkSha256
+             * @property {Uint8Array|null} [artworkEncSha256] MusicData artworkEncSha256
+             * @property {Uint8Array|null} [artworkMediaKey] MusicData artworkMediaKey
+             * @property {number|Long|null} [consumptionCheckedAtS] MusicData consumptionCheckedAtS
+             * @property {boolean|null} [isAvailableForConsumption] MusicData isAvailableForConsumption
+             * @property {Array.<MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.ILyricsLine>|null} [lyrics] MusicData lyrics
+             * @property {number|Long|null} [lyricsConfirmedAtS] MusicData lyricsConfirmedAtS
+             */
+
+            /**
+             * Constructs a new MusicData.
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+             * @classdesc Represents a MusicData.
+             * @implements IMusicData
+             * @constructor
+             * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.IMusicData=} [properties] Properties to set
+             */
+            function MusicData(properties) {
+                this.lyrics = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * MusicData musicContentMediaId.
+             * @member {string|null|undefined} musicContentMediaId
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.musicContentMediaId = null;
+
+            /**
+             * MusicData songId.
+             * @member {string|null|undefined} songId
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.songId = null;
+
+            /**
+             * MusicData author.
+             * @member {string|null|undefined} author
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.author = null;
+
+            /**
+             * MusicData title.
+             * @member {string|null|undefined} title
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.title = null;
+
+            /**
+             * MusicData songUri.
+             * @member {string|null|undefined} songUri
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.songUri = null;
+
+            /**
+             * MusicData artworkUri.
+             * @member {string|null|undefined} artworkUri
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.artworkUri = null;
+
+            /**
+             * MusicData style.
+             * @member {number|null|undefined} style
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.style = null;
+
+            /**
+             * MusicData songStartTimeMs.
+             * @member {number|null|undefined} songStartTimeMs
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.songStartTimeMs = null;
+
+            /**
+             * MusicData clipDurationMs.
+             * @member {number|null|undefined} clipDurationMs
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.clipDurationMs = null;
+
+            /**
+             * MusicData isExplicit.
+             * @member {boolean|null|undefined} isExplicit
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.isExplicit = null;
+
+            /**
+             * MusicData countryBlocklist.
+             * @member {Uint8Array|null|undefined} countryBlocklist
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.countryBlocklist = null;
+
+            /**
+             * MusicData artistAttribution.
+             * @member {string|null|undefined} artistAttribution
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.artistAttribution = null;
+
+            /**
+             * MusicData artworkDirectPath.
+             * @member {string|null|undefined} artworkDirectPath
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.artworkDirectPath = null;
+
+            /**
+             * MusicData artworkSha256.
+             * @member {Uint8Array|null|undefined} artworkSha256
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.artworkSha256 = null;
+
+            /**
+             * MusicData artworkEncSha256.
+             * @member {Uint8Array|null|undefined} artworkEncSha256
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.artworkEncSha256 = null;
+
+            /**
+             * MusicData artworkMediaKey.
+             * @member {Uint8Array|null|undefined} artworkMediaKey
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.artworkMediaKey = null;
+
+            /**
+             * MusicData consumptionCheckedAtS.
+             * @member {number|Long|null|undefined} consumptionCheckedAtS
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.consumptionCheckedAtS = null;
+
+            /**
+             * MusicData isAvailableForConsumption.
+             * @member {boolean|null|undefined} isAvailableForConsumption
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.isAvailableForConsumption = null;
+
+            /**
+             * MusicData lyrics.
+             * @member {Array.<MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.ILyricsLine>} lyrics
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.lyrics = $util.emptyArray;
+
+            /**
+             * MusicData lyricsConfirmedAtS.
+             * @member {number|Long|null|undefined} lyricsConfirmedAtS
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             */
+            MusicData.prototype.lyricsConfirmedAtS = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_musicContentMediaId", {
+                get: $util.oneOfGetter($oneOfFields = ["musicContentMediaId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_songId", {
+                get: $util.oneOfGetter($oneOfFields = ["songId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_author", {
+                get: $util.oneOfGetter($oneOfFields = ["author"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_title", {
+                get: $util.oneOfGetter($oneOfFields = ["title"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_songUri", {
+                get: $util.oneOfGetter($oneOfFields = ["songUri"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_artworkUri", {
+                get: $util.oneOfGetter($oneOfFields = ["artworkUri"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_style", {
+                get: $util.oneOfGetter($oneOfFields = ["style"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_songStartTimeMs", {
+                get: $util.oneOfGetter($oneOfFields = ["songStartTimeMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_clipDurationMs", {
+                get: $util.oneOfGetter($oneOfFields = ["clipDurationMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_isExplicit", {
+                get: $util.oneOfGetter($oneOfFields = ["isExplicit"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_countryBlocklist", {
+                get: $util.oneOfGetter($oneOfFields = ["countryBlocklist"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_artistAttribution", {
+                get: $util.oneOfGetter($oneOfFields = ["artistAttribution"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_artworkDirectPath", {
+                get: $util.oneOfGetter($oneOfFields = ["artworkDirectPath"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_artworkSha256", {
+                get: $util.oneOfGetter($oneOfFields = ["artworkSha256"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_artworkEncSha256", {
+                get: $util.oneOfGetter($oneOfFields = ["artworkEncSha256"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_artworkMediaKey", {
+                get: $util.oneOfGetter($oneOfFields = ["artworkMediaKey"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_consumptionCheckedAtS", {
+                get: $util.oneOfGetter($oneOfFields = ["consumptionCheckedAtS"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_isAvailableForConsumption", {
+                get: $util.oneOfGetter($oneOfFields = ["isAvailableForConsumption"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicData.prototype, "_lyricsConfirmedAtS", {
+                get: $util.oneOfGetter($oneOfFields = ["lyricsConfirmedAtS"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new MusicData instance using the specified properties.
+             * @function create
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.IMusicData=} [properties] Properties to set
+             * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData} MusicData instance
+             */
+            MusicData.create = function create(properties) {
+                return new MusicData(properties);
+            };
+
+            /**
+             * Encodes the specified MusicData message. Does not implicitly {@link MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.verify|verify} messages.
+             * @function encode
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.IMusicData} message MusicData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MusicData.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.musicContentMediaId != null && Object.hasOwnProperty.call(message, "musicContentMediaId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.musicContentMediaId);
+                if (message.songId != null && Object.hasOwnProperty.call(message, "songId"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.songId);
+                if (message.author != null && Object.hasOwnProperty.call(message, "author"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.author);
+                if (message.title != null && Object.hasOwnProperty.call(message, "title"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.title);
+                if (message.songUri != null && Object.hasOwnProperty.call(message, "songUri"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.songUri);
+                if (message.artworkUri != null && Object.hasOwnProperty.call(message, "artworkUri"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.artworkUri);
+                if (message.style != null && Object.hasOwnProperty.call(message, "style"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).int32(message.style);
+                if (message.songStartTimeMs != null && Object.hasOwnProperty.call(message, "songStartTimeMs"))
+                    writer.uint32(/* id 8, wireType 0 =*/64).int32(message.songStartTimeMs);
+                if (message.clipDurationMs != null && Object.hasOwnProperty.call(message, "clipDurationMs"))
+                    writer.uint32(/* id 9, wireType 0 =*/72).int32(message.clipDurationMs);
+                if (message.isExplicit != null && Object.hasOwnProperty.call(message, "isExplicit"))
+                    writer.uint32(/* id 10, wireType 0 =*/80).bool(message.isExplicit);
+                if (message.countryBlocklist != null && Object.hasOwnProperty.call(message, "countryBlocklist"))
+                    writer.uint32(/* id 11, wireType 2 =*/90).bytes(message.countryBlocklist);
+                if (message.artistAttribution != null && Object.hasOwnProperty.call(message, "artistAttribution"))
+                    writer.uint32(/* id 12, wireType 2 =*/98).string(message.artistAttribution);
+                if (message.artworkDirectPath != null && Object.hasOwnProperty.call(message, "artworkDirectPath"))
+                    writer.uint32(/* id 13, wireType 2 =*/106).string(message.artworkDirectPath);
+                if (message.artworkSha256 != null && Object.hasOwnProperty.call(message, "artworkSha256"))
+                    writer.uint32(/* id 14, wireType 2 =*/114).bytes(message.artworkSha256);
+                if (message.artworkEncSha256 != null && Object.hasOwnProperty.call(message, "artworkEncSha256"))
+                    writer.uint32(/* id 15, wireType 2 =*/122).bytes(message.artworkEncSha256);
+                if (message.artworkMediaKey != null && Object.hasOwnProperty.call(message, "artworkMediaKey"))
+                    writer.uint32(/* id 16, wireType 2 =*/130).bytes(message.artworkMediaKey);
+                if (message.consumptionCheckedAtS != null && Object.hasOwnProperty.call(message, "consumptionCheckedAtS"))
+                    writer.uint32(/* id 17, wireType 0 =*/136).int64(message.consumptionCheckedAtS);
+                if (message.isAvailableForConsumption != null && Object.hasOwnProperty.call(message, "isAvailableForConsumption"))
+                    writer.uint32(/* id 18, wireType 0 =*/144).bool(message.isAvailableForConsumption);
+                if (message.lyrics != null && message.lyrics.length)
+                    for (var i = 0; i < message.lyrics.length; ++i)
+                        $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.encode(message.lyrics[i], writer.uint32(/* id 19, wireType 2 =*/154).fork()).ldelim();
+                if (message.lyricsConfirmedAtS != null && Object.hasOwnProperty.call(message, "lyricsConfirmedAtS"))
+                    writer.uint32(/* id 20, wireType 0 =*/160).int64(message.lyricsConfirmedAtS);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified MusicData message, length delimited. Does not implicitly {@link MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.IMusicData} message MusicData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MusicData.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a MusicData message from the specified reader or buffer.
+             * @function decode
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData} MusicData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MusicData.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.musicContentMediaId = reader.string();
+                            break;
+                        }
+                    case 2: {
+                            message.songId = reader.string();
+                            break;
+                        }
+                    case 3: {
+                            message.author = reader.string();
+                            break;
+                        }
+                    case 4: {
+                            message.title = reader.string();
+                            break;
+                        }
+                    case 5: {
+                            message.songUri = reader.string();
+                            break;
+                        }
+                    case 6: {
+                            message.artworkUri = reader.string();
+                            break;
+                        }
+                    case 7: {
+                            message.style = reader.int32();
+                            break;
+                        }
+                    case 8: {
+                            message.songStartTimeMs = reader.int32();
+                            break;
+                        }
+                    case 9: {
+                            message.clipDurationMs = reader.int32();
+                            break;
+                        }
+                    case 10: {
+                            message.isExplicit = reader.bool();
+                            break;
+                        }
+                    case 11: {
+                            message.countryBlocklist = reader.bytes();
+                            break;
+                        }
+                    case 12: {
+                            message.artistAttribution = reader.string();
+                            break;
+                        }
+                    case 13: {
+                            message.artworkDirectPath = reader.string();
+                            break;
+                        }
+                    case 14: {
+                            message.artworkSha256 = reader.bytes();
+                            break;
+                        }
+                    case 15: {
+                            message.artworkEncSha256 = reader.bytes();
+                            break;
+                        }
+                    case 16: {
+                            message.artworkMediaKey = reader.bytes();
+                            break;
+                        }
+                    case 17: {
+                            message.consumptionCheckedAtS = reader.int64();
+                            break;
+                        }
+                    case 18: {
+                            message.isAvailableForConsumption = reader.bool();
+                            break;
+                        }
+                    case 19: {
+                            if (!(message.lyrics && message.lyrics.length))
+                                message.lyrics = [];
+                            message.lyrics.push($root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.decode(reader, reader.uint32()));
+                            break;
+                        }
+                    case 20: {
+                            message.lyricsConfirmedAtS = reader.int64();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a MusicData message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData} MusicData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MusicData.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a MusicData message.
+             * @function verify
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            MusicData.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.musicContentMediaId != null && message.hasOwnProperty("musicContentMediaId")) {
+                    properties._musicContentMediaId = 1;
+                    if (!$util.isString(message.musicContentMediaId))
+                        return "musicContentMediaId: string expected";
+                }
+                if (message.songId != null && message.hasOwnProperty("songId")) {
+                    properties._songId = 1;
+                    if (!$util.isString(message.songId))
+                        return "songId: string expected";
+                }
+                if (message.author != null && message.hasOwnProperty("author")) {
+                    properties._author = 1;
+                    if (!$util.isString(message.author))
+                        return "author: string expected";
+                }
+                if (message.title != null && message.hasOwnProperty("title")) {
+                    properties._title = 1;
+                    if (!$util.isString(message.title))
+                        return "title: string expected";
+                }
+                if (message.songUri != null && message.hasOwnProperty("songUri")) {
+                    properties._songUri = 1;
+                    if (!$util.isString(message.songUri))
+                        return "songUri: string expected";
+                }
+                if (message.artworkUri != null && message.hasOwnProperty("artworkUri")) {
+                    properties._artworkUri = 1;
+                    if (!$util.isString(message.artworkUri))
+                        return "artworkUri: string expected";
+                }
+                if (message.style != null && message.hasOwnProperty("style")) {
+                    properties._style = 1;
+                    if (!$util.isInteger(message.style))
+                        return "style: integer expected";
+                }
+                if (message.songStartTimeMs != null && message.hasOwnProperty("songStartTimeMs")) {
+                    properties._songStartTimeMs = 1;
+                    if (!$util.isInteger(message.songStartTimeMs))
+                        return "songStartTimeMs: integer expected";
+                }
+                if (message.clipDurationMs != null && message.hasOwnProperty("clipDurationMs")) {
+                    properties._clipDurationMs = 1;
+                    if (!$util.isInteger(message.clipDurationMs))
+                        return "clipDurationMs: integer expected";
+                }
+                if (message.isExplicit != null && message.hasOwnProperty("isExplicit")) {
+                    properties._isExplicit = 1;
+                    if (typeof message.isExplicit !== "boolean")
+                        return "isExplicit: boolean expected";
+                }
+                if (message.countryBlocklist != null && message.hasOwnProperty("countryBlocklist")) {
+                    properties._countryBlocklist = 1;
+                    if (!(message.countryBlocklist && typeof message.countryBlocklist.length === "number" || $util.isString(message.countryBlocklist)))
+                        return "countryBlocklist: buffer expected";
+                }
+                if (message.artistAttribution != null && message.hasOwnProperty("artistAttribution")) {
+                    properties._artistAttribution = 1;
+                    if (!$util.isString(message.artistAttribution))
+                        return "artistAttribution: string expected";
+                }
+                if (message.artworkDirectPath != null && message.hasOwnProperty("artworkDirectPath")) {
+                    properties._artworkDirectPath = 1;
+                    if (!$util.isString(message.artworkDirectPath))
+                        return "artworkDirectPath: string expected";
+                }
+                if (message.artworkSha256 != null && message.hasOwnProperty("artworkSha256")) {
+                    properties._artworkSha256 = 1;
+                    if (!(message.artworkSha256 && typeof message.artworkSha256.length === "number" || $util.isString(message.artworkSha256)))
+                        return "artworkSha256: buffer expected";
+                }
+                if (message.artworkEncSha256 != null && message.hasOwnProperty("artworkEncSha256")) {
+                    properties._artworkEncSha256 = 1;
+                    if (!(message.artworkEncSha256 && typeof message.artworkEncSha256.length === "number" || $util.isString(message.artworkEncSha256)))
+                        return "artworkEncSha256: buffer expected";
+                }
+                if (message.artworkMediaKey != null && message.hasOwnProperty("artworkMediaKey")) {
+                    properties._artworkMediaKey = 1;
+                    if (!(message.artworkMediaKey && typeof message.artworkMediaKey.length === "number" || $util.isString(message.artworkMediaKey)))
+                        return "artworkMediaKey: buffer expected";
+                }
+                if (message.consumptionCheckedAtS != null && message.hasOwnProperty("consumptionCheckedAtS")) {
+                    properties._consumptionCheckedAtS = 1;
+                    if (!$util.isInteger(message.consumptionCheckedAtS) && !(message.consumptionCheckedAtS && $util.isInteger(message.consumptionCheckedAtS.low) && $util.isInteger(message.consumptionCheckedAtS.high)))
+                        return "consumptionCheckedAtS: integer|Long expected";
+                }
+                if (message.isAvailableForConsumption != null && message.hasOwnProperty("isAvailableForConsumption")) {
+                    properties._isAvailableForConsumption = 1;
+                    if (typeof message.isAvailableForConsumption !== "boolean")
+                        return "isAvailableForConsumption: boolean expected";
+                }
+                if (message.lyrics != null && message.hasOwnProperty("lyrics")) {
+                    if (!Array.isArray(message.lyrics))
+                        return "lyrics: array expected";
+                    for (var i = 0; i < message.lyrics.length; ++i) {
+                        var error = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.verify(message.lyrics[i]);
+                        if (error)
+                            return "lyrics." + error;
+                    }
+                }
+                if (message.lyricsConfirmedAtS != null && message.hasOwnProperty("lyricsConfirmedAtS")) {
+                    properties._lyricsConfirmedAtS = 1;
+                    if (!$util.isInteger(message.lyricsConfirmedAtS) && !(message.lyricsConfirmedAtS && $util.isInteger(message.lyricsConfirmedAtS.low) && $util.isInteger(message.lyricsConfirmedAtS.high)))
+                        return "lyricsConfirmedAtS: integer|Long expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a MusicData message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData} MusicData
+             */
+            MusicData.fromObject = function fromObject(object) {
+                if (object instanceof $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData)
+                    return object;
+                var message = new $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData();
+                if (object.musicContentMediaId != null)
+                    message.musicContentMediaId = String(object.musicContentMediaId);
+                if (object.songId != null)
+                    message.songId = String(object.songId);
+                if (object.author != null)
+                    message.author = String(object.author);
+                if (object.title != null)
+                    message.title = String(object.title);
+                if (object.songUri != null)
+                    message.songUri = String(object.songUri);
+                if (object.artworkUri != null)
+                    message.artworkUri = String(object.artworkUri);
+                if (object.style != null)
+                    message.style = object.style | 0;
+                if (object.songStartTimeMs != null)
+                    message.songStartTimeMs = object.songStartTimeMs | 0;
+                if (object.clipDurationMs != null)
+                    message.clipDurationMs = object.clipDurationMs | 0;
+                if (object.isExplicit != null)
+                    message.isExplicit = Boolean(object.isExplicit);
+                if (object.countryBlocklist != null)
+                    if (typeof object.countryBlocklist === "string")
+                        $util.base64.decode(object.countryBlocklist, message.countryBlocklist = $util.newBuffer($util.base64.length(object.countryBlocklist)), 0);
+                    else if (object.countryBlocklist.length >= 0)
+                        message.countryBlocklist = object.countryBlocklist;
+                if (object.artistAttribution != null)
+                    message.artistAttribution = String(object.artistAttribution);
+                if (object.artworkDirectPath != null)
+                    message.artworkDirectPath = String(object.artworkDirectPath);
+                if (object.artworkSha256 != null)
+                    if (typeof object.artworkSha256 === "string")
+                        $util.base64.decode(object.artworkSha256, message.artworkSha256 = $util.newBuffer($util.base64.length(object.artworkSha256)), 0);
+                    else if (object.artworkSha256.length >= 0)
+                        message.artworkSha256 = object.artworkSha256;
+                if (object.artworkEncSha256 != null)
+                    if (typeof object.artworkEncSha256 === "string")
+                        $util.base64.decode(object.artworkEncSha256, message.artworkEncSha256 = $util.newBuffer($util.base64.length(object.artworkEncSha256)), 0);
+                    else if (object.artworkEncSha256.length >= 0)
+                        message.artworkEncSha256 = object.artworkEncSha256;
+                if (object.artworkMediaKey != null)
+                    if (typeof object.artworkMediaKey === "string")
+                        $util.base64.decode(object.artworkMediaKey, message.artworkMediaKey = $util.newBuffer($util.base64.length(object.artworkMediaKey)), 0);
+                    else if (object.artworkMediaKey.length >= 0)
+                        message.artworkMediaKey = object.artworkMediaKey;
+                if (object.consumptionCheckedAtS != null)
+                    if ($util.Long)
+                        (message.consumptionCheckedAtS = $util.Long.fromValue(object.consumptionCheckedAtS)).unsigned = false;
+                    else if (typeof object.consumptionCheckedAtS === "string")
+                        message.consumptionCheckedAtS = parseInt(object.consumptionCheckedAtS, 10);
+                    else if (typeof object.consumptionCheckedAtS === "number")
+                        message.consumptionCheckedAtS = object.consumptionCheckedAtS;
+                    else if (typeof object.consumptionCheckedAtS === "object")
+                        message.consumptionCheckedAtS = new $util.LongBits(object.consumptionCheckedAtS.low >>> 0, object.consumptionCheckedAtS.high >>> 0).toNumber();
+                if (object.isAvailableForConsumption != null)
+                    message.isAvailableForConsumption = Boolean(object.isAvailableForConsumption);
+                if (object.lyrics) {
+                    if (!Array.isArray(object.lyrics))
+                        throw TypeError(".MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.lyrics: array expected");
+                    message.lyrics = [];
+                    for (var i = 0; i < object.lyrics.length; ++i) {
+                        if (typeof object.lyrics[i] !== "object")
+                            throw TypeError(".MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.lyrics: object expected");
+                        message.lyrics[i] = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.fromObject(object.lyrics[i]);
+                    }
+                }
+                if (object.lyricsConfirmedAtS != null)
+                    if ($util.Long)
+                        (message.lyricsConfirmedAtS = $util.Long.fromValue(object.lyricsConfirmedAtS)).unsigned = false;
+                    else if (typeof object.lyricsConfirmedAtS === "string")
+                        message.lyricsConfirmedAtS = parseInt(object.lyricsConfirmedAtS, 10);
+                    else if (typeof object.lyricsConfirmedAtS === "number")
+                        message.lyricsConfirmedAtS = object.lyricsConfirmedAtS;
+                    else if (typeof object.lyricsConfirmedAtS === "object")
+                        message.lyricsConfirmedAtS = new $util.LongBits(object.lyricsConfirmedAtS.low >>> 0, object.lyricsConfirmedAtS.high >>> 0).toNumber();
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a MusicData message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData} message MusicData
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            MusicData.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.lyrics = [];
+                if (message.musicContentMediaId != null && message.hasOwnProperty("musicContentMediaId")) {
+                    object.musicContentMediaId = message.musicContentMediaId;
+                    if (options.oneofs)
+                        object._musicContentMediaId = "musicContentMediaId";
+                }
+                if (message.songId != null && message.hasOwnProperty("songId")) {
+                    object.songId = message.songId;
+                    if (options.oneofs)
+                        object._songId = "songId";
+                }
+                if (message.author != null && message.hasOwnProperty("author")) {
+                    object.author = message.author;
+                    if (options.oneofs)
+                        object._author = "author";
+                }
+                if (message.title != null && message.hasOwnProperty("title")) {
+                    object.title = message.title;
+                    if (options.oneofs)
+                        object._title = "title";
+                }
+                if (message.songUri != null && message.hasOwnProperty("songUri")) {
+                    object.songUri = message.songUri;
+                    if (options.oneofs)
+                        object._songUri = "songUri";
+                }
+                if (message.artworkUri != null && message.hasOwnProperty("artworkUri")) {
+                    object.artworkUri = message.artworkUri;
+                    if (options.oneofs)
+                        object._artworkUri = "artworkUri";
+                }
+                if (message.style != null && message.hasOwnProperty("style")) {
+                    object.style = message.style;
+                    if (options.oneofs)
+                        object._style = "style";
+                }
+                if (message.songStartTimeMs != null && message.hasOwnProperty("songStartTimeMs")) {
+                    object.songStartTimeMs = message.songStartTimeMs;
+                    if (options.oneofs)
+                        object._songStartTimeMs = "songStartTimeMs";
+                }
+                if (message.clipDurationMs != null && message.hasOwnProperty("clipDurationMs")) {
+                    object.clipDurationMs = message.clipDurationMs;
+                    if (options.oneofs)
+                        object._clipDurationMs = "clipDurationMs";
+                }
+                if (message.isExplicit != null && message.hasOwnProperty("isExplicit")) {
+                    object.isExplicit = message.isExplicit;
+                    if (options.oneofs)
+                        object._isExplicit = "isExplicit";
+                }
+                if (message.countryBlocklist != null && message.hasOwnProperty("countryBlocklist")) {
+                    object.countryBlocklist = options.bytes === String ? $util.base64.encode(message.countryBlocklist, 0, message.countryBlocklist.length) : options.bytes === Array ? Array.prototype.slice.call(message.countryBlocklist) : message.countryBlocklist;
+                    if (options.oneofs)
+                        object._countryBlocklist = "countryBlocklist";
+                }
+                if (message.artistAttribution != null && message.hasOwnProperty("artistAttribution")) {
+                    object.artistAttribution = message.artistAttribution;
+                    if (options.oneofs)
+                        object._artistAttribution = "artistAttribution";
+                }
+                if (message.artworkDirectPath != null && message.hasOwnProperty("artworkDirectPath")) {
+                    object.artworkDirectPath = message.artworkDirectPath;
+                    if (options.oneofs)
+                        object._artworkDirectPath = "artworkDirectPath";
+                }
+                if (message.artworkSha256 != null && message.hasOwnProperty("artworkSha256")) {
+                    object.artworkSha256 = options.bytes === String ? $util.base64.encode(message.artworkSha256, 0, message.artworkSha256.length) : options.bytes === Array ? Array.prototype.slice.call(message.artworkSha256) : message.artworkSha256;
+                    if (options.oneofs)
+                        object._artworkSha256 = "artworkSha256";
+                }
+                if (message.artworkEncSha256 != null && message.hasOwnProperty("artworkEncSha256")) {
+                    object.artworkEncSha256 = options.bytes === String ? $util.base64.encode(message.artworkEncSha256, 0, message.artworkEncSha256.length) : options.bytes === Array ? Array.prototype.slice.call(message.artworkEncSha256) : message.artworkEncSha256;
+                    if (options.oneofs)
+                        object._artworkEncSha256 = "artworkEncSha256";
+                }
+                if (message.artworkMediaKey != null && message.hasOwnProperty("artworkMediaKey")) {
+                    object.artworkMediaKey = options.bytes === String ? $util.base64.encode(message.artworkMediaKey, 0, message.artworkMediaKey.length) : options.bytes === Array ? Array.prototype.slice.call(message.artworkMediaKey) : message.artworkMediaKey;
+                    if (options.oneofs)
+                        object._artworkMediaKey = "artworkMediaKey";
+                }
+                if (message.consumptionCheckedAtS != null && message.hasOwnProperty("consumptionCheckedAtS")) {
+                    if (typeof message.consumptionCheckedAtS === "number")
+                        object.consumptionCheckedAtS = options.longs === String ? String(message.consumptionCheckedAtS) : message.consumptionCheckedAtS;
+                    else
+                        object.consumptionCheckedAtS = options.longs === String ? $util.Long.prototype.toString.call(message.consumptionCheckedAtS) : options.longs === Number ? new $util.LongBits(message.consumptionCheckedAtS.low >>> 0, message.consumptionCheckedAtS.high >>> 0).toNumber() : message.consumptionCheckedAtS;
+                    if (options.oneofs)
+                        object._consumptionCheckedAtS = "consumptionCheckedAtS";
+                }
+                if (message.isAvailableForConsumption != null && message.hasOwnProperty("isAvailableForConsumption")) {
+                    object.isAvailableForConsumption = message.isAvailableForConsumption;
+                    if (options.oneofs)
+                        object._isAvailableForConsumption = "isAvailableForConsumption";
+                }
+                if (message.lyrics && message.lyrics.length) {
+                    object.lyrics = [];
+                    for (var j = 0; j < message.lyrics.length; ++j)
+                        object.lyrics[j] = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.toObject(message.lyrics[j], options);
+                }
+                if (message.lyricsConfirmedAtS != null && message.hasOwnProperty("lyricsConfirmedAtS")) {
+                    if (typeof message.lyricsConfirmedAtS === "number")
+                        object.lyricsConfirmedAtS = options.longs === String ? String(message.lyricsConfirmedAtS) : message.lyricsConfirmedAtS;
+                    else
+                        object.lyricsConfirmedAtS = options.longs === String ? $util.Long.prototype.toString.call(message.lyricsConfirmedAtS) : options.longs === Number ? new $util.LongBits(message.lyricsConfirmedAtS.low >>> 0, message.lyricsConfirmedAtS.high >>> 0).toNumber() : message.lyricsConfirmedAtS;
+                    if (options.oneofs)
+                        object._lyricsConfirmedAtS = "lyricsConfirmedAtS";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this MusicData to JSON.
+             * @function toJSON
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            MusicData.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for MusicData
+             * @function getTypeUrl
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            MusicData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData";
+            };
+
+            MusicData.LyricsLine = (function() {
+
+                /**
+                 * Properties of a LyricsLine.
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+                 * @interface ILyricsLine
+                 * @property {number|null} [startTimeMs] LyricsLine startTimeMs
+                 * @property {number|null} [endTimeMs] LyricsLine endTimeMs
+                 * @property {string|null} [text] LyricsLine text
+                 * @property {Array.<MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.IWordOffset>|null} [wordOffsets] LyricsLine wordOffsets
+                 */
+
+                /**
+                 * Constructs a new LyricsLine.
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData
+                 * @classdesc Represents a LyricsLine.
+                 * @implements ILyricsLine
+                 * @constructor
+                 * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.ILyricsLine=} [properties] Properties to set
+                 */
+                function LyricsLine(properties) {
+                    this.wordOffsets = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * LyricsLine startTimeMs.
+                 * @member {number|null|undefined} startTimeMs
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @instance
+                 */
+                LyricsLine.prototype.startTimeMs = null;
+
+                /**
+                 * LyricsLine endTimeMs.
+                 * @member {number|null|undefined} endTimeMs
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @instance
+                 */
+                LyricsLine.prototype.endTimeMs = null;
+
+                /**
+                 * LyricsLine text.
+                 * @member {string|null|undefined} text
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @instance
+                 */
+                LyricsLine.prototype.text = null;
+
+                /**
+                 * LyricsLine wordOffsets.
+                 * @member {Array.<MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.IWordOffset>} wordOffsets
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @instance
+                 */
+                LyricsLine.prototype.wordOffsets = $util.emptyArray;
+
+                // OneOf field names bound to virtual getters and setters
+                var $oneOfFields;
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(LyricsLine.prototype, "_startTimeMs", {
+                    get: $util.oneOfGetter($oneOfFields = ["startTimeMs"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(LyricsLine.prototype, "_endTimeMs", {
+                    get: $util.oneOfGetter($oneOfFields = ["endTimeMs"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(LyricsLine.prototype, "_text", {
+                    get: $util.oneOfGetter($oneOfFields = ["text"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new LyricsLine instance using the specified properties.
+                 * @function create
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.ILyricsLine=} [properties] Properties to set
+                 * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine} LyricsLine instance
+                 */
+                LyricsLine.create = function create(properties) {
+                    return new LyricsLine(properties);
+                };
+
+                /**
+                 * Encodes the specified LyricsLine message. Does not implicitly {@link MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.verify|verify} messages.
+                 * @function encode
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.ILyricsLine} message LyricsLine message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                LyricsLine.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.startTimeMs != null && Object.hasOwnProperty.call(message, "startTimeMs"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.startTimeMs);
+                    if (message.endTimeMs != null && Object.hasOwnProperty.call(message, "endTimeMs"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.endTimeMs);
+                    if (message.text != null && Object.hasOwnProperty.call(message, "text"))
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.text);
+                    if (message.wordOffsets != null && message.wordOffsets.length)
+                        for (var i = 0; i < message.wordOffsets.length; ++i)
+                            $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset.encode(message.wordOffsets[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified LyricsLine message, length delimited. Does not implicitly {@link MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.ILyricsLine} message LyricsLine message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                LyricsLine.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a LyricsLine message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine} LyricsLine
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                LyricsLine.decode = function decode(reader, length, error) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.startTimeMs = reader.int32();
+                                break;
+                            }
+                        case 2: {
+                                message.endTimeMs = reader.int32();
+                                break;
+                            }
+                        case 3: {
+                                message.text = reader.string();
+                                break;
+                            }
+                        case 4: {
+                                if (!(message.wordOffsets && message.wordOffsets.length))
+                                    message.wordOffsets = [];
+                                message.wordOffsets.push($root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a LyricsLine message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine} LyricsLine
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                LyricsLine.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a LyricsLine message.
+                 * @function verify
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                LyricsLine.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    var properties = {};
+                    if (message.startTimeMs != null && message.hasOwnProperty("startTimeMs")) {
+                        properties._startTimeMs = 1;
+                        if (!$util.isInteger(message.startTimeMs))
+                            return "startTimeMs: integer expected";
+                    }
+                    if (message.endTimeMs != null && message.hasOwnProperty("endTimeMs")) {
+                        properties._endTimeMs = 1;
+                        if (!$util.isInteger(message.endTimeMs))
+                            return "endTimeMs: integer expected";
+                    }
+                    if (message.text != null && message.hasOwnProperty("text")) {
+                        properties._text = 1;
+                        if (!$util.isString(message.text))
+                            return "text: string expected";
+                    }
+                    if (message.wordOffsets != null && message.hasOwnProperty("wordOffsets")) {
+                        if (!Array.isArray(message.wordOffsets))
+                            return "wordOffsets: array expected";
+                        for (var i = 0; i < message.wordOffsets.length; ++i) {
+                            var error = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset.verify(message.wordOffsets[i]);
+                            if (error)
+                                return "wordOffsets." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a LyricsLine message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine} LyricsLine
+                 */
+                LyricsLine.fromObject = function fromObject(object) {
+                    if (object instanceof $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine)
+                        return object;
+                    var message = new $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine();
+                    if (object.startTimeMs != null)
+                        message.startTimeMs = object.startTimeMs | 0;
+                    if (object.endTimeMs != null)
+                        message.endTimeMs = object.endTimeMs | 0;
+                    if (object.text != null)
+                        message.text = String(object.text);
+                    if (object.wordOffsets) {
+                        if (!Array.isArray(object.wordOffsets))
+                            throw TypeError(".MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.wordOffsets: array expected");
+                        message.wordOffsets = [];
+                        for (var i = 0; i < object.wordOffsets.length; ++i) {
+                            if (typeof object.wordOffsets[i] !== "object")
+                                throw TypeError(".MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.wordOffsets: object expected");
+                            message.wordOffsets[i] = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset.fromObject(object.wordOffsets[i]);
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a LyricsLine message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine} message LyricsLine
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                LyricsLine.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.wordOffsets = [];
+                    if (message.startTimeMs != null && message.hasOwnProperty("startTimeMs")) {
+                        object.startTimeMs = message.startTimeMs;
+                        if (options.oneofs)
+                            object._startTimeMs = "startTimeMs";
+                    }
+                    if (message.endTimeMs != null && message.hasOwnProperty("endTimeMs")) {
+                        object.endTimeMs = message.endTimeMs;
+                        if (options.oneofs)
+                            object._endTimeMs = "endTimeMs";
+                    }
+                    if (message.text != null && message.hasOwnProperty("text")) {
+                        object.text = message.text;
+                        if (options.oneofs)
+                            object._text = "text";
+                    }
+                    if (message.wordOffsets && message.wordOffsets.length) {
+                        object.wordOffsets = [];
+                        for (var j = 0; j < message.wordOffsets.length; ++j)
+                            object.wordOffsets[j] = $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset.toObject(message.wordOffsets[j], options);
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this LyricsLine to JSON.
+                 * @function toJSON
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                LyricsLine.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for LyricsLine
+                 * @function getTypeUrl
+                 * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                LyricsLine.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine";
+                };
+
+                LyricsLine.WordOffset = (function() {
+
+                    /**
+                     * Properties of a WordOffset.
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                     * @interface IWordOffset
+                     * @property {number|null} [startIndex] WordOffset startIndex
+                     * @property {number|null} [endIndex] WordOffset endIndex
+                     * @property {number|null} [startOffsetMs] WordOffset startOffsetMs
+                     * @property {number|null} [endOffsetMs] WordOffset endOffsetMs
+                     */
+
+                    /**
+                     * Constructs a new WordOffset.
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine
+                     * @classdesc Represents a WordOffset.
+                     * @implements IWordOffset
+                     * @constructor
+                     * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.IWordOffset=} [properties] Properties to set
+                     */
+                    function WordOffset(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * WordOffset startIndex.
+                     * @member {number|null|undefined} startIndex
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @instance
+                     */
+                    WordOffset.prototype.startIndex = null;
+
+                    /**
+                     * WordOffset endIndex.
+                     * @member {number|null|undefined} endIndex
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @instance
+                     */
+                    WordOffset.prototype.endIndex = null;
+
+                    /**
+                     * WordOffset startOffsetMs.
+                     * @member {number|null|undefined} startOffsetMs
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @instance
+                     */
+                    WordOffset.prototype.startOffsetMs = null;
+
+                    /**
+                     * WordOffset endOffsetMs.
+                     * @member {number|null|undefined} endOffsetMs
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @instance
+                     */
+                    WordOffset.prototype.endOffsetMs = null;
+
+                    // OneOf field names bound to virtual getters and setters
+                    var $oneOfFields;
+
+                    // Virtual OneOf for proto3 optional field
+                    Object.defineProperty(WordOffset.prototype, "_startIndex", {
+                        get: $util.oneOfGetter($oneOfFields = ["startIndex"]),
+                        set: $util.oneOfSetter($oneOfFields)
+                    });
+
+                    // Virtual OneOf for proto3 optional field
+                    Object.defineProperty(WordOffset.prototype, "_endIndex", {
+                        get: $util.oneOfGetter($oneOfFields = ["endIndex"]),
+                        set: $util.oneOfSetter($oneOfFields)
+                    });
+
+                    // Virtual OneOf for proto3 optional field
+                    Object.defineProperty(WordOffset.prototype, "_startOffsetMs", {
+                        get: $util.oneOfGetter($oneOfFields = ["startOffsetMs"]),
+                        set: $util.oneOfSetter($oneOfFields)
+                    });
+
+                    // Virtual OneOf for proto3 optional field
+                    Object.defineProperty(WordOffset.prototype, "_endOffsetMs", {
+                        get: $util.oneOfGetter($oneOfFields = ["endOffsetMs"]),
+                        set: $util.oneOfSetter($oneOfFields)
+                    });
+
+                    /**
+                     * Creates a new WordOffset instance using the specified properties.
+                     * @function create
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.IWordOffset=} [properties] Properties to set
+                     * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset} WordOffset instance
+                     */
+                    WordOffset.create = function create(properties) {
+                        return new WordOffset(properties);
+                    };
+
+                    /**
+                     * Encodes the specified WordOffset message. Does not implicitly {@link MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset.verify|verify} messages.
+                     * @function encode
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.IWordOffset} message WordOffset message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    WordOffset.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.startIndex != null && Object.hasOwnProperty.call(message, "startIndex"))
+                            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.startIndex);
+                        if (message.endIndex != null && Object.hasOwnProperty.call(message, "endIndex"))
+                            writer.uint32(/* id 2, wireType 0 =*/16).int32(message.endIndex);
+                        if (message.startOffsetMs != null && Object.hasOwnProperty.call(message, "startOffsetMs"))
+                            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.startOffsetMs);
+                        if (message.endOffsetMs != null && Object.hasOwnProperty.call(message, "endOffsetMs"))
+                            writer.uint32(/* id 4, wireType 0 =*/32).int32(message.endOffsetMs);
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified WordOffset message, length delimited. Does not implicitly {@link MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.IWordOffset} message WordOffset message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    WordOffset.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a WordOffset message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset} WordOffset
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    WordOffset.decode = function decode(reader, length, error) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            if (tag === error)
+                                break;
+                            switch (tag >>> 3) {
+                            case 1: {
+                                    message.startIndex = reader.int32();
+                                    break;
+                                }
+                            case 2: {
+                                    message.endIndex = reader.int32();
+                                    break;
+                                }
+                            case 3: {
+                                    message.startOffsetMs = reader.int32();
+                                    break;
+                                }
+                            case 4: {
+                                    message.endOffsetMs = reader.int32();
+                                    break;
+                                }
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a WordOffset message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset} WordOffset
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    WordOffset.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a WordOffset message.
+                     * @function verify
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    WordOffset.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        var properties = {};
+                        if (message.startIndex != null && message.hasOwnProperty("startIndex")) {
+                            properties._startIndex = 1;
+                            if (!$util.isInteger(message.startIndex))
+                                return "startIndex: integer expected";
+                        }
+                        if (message.endIndex != null && message.hasOwnProperty("endIndex")) {
+                            properties._endIndex = 1;
+                            if (!$util.isInteger(message.endIndex))
+                                return "endIndex: integer expected";
+                        }
+                        if (message.startOffsetMs != null && message.hasOwnProperty("startOffsetMs")) {
+                            properties._startOffsetMs = 1;
+                            if (!$util.isInteger(message.startOffsetMs))
+                                return "startOffsetMs: integer expected";
+                        }
+                        if (message.endOffsetMs != null && message.hasOwnProperty("endOffsetMs")) {
+                            properties._endOffsetMs = 1;
+                            if (!$util.isInteger(message.endOffsetMs))
+                                return "endOffsetMs: integer expected";
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a WordOffset message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset} WordOffset
+                     */
+                    WordOffset.fromObject = function fromObject(object) {
+                        if (object instanceof $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset)
+                            return object;
+                        var message = new $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset();
+                        if (object.startIndex != null)
+                            message.startIndex = object.startIndex | 0;
+                        if (object.endIndex != null)
+                            message.endIndex = object.endIndex | 0;
+                        if (object.startOffsetMs != null)
+                            message.startOffsetMs = object.startOffsetMs | 0;
+                        if (object.endOffsetMs != null)
+                            message.endOffsetMs = object.endOffsetMs | 0;
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a WordOffset message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset} message WordOffset
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    WordOffset.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (message.startIndex != null && message.hasOwnProperty("startIndex")) {
+                            object.startIndex = message.startIndex;
+                            if (options.oneofs)
+                                object._startIndex = "startIndex";
+                        }
+                        if (message.endIndex != null && message.hasOwnProperty("endIndex")) {
+                            object.endIndex = message.endIndex;
+                            if (options.oneofs)
+                                object._endIndex = "endIndex";
+                        }
+                        if (message.startOffsetMs != null && message.hasOwnProperty("startOffsetMs")) {
+                            object.startOffsetMs = message.startOffsetMs;
+                            if (options.oneofs)
+                                object._startOffsetMs = "startOffsetMs";
+                        }
+                        if (message.endOffsetMs != null && message.hasOwnProperty("endOffsetMs")) {
+                            object.endOffsetMs = message.endOffsetMs;
+                            if (options.oneofs)
+                                object._endOffsetMs = "endOffsetMs";
+                        }
+                        return object;
+                    };
+
+                    /**
+                     * Converts this WordOffset to JSON.
+                     * @function toJSON
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    WordOffset.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    /**
+                     * Gets the default type url for WordOffset
+                     * @function getTypeUrl
+                     * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    WordOffset.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.LyricsLine.WordOffset";
+                    };
+
+                    return WordOffset;
+                })();
+
+                return LyricsLine;
+            })();
+
+            return MusicData;
+        })();
+
         /**
          * PollContentType enum.
          * @name MdStorageMsgRowOpaqueData.MsgOpaqueData.PollContentType
@@ -2652,6 +4259,8 @@ $root.MdStorageMsgRowOpaqueData = (function() {
              * @property {string|null} [name] PollOption name
              * @property {string|null} [hash] PollOption hash
              * @property {string|null} [addOptionMsgKey] PollOption addOptionMsgKey
+             * @property {number|null} [localId] PollOption localId
+             * @property {number|null} [addOptionMsgT] PollOption addOptionMsgT
              */
 
             /**
@@ -2693,6 +4302,22 @@ $root.MdStorageMsgRowOpaqueData = (function() {
              */
             PollOption.prototype.addOptionMsgKey = null;
 
+            /**
+             * PollOption localId.
+             * @member {number|null|undefined} localId
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.PollOption
+             * @instance
+             */
+            PollOption.prototype.localId = null;
+
+            /**
+             * PollOption addOptionMsgT.
+             * @member {number|null|undefined} addOptionMsgT
+             * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData.PollOption
+             * @instance
+             */
+            PollOption.prototype.addOptionMsgT = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -2711,6 +4336,18 @@ $root.MdStorageMsgRowOpaqueData = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(PollOption.prototype, "_addOptionMsgKey", {
                 get: $util.oneOfGetter($oneOfFields = ["addOptionMsgKey"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOption.prototype, "_localId", {
+                get: $util.oneOfGetter($oneOfFields = ["localId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOption.prototype, "_addOptionMsgT", {
+                get: $util.oneOfGetter($oneOfFields = ["addOptionMsgT"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -2744,6 +4381,10 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.hash);
                 if (message.addOptionMsgKey != null && Object.hasOwnProperty.call(message, "addOptionMsgKey"))
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.addOptionMsgKey);
+                if (message.localId != null && Object.hasOwnProperty.call(message, "localId"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.localId);
+                if (message.addOptionMsgT != null && Object.hasOwnProperty.call(message, "addOptionMsgT"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.addOptionMsgT);
                 return writer;
             };
 
@@ -2790,6 +4431,14 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                         }
                     case 3: {
                             message.addOptionMsgKey = reader.string();
+                            break;
+                        }
+                    case 4: {
+                            message.localId = reader.uint32();
+                            break;
+                        }
+                    case 5: {
+                            message.addOptionMsgT = reader.uint32();
                             break;
                         }
                     default:
@@ -2843,6 +4492,16 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                     if (!$util.isString(message.addOptionMsgKey))
                         return "addOptionMsgKey: string expected";
                 }
+                if (message.localId != null && message.hasOwnProperty("localId")) {
+                    properties._localId = 1;
+                    if (!$util.isInteger(message.localId))
+                        return "localId: integer expected";
+                }
+                if (message.addOptionMsgT != null && message.hasOwnProperty("addOptionMsgT")) {
+                    properties._addOptionMsgT = 1;
+                    if (!$util.isInteger(message.addOptionMsgT))
+                        return "addOptionMsgT: integer expected";
+                }
                 return null;
             };
 
@@ -2864,6 +4523,10 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                     message.hash = String(object.hash);
                 if (object.addOptionMsgKey != null)
                     message.addOptionMsgKey = String(object.addOptionMsgKey);
+                if (object.localId != null)
+                    message.localId = object.localId >>> 0;
+                if (object.addOptionMsgT != null)
+                    message.addOptionMsgT = object.addOptionMsgT >>> 0;
                 return message;
             };
 
@@ -2894,6 +4557,16 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                     object.addOptionMsgKey = message.addOptionMsgKey;
                     if (options.oneofs)
                         object._addOptionMsgKey = "addOptionMsgKey";
+                }
+                if (message.localId != null && message.hasOwnProperty("localId")) {
+                    object.localId = message.localId;
+                    if (options.oneofs)
+                        object._localId = "localId";
+                }
+                if (message.addOptionMsgT != null && message.hasOwnProperty("addOptionMsgT")) {
+                    object.addOptionMsgT = message.addOptionMsgT;
+                    if (options.oneofs)
+                        object._addOptionMsgT = "addOptionMsgT";
                 }
                 return object;
             };
@@ -14978,6 +16651,7 @@ $root.E2E = (function() {
          * @property {Uint8Array|null} [associatedPrimaryIdentityKey] MessageContextInfo associatedPrimaryIdentityKey
          * @property {string|null} [teeContextAnchorMessageId] MessageContextInfo teeContextAnchorMessageId
          * @property {Protocol.IACP2Setting|null} [acp2Setting] MessageContextInfo acp2Setting
+         * @property {boolean|null} [lightE2Ee] MessageContextInfo lightE2Ee
          */
 
         /**
@@ -15164,6 +16838,14 @@ $root.E2E = (function() {
          */
         MessageContextInfo.prototype.acp2Setting = null;
 
+        /**
+         * MessageContextInfo lightE2Ee.
+         * @member {boolean|null|undefined} lightE2Ee
+         * @memberof E2E.MessageContextInfo
+         * @instance
+         */
+        MessageContextInfo.prototype.lightE2Ee = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -15287,6 +16969,12 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MessageContextInfo.prototype, "_lightE2Ee", {
+            get: $util.oneOfGetter($oneOfFields = ["lightE2Ee"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new MessageContextInfo instance using the specified properties.
          * @function create
@@ -15354,6 +17042,8 @@ $root.E2E = (function() {
                 writer.uint32(/* id 20, wireType 2 =*/162).string(message.teeContextAnchorMessageId);
             if (message.acp2Setting != null && Object.hasOwnProperty.call(message, "acp2Setting"))
                 $root.Protocol.ACP2Setting.encode(message.acp2Setting, writer.uint32(/* id 21, wireType 2 =*/170).fork()).ldelim();
+            if (message.lightE2Ee != null && Object.hasOwnProperty.call(message, "lightE2Ee"))
+                writer.uint32(/* id 22, wireType 0 =*/176).bool(message.lightE2Ee);
             return writer;
         };
 
@@ -15474,6 +17164,10 @@ $root.E2E = (function() {
                     }
                 case 21: {
                         message.acp2Setting = $root.Protocol.ACP2Setting.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 22: {
+                        message.lightE2Ee = reader.bool();
                         break;
                     }
                 default:
@@ -15652,6 +17346,11 @@ $root.E2E = (function() {
                         return "acp2Setting." + error;
                 }
             }
+            if (message.lightE2Ee != null && message.hasOwnProperty("lightE2Ee")) {
+                properties._lightE2Ee = 1;
+                if (typeof message.lightE2Ee !== "boolean")
+                    return "lightE2Ee: boolean expected";
+            }
             return null;
         };
 
@@ -15781,6 +17480,8 @@ $root.E2E = (function() {
                     throw TypeError(".E2E.MessageContextInfo.acp2Setting: object expected");
                 message.acp2Setting = $root.Protocol.ACP2Setting.fromObject(object.acp2Setting);
             }
+            if (object.lightE2Ee != null)
+                message.lightE2Ee = Boolean(object.lightE2Ee);
             return message;
         };
 
@@ -15903,6 +17604,11 @@ $root.E2E = (function() {
                 object.acp2Setting = $root.Protocol.ACP2Setting.toObject(message.acp2Setting, options);
                 if (options.oneofs)
                     object._acp2Setting = "acp2Setting";
+            }
+            if (message.lightE2Ee != null && message.hasOwnProperty("lightE2Ee")) {
+                object.lightE2Ee = message.lightE2Ee;
+                if (options.oneofs)
+                    object._lightE2Ee = "lightE2Ee";
             }
             return object;
         };
@@ -16789,6 +18495,8 @@ $root.E2E = (function() {
          * @property {AICommon.IAIProvenance|null} [aiProvenance] ContextInfo aiProvenance
          * @property {Array.<number>|null} [experienceIds] ContextInfo experienceIds
          * @property {string|null} [partnerDeepLinkToken] ContextInfo partnerDeepLinkToken
+         * @property {number|null} [sourceExperienceId] ContextInfo sourceExperienceId
+         * @property {Array.<number>|null} [sourceExperienceIds] ContextInfo sourceExperienceIds
          */
 
         /**
@@ -16804,6 +18512,7 @@ $root.E2E = (function() {
             this.groupMentions = [];
             this.statusAttributions = [];
             this.experienceIds = [];
+            this.sourceExperienceIds = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -17338,6 +19047,22 @@ $root.E2E = (function() {
          */
         ContextInfo.prototype.partnerDeepLinkToken = null;
 
+        /**
+         * ContextInfo sourceExperienceId.
+         * @member {number|null|undefined} sourceExperienceId
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.sourceExperienceId = null;
+
+        /**
+         * ContextInfo sourceExperienceIds.
+         * @member {Array.<number>} sourceExperienceIds
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.sourceExperienceIds = $util.emptyArray;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -17713,6 +19438,12 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ContextInfo.prototype, "_sourceExperienceId", {
+            get: $util.oneOfGetter($oneOfFields = ["sourceExperienceId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ContextInfo instance using the specified properties.
          * @function create
@@ -17876,6 +19607,14 @@ $root.E2E = (function() {
             }
             if (message.partnerDeepLinkToken != null && Object.hasOwnProperty.call(message, "partnerDeepLinkToken"))
                 writer.uint32(/* id 83, wireType 2 =*/666).string(message.partnerDeepLinkToken);
+            if (message.sourceExperienceId != null && Object.hasOwnProperty.call(message, "sourceExperienceId"))
+                writer.uint32(/* id 84, wireType 0 =*/672).uint32(message.sourceExperienceId);
+            if (message.sourceExperienceIds != null && message.sourceExperienceIds.length) {
+                writer.uint32(/* id 85, wireType 2 =*/682).fork();
+                for (var i = 0; i < message.sourceExperienceIds.length; ++i)
+                    writer.uint32(message.sourceExperienceIds[i]);
+                writer.ldelim();
+            }
             return writer;
         };
 
@@ -18187,6 +19926,21 @@ $root.E2E = (function() {
                     }
                 case 83: {
                         message.partnerDeepLinkToken = reader.string();
+                        break;
+                    }
+                case 84: {
+                        message.sourceExperienceId = reader.uint32();
+                        break;
+                    }
+                case 85: {
+                        if (!(message.sourceExperienceIds && message.sourceExperienceIds.length))
+                            message.sourceExperienceIds = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.sourceExperienceIds.push(reader.uint32());
+                        } else
+                            message.sourceExperienceIds.push(reader.uint32());
                         break;
                     }
                 default:
@@ -18686,6 +20440,18 @@ $root.E2E = (function() {
                 if (!$util.isString(message.partnerDeepLinkToken))
                     return "partnerDeepLinkToken: string expected";
             }
+            if (message.sourceExperienceId != null && message.hasOwnProperty("sourceExperienceId")) {
+                properties._sourceExperienceId = 1;
+                if (!$util.isInteger(message.sourceExperienceId))
+                    return "sourceExperienceId: integer expected";
+            }
+            if (message.sourceExperienceIds != null && message.hasOwnProperty("sourceExperienceIds")) {
+                if (!Array.isArray(message.sourceExperienceIds))
+                    return "sourceExperienceIds: array expected";
+                for (var i = 0; i < message.sourceExperienceIds.length; ++i)
+                    if (!$util.isInteger(message.sourceExperienceIds[i]))
+                        return "sourceExperienceIds: integer[] expected";
+            }
             return null;
         };
 
@@ -19117,6 +20883,15 @@ $root.E2E = (function() {
             }
             if (object.partnerDeepLinkToken != null)
                 message.partnerDeepLinkToken = String(object.partnerDeepLinkToken);
+            if (object.sourceExperienceId != null)
+                message.sourceExperienceId = object.sourceExperienceId >>> 0;
+            if (object.sourceExperienceIds) {
+                if (!Array.isArray(object.sourceExperienceIds))
+                    throw TypeError(".E2E.ContextInfo.sourceExperienceIds: array expected");
+                message.sourceExperienceIds = [];
+                for (var i = 0; i < object.sourceExperienceIds.length; ++i)
+                    message.sourceExperienceIds[i] = object.sourceExperienceIds[i] >>> 0;
+            }
             return message;
         };
 
@@ -19138,6 +20913,7 @@ $root.E2E = (function() {
                 object.groupMentions = [];
                 object.statusAttributions = [];
                 object.experienceIds = [];
+                object.sourceExperienceIds = [];
             }
             if (message.stanzaId != null && message.hasOwnProperty("stanzaId")) {
                 object.stanzaId = message.stanzaId;
@@ -19471,6 +21247,16 @@ $root.E2E = (function() {
                 object.partnerDeepLinkToken = message.partnerDeepLinkToken;
                 if (options.oneofs)
                     object._partnerDeepLinkToken = "partnerDeepLinkToken";
+            }
+            if (message.sourceExperienceId != null && message.hasOwnProperty("sourceExperienceId")) {
+                object.sourceExperienceId = message.sourceExperienceId;
+                if (options.oneofs)
+                    object._sourceExperienceId = "sourceExperienceId";
+            }
+            if (message.sourceExperienceIds && message.sourceExperienceIds.length) {
+                object.sourceExperienceIds = [];
+                for (var j = 0; j < message.sourceExperienceIds.length; ++j)
+                    object.sourceExperienceIds[j] = message.sourceExperienceIds[j];
             }
             return object;
         };
@@ -25456,6 +27242,7 @@ $root.E2E = (function() {
              * @property {E2E.ContextInfo.StatusAudienceMetadata.AudienceType|null} [audienceType] StatusAudienceMetadata audienceType
              * @property {string|null} [listName] StatusAudienceMetadata listName
              * @property {string|null} [listEmoji] StatusAudienceMetadata listEmoji
+             * @property {string|null} [orgId] StatusAudienceMetadata orgId
              */
 
             /**
@@ -25497,6 +27284,14 @@ $root.E2E = (function() {
              */
             StatusAudienceMetadata.prototype.listEmoji = null;
 
+            /**
+             * StatusAudienceMetadata orgId.
+             * @member {string|null|undefined} orgId
+             * @memberof E2E.ContextInfo.StatusAudienceMetadata
+             * @instance
+             */
+            StatusAudienceMetadata.prototype.orgId = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -25515,6 +27310,12 @@ $root.E2E = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(StatusAudienceMetadata.prototype, "_listEmoji", {
                 get: $util.oneOfGetter($oneOfFields = ["listEmoji"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusAudienceMetadata.prototype, "_orgId", {
+                get: $util.oneOfGetter($oneOfFields = ["orgId"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -25548,6 +27349,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.listName);
                 if (message.listEmoji != null && Object.hasOwnProperty.call(message, "listEmoji"))
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.listEmoji);
+                if (message.orgId != null && Object.hasOwnProperty.call(message, "orgId"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.orgId);
                 return writer;
             };
 
@@ -25596,6 +27399,10 @@ $root.E2E = (function() {
                             message.listEmoji = reader.string();
                             break;
                         }
+                    case 4: {
+                            message.orgId = reader.string();
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -25639,6 +27446,8 @@ $root.E2E = (function() {
                         return "audienceType: enum value expected";
                     case 0:
                     case 1:
+                    case 2:
+                    case 3:
                         break;
                     }
                 }
@@ -25651,6 +27460,11 @@ $root.E2E = (function() {
                     properties._listEmoji = 1;
                     if (!$util.isString(message.listEmoji))
                         return "listEmoji: string expected";
+                }
+                if (message.orgId != null && message.hasOwnProperty("orgId")) {
+                    properties._orgId = 1;
+                    if (!$util.isString(message.orgId))
+                        return "orgId: string expected";
                 }
                 return null;
             };
@@ -25682,11 +27496,21 @@ $root.E2E = (function() {
                 case 1:
                     message.audienceType = 1;
                     break;
+                case "CUSTOM_LIST":
+                case 2:
+                    message.audienceType = 2;
+                    break;
+                case "ORG":
+                case 3:
+                    message.audienceType = 3;
+                    break;
                 }
                 if (object.listName != null)
                     message.listName = String(object.listName);
                 if (object.listEmoji != null)
                     message.listEmoji = String(object.listEmoji);
+                if (object.orgId != null)
+                    message.orgId = String(object.orgId);
                 return message;
             };
 
@@ -25717,6 +27541,11 @@ $root.E2E = (function() {
                     object.listEmoji = message.listEmoji;
                     if (options.oneofs)
                         object._listEmoji = "listEmoji";
+                }
+                if (message.orgId != null && message.hasOwnProperty("orgId")) {
+                    object.orgId = message.orgId;
+                    if (options.oneofs)
+                        object._orgId = "orgId";
                 }
                 return object;
             };
@@ -25753,11 +27582,15 @@ $root.E2E = (function() {
              * @enum {number}
              * @property {number} UNKNOWN=0 UNKNOWN value
              * @property {number} CLOSE_FRIENDS=1 CLOSE_FRIENDS value
+             * @property {number} CUSTOM_LIST=2 CUSTOM_LIST value
+             * @property {number} ORG=3 ORG value
              */
             StatusAudienceMetadata.AudienceType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "UNKNOWN"] = 0;
                 values[valuesById[1] = "CLOSE_FRIENDS"] = 1;
+                values[valuesById[2] = "CUSTOM_LIST"] = 2;
+                values[valuesById[3] = "ORG"] = 3;
                 return values;
             })();
 
@@ -52228,6 +54061,7 @@ $root.E2E = (function() {
                     case 6:
                     case 7:
                     case 8:
+                    case 9:
                         break;
                     }
                 }
@@ -52365,6 +54199,10 @@ $root.E2E = (function() {
                 case "MESSAGE_ACCESS_STATUS":
                 case 8:
                     message.syncType = 8;
+                    break;
+                case "RECENT_CONVERSATIONS_ON_DEMAND":
+                case 9:
+                    message.syncType = 9;
                     break;
                 }
                 if (object.chunkOrder != null)
@@ -52543,6 +54381,7 @@ $root.E2E = (function() {
          * @property {number} ON_DEMAND=6 ON_DEMAND value
          * @property {number} NO_HISTORY=7 NO_HISTORY value
          * @property {number} MESSAGE_ACCESS_STATUS=8 MESSAGE_ACCESS_STATUS value
+         * @property {number} RECENT_CONVERSATIONS_ON_DEMAND=9 RECENT_CONVERSATIONS_ON_DEMAND value
          */
         Message.HistorySyncType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -52555,6 +54394,7 @@ $root.E2E = (function() {
             values[valuesById[6] = "ON_DEMAND"] = 6;
             values[valuesById[7] = "NO_HISTORY"] = 7;
             values[valuesById[8] = "MESSAGE_ACCESS_STATUS"] = 8;
+            values[valuesById[9] = "RECENT_CONVERSATIONS_ON_DEMAND"] = 9;
             return values;
         })();
 
@@ -65696,6 +67536,7 @@ $root.E2E = (function() {
              * @property {string|null} [artworkUri] MusicMessage artworkUri
              * @property {number|null} [style] MusicMessage style
              * @property {E2E.IContextInfo|null} [contextInfo] MusicMessage contextInfo
+             * @property {E2E.Message.MusicMessage.ILyrics|null} [lyrics] MusicMessage lyrics
              */
 
             /**
@@ -65753,6 +67594,14 @@ $root.E2E = (function() {
              */
             MusicMessage.prototype.contextInfo = null;
 
+            /**
+             * MusicMessage lyrics.
+             * @member {E2E.Message.MusicMessage.ILyrics|null|undefined} lyrics
+             * @memberof E2E.Message.MusicMessage
+             * @instance
+             */
+            MusicMessage.prototype.lyrics = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -65783,6 +67632,12 @@ $root.E2E = (function() {
             // Virtual OneOf for proto3 optional field
             Object.defineProperty(MusicMessage.prototype, "_contextInfo", {
                 get: $util.oneOfGetter($oneOfFields = ["contextInfo"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(MusicMessage.prototype, "_lyrics", {
+                get: $util.oneOfGetter($oneOfFields = ["lyrics"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -65820,6 +67675,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 4, wireType 0 =*/32).int32(message.style);
                 if (message.contextInfo != null && Object.hasOwnProperty.call(message, "contextInfo"))
                     $root.E2E.ContextInfo.encode(message.contextInfo, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                if (message.lyrics != null && Object.hasOwnProperty.call(message, "lyrics"))
+                    $root.E2E.Message.MusicMessage.Lyrics.encode(message.lyrics, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                 return writer;
             };
 
@@ -65874,6 +67731,10 @@ $root.E2E = (function() {
                         }
                     case 5: {
                             message.contextInfo = $root.E2E.ContextInfo.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 6: {
+                            message.lyrics = $root.E2E.Message.MusicMessage.Lyrics.decode(reader, reader.uint32());
                             break;
                         }
                     default:
@@ -65943,6 +67804,14 @@ $root.E2E = (function() {
                             return "contextInfo." + error;
                     }
                 }
+                if (message.lyrics != null && message.hasOwnProperty("lyrics")) {
+                    properties._lyrics = 1;
+                    {
+                        var error = $root.E2E.Message.MusicMessage.Lyrics.verify(message.lyrics);
+                        if (error)
+                            return "lyrics." + error;
+                    }
+                }
                 return null;
             };
 
@@ -65973,6 +67842,11 @@ $root.E2E = (function() {
                     if (typeof object.contextInfo !== "object")
                         throw TypeError(".E2E.Message.MusicMessage.contextInfo: object expected");
                     message.contextInfo = $root.E2E.ContextInfo.fromObject(object.contextInfo);
+                }
+                if (object.lyrics != null) {
+                    if (typeof object.lyrics !== "object")
+                        throw TypeError(".E2E.Message.MusicMessage.lyrics: object expected");
+                    message.lyrics = $root.E2E.Message.MusicMessage.Lyrics.fromObject(object.lyrics);
                 }
                 return message;
             };
@@ -66015,6 +67889,11 @@ $root.E2E = (function() {
                     if (options.oneofs)
                         object._contextInfo = "contextInfo";
                 }
+                if (message.lyrics != null && message.hasOwnProperty("lyrics")) {
+                    object.lyrics = $root.E2E.Message.MusicMessage.Lyrics.toObject(message.lyrics, options);
+                    if (options.oneofs)
+                        object._lyrics = "lyrics";
+                }
                 return object;
             };
 
@@ -66043,6 +67922,918 @@ $root.E2E = (function() {
                 }
                 return typeUrlPrefix + "/E2E.Message.MusicMessage";
             };
+
+            MusicMessage.Lyrics = (function() {
+
+                /**
+                 * Properties of a Lyrics.
+                 * @memberof E2E.Message.MusicMessage
+                 * @interface ILyrics
+                 * @property {Array.<E2E.Message.MusicMessage.Lyrics.ILine>|null} [lines] Lyrics lines
+                 */
+
+                /**
+                 * Constructs a new Lyrics.
+                 * @memberof E2E.Message.MusicMessage
+                 * @classdesc Represents a Lyrics.
+                 * @implements ILyrics
+                 * @constructor
+                 * @param {E2E.Message.MusicMessage.ILyrics=} [properties] Properties to set
+                 */
+                function Lyrics(properties) {
+                    this.lines = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Lyrics lines.
+                 * @member {Array.<E2E.Message.MusicMessage.Lyrics.ILine>} lines
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @instance
+                 */
+                Lyrics.prototype.lines = $util.emptyArray;
+
+                /**
+                 * Creates a new Lyrics instance using the specified properties.
+                 * @function create
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {E2E.Message.MusicMessage.ILyrics=} [properties] Properties to set
+                 * @returns {E2E.Message.MusicMessage.Lyrics} Lyrics instance
+                 */
+                Lyrics.create = function create(properties) {
+                    return new Lyrics(properties);
+                };
+
+                /**
+                 * Encodes the specified Lyrics message. Does not implicitly {@link E2E.Message.MusicMessage.Lyrics.verify|verify} messages.
+                 * @function encode
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {E2E.Message.MusicMessage.ILyrics} message Lyrics message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Lyrics.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.lines != null && message.lines.length)
+                        for (var i = 0; i < message.lines.length; ++i)
+                            $root.E2E.Message.MusicMessage.Lyrics.Line.encode(message.lines[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified Lyrics message, length delimited. Does not implicitly {@link E2E.Message.MusicMessage.Lyrics.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {E2E.Message.MusicMessage.ILyrics} message Lyrics message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Lyrics.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a Lyrics message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {E2E.Message.MusicMessage.Lyrics} Lyrics
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Lyrics.decode = function decode(reader, length, error) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.MusicMessage.Lyrics();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                if (!(message.lines && message.lines.length))
+                                    message.lines = [];
+                                message.lines.push($root.E2E.Message.MusicMessage.Lyrics.Line.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a Lyrics message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {E2E.Message.MusicMessage.Lyrics} Lyrics
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Lyrics.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a Lyrics message.
+                 * @function verify
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Lyrics.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.lines != null && message.hasOwnProperty("lines")) {
+                        if (!Array.isArray(message.lines))
+                            return "lines: array expected";
+                        for (var i = 0; i < message.lines.length; ++i) {
+                            var error = $root.E2E.Message.MusicMessage.Lyrics.Line.verify(message.lines[i]);
+                            if (error)
+                                return "lines." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a Lyrics message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {E2E.Message.MusicMessage.Lyrics} Lyrics
+                 */
+                Lyrics.fromObject = function fromObject(object) {
+                    if (object instanceof $root.E2E.Message.MusicMessage.Lyrics)
+                        return object;
+                    var message = new $root.E2E.Message.MusicMessage.Lyrics();
+                    if (object.lines) {
+                        if (!Array.isArray(object.lines))
+                            throw TypeError(".E2E.Message.MusicMessage.Lyrics.lines: array expected");
+                        message.lines = [];
+                        for (var i = 0; i < object.lines.length; ++i) {
+                            if (typeof object.lines[i] !== "object")
+                                throw TypeError(".E2E.Message.MusicMessage.Lyrics.lines: object expected");
+                            message.lines[i] = $root.E2E.Message.MusicMessage.Lyrics.Line.fromObject(object.lines[i]);
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a Lyrics message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {E2E.Message.MusicMessage.Lyrics} message Lyrics
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Lyrics.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.lines = [];
+                    if (message.lines && message.lines.length) {
+                        object.lines = [];
+                        for (var j = 0; j < message.lines.length; ++j)
+                            object.lines[j] = $root.E2E.Message.MusicMessage.Lyrics.Line.toObject(message.lines[j], options);
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this Lyrics to JSON.
+                 * @function toJSON
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Lyrics.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for Lyrics
+                 * @function getTypeUrl
+                 * @memberof E2E.Message.MusicMessage.Lyrics
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                Lyrics.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/E2E.Message.MusicMessage.Lyrics";
+                };
+
+                Lyrics.Line = (function() {
+
+                    /**
+                     * Properties of a Line.
+                     * @memberof E2E.Message.MusicMessage.Lyrics
+                     * @interface ILine
+                     * @property {number|Long|null} [startTimeInMs] Line startTimeInMs
+                     * @property {number|Long|null} [endTimeInMs] Line endTimeInMs
+                     * @property {string|null} [text] Line text
+                     * @property {Array.<E2E.Message.MusicMessage.Lyrics.Line.IWordOffset>|null} [wordOffsets] Line wordOffsets
+                     */
+
+                    /**
+                     * Constructs a new Line.
+                     * @memberof E2E.Message.MusicMessage.Lyrics
+                     * @classdesc Represents a Line.
+                     * @implements ILine
+                     * @constructor
+                     * @param {E2E.Message.MusicMessage.Lyrics.ILine=} [properties] Properties to set
+                     */
+                    function Line(properties) {
+                        this.wordOffsets = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * Line startTimeInMs.
+                     * @member {number|Long|null|undefined} startTimeInMs
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @instance
+                     */
+                    Line.prototype.startTimeInMs = null;
+
+                    /**
+                     * Line endTimeInMs.
+                     * @member {number|Long|null|undefined} endTimeInMs
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @instance
+                     */
+                    Line.prototype.endTimeInMs = null;
+
+                    /**
+                     * Line text.
+                     * @member {string|null|undefined} text
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @instance
+                     */
+                    Line.prototype.text = null;
+
+                    /**
+                     * Line wordOffsets.
+                     * @member {Array.<E2E.Message.MusicMessage.Lyrics.Line.IWordOffset>} wordOffsets
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @instance
+                     */
+                    Line.prototype.wordOffsets = $util.emptyArray;
+
+                    // OneOf field names bound to virtual getters and setters
+                    var $oneOfFields;
+
+                    // Virtual OneOf for proto3 optional field
+                    Object.defineProperty(Line.prototype, "_startTimeInMs", {
+                        get: $util.oneOfGetter($oneOfFields = ["startTimeInMs"]),
+                        set: $util.oneOfSetter($oneOfFields)
+                    });
+
+                    // Virtual OneOf for proto3 optional field
+                    Object.defineProperty(Line.prototype, "_endTimeInMs", {
+                        get: $util.oneOfGetter($oneOfFields = ["endTimeInMs"]),
+                        set: $util.oneOfSetter($oneOfFields)
+                    });
+
+                    // Virtual OneOf for proto3 optional field
+                    Object.defineProperty(Line.prototype, "_text", {
+                        get: $util.oneOfGetter($oneOfFields = ["text"]),
+                        set: $util.oneOfSetter($oneOfFields)
+                    });
+
+                    /**
+                     * Creates a new Line instance using the specified properties.
+                     * @function create
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {E2E.Message.MusicMessage.Lyrics.ILine=} [properties] Properties to set
+                     * @returns {E2E.Message.MusicMessage.Lyrics.Line} Line instance
+                     */
+                    Line.create = function create(properties) {
+                        return new Line(properties);
+                    };
+
+                    /**
+                     * Encodes the specified Line message. Does not implicitly {@link E2E.Message.MusicMessage.Lyrics.Line.verify|verify} messages.
+                     * @function encode
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {E2E.Message.MusicMessage.Lyrics.ILine} message Line message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    Line.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.startTimeInMs != null && Object.hasOwnProperty.call(message, "startTimeInMs"))
+                            writer.uint32(/* id 1, wireType 0 =*/8).int64(message.startTimeInMs);
+                        if (message.endTimeInMs != null && Object.hasOwnProperty.call(message, "endTimeInMs"))
+                            writer.uint32(/* id 2, wireType 0 =*/16).int64(message.endTimeInMs);
+                        if (message.text != null && Object.hasOwnProperty.call(message, "text"))
+                            writer.uint32(/* id 3, wireType 2 =*/26).string(message.text);
+                        if (message.wordOffsets != null && message.wordOffsets.length)
+                            for (var i = 0; i < message.wordOffsets.length; ++i)
+                                $root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset.encode(message.wordOffsets[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified Line message, length delimited. Does not implicitly {@link E2E.Message.MusicMessage.Lyrics.Line.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {E2E.Message.MusicMessage.Lyrics.ILine} message Line message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    Line.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a Line message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {E2E.Message.MusicMessage.Lyrics.Line} Line
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    Line.decode = function decode(reader, length, error) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.MusicMessage.Lyrics.Line();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            if (tag === error)
+                                break;
+                            switch (tag >>> 3) {
+                            case 1: {
+                                    message.startTimeInMs = reader.int64();
+                                    break;
+                                }
+                            case 2: {
+                                    message.endTimeInMs = reader.int64();
+                                    break;
+                                }
+                            case 3: {
+                                    message.text = reader.string();
+                                    break;
+                                }
+                            case 4: {
+                                    if (!(message.wordOffsets && message.wordOffsets.length))
+                                        message.wordOffsets = [];
+                                    message.wordOffsets.push($root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset.decode(reader, reader.uint32()));
+                                    break;
+                                }
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a Line message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {E2E.Message.MusicMessage.Lyrics.Line} Line
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    Line.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a Line message.
+                     * @function verify
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    Line.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        var properties = {};
+                        if (message.startTimeInMs != null && message.hasOwnProperty("startTimeInMs")) {
+                            properties._startTimeInMs = 1;
+                            if (!$util.isInteger(message.startTimeInMs) && !(message.startTimeInMs && $util.isInteger(message.startTimeInMs.low) && $util.isInteger(message.startTimeInMs.high)))
+                                return "startTimeInMs: integer|Long expected";
+                        }
+                        if (message.endTimeInMs != null && message.hasOwnProperty("endTimeInMs")) {
+                            properties._endTimeInMs = 1;
+                            if (!$util.isInteger(message.endTimeInMs) && !(message.endTimeInMs && $util.isInteger(message.endTimeInMs.low) && $util.isInteger(message.endTimeInMs.high)))
+                                return "endTimeInMs: integer|Long expected";
+                        }
+                        if (message.text != null && message.hasOwnProperty("text")) {
+                            properties._text = 1;
+                            if (!$util.isString(message.text))
+                                return "text: string expected";
+                        }
+                        if (message.wordOffsets != null && message.hasOwnProperty("wordOffsets")) {
+                            if (!Array.isArray(message.wordOffsets))
+                                return "wordOffsets: array expected";
+                            for (var i = 0; i < message.wordOffsets.length; ++i) {
+                                var error = $root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset.verify(message.wordOffsets[i]);
+                                if (error)
+                                    return "wordOffsets." + error;
+                            }
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a Line message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {E2E.Message.MusicMessage.Lyrics.Line} Line
+                     */
+                    Line.fromObject = function fromObject(object) {
+                        if (object instanceof $root.E2E.Message.MusicMessage.Lyrics.Line)
+                            return object;
+                        var message = new $root.E2E.Message.MusicMessage.Lyrics.Line();
+                        if (object.startTimeInMs != null)
+                            if ($util.Long)
+                                (message.startTimeInMs = $util.Long.fromValue(object.startTimeInMs)).unsigned = false;
+                            else if (typeof object.startTimeInMs === "string")
+                                message.startTimeInMs = parseInt(object.startTimeInMs, 10);
+                            else if (typeof object.startTimeInMs === "number")
+                                message.startTimeInMs = object.startTimeInMs;
+                            else if (typeof object.startTimeInMs === "object")
+                                message.startTimeInMs = new $util.LongBits(object.startTimeInMs.low >>> 0, object.startTimeInMs.high >>> 0).toNumber();
+                        if (object.endTimeInMs != null)
+                            if ($util.Long)
+                                (message.endTimeInMs = $util.Long.fromValue(object.endTimeInMs)).unsigned = false;
+                            else if (typeof object.endTimeInMs === "string")
+                                message.endTimeInMs = parseInt(object.endTimeInMs, 10);
+                            else if (typeof object.endTimeInMs === "number")
+                                message.endTimeInMs = object.endTimeInMs;
+                            else if (typeof object.endTimeInMs === "object")
+                                message.endTimeInMs = new $util.LongBits(object.endTimeInMs.low >>> 0, object.endTimeInMs.high >>> 0).toNumber();
+                        if (object.text != null)
+                            message.text = String(object.text);
+                        if (object.wordOffsets) {
+                            if (!Array.isArray(object.wordOffsets))
+                                throw TypeError(".E2E.Message.MusicMessage.Lyrics.Line.wordOffsets: array expected");
+                            message.wordOffsets = [];
+                            for (var i = 0; i < object.wordOffsets.length; ++i) {
+                                if (typeof object.wordOffsets[i] !== "object")
+                                    throw TypeError(".E2E.Message.MusicMessage.Lyrics.Line.wordOffsets: object expected");
+                                message.wordOffsets[i] = $root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset.fromObject(object.wordOffsets[i]);
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a Line message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {E2E.Message.MusicMessage.Lyrics.Line} message Line
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    Line.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.wordOffsets = [];
+                        if (message.startTimeInMs != null && message.hasOwnProperty("startTimeInMs")) {
+                            if (typeof message.startTimeInMs === "number")
+                                object.startTimeInMs = options.longs === String ? String(message.startTimeInMs) : message.startTimeInMs;
+                            else
+                                object.startTimeInMs = options.longs === String ? $util.Long.prototype.toString.call(message.startTimeInMs) : options.longs === Number ? new $util.LongBits(message.startTimeInMs.low >>> 0, message.startTimeInMs.high >>> 0).toNumber() : message.startTimeInMs;
+                            if (options.oneofs)
+                                object._startTimeInMs = "startTimeInMs";
+                        }
+                        if (message.endTimeInMs != null && message.hasOwnProperty("endTimeInMs")) {
+                            if (typeof message.endTimeInMs === "number")
+                                object.endTimeInMs = options.longs === String ? String(message.endTimeInMs) : message.endTimeInMs;
+                            else
+                                object.endTimeInMs = options.longs === String ? $util.Long.prototype.toString.call(message.endTimeInMs) : options.longs === Number ? new $util.LongBits(message.endTimeInMs.low >>> 0, message.endTimeInMs.high >>> 0).toNumber() : message.endTimeInMs;
+                            if (options.oneofs)
+                                object._endTimeInMs = "endTimeInMs";
+                        }
+                        if (message.text != null && message.hasOwnProperty("text")) {
+                            object.text = message.text;
+                            if (options.oneofs)
+                                object._text = "text";
+                        }
+                        if (message.wordOffsets && message.wordOffsets.length) {
+                            object.wordOffsets = [];
+                            for (var j = 0; j < message.wordOffsets.length; ++j)
+                                object.wordOffsets[j] = $root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset.toObject(message.wordOffsets[j], options);
+                        }
+                        return object;
+                    };
+
+                    /**
+                     * Converts this Line to JSON.
+                     * @function toJSON
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    Line.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    /**
+                     * Gets the default type url for Line
+                     * @function getTypeUrl
+                     * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    Line.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/E2E.Message.MusicMessage.Lyrics.Line";
+                    };
+
+                    Line.WordOffset = (function() {
+
+                        /**
+                         * Properties of a WordOffset.
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                         * @interface IWordOffset
+                         * @property {number|null} [startIndex] WordOffset startIndex
+                         * @property {number|null} [endIndex] WordOffset endIndex
+                         * @property {number|Long|null} [startOffsetMs] WordOffset startOffsetMs
+                         * @property {number|Long|null} [endOffsetMs] WordOffset endOffsetMs
+                         */
+
+                        /**
+                         * Constructs a new WordOffset.
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line
+                         * @classdesc Represents a WordOffset.
+                         * @implements IWordOffset
+                         * @constructor
+                         * @param {E2E.Message.MusicMessage.Lyrics.Line.IWordOffset=} [properties] Properties to set
+                         */
+                        function WordOffset(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+
+                        /**
+                         * WordOffset startIndex.
+                         * @member {number|null|undefined} startIndex
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @instance
+                         */
+                        WordOffset.prototype.startIndex = null;
+
+                        /**
+                         * WordOffset endIndex.
+                         * @member {number|null|undefined} endIndex
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @instance
+                         */
+                        WordOffset.prototype.endIndex = null;
+
+                        /**
+                         * WordOffset startOffsetMs.
+                         * @member {number|Long|null|undefined} startOffsetMs
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @instance
+                         */
+                        WordOffset.prototype.startOffsetMs = null;
+
+                        /**
+                         * WordOffset endOffsetMs.
+                         * @member {number|Long|null|undefined} endOffsetMs
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @instance
+                         */
+                        WordOffset.prototype.endOffsetMs = null;
+
+                        // OneOf field names bound to virtual getters and setters
+                        var $oneOfFields;
+
+                        // Virtual OneOf for proto3 optional field
+                        Object.defineProperty(WordOffset.prototype, "_startIndex", {
+                            get: $util.oneOfGetter($oneOfFields = ["startIndex"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        // Virtual OneOf for proto3 optional field
+                        Object.defineProperty(WordOffset.prototype, "_endIndex", {
+                            get: $util.oneOfGetter($oneOfFields = ["endIndex"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        // Virtual OneOf for proto3 optional field
+                        Object.defineProperty(WordOffset.prototype, "_startOffsetMs", {
+                            get: $util.oneOfGetter($oneOfFields = ["startOffsetMs"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        // Virtual OneOf for proto3 optional field
+                        Object.defineProperty(WordOffset.prototype, "_endOffsetMs", {
+                            get: $util.oneOfGetter($oneOfFields = ["endOffsetMs"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        /**
+                         * Creates a new WordOffset instance using the specified properties.
+                         * @function create
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {E2E.Message.MusicMessage.Lyrics.Line.IWordOffset=} [properties] Properties to set
+                         * @returns {E2E.Message.MusicMessage.Lyrics.Line.WordOffset} WordOffset instance
+                         */
+                        WordOffset.create = function create(properties) {
+                            return new WordOffset(properties);
+                        };
+
+                        /**
+                         * Encodes the specified WordOffset message. Does not implicitly {@link E2E.Message.MusicMessage.Lyrics.Line.WordOffset.verify|verify} messages.
+                         * @function encode
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {E2E.Message.MusicMessage.Lyrics.Line.IWordOffset} message WordOffset message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        WordOffset.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.startIndex != null && Object.hasOwnProperty.call(message, "startIndex"))
+                                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.startIndex);
+                            if (message.endIndex != null && Object.hasOwnProperty.call(message, "endIndex"))
+                                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.endIndex);
+                            if (message.startOffsetMs != null && Object.hasOwnProperty.call(message, "startOffsetMs"))
+                                writer.uint32(/* id 3, wireType 0 =*/24).int64(message.startOffsetMs);
+                            if (message.endOffsetMs != null && Object.hasOwnProperty.call(message, "endOffsetMs"))
+                                writer.uint32(/* id 4, wireType 0 =*/32).int64(message.endOffsetMs);
+                            return writer;
+                        };
+
+                        /**
+                         * Encodes the specified WordOffset message, length delimited. Does not implicitly {@link E2E.Message.MusicMessage.Lyrics.Line.WordOffset.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {E2E.Message.MusicMessage.Lyrics.Line.IWordOffset} message WordOffset message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        WordOffset.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+
+                        /**
+                         * Decodes a WordOffset message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {E2E.Message.MusicMessage.Lyrics.Line.WordOffset} WordOffset
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        WordOffset.decode = function decode(reader, length, error) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                if (tag === error)
+                                    break;
+                                switch (tag >>> 3) {
+                                case 1: {
+                                        message.startIndex = reader.int32();
+                                        break;
+                                    }
+                                case 2: {
+                                        message.endIndex = reader.int32();
+                                        break;
+                                    }
+                                case 3: {
+                                        message.startOffsetMs = reader.int64();
+                                        break;
+                                    }
+                                case 4: {
+                                        message.endOffsetMs = reader.int64();
+                                        break;
+                                    }
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Decodes a WordOffset message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {E2E.Message.MusicMessage.Lyrics.Line.WordOffset} WordOffset
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        WordOffset.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+
+                        /**
+                         * Verifies a WordOffset message.
+                         * @function verify
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        WordOffset.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            var properties = {};
+                            if (message.startIndex != null && message.hasOwnProperty("startIndex")) {
+                                properties._startIndex = 1;
+                                if (!$util.isInteger(message.startIndex))
+                                    return "startIndex: integer expected";
+                            }
+                            if (message.endIndex != null && message.hasOwnProperty("endIndex")) {
+                                properties._endIndex = 1;
+                                if (!$util.isInteger(message.endIndex))
+                                    return "endIndex: integer expected";
+                            }
+                            if (message.startOffsetMs != null && message.hasOwnProperty("startOffsetMs")) {
+                                properties._startOffsetMs = 1;
+                                if (!$util.isInteger(message.startOffsetMs) && !(message.startOffsetMs && $util.isInteger(message.startOffsetMs.low) && $util.isInteger(message.startOffsetMs.high)))
+                                    return "startOffsetMs: integer|Long expected";
+                            }
+                            if (message.endOffsetMs != null && message.hasOwnProperty("endOffsetMs")) {
+                                properties._endOffsetMs = 1;
+                                if (!$util.isInteger(message.endOffsetMs) && !(message.endOffsetMs && $util.isInteger(message.endOffsetMs.low) && $util.isInteger(message.endOffsetMs.high)))
+                                    return "endOffsetMs: integer|Long expected";
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates a WordOffset message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {E2E.Message.MusicMessage.Lyrics.Line.WordOffset} WordOffset
+                         */
+                        WordOffset.fromObject = function fromObject(object) {
+                            if (object instanceof $root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset)
+                                return object;
+                            var message = new $root.E2E.Message.MusicMessage.Lyrics.Line.WordOffset();
+                            if (object.startIndex != null)
+                                message.startIndex = object.startIndex | 0;
+                            if (object.endIndex != null)
+                                message.endIndex = object.endIndex | 0;
+                            if (object.startOffsetMs != null)
+                                if ($util.Long)
+                                    (message.startOffsetMs = $util.Long.fromValue(object.startOffsetMs)).unsigned = false;
+                                else if (typeof object.startOffsetMs === "string")
+                                    message.startOffsetMs = parseInt(object.startOffsetMs, 10);
+                                else if (typeof object.startOffsetMs === "number")
+                                    message.startOffsetMs = object.startOffsetMs;
+                                else if (typeof object.startOffsetMs === "object")
+                                    message.startOffsetMs = new $util.LongBits(object.startOffsetMs.low >>> 0, object.startOffsetMs.high >>> 0).toNumber();
+                            if (object.endOffsetMs != null)
+                                if ($util.Long)
+                                    (message.endOffsetMs = $util.Long.fromValue(object.endOffsetMs)).unsigned = false;
+                                else if (typeof object.endOffsetMs === "string")
+                                    message.endOffsetMs = parseInt(object.endOffsetMs, 10);
+                                else if (typeof object.endOffsetMs === "number")
+                                    message.endOffsetMs = object.endOffsetMs;
+                                else if (typeof object.endOffsetMs === "object")
+                                    message.endOffsetMs = new $util.LongBits(object.endOffsetMs.low >>> 0, object.endOffsetMs.high >>> 0).toNumber();
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a WordOffset message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {E2E.Message.MusicMessage.Lyrics.Line.WordOffset} message WordOffset
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        WordOffset.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (message.startIndex != null && message.hasOwnProperty("startIndex")) {
+                                object.startIndex = message.startIndex;
+                                if (options.oneofs)
+                                    object._startIndex = "startIndex";
+                            }
+                            if (message.endIndex != null && message.hasOwnProperty("endIndex")) {
+                                object.endIndex = message.endIndex;
+                                if (options.oneofs)
+                                    object._endIndex = "endIndex";
+                            }
+                            if (message.startOffsetMs != null && message.hasOwnProperty("startOffsetMs")) {
+                                if (typeof message.startOffsetMs === "number")
+                                    object.startOffsetMs = options.longs === String ? String(message.startOffsetMs) : message.startOffsetMs;
+                                else
+                                    object.startOffsetMs = options.longs === String ? $util.Long.prototype.toString.call(message.startOffsetMs) : options.longs === Number ? new $util.LongBits(message.startOffsetMs.low >>> 0, message.startOffsetMs.high >>> 0).toNumber() : message.startOffsetMs;
+                                if (options.oneofs)
+                                    object._startOffsetMs = "startOffsetMs";
+                            }
+                            if (message.endOffsetMs != null && message.hasOwnProperty("endOffsetMs")) {
+                                if (typeof message.endOffsetMs === "number")
+                                    object.endOffsetMs = options.longs === String ? String(message.endOffsetMs) : message.endOffsetMs;
+                                else
+                                    object.endOffsetMs = options.longs === String ? $util.Long.prototype.toString.call(message.endOffsetMs) : options.longs === Number ? new $util.LongBits(message.endOffsetMs.low >>> 0, message.endOffsetMs.high >>> 0).toNumber() : message.endOffsetMs;
+                                if (options.oneofs)
+                                    object._endOffsetMs = "endOffsetMs";
+                            }
+                            return object;
+                        };
+
+                        /**
+                         * Converts this WordOffset to JSON.
+                         * @function toJSON
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        WordOffset.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        /**
+                         * Gets the default type url for WordOffset
+                         * @function getTypeUrl
+                         * @memberof E2E.Message.MusicMessage.Lyrics.Line.WordOffset
+                         * @static
+                         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns {string} The default type url
+                         */
+                        WordOffset.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                            if (typeUrlPrefix === undefined) {
+                                typeUrlPrefix = "type.googleapis.com";
+                            }
+                            return typeUrlPrefix + "/E2E.Message.MusicMessage.Lyrics.Line.WordOffset";
+                        };
+
+                        return WordOffset;
+                    })();
+
+                    return Line;
+                })();
+
+                return Lyrics;
+            })();
 
             /**
              * MusicMessageStyle enum.
@@ -69938,6 +72729,7 @@ $root.E2E = (function() {
              * @property {E2E.Message.PeerDataOperationRequestMessage.ICompanionCanonicalUserNonceFetchRequest|null} [companionCanonicalUserNonceFetchRequest] PeerDataOperationRequestMessage companionCanonicalUserNonceFetchRequest
              * @property {E2E.Message.PeerDataOperationRequestMessage.IBizBroadcastInsightsContactListRequest|null} [bizBroadcastInsightsContactListRequest] PeerDataOperationRequestMessage bizBroadcastInsightsContactListRequest
              * @property {E2E.Message.PeerDataOperationRequestMessage.IBizBroadcastInsightsRefreshRequest|null} [bizBroadcastInsightsRefreshRequest] PeerDataOperationRequestMessage bizBroadcastInsightsRefreshRequest
+             * @property {E2E.Message.PeerDataOperationRequestMessage.IRecentConversationsOnDemandRequest|null} [recentConversationsOnDemandRequest] PeerDataOperationRequestMessage recentConversationsOnDemandRequest
              */
 
             /**
@@ -70054,6 +72846,14 @@ $root.E2E = (function() {
              */
             PeerDataOperationRequestMessage.prototype.bizBroadcastInsightsRefreshRequest = null;
 
+            /**
+             * PeerDataOperationRequestMessage recentConversationsOnDemandRequest.
+             * @member {E2E.Message.PeerDataOperationRequestMessage.IRecentConversationsOnDemandRequest|null|undefined} recentConversationsOnDemandRequest
+             * @memberof E2E.Message.PeerDataOperationRequestMessage
+             * @instance
+             */
+            PeerDataOperationRequestMessage.prototype.recentConversationsOnDemandRequest = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -70111,6 +72911,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PeerDataOperationRequestMessage.prototype, "_recentConversationsOnDemandRequest", {
+                get: $util.oneOfGetter($oneOfFields = ["recentConversationsOnDemandRequest"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new PeerDataOperationRequestMessage instance using the specified properties.
              * @function create
@@ -70162,6 +72968,8 @@ $root.E2E = (function() {
                     $root.E2E.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsContactListRequest.encode(message.bizBroadcastInsightsContactListRequest, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
                 if (message.bizBroadcastInsightsRefreshRequest != null && Object.hasOwnProperty.call(message, "bizBroadcastInsightsRefreshRequest"))
                     $root.E2E.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.encode(message.bizBroadcastInsightsRefreshRequest, writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
+                if (message.recentConversationsOnDemandRequest != null && Object.hasOwnProperty.call(message, "recentConversationsOnDemandRequest"))
+                    $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.encode(message.recentConversationsOnDemandRequest, writer.uint32(/* id 13, wireType 2 =*/106).fork()).ldelim();
                 return writer;
             };
 
@@ -70252,6 +73060,10 @@ $root.E2E = (function() {
                             message.bizBroadcastInsightsRefreshRequest = $root.E2E.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.decode(reader, reader.uint32());
                             break;
                         }
+                    case 13: {
+                            message.recentConversationsOnDemandRequest = $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.decode(reader, reader.uint32());
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -70308,6 +73120,7 @@ $root.E2E = (function() {
                     case 12:
                     case 13:
                     case 14:
+                    case 15:
                         break;
                     }
                 }
@@ -70402,6 +73215,14 @@ $root.E2E = (function() {
                             return "bizBroadcastInsightsRefreshRequest." + error;
                     }
                 }
+                if (message.recentConversationsOnDemandRequest != null && message.hasOwnProperty("recentConversationsOnDemandRequest")) {
+                    properties._recentConversationsOnDemandRequest = 1;
+                    {
+                        var error = $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.verify(message.recentConversationsOnDemandRequest);
+                        if (error)
+                            return "recentConversationsOnDemandRequest." + error;
+                    }
+                }
                 return null;
             };
 
@@ -70484,6 +73305,10 @@ $root.E2E = (function() {
                 case 14:
                     message.peerDataOperationRequestType = 14;
                     break;
+                case "RECENT_CONVERSATIONS_ON_DEMAND_REQUEST":
+                case 15:
+                    message.peerDataOperationRequestType = 15;
+                    break;
                 }
                 if (object.requestStickerReupload) {
                     if (!Array.isArray(object.requestStickerReupload))
@@ -70554,6 +73379,11 @@ $root.E2E = (function() {
                     if (typeof object.bizBroadcastInsightsRefreshRequest !== "object")
                         throw TypeError(".E2E.Message.PeerDataOperationRequestMessage.bizBroadcastInsightsRefreshRequest: object expected");
                     message.bizBroadcastInsightsRefreshRequest = $root.E2E.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.fromObject(object.bizBroadcastInsightsRefreshRequest);
+                }
+                if (object.recentConversationsOnDemandRequest != null) {
+                    if (typeof object.recentConversationsOnDemandRequest !== "object")
+                        throw TypeError(".E2E.Message.PeerDataOperationRequestMessage.recentConversationsOnDemandRequest: object expected");
+                    message.recentConversationsOnDemandRequest = $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.fromObject(object.recentConversationsOnDemandRequest);
                 }
                 return message;
             };
@@ -70635,6 +73465,11 @@ $root.E2E = (function() {
                     object.bizBroadcastInsightsRefreshRequest = $root.E2E.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.toObject(message.bizBroadcastInsightsRefreshRequest, options);
                     if (options.oneofs)
                         object._bizBroadcastInsightsRefreshRequest = "bizBroadcastInsightsRefreshRequest";
+                }
+                if (message.recentConversationsOnDemandRequest != null && message.hasOwnProperty("recentConversationsOnDemandRequest")) {
+                    object.recentConversationsOnDemandRequest = $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.toObject(message.recentConversationsOnDemandRequest, options);
+                    if (options.oneofs)
+                        object._recentConversationsOnDemandRequest = "recentConversationsOnDemandRequest";
                 }
                 return object;
             };
@@ -72224,6 +75059,7 @@ $root.E2E = (function() {
                         case 6:
                         case 7:
                         case 8:
+                        case 9:
                             break;
                         }
                     }
@@ -72299,6 +75135,10 @@ $root.E2E = (function() {
                     case "MESSAGE_ACCESS_STATUS":
                     case 8:
                         message.syncType = 8;
+                        break;
+                    case "RECENT_CONVERSATIONS_ON_DEMAND":
+                    case 9:
+                        message.syncType = 9;
                         break;
                     }
                     if (object.chunkOrder != null)
@@ -72388,6 +75228,7 @@ $root.E2E = (function() {
                  * @property {number|Long|null} [oldestMsgTimestampMs] HistorySyncOnDemandRequest oldestMsgTimestampMs
                  * @property {string|null} [accountLid] HistorySyncOnDemandRequest accountLid
                  * @property {boolean|null} [supportInlineResponse] HistorySyncOnDemandRequest supportInlineResponse
+                 * @property {E2E.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest.Mode|null} [mode] HistorySyncOnDemandRequest mode
                  */
 
                 /**
@@ -72461,6 +75302,14 @@ $root.E2E = (function() {
                  */
                 HistorySyncOnDemandRequest.prototype.supportInlineResponse = null;
 
+                /**
+                 * HistorySyncOnDemandRequest mode.
+                 * @member {E2E.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest.Mode|null|undefined} mode
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest
+                 * @instance
+                 */
+                HistorySyncOnDemandRequest.prototype.mode = null;
+
                 // OneOf field names bound to virtual getters and setters
                 var $oneOfFields;
 
@@ -72506,6 +75355,12 @@ $root.E2E = (function() {
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(HistorySyncOnDemandRequest.prototype, "_mode", {
+                    get: $util.oneOfGetter($oneOfFields = ["mode"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
                 /**
                  * Creates a new HistorySyncOnDemandRequest instance using the specified properties.
                  * @function create
@@ -72544,6 +75399,8 @@ $root.E2E = (function() {
                         writer.uint32(/* id 6, wireType 2 =*/50).string(message.accountLid);
                     if (message.supportInlineResponse != null && Object.hasOwnProperty.call(message, "supportInlineResponse"))
                         writer.uint32(/* id 7, wireType 0 =*/56).bool(message.supportInlineResponse);
+                    if (message.mode != null && Object.hasOwnProperty.call(message, "mode"))
+                        writer.uint32(/* id 8, wireType 0 =*/64).int32(message.mode);
                     return writer;
                 };
 
@@ -72606,6 +75463,10 @@ $root.E2E = (function() {
                             }
                         case 7: {
                                 message.supportInlineResponse = reader.bool();
+                                break;
+                            }
+                        case 8: {
+                                message.mode = reader.int32();
                                 break;
                             }
                         default:
@@ -72679,6 +75540,16 @@ $root.E2E = (function() {
                         if (typeof message.supportInlineResponse !== "boolean")
                             return "supportInlineResponse: boolean expected";
                     }
+                    if (message.mode != null && message.hasOwnProperty("mode")) {
+                        properties._mode = 1;
+                        switch (message.mode) {
+                        default:
+                            return "mode: enum value expected";
+                        case 0:
+                        case 1:
+                            break;
+                        }
+                    }
                     return null;
                 };
 
@@ -72715,6 +75586,22 @@ $root.E2E = (function() {
                         message.accountLid = String(object.accountLid);
                     if (object.supportInlineResponse != null)
                         message.supportInlineResponse = Boolean(object.supportInlineResponse);
+                    switch (object.mode) {
+                    default:
+                        if (typeof object.mode === "number") {
+                            message.mode = object.mode;
+                            break;
+                        }
+                        break;
+                    case "MODE_UNSPECIFIED":
+                    case 0:
+                        message.mode = 0;
+                        break;
+                    case "INITIAL_REVERSE_HISTORY":
+                    case 1:
+                        message.mode = 1;
+                        break;
+                    }
                     return message;
                 };
 
@@ -72769,6 +75656,11 @@ $root.E2E = (function() {
                         if (options.oneofs)
                             object._supportInlineResponse = "supportInlineResponse";
                     }
+                    if (message.mode != null && message.hasOwnProperty("mode")) {
+                        object.mode = options.enums === String ? $root.E2E.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest.Mode[message.mode] === undefined ? message.mode : $root.E2E.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest.Mode[message.mode] : message.mode;
+                        if (options.oneofs)
+                            object._mode = "mode";
+                    }
                     return object;
                 };
 
@@ -72797,6 +75689,20 @@ $root.E2E = (function() {
                     }
                     return typeUrlPrefix + "/E2E.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest";
                 };
+
+                /**
+                 * Mode enum.
+                 * @name E2E.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest.Mode
+                 * @enum {number}
+                 * @property {number} MODE_UNSPECIFIED=0 MODE_UNSPECIFIED value
+                 * @property {number} INITIAL_REVERSE_HISTORY=1 INITIAL_REVERSE_HISTORY value
+                 */
+                HistorySyncOnDemandRequest.Mode = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "MODE_UNSPECIFIED"] = 0;
+                    values[valuesById[1] = "INITIAL_REVERSE_HISTORY"] = 1;
+                    return values;
+                })();
 
                 return HistorySyncOnDemandRequest;
             })();
@@ -73023,6 +75929,257 @@ $root.E2E = (function() {
                 };
 
                 return PlaceholderMessageResendRequest;
+            })();
+
+            PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest = (function() {
+
+                /**
+                 * Properties of a RecentConversationsOnDemandRequest.
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage
+                 * @interface IRecentConversationsOnDemandRequest
+                 * @property {number|null} [conversationCount] RecentConversationsOnDemandRequest conversationCount
+                 * @property {number|null} [messagesPerConversation] RecentConversationsOnDemandRequest messagesPerConversation
+                 */
+
+                /**
+                 * Constructs a new RecentConversationsOnDemandRequest.
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage
+                 * @classdesc Represents a RecentConversationsOnDemandRequest.
+                 * @implements IRecentConversationsOnDemandRequest
+                 * @constructor
+                 * @param {E2E.Message.PeerDataOperationRequestMessage.IRecentConversationsOnDemandRequest=} [properties] Properties to set
+                 */
+                function RecentConversationsOnDemandRequest(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * RecentConversationsOnDemandRequest conversationCount.
+                 * @member {number|null|undefined} conversationCount
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @instance
+                 */
+                RecentConversationsOnDemandRequest.prototype.conversationCount = null;
+
+                /**
+                 * RecentConversationsOnDemandRequest messagesPerConversation.
+                 * @member {number|null|undefined} messagesPerConversation
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @instance
+                 */
+                RecentConversationsOnDemandRequest.prototype.messagesPerConversation = null;
+
+                // OneOf field names bound to virtual getters and setters
+                var $oneOfFields;
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(RecentConversationsOnDemandRequest.prototype, "_conversationCount", {
+                    get: $util.oneOfGetter($oneOfFields = ["conversationCount"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(RecentConversationsOnDemandRequest.prototype, "_messagesPerConversation", {
+                    get: $util.oneOfGetter($oneOfFields = ["messagesPerConversation"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new RecentConversationsOnDemandRequest instance using the specified properties.
+                 * @function create
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {E2E.Message.PeerDataOperationRequestMessage.IRecentConversationsOnDemandRequest=} [properties] Properties to set
+                 * @returns {E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest} RecentConversationsOnDemandRequest instance
+                 */
+                RecentConversationsOnDemandRequest.create = function create(properties) {
+                    return new RecentConversationsOnDemandRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified RecentConversationsOnDemandRequest message. Does not implicitly {@link E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {E2E.Message.PeerDataOperationRequestMessage.IRecentConversationsOnDemandRequest} message RecentConversationsOnDemandRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                RecentConversationsOnDemandRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.conversationCount != null && Object.hasOwnProperty.call(message, "conversationCount"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.conversationCount);
+                    if (message.messagesPerConversation != null && Object.hasOwnProperty.call(message, "messagesPerConversation"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.messagesPerConversation);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified RecentConversationsOnDemandRequest message, length delimited. Does not implicitly {@link E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {E2E.Message.PeerDataOperationRequestMessage.IRecentConversationsOnDemandRequest} message RecentConversationsOnDemandRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                RecentConversationsOnDemandRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a RecentConversationsOnDemandRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest} RecentConversationsOnDemandRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                RecentConversationsOnDemandRequest.decode = function decode(reader, length, error) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.conversationCount = reader.uint32();
+                                break;
+                            }
+                        case 2: {
+                                message.messagesPerConversation = reader.uint32();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a RecentConversationsOnDemandRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest} RecentConversationsOnDemandRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                RecentConversationsOnDemandRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a RecentConversationsOnDemandRequest message.
+                 * @function verify
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                RecentConversationsOnDemandRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    var properties = {};
+                    if (message.conversationCount != null && message.hasOwnProperty("conversationCount")) {
+                        properties._conversationCount = 1;
+                        if (!$util.isInteger(message.conversationCount))
+                            return "conversationCount: integer expected";
+                    }
+                    if (message.messagesPerConversation != null && message.hasOwnProperty("messagesPerConversation")) {
+                        properties._messagesPerConversation = 1;
+                        if (!$util.isInteger(message.messagesPerConversation))
+                            return "messagesPerConversation: integer expected";
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a RecentConversationsOnDemandRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest} RecentConversationsOnDemandRequest
+                 */
+                RecentConversationsOnDemandRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest)
+                        return object;
+                    var message = new $root.E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest();
+                    if (object.conversationCount != null)
+                        message.conversationCount = object.conversationCount >>> 0;
+                    if (object.messagesPerConversation != null)
+                        message.messagesPerConversation = object.messagesPerConversation >>> 0;
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a RecentConversationsOnDemandRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest} message RecentConversationsOnDemandRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                RecentConversationsOnDemandRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (message.conversationCount != null && message.hasOwnProperty("conversationCount")) {
+                        object.conversationCount = message.conversationCount;
+                        if (options.oneofs)
+                            object._conversationCount = "conversationCount";
+                    }
+                    if (message.messagesPerConversation != null && message.hasOwnProperty("messagesPerConversation")) {
+                        object.messagesPerConversation = message.messagesPerConversation;
+                        if (options.oneofs)
+                            object._messagesPerConversation = "messagesPerConversation";
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this RecentConversationsOnDemandRequest to JSON.
+                 * @function toJSON
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                RecentConversationsOnDemandRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for RecentConversationsOnDemandRequest
+                 * @function getTypeUrl
+                 * @memberof E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                RecentConversationsOnDemandRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/E2E.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest";
+                };
+
+                return RecentConversationsOnDemandRequest;
             })();
 
             PeerDataOperationRequestMessage.RequestStickerReupload = (function() {
@@ -73961,6 +77118,7 @@ $root.E2E = (function() {
                     case 12:
                     case 13:
                     case 14:
+                    case 15:
                         break;
                     }
                 }
@@ -74059,6 +77217,10 @@ $root.E2E = (function() {
                 case "CONTACT_REFRESH_REQUEST":
                 case 14:
                     message.peerDataOperationRequestType = 14;
+                    break;
+                case "RECENT_CONVERSATIONS_ON_DEMAND_REQUEST":
+                case 15:
+                    message.peerDataOperationRequestType = 15;
                     break;
                 }
                 if (object.stanzaId != null)
@@ -77401,6 +80563,7 @@ $root.E2E = (function() {
                             case 6:
                             case 7:
                             case 8:
+                            case 9:
                                 break;
                             }
                         }
@@ -77490,6 +80653,10 @@ $root.E2E = (function() {
                         case "MESSAGE_ACCESS_STATUS":
                         case 8:
                             message.syncType = 8;
+                            break;
+                        case "RECENT_CONVERSATIONS_ON_DEMAND":
+                        case 9:
+                            message.syncType = 9;
                             break;
                         }
                         if (object.chunkOrder != null)
@@ -79619,6 +82786,7 @@ $root.E2E = (function() {
          * @property {number} BUSINESS_BROADCAST_INSIGHTS_DELIVERED_TO=12 BUSINESS_BROADCAST_INSIGHTS_DELIVERED_TO value
          * @property {number} BUSINESS_BROADCAST_INSIGHTS_REFRESH=13 BUSINESS_BROADCAST_INSIGHTS_REFRESH value
          * @property {number} CONTACT_REFRESH_REQUEST=14 CONTACT_REFRESH_REQUEST value
+         * @property {number} RECENT_CONVERSATIONS_ON_DEMAND_REQUEST=15 RECENT_CONVERSATIONS_ON_DEMAND_REQUEST value
          */
         Message.PeerDataOperationRequestType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -79637,6 +82805,7 @@ $root.E2E = (function() {
             values[valuesById[12] = "BUSINESS_BROADCAST_INSIGHTS_DELIVERED_TO"] = 12;
             values[valuesById[13] = "BUSINESS_BROADCAST_INSIGHTS_REFRESH"] = 13;
             values[valuesById[14] = "CONTACT_REFRESH_REQUEST"] = 14;
+            values[valuesById[15] = "RECENT_CONVERSATIONS_ON_DEMAND_REQUEST"] = 15;
             return values;
         })();
 
@@ -115571,6 +118740,7 @@ $root.AICommon = (function() {
          * @property {AICommon.IBotPttPromptMetadata|null} [pttPromptMetadata] BotMetadata pttPromptMetadata
          * @property {AICommon.IBotHistoryShareMetadata|null} [botHistoryShareMetadata] BotMetadata botHistoryShareMetadata
          * @property {boolean|null} [responseStoppedByUser] BotMetadata responseStoppedByUser
+         * @property {AICommon.IBotInterjectionMetadata|null} [interjectionMetadata] BotMetadata interjectionMetadata
          * @property {Uint8Array|null} [internalMetadata] BotMetadata internalMetadata
          */
 
@@ -115934,6 +119104,14 @@ $root.AICommon = (function() {
         BotMetadata.prototype.responseStoppedByUser = null;
 
         /**
+         * BotMetadata interjectionMetadata.
+         * @member {AICommon.IBotInterjectionMetadata|null|undefined} interjectionMetadata
+         * @memberof AICommon.BotMetadata
+         * @instance
+         */
+        BotMetadata.prototype.interjectionMetadata = null;
+
+        /**
          * BotMetadata internalMetadata.
          * @member {Uint8Array|null|undefined} internalMetadata
          * @memberof AICommon.BotMetadata
@@ -116203,6 +119381,12 @@ $root.AICommon = (function() {
         });
 
         // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotMetadata.prototype, "_interjectionMetadata", {
+            get: $util.oneOfGetter($oneOfFields = ["interjectionMetadata"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
         Object.defineProperty(BotMetadata.prototype, "_internalMetadata", {
             get: $util.oneOfGetter($oneOfFields = ["internalMetadata"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -116318,6 +119502,8 @@ $root.AICommon = (function() {
                 $root.AICommon.BotHistoryShareMetadata.encode(message.botHistoryShareMetadata, writer.uint32(/* id 43, wireType 2 =*/346).fork()).ldelim();
             if (message.responseStoppedByUser != null && Object.hasOwnProperty.call(message, "responseStoppedByUser"))
                 writer.uint32(/* id 44, wireType 0 =*/352).bool(message.responseStoppedByUser);
+            if (message.interjectionMetadata != null && Object.hasOwnProperty.call(message, "interjectionMetadata"))
+                $root.AICommon.BotInterjectionMetadata.encode(message.interjectionMetadata, writer.uint32(/* id 45, wireType 2 =*/362).fork()).ldelim();
             if (message.internalMetadata != null && Object.hasOwnProperty.call(message, "internalMetadata"))
                 writer.uint32(/* id 999, wireType 2 =*/7994).bytes(message.internalMetadata);
             return writer;
@@ -116526,6 +119712,10 @@ $root.AICommon = (function() {
                     }
                 case 44: {
                         message.responseStoppedByUser = reader.bool();
+                        break;
+                    }
+                case 45: {
+                        message.interjectionMetadata = $root.AICommon.BotInterjectionMetadata.decode(reader, reader.uint32());
                         break;
                     }
                 case 999: {
@@ -116888,6 +120078,14 @@ $root.AICommon = (function() {
                 if (typeof message.responseStoppedByUser !== "boolean")
                     return "responseStoppedByUser: boolean expected";
             }
+            if (message.interjectionMetadata != null && message.hasOwnProperty("interjectionMetadata")) {
+                properties._interjectionMetadata = 1;
+                {
+                    var error = $root.AICommon.BotInterjectionMetadata.verify(message.interjectionMetadata);
+                    if (error)
+                        return "interjectionMetadata." + error;
+                }
+            }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 properties._internalMetadata = 1;
                 if (!(message.internalMetadata && typeof message.internalMetadata.length === "number" || $util.isString(message.internalMetadata)))
@@ -117102,6 +120300,11 @@ $root.AICommon = (function() {
             }
             if (object.responseStoppedByUser != null)
                 message.responseStoppedByUser = Boolean(object.responseStoppedByUser);
+            if (object.interjectionMetadata != null) {
+                if (typeof object.interjectionMetadata !== "object")
+                    throw TypeError(".AICommon.BotMetadata.interjectionMetadata: object expected");
+                message.interjectionMetadata = $root.AICommon.BotInterjectionMetadata.fromObject(object.interjectionMetadata);
+            }
             if (object.internalMetadata != null)
                 if (typeof object.internalMetadata === "string")
                     $util.base64.decode(object.internalMetadata, message.internalMetadata = $util.newBuffer($util.base64.length(object.internalMetadata)), 0);
@@ -117338,6 +120541,11 @@ $root.AICommon = (function() {
                 if (options.oneofs)
                     object._responseStoppedByUser = "responseStoppedByUser";
             }
+            if (message.interjectionMetadata != null && message.hasOwnProperty("interjectionMetadata")) {
+                object.interjectionMetadata = $root.AICommon.BotInterjectionMetadata.toObject(message.interjectionMetadata, options);
+                if (options.oneofs)
+                    object._interjectionMetadata = "interjectionMetadata";
+            }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 object.internalMetadata = options.bytes === String ? $util.base64.encode(message.internalMetadata, 0, message.internalMetadata.length) : options.bytes === Array ? Array.prototype.slice.call(message.internalMetadata) : message.internalMetadata;
                 if (options.oneofs)
@@ -117373,6 +120581,264 @@ $root.AICommon = (function() {
         };
 
         return BotMetadata;
+    })();
+
+    AICommon.BotInterjectionMetadata = (function() {
+
+        /**
+         * Properties of a BotInterjectionMetadata.
+         * @memberof AICommon
+         * @interface IBotInterjectionMetadata
+         * @property {string|null} [targetPromptMessageId] BotInterjectionMetadata targetPromptMessageId
+         * @property {Array.<string>|null} [foldedPromptMessageIds] BotInterjectionMetadata foldedPromptMessageIds
+         */
+
+        /**
+         * Constructs a new BotInterjectionMetadata.
+         * @memberof AICommon
+         * @classdesc Represents a BotInterjectionMetadata.
+         * @implements IBotInterjectionMetadata
+         * @constructor
+         * @param {AICommon.IBotInterjectionMetadata=} [properties] Properties to set
+         */
+        function BotInterjectionMetadata(properties) {
+            this.foldedPromptMessageIds = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BotInterjectionMetadata targetPromptMessageId.
+         * @member {string|null|undefined} targetPromptMessageId
+         * @memberof AICommon.BotInterjectionMetadata
+         * @instance
+         */
+        BotInterjectionMetadata.prototype.targetPromptMessageId = null;
+
+        /**
+         * BotInterjectionMetadata foldedPromptMessageIds.
+         * @member {Array.<string>} foldedPromptMessageIds
+         * @memberof AICommon.BotInterjectionMetadata
+         * @instance
+         */
+        BotInterjectionMetadata.prototype.foldedPromptMessageIds = $util.emptyArray;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotInterjectionMetadata.prototype, "_targetPromptMessageId", {
+            get: $util.oneOfGetter($oneOfFields = ["targetPromptMessageId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new BotInterjectionMetadata instance using the specified properties.
+         * @function create
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.IBotInterjectionMetadata=} [properties] Properties to set
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata instance
+         */
+        BotInterjectionMetadata.create = function create(properties) {
+            return new BotInterjectionMetadata(properties);
+        };
+
+        /**
+         * Encodes the specified BotInterjectionMetadata message. Does not implicitly {@link AICommon.BotInterjectionMetadata.verify|verify} messages.
+         * @function encode
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.IBotInterjectionMetadata} message BotInterjectionMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BotInterjectionMetadata.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.targetPromptMessageId != null && Object.hasOwnProperty.call(message, "targetPromptMessageId"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.targetPromptMessageId);
+            if (message.foldedPromptMessageIds != null && message.foldedPromptMessageIds.length)
+                for (var i = 0; i < message.foldedPromptMessageIds.length; ++i)
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.foldedPromptMessageIds[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BotInterjectionMetadata message, length delimited. Does not implicitly {@link AICommon.BotInterjectionMetadata.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.IBotInterjectionMetadata} message BotInterjectionMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BotInterjectionMetadata.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BotInterjectionMetadata message from the specified reader or buffer.
+         * @function decode
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BotInterjectionMetadata.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AICommon.BotInterjectionMetadata();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.targetPromptMessageId = reader.string();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.foldedPromptMessageIds && message.foldedPromptMessageIds.length))
+                            message.foldedPromptMessageIds = [];
+                        message.foldedPromptMessageIds.push(reader.string());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BotInterjectionMetadata message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BotInterjectionMetadata.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BotInterjectionMetadata message.
+         * @function verify
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BotInterjectionMetadata.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.targetPromptMessageId != null && message.hasOwnProperty("targetPromptMessageId")) {
+                properties._targetPromptMessageId = 1;
+                if (!$util.isString(message.targetPromptMessageId))
+                    return "targetPromptMessageId: string expected";
+            }
+            if (message.foldedPromptMessageIds != null && message.hasOwnProperty("foldedPromptMessageIds")) {
+                if (!Array.isArray(message.foldedPromptMessageIds))
+                    return "foldedPromptMessageIds: array expected";
+                for (var i = 0; i < message.foldedPromptMessageIds.length; ++i)
+                    if (!$util.isString(message.foldedPromptMessageIds[i]))
+                        return "foldedPromptMessageIds: string[] expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a BotInterjectionMetadata message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata
+         */
+        BotInterjectionMetadata.fromObject = function fromObject(object) {
+            if (object instanceof $root.AICommon.BotInterjectionMetadata)
+                return object;
+            var message = new $root.AICommon.BotInterjectionMetadata();
+            if (object.targetPromptMessageId != null)
+                message.targetPromptMessageId = String(object.targetPromptMessageId);
+            if (object.foldedPromptMessageIds) {
+                if (!Array.isArray(object.foldedPromptMessageIds))
+                    throw TypeError(".AICommon.BotInterjectionMetadata.foldedPromptMessageIds: array expected");
+                message.foldedPromptMessageIds = [];
+                for (var i = 0; i < object.foldedPromptMessageIds.length; ++i)
+                    message.foldedPromptMessageIds[i] = String(object.foldedPromptMessageIds[i]);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BotInterjectionMetadata message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.BotInterjectionMetadata} message BotInterjectionMetadata
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BotInterjectionMetadata.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.foldedPromptMessageIds = [];
+            if (message.targetPromptMessageId != null && message.hasOwnProperty("targetPromptMessageId")) {
+                object.targetPromptMessageId = message.targetPromptMessageId;
+                if (options.oneofs)
+                    object._targetPromptMessageId = "targetPromptMessageId";
+            }
+            if (message.foldedPromptMessageIds && message.foldedPromptMessageIds.length) {
+                object.foldedPromptMessageIds = [];
+                for (var j = 0; j < message.foldedPromptMessageIds.length; ++j)
+                    object.foldedPromptMessageIds[j] = message.foldedPromptMessageIds[j];
+            }
+            return object;
+        };
+
+        /**
+         * Converts this BotInterjectionMetadata to JSON.
+         * @function toJSON
+         * @memberof AICommon.BotInterjectionMetadata
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BotInterjectionMetadata.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BotInterjectionMetadata
+         * @function getTypeUrl
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BotInterjectionMetadata.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/AICommon.BotInterjectionMetadata";
+        };
+
+        return BotInterjectionMetadata;
     })();
 
     AICommon.BotPttPromptMetadata = (function() {
@@ -120832,6 +124298,7 @@ $root.AICommon = (function() {
          * @memberof AICommon
          * @interface IBotMessageOrigin
          * @property {AICommon.BotMessageOrigin.BotMessageOriginType|null} [type] BotMessageOrigin type
+         * @property {string|null} [proactiveMessageCampaignId] BotMessageOrigin proactiveMessageCampaignId
          */
 
         /**
@@ -120857,12 +124324,26 @@ $root.AICommon = (function() {
          */
         BotMessageOrigin.prototype.type = null;
 
+        /**
+         * BotMessageOrigin proactiveMessageCampaignId.
+         * @member {string|null|undefined} proactiveMessageCampaignId
+         * @memberof AICommon.BotMessageOrigin
+         * @instance
+         */
+        BotMessageOrigin.prototype.proactiveMessageCampaignId = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(BotMessageOrigin.prototype, "_type", {
             get: $util.oneOfGetter($oneOfFields = ["type"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotMessageOrigin.prototype, "_proactiveMessageCampaignId", {
+            get: $util.oneOfGetter($oneOfFields = ["proactiveMessageCampaignId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -120892,6 +124373,8 @@ $root.AICommon = (function() {
                 writer = $Writer.create();
             if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+            if (message.proactiveMessageCampaignId != null && Object.hasOwnProperty.call(message, "proactiveMessageCampaignId"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.proactiveMessageCampaignId);
             return writer;
         };
 
@@ -120930,6 +124413,10 @@ $root.AICommon = (function() {
                 switch (tag >>> 3) {
                 case 1: {
                         message.type = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.proactiveMessageCampaignId = reader.string();
                         break;
                     }
                 default:
@@ -120974,8 +124461,14 @@ $root.AICommon = (function() {
                 default:
                     return "type: enum value expected";
                 case 0:
+                case 1:
                     break;
                 }
+            }
+            if (message.proactiveMessageCampaignId != null && message.hasOwnProperty("proactiveMessageCampaignId")) {
+                properties._proactiveMessageCampaignId = 1;
+                if (!$util.isString(message.proactiveMessageCampaignId))
+                    return "proactiveMessageCampaignId: string expected";
             }
             return null;
         };
@@ -121003,7 +124496,13 @@ $root.AICommon = (function() {
             case 0:
                 message.type = 0;
                 break;
+            case "BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME":
+            case 1:
+                message.type = 1;
+                break;
             }
+            if (object.proactiveMessageCampaignId != null)
+                message.proactiveMessageCampaignId = String(object.proactiveMessageCampaignId);
             return message;
         };
 
@@ -121024,6 +124523,11 @@ $root.AICommon = (function() {
                 object.type = options.enums === String ? $root.AICommon.BotMessageOrigin.BotMessageOriginType[message.type] === undefined ? message.type : $root.AICommon.BotMessageOrigin.BotMessageOriginType[message.type] : message.type;
                 if (options.oneofs)
                     object._type = "type";
+            }
+            if (message.proactiveMessageCampaignId != null && message.hasOwnProperty("proactiveMessageCampaignId")) {
+                object.proactiveMessageCampaignId = message.proactiveMessageCampaignId;
+                if (options.oneofs)
+                    object._proactiveMessageCampaignId = "proactiveMessageCampaignId";
             }
             return object;
         };
@@ -121059,10 +124563,12 @@ $root.AICommon = (function() {
          * @name AICommon.BotMessageOrigin.BotMessageOriginType
          * @enum {number}
          * @property {number} BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED=0 BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED value
+         * @property {number} BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME=1 BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME value
          */
         BotMessageOrigin.BotMessageOriginType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED"] = 0;
+            values[valuesById[1] = "BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME"] = 1;
             return values;
         })();
 
@@ -125345,6 +128851,8 @@ $root.AICommon = (function() {
                     case 80:
                     case 81:
                     case 82:
+                    case 83:
+                    case 84:
                         break;
                     }
             }
@@ -125706,6 +129214,14 @@ $root.AICommon = (function() {
                     case 82:
                         message.capabilities[i] = 82;
                         break;
+                    case "HATCH_CVM_ENABLED":
+                    case 83:
+                        message.capabilities[i] = 83;
+                        break;
+                    case "RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED":
+                    case 84:
+                        message.capabilities[i] = 84;
+                        break;
                     }
             }
             return message;
@@ -125847,6 +129363,8 @@ $root.AICommon = (function() {
          * @property {number} AI_STUDY_CENTER_ENABLED=80 AI_STUDY_CENTER_ENABLED value
          * @property {number} AI_MUSE_JARVIS_SCHEMA_ENABLED=81 AI_MUSE_JARVIS_SCHEMA_ENABLED value
          * @property {number} AI_STUDY_QUIZ_ENABLED=82 AI_STUDY_QUIZ_ENABLED value
+         * @property {number} HATCH_CVM_ENABLED=83 HATCH_CVM_ENABLED value
+         * @property {number} RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED=84 RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -125933,6 +129451,8 @@ $root.AICommon = (function() {
             values[valuesById[80] = "AI_STUDY_CENTER_ENABLED"] = 80;
             values[valuesById[81] = "AI_MUSE_JARVIS_SCHEMA_ENABLED"] = 81;
             values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
+            values[valuesById[83] = "HATCH_CVM_ENABLED"] = 83;
+            values[valuesById[84] = "RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED"] = 84;
             return values;
         })();
 
@@ -143617,6 +147137,7 @@ $root.CompanionReg = (function() {
          * @property {boolean|null} [isHsThumbnailSyncEnabled] ClientPairingProps isHsThumbnailSyncEnabled
          * @property {Uint8Array|null} [subscriptionSyncPayload] ClientPairingProps subscriptionSyncPayload
          * @property {boolean|null} [isBotJidDbMigrated] ClientPairingProps isBotJidDbMigrated
+         * @property {Uint8Array|null} [companionAddPeerPayload] ClientPairingProps companionAddPeerPayload
          */
 
         /**
@@ -143682,6 +147203,14 @@ $root.CompanionReg = (function() {
          */
         ClientPairingProps.prototype.isBotJidDbMigrated = null;
 
+        /**
+         * ClientPairingProps companionAddPeerPayload.
+         * @member {Uint8Array|null|undefined} companionAddPeerPayload
+         * @memberof CompanionReg.ClientPairingProps
+         * @instance
+         */
+        ClientPairingProps.prototype.companionAddPeerPayload = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -143721,6 +147250,12 @@ $root.CompanionReg = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ClientPairingProps.prototype, "_companionAddPeerPayload", {
+            get: $util.oneOfGetter($oneOfFields = ["companionAddPeerPayload"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
          * @function create
@@ -143757,6 +147292,8 @@ $root.CompanionReg = (function() {
                 writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.subscriptionSyncPayload);
             if (message.isBotJidDbMigrated != null && Object.hasOwnProperty.call(message, "isBotJidDbMigrated"))
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.isBotJidDbMigrated);
+            if (message.companionAddPeerPayload != null && Object.hasOwnProperty.call(message, "companionAddPeerPayload"))
+                writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.companionAddPeerPayload);
             return writer;
         };
 
@@ -143815,6 +147352,10 @@ $root.CompanionReg = (function() {
                     }
                 case 6: {
                         message.isBotJidDbMigrated = reader.bool();
+                        break;
+                    }
+                case 7: {
+                        message.companionAddPeerPayload = reader.bytes();
                         break;
                     }
                 default:
@@ -143883,6 +147424,11 @@ $root.CompanionReg = (function() {
                 if (typeof message.isBotJidDbMigrated !== "boolean")
                     return "isBotJidDbMigrated: boolean expected";
             }
+            if (message.companionAddPeerPayload != null && message.hasOwnProperty("companionAddPeerPayload")) {
+                properties._companionAddPeerPayload = 1;
+                if (!(message.companionAddPeerPayload && typeof message.companionAddPeerPayload.length === "number" || $util.isString(message.companionAddPeerPayload)))
+                    return "companionAddPeerPayload: buffer expected";
+            }
             return null;
         };
 
@@ -143913,6 +147459,11 @@ $root.CompanionReg = (function() {
                     message.subscriptionSyncPayload = object.subscriptionSyncPayload;
             if (object.isBotJidDbMigrated != null)
                 message.isBotJidDbMigrated = Boolean(object.isBotJidDbMigrated);
+            if (object.companionAddPeerPayload != null)
+                if (typeof object.companionAddPeerPayload === "string")
+                    $util.base64.decode(object.companionAddPeerPayload, message.companionAddPeerPayload = $util.newBuffer($util.base64.length(object.companionAddPeerPayload)), 0);
+                else if (object.companionAddPeerPayload.length >= 0)
+                    message.companionAddPeerPayload = object.companionAddPeerPayload;
             return message;
         };
 
@@ -143958,6 +147509,11 @@ $root.CompanionReg = (function() {
                 object.isBotJidDbMigrated = message.isBotJidDbMigrated;
                 if (options.oneofs)
                     object._isBotJidDbMigrated = "isBotJidDbMigrated";
+            }
+            if (message.companionAddPeerPayload != null && message.hasOwnProperty("companionAddPeerPayload")) {
+                object.companionAddPeerPayload = options.bytes === String ? $util.base64.encode(message.companionAddPeerPayload, 0, message.companionAddPeerPayload.length) : options.bytes === Array ? Array.prototype.slice.call(message.companionAddPeerPayload) : message.companionAddPeerPayload;
+                if (options.oneofs)
+                    object._companionAddPeerPayload = "companionAddPeerPayload";
             }
             return object;
         };
@@ -146635,7 +150191,7 @@ $root.CompanionReg = (function() {
              * @property {boolean|null} [supportInlineContacts] HistorySyncConfig supportInlineContacts
              * @property {boolean|null} [supportNewsletter] HistorySyncConfig supportNewsletter
              * @property {boolean|null} [supportUniversalReachChat] HistorySyncConfig supportUniversalReachChat
-             * @property {boolean|null} [supportOmittedConversationIndex] HistorySyncConfig supportOmittedConversationIndex
+             * @property {boolean|null} [supportOmittedConversationMetadata] HistorySyncConfig supportOmittedConversationMetadata
              */
 
             /**
@@ -146863,12 +150419,12 @@ $root.CompanionReg = (function() {
             HistorySyncConfig.prototype.supportUniversalReachChat = null;
 
             /**
-             * HistorySyncConfig supportOmittedConversationIndex.
-             * @member {boolean|null|undefined} supportOmittedConversationIndex
+             * HistorySyncConfig supportOmittedConversationMetadata.
+             * @member {boolean|null|undefined} supportOmittedConversationMetadata
              * @memberof CompanionReg.DeviceProps.HistorySyncConfig
              * @instance
              */
-            HistorySyncConfig.prototype.supportOmittedConversationIndex = null;
+            HistorySyncConfig.prototype.supportOmittedConversationMetadata = null;
 
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
@@ -147024,8 +150580,8 @@ $root.CompanionReg = (function() {
             });
 
             // Virtual OneOf for proto3 optional field
-            Object.defineProperty(HistorySyncConfig.prototype, "_supportOmittedConversationIndex", {
-                get: $util.oneOfGetter($oneOfFields = ["supportOmittedConversationIndex"]),
+            Object.defineProperty(HistorySyncConfig.prototype, "_supportOmittedConversationMetadata", {
+                get: $util.oneOfGetter($oneOfFields = ["supportOmittedConversationMetadata"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -147106,8 +150662,8 @@ $root.CompanionReg = (function() {
                     writer.uint32(/* id 25, wireType 0 =*/200).bool(message.supportNewsletter);
                 if (message.supportUniversalReachChat != null && Object.hasOwnProperty.call(message, "supportUniversalReachChat"))
                     writer.uint32(/* id 26, wireType 0 =*/208).bool(message.supportUniversalReachChat);
-                if (message.supportOmittedConversationIndex != null && Object.hasOwnProperty.call(message, "supportOmittedConversationIndex"))
-                    writer.uint32(/* id 27, wireType 0 =*/216).bool(message.supportOmittedConversationIndex);
+                if (message.supportOmittedConversationMetadata != null && Object.hasOwnProperty.call(message, "supportOmittedConversationMetadata"))
+                    writer.uint32(/* id 28, wireType 0 =*/224).bool(message.supportOmittedConversationMetadata);
                 return writer;
             };
 
@@ -147250,8 +150806,8 @@ $root.CompanionReg = (function() {
                             message.supportUniversalReachChat = reader.bool();
                             break;
                         }
-                    case 27: {
-                            message.supportOmittedConversationIndex = reader.bool();
+                    case 28: {
+                            message.supportOmittedConversationMetadata = reader.bool();
                             break;
                         }
                     default:
@@ -147422,10 +150978,10 @@ $root.CompanionReg = (function() {
                     if (typeof message.supportUniversalReachChat !== "boolean")
                         return "supportUniversalReachChat: boolean expected";
                 }
-                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
-                    properties._supportOmittedConversationIndex = 1;
-                    if (typeof message.supportOmittedConversationIndex !== "boolean")
-                        return "supportOmittedConversationIndex: boolean expected";
+                if (message.supportOmittedConversationMetadata != null && message.hasOwnProperty("supportOmittedConversationMetadata")) {
+                    properties._supportOmittedConversationMetadata = 1;
+                    if (typeof message.supportOmittedConversationMetadata !== "boolean")
+                        return "supportOmittedConversationMetadata: boolean expected";
                 }
                 return null;
             };
@@ -147499,8 +151055,8 @@ $root.CompanionReg = (function() {
                     message.supportNewsletter = Boolean(object.supportNewsletter);
                 if (object.supportUniversalReachChat != null)
                     message.supportUniversalReachChat = Boolean(object.supportUniversalReachChat);
-                if (object.supportOmittedConversationIndex != null)
-                    message.supportOmittedConversationIndex = Boolean(object.supportOmittedConversationIndex);
+                if (object.supportOmittedConversationMetadata != null)
+                    message.supportOmittedConversationMetadata = Boolean(object.supportOmittedConversationMetadata);
                 return message;
             };
 
@@ -147649,10 +151205,10 @@ $root.CompanionReg = (function() {
                     if (options.oneofs)
                         object._supportUniversalReachChat = "supportUniversalReachChat";
                 }
-                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
-                    object.supportOmittedConversationIndex = message.supportOmittedConversationIndex;
+                if (message.supportOmittedConversationMetadata != null && message.hasOwnProperty("supportOmittedConversationMetadata")) {
+                    object.supportOmittedConversationMetadata = message.supportOmittedConversationMetadata;
                     if (options.oneofs)
-                        object._supportOmittedConversationIndex = "supportOmittedConversationIndex";
+                        object._supportOmittedConversationMetadata = "supportOmittedConversationMetadata";
                 }
                 return object;
             };

@@ -30,6 +30,7 @@ $root.CompanionReg = (function() {
          * @property {boolean|null} [isHsThumbnailSyncEnabled] ClientPairingProps isHsThumbnailSyncEnabled
          * @property {Uint8Array|null} [subscriptionSyncPayload] ClientPairingProps subscriptionSyncPayload
          * @property {boolean|null} [isBotJidDbMigrated] ClientPairingProps isBotJidDbMigrated
+         * @property {Uint8Array|null} [companionAddPeerPayload] ClientPairingProps companionAddPeerPayload
          */
 
         /**
@@ -95,6 +96,14 @@ $root.CompanionReg = (function() {
          */
         ClientPairingProps.prototype.isBotJidDbMigrated = null;
 
+        /**
+         * ClientPairingProps companionAddPeerPayload.
+         * @member {Uint8Array|null|undefined} companionAddPeerPayload
+         * @memberof CompanionReg.ClientPairingProps
+         * @instance
+         */
+        ClientPairingProps.prototype.companionAddPeerPayload = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -134,6 +143,12 @@ $root.CompanionReg = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ClientPairingProps.prototype, "_companionAddPeerPayload", {
+            get: $util.oneOfGetter($oneOfFields = ["companionAddPeerPayload"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
          * @function create
@@ -170,6 +185,8 @@ $root.CompanionReg = (function() {
                 writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.subscriptionSyncPayload);
             if (message.isBotJidDbMigrated != null && Object.hasOwnProperty.call(message, "isBotJidDbMigrated"))
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.isBotJidDbMigrated);
+            if (message.companionAddPeerPayload != null && Object.hasOwnProperty.call(message, "companionAddPeerPayload"))
+                writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.companionAddPeerPayload);
             return writer;
         };
 
@@ -228,6 +245,10 @@ $root.CompanionReg = (function() {
                     }
                 case 6: {
                         message.isBotJidDbMigrated = reader.bool();
+                        break;
+                    }
+                case 7: {
+                        message.companionAddPeerPayload = reader.bytes();
                         break;
                     }
                 default:
@@ -296,6 +317,11 @@ $root.CompanionReg = (function() {
                 if (typeof message.isBotJidDbMigrated !== "boolean")
                     return "isBotJidDbMigrated: boolean expected";
             }
+            if (message.companionAddPeerPayload != null && message.hasOwnProperty("companionAddPeerPayload")) {
+                properties._companionAddPeerPayload = 1;
+                if (!(message.companionAddPeerPayload && typeof message.companionAddPeerPayload.length === "number" || $util.isString(message.companionAddPeerPayload)))
+                    return "companionAddPeerPayload: buffer expected";
+            }
             return null;
         };
 
@@ -326,6 +352,11 @@ $root.CompanionReg = (function() {
                     message.subscriptionSyncPayload = object.subscriptionSyncPayload;
             if (object.isBotJidDbMigrated != null)
                 message.isBotJidDbMigrated = Boolean(object.isBotJidDbMigrated);
+            if (object.companionAddPeerPayload != null)
+                if (typeof object.companionAddPeerPayload === "string")
+                    $util.base64.decode(object.companionAddPeerPayload, message.companionAddPeerPayload = $util.newBuffer($util.base64.length(object.companionAddPeerPayload)), 0);
+                else if (object.companionAddPeerPayload.length >= 0)
+                    message.companionAddPeerPayload = object.companionAddPeerPayload;
             return message;
         };
 
@@ -371,6 +402,11 @@ $root.CompanionReg = (function() {
                 object.isBotJidDbMigrated = message.isBotJidDbMigrated;
                 if (options.oneofs)
                     object._isBotJidDbMigrated = "isBotJidDbMigrated";
+            }
+            if (message.companionAddPeerPayload != null && message.hasOwnProperty("companionAddPeerPayload")) {
+                object.companionAddPeerPayload = options.bytes === String ? $util.base64.encode(message.companionAddPeerPayload, 0, message.companionAddPeerPayload.length) : options.bytes === Array ? Array.prototype.slice.call(message.companionAddPeerPayload) : message.companionAddPeerPayload;
+                if (options.oneofs)
+                    object._companionAddPeerPayload = "companionAddPeerPayload";
             }
             return object;
         };
@@ -3048,7 +3084,7 @@ $root.CompanionReg = (function() {
              * @property {boolean|null} [supportInlineContacts] HistorySyncConfig supportInlineContacts
              * @property {boolean|null} [supportNewsletter] HistorySyncConfig supportNewsletter
              * @property {boolean|null} [supportUniversalReachChat] HistorySyncConfig supportUniversalReachChat
-             * @property {boolean|null} [supportOmittedConversationIndex] HistorySyncConfig supportOmittedConversationIndex
+             * @property {boolean|null} [supportOmittedConversationMetadata] HistorySyncConfig supportOmittedConversationMetadata
              */
 
             /**
@@ -3276,12 +3312,12 @@ $root.CompanionReg = (function() {
             HistorySyncConfig.prototype.supportUniversalReachChat = null;
 
             /**
-             * HistorySyncConfig supportOmittedConversationIndex.
-             * @member {boolean|null|undefined} supportOmittedConversationIndex
+             * HistorySyncConfig supportOmittedConversationMetadata.
+             * @member {boolean|null|undefined} supportOmittedConversationMetadata
              * @memberof CompanionReg.DeviceProps.HistorySyncConfig
              * @instance
              */
-            HistorySyncConfig.prototype.supportOmittedConversationIndex = null;
+            HistorySyncConfig.prototype.supportOmittedConversationMetadata = null;
 
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
@@ -3437,8 +3473,8 @@ $root.CompanionReg = (function() {
             });
 
             // Virtual OneOf for proto3 optional field
-            Object.defineProperty(HistorySyncConfig.prototype, "_supportOmittedConversationIndex", {
-                get: $util.oneOfGetter($oneOfFields = ["supportOmittedConversationIndex"]),
+            Object.defineProperty(HistorySyncConfig.prototype, "_supportOmittedConversationMetadata", {
+                get: $util.oneOfGetter($oneOfFields = ["supportOmittedConversationMetadata"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -3519,8 +3555,8 @@ $root.CompanionReg = (function() {
                     writer.uint32(/* id 25, wireType 0 =*/200).bool(message.supportNewsletter);
                 if (message.supportUniversalReachChat != null && Object.hasOwnProperty.call(message, "supportUniversalReachChat"))
                     writer.uint32(/* id 26, wireType 0 =*/208).bool(message.supportUniversalReachChat);
-                if (message.supportOmittedConversationIndex != null && Object.hasOwnProperty.call(message, "supportOmittedConversationIndex"))
-                    writer.uint32(/* id 27, wireType 0 =*/216).bool(message.supportOmittedConversationIndex);
+                if (message.supportOmittedConversationMetadata != null && Object.hasOwnProperty.call(message, "supportOmittedConversationMetadata"))
+                    writer.uint32(/* id 28, wireType 0 =*/224).bool(message.supportOmittedConversationMetadata);
                 return writer;
             };
 
@@ -3663,8 +3699,8 @@ $root.CompanionReg = (function() {
                             message.supportUniversalReachChat = reader.bool();
                             break;
                         }
-                    case 27: {
-                            message.supportOmittedConversationIndex = reader.bool();
+                    case 28: {
+                            message.supportOmittedConversationMetadata = reader.bool();
                             break;
                         }
                     default:
@@ -3835,10 +3871,10 @@ $root.CompanionReg = (function() {
                     if (typeof message.supportUniversalReachChat !== "boolean")
                         return "supportUniversalReachChat: boolean expected";
                 }
-                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
-                    properties._supportOmittedConversationIndex = 1;
-                    if (typeof message.supportOmittedConversationIndex !== "boolean")
-                        return "supportOmittedConversationIndex: boolean expected";
+                if (message.supportOmittedConversationMetadata != null && message.hasOwnProperty("supportOmittedConversationMetadata")) {
+                    properties._supportOmittedConversationMetadata = 1;
+                    if (typeof message.supportOmittedConversationMetadata !== "boolean")
+                        return "supportOmittedConversationMetadata: boolean expected";
                 }
                 return null;
             };
@@ -3912,8 +3948,8 @@ $root.CompanionReg = (function() {
                     message.supportNewsletter = Boolean(object.supportNewsletter);
                 if (object.supportUniversalReachChat != null)
                     message.supportUniversalReachChat = Boolean(object.supportUniversalReachChat);
-                if (object.supportOmittedConversationIndex != null)
-                    message.supportOmittedConversationIndex = Boolean(object.supportOmittedConversationIndex);
+                if (object.supportOmittedConversationMetadata != null)
+                    message.supportOmittedConversationMetadata = Boolean(object.supportOmittedConversationMetadata);
                 return message;
             };
 
@@ -4062,10 +4098,10 @@ $root.CompanionReg = (function() {
                     if (options.oneofs)
                         object._supportUniversalReachChat = "supportUniversalReachChat";
                 }
-                if (message.supportOmittedConversationIndex != null && message.hasOwnProperty("supportOmittedConversationIndex")) {
-                    object.supportOmittedConversationIndex = message.supportOmittedConversationIndex;
+                if (message.supportOmittedConversationMetadata != null && message.hasOwnProperty("supportOmittedConversationMetadata")) {
+                    object.supportOmittedConversationMetadata = message.supportOmittedConversationMetadata;
                     if (options.oneofs)
-                        object._supportOmittedConversationIndex = "supportOmittedConversationIndex";
+                        object._supportOmittedConversationMetadata = "supportOmittedConversationMetadata";
                 }
                 return object;
             };

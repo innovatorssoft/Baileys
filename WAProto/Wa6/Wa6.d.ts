@@ -1064,7 +1064,9 @@ export namespace Wa6 {
                 TABLET = 1,
                 DESKTOP = 2,
                 WEARABLE = 3,
-                VR = 4
+                VR = 4,
+                SMART_DISPLAY = 5,
+                SMART_SPEAKER = 6
             }
 
             /** DistributionChannel enum. */
@@ -1117,7 +1119,8 @@ export namespace Wa6 {
                 AR_WRIST = 37,
                 WAIL = 38,
                 WORK_ANDROID = 39,
-                WORK_IOS = 40
+                WORK_IOS = 40,
+                AUTOMOTIVE = 41
             }
 
             /** ReleaseChannel enum. */

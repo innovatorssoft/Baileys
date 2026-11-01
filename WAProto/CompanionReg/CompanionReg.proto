@@ -8,6 +8,7 @@ message ClientPairingProps {
     optional bool isHsThumbnailSyncEnabled = 4;
     optional bytes subscriptionSyncPayload = 5;
     optional bool isBotJidDbMigrated = 6;
+    optional bytes companionAddPeerPayload = 7;
 }
 
 message EncryptedPairingRequest {
@@ -81,7 +82,7 @@ message DeviceProps {
         optional bool supportInlineContacts = 24;
         optional bool supportNewsletter = 25;
         optional bool supportUniversalReachChat = 26;
-        optional bool supportOmittedConversationIndex = 27;
+        optional bool supportOmittedConversationMetadata = 28;
     }
     enum PlatformType {
         UNKNOWN = 0;

@@ -61,6 +61,8 @@ message MsgOpaqueData {
     optional string sharableEventInviteCallLink = 60;
     optional string mediaPngThumbnail = 61;
     optional string qrUrl = 62;
+    optional MusicData musicData = 63;
+    optional string pollAddedOptionName = 64;
     message EventLocation {
         optional double degreesLatitude = 1;
         optional double degreesLongitude = 2;
@@ -68,6 +70,40 @@ message MsgOpaqueData {
         optional string address = 4;
         optional string url = 5;
         optional bytes jpegThumbnail = 6;
+    }
+    message MusicData {
+        optional string musicContentMediaId = 1;
+        optional string songId = 2;
+        optional string author = 3;
+        optional string title = 4;
+        optional string songUri = 5;
+        optional string artworkUri = 6;
+        optional int32 style = 7;
+        optional int32 songStartTimeMs = 8;
+        optional int32 clipDurationMs = 9;
+        optional bool isExplicit = 10;
+        optional bytes countryBlocklist = 11;
+        optional string artistAttribution = 12;
+        optional string artworkDirectPath = 13;
+        optional bytes artworkSha256 = 14;
+        optional bytes artworkEncSha256 = 15;
+        optional bytes artworkMediaKey = 16;
+        optional int64 consumptionCheckedAtS = 17;
+        optional bool isAvailableForConsumption = 18;
+        repeated LyricsLine lyrics = 19;
+        optional int64 lyricsConfirmedAtS = 20;
+        message LyricsLine {
+            optional int32 startTimeMs = 1;
+            optional int32 endTimeMs = 2;
+            optional string text = 3;
+            repeated WordOffset wordOffsets = 4;
+            message WordOffset {
+                optional int32 startIndex = 1;
+                optional int32 endIndex = 2;
+                optional int32 startOffsetMs = 3;
+                optional int32 endOffsetMs = 4;
+            }
+        }
     }
     enum PollContentType {
         UNKNOWN = 0;
@@ -78,6 +114,8 @@ message MsgOpaqueData {
         optional string name = 1;
         optional string hash = 2;
         optional string addOptionMsgKey = 3;
+        optional uint32 localId = 4;
+        optional uint32 addOptionMsgT = 5;
     }
     enum PollType {
         POLL = 0;

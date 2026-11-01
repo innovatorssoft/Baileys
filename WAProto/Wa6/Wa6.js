@@ -3491,6 +3491,7 @@ $root.Wa6 = (function() {
                     case 38:
                     case 39:
                     case 40:
+                    case 41:
                         break;
                     }
                 }
@@ -3579,6 +3580,8 @@ $root.Wa6 = (function() {
                     case 2:
                     case 3:
                     case 4:
+                    case 5:
+                    case 6:
                         break;
                     }
                 }
@@ -3785,6 +3788,10 @@ $root.Wa6 = (function() {
                 case 40:
                     message.platform = 40;
                     break;
+                case "AUTOMOTIVE":
+                case 41:
+                    message.platform = 41;
+                    break;
                 }
                 if (object.appVersion != null) {
                     if (typeof object.appVersion !== "object")
@@ -3863,6 +3870,14 @@ $root.Wa6 = (function() {
                 case "VR":
                 case 4:
                     message.deviceType = 4;
+                    break;
+                case "SMART_DISPLAY":
+                case 5:
+                    message.deviceType = 5;
+                    break;
+                case "SMART_SPEAKER":
+                case 6:
+                    message.deviceType = 6;
                     break;
                 }
                 if (object.deviceModelType != null)
@@ -4380,6 +4395,8 @@ $root.Wa6 = (function() {
              * @property {number} DESKTOP=2 DESKTOP value
              * @property {number} WEARABLE=3 WEARABLE value
              * @property {number} VR=4 VR value
+             * @property {number} SMART_DISPLAY=5 SMART_DISPLAY value
+             * @property {number} SMART_SPEAKER=6 SMART_SPEAKER value
              */
             UserAgent.DeviceType = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -4388,6 +4405,8 @@ $root.Wa6 = (function() {
                 values[valuesById[2] = "DESKTOP"] = 2;
                 values[valuesById[3] = "WEARABLE"] = 3;
                 values[valuesById[4] = "VR"] = 4;
+                values[valuesById[5] = "SMART_DISPLAY"] = 5;
+                values[valuesById[6] = "SMART_SPEAKER"] = 6;
                 return values;
             })();
 
@@ -4454,6 +4473,7 @@ $root.Wa6 = (function() {
              * @property {number} WAIL=38 WAIL value
              * @property {number} WORK_ANDROID=39 WORK_ANDROID value
              * @property {number} WORK_IOS=40 WORK_IOS value
+             * @property {number} AUTOMOTIVE=41 AUTOMOTIVE value
              */
             UserAgent.Platform = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -4498,6 +4518,7 @@ $root.Wa6 = (function() {
                 values[valuesById[38] = "WAIL"] = 38;
                 values[valuesById[39] = "WORK_ANDROID"] = 39;
                 values[valuesById[40] = "WORK_IOS"] = 40;
+                values[valuesById[41] = "AUTOMOTIVE"] = 41;
                 return values;
             })();
 
