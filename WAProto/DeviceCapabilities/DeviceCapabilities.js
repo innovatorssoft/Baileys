@@ -35,6 +35,8 @@ $root.DeviceCapabilities = (function() {
          * @property {DeviceCapabilities.DeviceCapabilities.IContactRefresh|null} [contactRefresh] DeviceCapabilities contactRefresh
          * @property {DeviceCapabilities.DeviceCapabilities.IReverseHistorySync|null} [reverseHistorySync] DeviceCapabilities reverseHistorySync
          * @property {DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null} [newsletterChatsMigration] DeviceCapabilities newsletterChatsMigration
+         * @property {DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport|null} [hostWriteMutationSupport] DeviceCapabilities hostWriteMutationSupport
+         * @property {DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding|null} [bizAiWebOnboarding] DeviceCapabilities bizAiWebOnboarding
          */
 
         /**
@@ -140,6 +142,22 @@ $root.DeviceCapabilities = (function() {
          */
         DeviceCapabilities.prototype.newsletterChatsMigration = null;
 
+        /**
+         * DeviceCapabilities hostWriteMutationSupport.
+         * @member {DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport|null|undefined} hostWriteMutationSupport
+         * @memberof DeviceCapabilities.DeviceCapabilities
+         * @instance
+         */
+        DeviceCapabilities.prototype.hostWriteMutationSupport = null;
+
+        /**
+         * DeviceCapabilities bizAiWebOnboarding.
+         * @member {DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding|null|undefined} bizAiWebOnboarding
+         * @memberof DeviceCapabilities.DeviceCapabilities
+         * @instance
+         */
+        DeviceCapabilities.prototype.bizAiWebOnboarding = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -209,6 +227,18 @@ $root.DeviceCapabilities = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(DeviceCapabilities.prototype, "_hostWriteMutationSupport", {
+            get: $util.oneOfGetter($oneOfFields = ["hostWriteMutationSupport"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(DeviceCapabilities.prototype, "_bizAiWebOnboarding", {
+            get: $util.oneOfGetter($oneOfFields = ["bizAiWebOnboarding"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new DeviceCapabilities instance using the specified properties.
          * @function create
@@ -255,6 +285,10 @@ $root.DeviceCapabilities = (function() {
                 $root.DeviceCapabilities.DeviceCapabilities.ReverseHistorySync.encode(message.reverseHistorySync, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
             if (message.newsletterChatsMigration != null && Object.hasOwnProperty.call(message, "newsletterChatsMigration"))
                 $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.encode(message.newsletterChatsMigration, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
+            if (message.hostWriteMutationSupport != null && Object.hasOwnProperty.call(message, "hostWriteMutationSupport"))
+                $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.encode(message.hostWriteMutationSupport, writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
+            if (message.bizAiWebOnboarding != null && Object.hasOwnProperty.call(message, "bizAiWebOnboarding"))
+                $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.encode(message.bizAiWebOnboarding, writer.uint32(/* id 13, wireType 2 =*/106).fork()).ldelim();
             return writer;
         };
 
@@ -333,6 +367,14 @@ $root.DeviceCapabilities = (function() {
                     }
                 case 11: {
                         message.newsletterChatsMigration = $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 12: {
+                        message.hostWriteMutationSupport = $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 13: {
+                        message.bizAiWebOnboarding = $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -465,6 +507,22 @@ $root.DeviceCapabilities = (function() {
                         return "newsletterChatsMigration." + error;
                 }
             }
+            if (message.hostWriteMutationSupport != null && message.hasOwnProperty("hostWriteMutationSupport")) {
+                properties._hostWriteMutationSupport = 1;
+                {
+                    var error = $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.verify(message.hostWriteMutationSupport);
+                    if (error)
+                        return "hostWriteMutationSupport." + error;
+                }
+            }
+            if (message.bizAiWebOnboarding != null && message.hasOwnProperty("bizAiWebOnboarding")) {
+                properties._bizAiWebOnboarding = 1;
+                {
+                    var error = $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.verify(message.bizAiWebOnboarding);
+                    if (error)
+                        return "bizAiWebOnboarding." + error;
+                }
+            }
             return null;
         };
 
@@ -565,6 +623,16 @@ $root.DeviceCapabilities = (function() {
                     throw TypeError(".DeviceCapabilities.DeviceCapabilities.newsletterChatsMigration: object expected");
                 message.newsletterChatsMigration = $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.fromObject(object.newsletterChatsMigration);
             }
+            if (object.hostWriteMutationSupport != null) {
+                if (typeof object.hostWriteMutationSupport !== "object")
+                    throw TypeError(".DeviceCapabilities.DeviceCapabilities.hostWriteMutationSupport: object expected");
+                message.hostWriteMutationSupport = $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.fromObject(object.hostWriteMutationSupport);
+            }
+            if (object.bizAiWebOnboarding != null) {
+                if (typeof object.bizAiWebOnboarding !== "object")
+                    throw TypeError(".DeviceCapabilities.DeviceCapabilities.bizAiWebOnboarding: object expected");
+                message.bizAiWebOnboarding = $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.fromObject(object.bizAiWebOnboarding);
+            }
             return message;
         };
 
@@ -635,6 +703,16 @@ $root.DeviceCapabilities = (function() {
                 object.newsletterChatsMigration = $root.DeviceCapabilities.DeviceCapabilities.NewsletterChatsMigration.toObject(message.newsletterChatsMigration, options);
                 if (options.oneofs)
                     object._newsletterChatsMigration = "newsletterChatsMigration";
+            }
+            if (message.hostWriteMutationSupport != null && message.hasOwnProperty("hostWriteMutationSupport")) {
+                object.hostWriteMutationSupport = $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.toObject(message.hostWriteMutationSupport, options);
+                if (options.oneofs)
+                    object._hostWriteMutationSupport = "hostWriteMutationSupport";
+            }
+            if (message.bizAiWebOnboarding != null && message.hasOwnProperty("bizAiWebOnboarding")) {
+                object.bizAiWebOnboarding = $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.toObject(message.bizAiWebOnboarding, options);
+                if (options.oneofs)
+                    object._bizAiWebOnboarding = "bizAiWebOnboarding";
             }
             return object;
         };
@@ -1402,6 +1480,224 @@ $root.DeviceCapabilities = (function() {
             return BizAiSettingsSync;
         })();
 
+        DeviceCapabilities.BizAiWebOnboarding = (function() {
+
+            /**
+             * Properties of a BizAiWebOnboarding.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @interface IBizAiWebOnboarding
+             * @property {number|null} [version] BizAiWebOnboarding version
+             */
+
+            /**
+             * Constructs a new BizAiWebOnboarding.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @classdesc Represents a BizAiWebOnboarding.
+             * @implements IBizAiWebOnboarding
+             * @constructor
+             * @param {DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding=} [properties] Properties to set
+             */
+            function BizAiWebOnboarding(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * BizAiWebOnboarding version.
+             * @member {number|null|undefined} version
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @instance
+             */
+            BizAiWebOnboarding.prototype.version = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(BizAiWebOnboarding.prototype, "_version", {
+                get: $util.oneOfGetter($oneOfFields = ["version"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new BizAiWebOnboarding instance using the specified properties.
+             * @function create
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding=} [properties] Properties to set
+             * @returns {DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding} BizAiWebOnboarding instance
+             */
+            BizAiWebOnboarding.create = function create(properties) {
+                return new BizAiWebOnboarding(properties);
+            };
+
+            /**
+             * Encodes the specified BizAiWebOnboarding message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.verify|verify} messages.
+             * @function encode
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding} message BizAiWebOnboarding message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            BizAiWebOnboarding.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.version);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified BizAiWebOnboarding message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding} message BizAiWebOnboarding message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            BizAiWebOnboarding.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a BizAiWebOnboarding message from the specified reader or buffer.
+             * @function decode
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding} BizAiWebOnboarding
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            BizAiWebOnboarding.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.version = reader.uint32();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a BizAiWebOnboarding message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding} BizAiWebOnboarding
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            BizAiWebOnboarding.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a BizAiWebOnboarding message.
+             * @function verify
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            BizAiWebOnboarding.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.version != null && message.hasOwnProperty("version")) {
+                    properties._version = 1;
+                    if (!$util.isInteger(message.version))
+                        return "version: integer expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a BizAiWebOnboarding message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding} BizAiWebOnboarding
+             */
+            BizAiWebOnboarding.fromObject = function fromObject(object) {
+                if (object instanceof $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding)
+                    return object;
+                var message = new $root.DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding();
+                if (object.version != null)
+                    message.version = object.version >>> 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a BizAiWebOnboarding message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding} message BizAiWebOnboarding
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            BizAiWebOnboarding.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.version != null && message.hasOwnProperty("version")) {
+                    object.version = message.version;
+                    if (options.oneofs)
+                        object._version = "version";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this BizAiWebOnboarding to JSON.
+             * @function toJSON
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            BizAiWebOnboarding.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for BizAiWebOnboarding
+             * @function getTypeUrl
+             * @memberof DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            BizAiWebOnboarding.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding";
+            };
+
+            return BizAiWebOnboarding;
+        })();
+
         DeviceCapabilities.BusinessBroadcast = (function() {
 
             /**
@@ -2017,6 +2313,227 @@ $root.DeviceCapabilities = (function() {
             };
 
             return ContactRefresh;
+        })();
+
+        DeviceCapabilities.HostWriteMutationSupport = (function() {
+
+            /**
+             * Properties of a HostWriteMutationSupport.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @interface IHostWriteMutationSupport
+             * @property {Array.<string>|null} [mutationNames] HostWriteMutationSupport mutationNames
+             */
+
+            /**
+             * Constructs a new HostWriteMutationSupport.
+             * @memberof DeviceCapabilities.DeviceCapabilities
+             * @classdesc Represents a HostWriteMutationSupport.
+             * @implements IHostWriteMutationSupport
+             * @constructor
+             * @param {DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport=} [properties] Properties to set
+             */
+            function HostWriteMutationSupport(properties) {
+                this.mutationNames = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * HostWriteMutationSupport mutationNames.
+             * @member {Array.<string>} mutationNames
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @instance
+             */
+            HostWriteMutationSupport.prototype.mutationNames = $util.emptyArray;
+
+            /**
+             * Creates a new HostWriteMutationSupport instance using the specified properties.
+             * @function create
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport=} [properties] Properties to set
+             * @returns {DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport} HostWriteMutationSupport instance
+             */
+            HostWriteMutationSupport.create = function create(properties) {
+                return new HostWriteMutationSupport(properties);
+            };
+
+            /**
+             * Encodes the specified HostWriteMutationSupport message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.verify|verify} messages.
+             * @function encode
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport} message HostWriteMutationSupport message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            HostWriteMutationSupport.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.mutationNames != null && message.mutationNames.length)
+                    for (var i = 0; i < message.mutationNames.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.mutationNames[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified HostWriteMutationSupport message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport} message HostWriteMutationSupport message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            HostWriteMutationSupport.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a HostWriteMutationSupport message from the specified reader or buffer.
+             * @function decode
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport} HostWriteMutationSupport
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            HostWriteMutationSupport.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            if (!(message.mutationNames && message.mutationNames.length))
+                                message.mutationNames = [];
+                            message.mutationNames.push(reader.string());
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a HostWriteMutationSupport message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport} HostWriteMutationSupport
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            HostWriteMutationSupport.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a HostWriteMutationSupport message.
+             * @function verify
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            HostWriteMutationSupport.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.mutationNames != null && message.hasOwnProperty("mutationNames")) {
+                    if (!Array.isArray(message.mutationNames))
+                        return "mutationNames: array expected";
+                    for (var i = 0; i < message.mutationNames.length; ++i)
+                        if (!$util.isString(message.mutationNames[i]))
+                            return "mutationNames: string[] expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a HostWriteMutationSupport message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport} HostWriteMutationSupport
+             */
+            HostWriteMutationSupport.fromObject = function fromObject(object) {
+                if (object instanceof $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport)
+                    return object;
+                var message = new $root.DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport();
+                if (object.mutationNames) {
+                    if (!Array.isArray(object.mutationNames))
+                        throw TypeError(".DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.mutationNames: array expected");
+                    message.mutationNames = [];
+                    for (var i = 0; i < object.mutationNames.length; ++i)
+                        message.mutationNames[i] = String(object.mutationNames[i]);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a HostWriteMutationSupport message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport} message HostWriteMutationSupport
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            HostWriteMutationSupport.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.mutationNames = [];
+                if (message.mutationNames && message.mutationNames.length) {
+                    object.mutationNames = [];
+                    for (var j = 0; j < message.mutationNames.length; ++j)
+                        object.mutationNames[j] = message.mutationNames[j];
+                }
+                return object;
+            };
+
+            /**
+             * Converts this HostWriteMutationSupport to JSON.
+             * @function toJSON
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            HostWriteMutationSupport.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for HostWriteMutationSupport
+             * @function getTypeUrl
+             * @memberof DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            HostWriteMutationSupport.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport";
+            };
+
+            return HostWriteMutationSupport;
         })();
 
         DeviceCapabilities.LIDMigration = (function() {

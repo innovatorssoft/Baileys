@@ -14407,6 +14407,7 @@ $root.AICommon = (function() {
          * @property {AICommon.IBotPttPromptMetadata|null} [pttPromptMetadata] BotMetadata pttPromptMetadata
          * @property {AICommon.IBotHistoryShareMetadata|null} [botHistoryShareMetadata] BotMetadata botHistoryShareMetadata
          * @property {boolean|null} [responseStoppedByUser] BotMetadata responseStoppedByUser
+         * @property {AICommon.IBotInterjectionMetadata|null} [interjectionMetadata] BotMetadata interjectionMetadata
          * @property {Uint8Array|null} [internalMetadata] BotMetadata internalMetadata
          */
 
@@ -14770,6 +14771,14 @@ $root.AICommon = (function() {
         BotMetadata.prototype.responseStoppedByUser = null;
 
         /**
+         * BotMetadata interjectionMetadata.
+         * @member {AICommon.IBotInterjectionMetadata|null|undefined} interjectionMetadata
+         * @memberof AICommon.BotMetadata
+         * @instance
+         */
+        BotMetadata.prototype.interjectionMetadata = null;
+
+        /**
          * BotMetadata internalMetadata.
          * @member {Uint8Array|null|undefined} internalMetadata
          * @memberof AICommon.BotMetadata
@@ -15039,6 +15048,12 @@ $root.AICommon = (function() {
         });
 
         // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotMetadata.prototype, "_interjectionMetadata", {
+            get: $util.oneOfGetter($oneOfFields = ["interjectionMetadata"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
         Object.defineProperty(BotMetadata.prototype, "_internalMetadata", {
             get: $util.oneOfGetter($oneOfFields = ["internalMetadata"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -15154,6 +15169,8 @@ $root.AICommon = (function() {
                 $root.AICommon.BotHistoryShareMetadata.encode(message.botHistoryShareMetadata, writer.uint32(/* id 43, wireType 2 =*/346).fork()).ldelim();
             if (message.responseStoppedByUser != null && Object.hasOwnProperty.call(message, "responseStoppedByUser"))
                 writer.uint32(/* id 44, wireType 0 =*/352).bool(message.responseStoppedByUser);
+            if (message.interjectionMetadata != null && Object.hasOwnProperty.call(message, "interjectionMetadata"))
+                $root.AICommon.BotInterjectionMetadata.encode(message.interjectionMetadata, writer.uint32(/* id 45, wireType 2 =*/362).fork()).ldelim();
             if (message.internalMetadata != null && Object.hasOwnProperty.call(message, "internalMetadata"))
                 writer.uint32(/* id 999, wireType 2 =*/7994).bytes(message.internalMetadata);
             return writer;
@@ -15362,6 +15379,10 @@ $root.AICommon = (function() {
                     }
                 case 44: {
                         message.responseStoppedByUser = reader.bool();
+                        break;
+                    }
+                case 45: {
+                        message.interjectionMetadata = $root.AICommon.BotInterjectionMetadata.decode(reader, reader.uint32());
                         break;
                     }
                 case 999: {
@@ -15724,6 +15745,14 @@ $root.AICommon = (function() {
                 if (typeof message.responseStoppedByUser !== "boolean")
                     return "responseStoppedByUser: boolean expected";
             }
+            if (message.interjectionMetadata != null && message.hasOwnProperty("interjectionMetadata")) {
+                properties._interjectionMetadata = 1;
+                {
+                    var error = $root.AICommon.BotInterjectionMetadata.verify(message.interjectionMetadata);
+                    if (error)
+                        return "interjectionMetadata." + error;
+                }
+            }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 properties._internalMetadata = 1;
                 if (!(message.internalMetadata && typeof message.internalMetadata.length === "number" || $util.isString(message.internalMetadata)))
@@ -15938,6 +15967,11 @@ $root.AICommon = (function() {
             }
             if (object.responseStoppedByUser != null)
                 message.responseStoppedByUser = Boolean(object.responseStoppedByUser);
+            if (object.interjectionMetadata != null) {
+                if (typeof object.interjectionMetadata !== "object")
+                    throw TypeError(".AICommon.BotMetadata.interjectionMetadata: object expected");
+                message.interjectionMetadata = $root.AICommon.BotInterjectionMetadata.fromObject(object.interjectionMetadata);
+            }
             if (object.internalMetadata != null)
                 if (typeof object.internalMetadata === "string")
                     $util.base64.decode(object.internalMetadata, message.internalMetadata = $util.newBuffer($util.base64.length(object.internalMetadata)), 0);
@@ -16174,6 +16208,11 @@ $root.AICommon = (function() {
                 if (options.oneofs)
                     object._responseStoppedByUser = "responseStoppedByUser";
             }
+            if (message.interjectionMetadata != null && message.hasOwnProperty("interjectionMetadata")) {
+                object.interjectionMetadata = $root.AICommon.BotInterjectionMetadata.toObject(message.interjectionMetadata, options);
+                if (options.oneofs)
+                    object._interjectionMetadata = "interjectionMetadata";
+            }
             if (message.internalMetadata != null && message.hasOwnProperty("internalMetadata")) {
                 object.internalMetadata = options.bytes === String ? $util.base64.encode(message.internalMetadata, 0, message.internalMetadata.length) : options.bytes === Array ? Array.prototype.slice.call(message.internalMetadata) : message.internalMetadata;
                 if (options.oneofs)
@@ -16209,6 +16248,264 @@ $root.AICommon = (function() {
         };
 
         return BotMetadata;
+    })();
+
+    AICommon.BotInterjectionMetadata = (function() {
+
+        /**
+         * Properties of a BotInterjectionMetadata.
+         * @memberof AICommon
+         * @interface IBotInterjectionMetadata
+         * @property {string|null} [targetPromptMessageId] BotInterjectionMetadata targetPromptMessageId
+         * @property {Array.<string>|null} [foldedPromptMessageIds] BotInterjectionMetadata foldedPromptMessageIds
+         */
+
+        /**
+         * Constructs a new BotInterjectionMetadata.
+         * @memberof AICommon
+         * @classdesc Represents a BotInterjectionMetadata.
+         * @implements IBotInterjectionMetadata
+         * @constructor
+         * @param {AICommon.IBotInterjectionMetadata=} [properties] Properties to set
+         */
+        function BotInterjectionMetadata(properties) {
+            this.foldedPromptMessageIds = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BotInterjectionMetadata targetPromptMessageId.
+         * @member {string|null|undefined} targetPromptMessageId
+         * @memberof AICommon.BotInterjectionMetadata
+         * @instance
+         */
+        BotInterjectionMetadata.prototype.targetPromptMessageId = null;
+
+        /**
+         * BotInterjectionMetadata foldedPromptMessageIds.
+         * @member {Array.<string>} foldedPromptMessageIds
+         * @memberof AICommon.BotInterjectionMetadata
+         * @instance
+         */
+        BotInterjectionMetadata.prototype.foldedPromptMessageIds = $util.emptyArray;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotInterjectionMetadata.prototype, "_targetPromptMessageId", {
+            get: $util.oneOfGetter($oneOfFields = ["targetPromptMessageId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new BotInterjectionMetadata instance using the specified properties.
+         * @function create
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.IBotInterjectionMetadata=} [properties] Properties to set
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata instance
+         */
+        BotInterjectionMetadata.create = function create(properties) {
+            return new BotInterjectionMetadata(properties);
+        };
+
+        /**
+         * Encodes the specified BotInterjectionMetadata message. Does not implicitly {@link AICommon.BotInterjectionMetadata.verify|verify} messages.
+         * @function encode
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.IBotInterjectionMetadata} message BotInterjectionMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BotInterjectionMetadata.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.targetPromptMessageId != null && Object.hasOwnProperty.call(message, "targetPromptMessageId"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.targetPromptMessageId);
+            if (message.foldedPromptMessageIds != null && message.foldedPromptMessageIds.length)
+                for (var i = 0; i < message.foldedPromptMessageIds.length; ++i)
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.foldedPromptMessageIds[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BotInterjectionMetadata message, length delimited. Does not implicitly {@link AICommon.BotInterjectionMetadata.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.IBotInterjectionMetadata} message BotInterjectionMetadata message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BotInterjectionMetadata.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BotInterjectionMetadata message from the specified reader or buffer.
+         * @function decode
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BotInterjectionMetadata.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AICommon.BotInterjectionMetadata();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.targetPromptMessageId = reader.string();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.foldedPromptMessageIds && message.foldedPromptMessageIds.length))
+                            message.foldedPromptMessageIds = [];
+                        message.foldedPromptMessageIds.push(reader.string());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BotInterjectionMetadata message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BotInterjectionMetadata.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BotInterjectionMetadata message.
+         * @function verify
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BotInterjectionMetadata.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.targetPromptMessageId != null && message.hasOwnProperty("targetPromptMessageId")) {
+                properties._targetPromptMessageId = 1;
+                if (!$util.isString(message.targetPromptMessageId))
+                    return "targetPromptMessageId: string expected";
+            }
+            if (message.foldedPromptMessageIds != null && message.hasOwnProperty("foldedPromptMessageIds")) {
+                if (!Array.isArray(message.foldedPromptMessageIds))
+                    return "foldedPromptMessageIds: array expected";
+                for (var i = 0; i < message.foldedPromptMessageIds.length; ++i)
+                    if (!$util.isString(message.foldedPromptMessageIds[i]))
+                        return "foldedPromptMessageIds: string[] expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a BotInterjectionMetadata message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {AICommon.BotInterjectionMetadata} BotInterjectionMetadata
+         */
+        BotInterjectionMetadata.fromObject = function fromObject(object) {
+            if (object instanceof $root.AICommon.BotInterjectionMetadata)
+                return object;
+            var message = new $root.AICommon.BotInterjectionMetadata();
+            if (object.targetPromptMessageId != null)
+                message.targetPromptMessageId = String(object.targetPromptMessageId);
+            if (object.foldedPromptMessageIds) {
+                if (!Array.isArray(object.foldedPromptMessageIds))
+                    throw TypeError(".AICommon.BotInterjectionMetadata.foldedPromptMessageIds: array expected");
+                message.foldedPromptMessageIds = [];
+                for (var i = 0; i < object.foldedPromptMessageIds.length; ++i)
+                    message.foldedPromptMessageIds[i] = String(object.foldedPromptMessageIds[i]);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BotInterjectionMetadata message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {AICommon.BotInterjectionMetadata} message BotInterjectionMetadata
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BotInterjectionMetadata.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.foldedPromptMessageIds = [];
+            if (message.targetPromptMessageId != null && message.hasOwnProperty("targetPromptMessageId")) {
+                object.targetPromptMessageId = message.targetPromptMessageId;
+                if (options.oneofs)
+                    object._targetPromptMessageId = "targetPromptMessageId";
+            }
+            if (message.foldedPromptMessageIds && message.foldedPromptMessageIds.length) {
+                object.foldedPromptMessageIds = [];
+                for (var j = 0; j < message.foldedPromptMessageIds.length; ++j)
+                    object.foldedPromptMessageIds[j] = message.foldedPromptMessageIds[j];
+            }
+            return object;
+        };
+
+        /**
+         * Converts this BotInterjectionMetadata to JSON.
+         * @function toJSON
+         * @memberof AICommon.BotInterjectionMetadata
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BotInterjectionMetadata.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BotInterjectionMetadata
+         * @function getTypeUrl
+         * @memberof AICommon.BotInterjectionMetadata
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BotInterjectionMetadata.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/AICommon.BotInterjectionMetadata";
+        };
+
+        return BotInterjectionMetadata;
     })();
 
     AICommon.BotPttPromptMetadata = (function() {
@@ -19668,6 +19965,7 @@ $root.AICommon = (function() {
          * @memberof AICommon
          * @interface IBotMessageOrigin
          * @property {AICommon.BotMessageOrigin.BotMessageOriginType|null} [type] BotMessageOrigin type
+         * @property {string|null} [proactiveMessageCampaignId] BotMessageOrigin proactiveMessageCampaignId
          */
 
         /**
@@ -19693,12 +19991,26 @@ $root.AICommon = (function() {
          */
         BotMessageOrigin.prototype.type = null;
 
+        /**
+         * BotMessageOrigin proactiveMessageCampaignId.
+         * @member {string|null|undefined} proactiveMessageCampaignId
+         * @memberof AICommon.BotMessageOrigin
+         * @instance
+         */
+        BotMessageOrigin.prototype.proactiveMessageCampaignId = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(BotMessageOrigin.prototype, "_type", {
             get: $util.oneOfGetter($oneOfFields = ["type"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(BotMessageOrigin.prototype, "_proactiveMessageCampaignId", {
+            get: $util.oneOfGetter($oneOfFields = ["proactiveMessageCampaignId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -19728,6 +20040,8 @@ $root.AICommon = (function() {
                 writer = $Writer.create();
             if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+            if (message.proactiveMessageCampaignId != null && Object.hasOwnProperty.call(message, "proactiveMessageCampaignId"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.proactiveMessageCampaignId);
             return writer;
         };
 
@@ -19766,6 +20080,10 @@ $root.AICommon = (function() {
                 switch (tag >>> 3) {
                 case 1: {
                         message.type = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.proactiveMessageCampaignId = reader.string();
                         break;
                     }
                 default:
@@ -19810,8 +20128,14 @@ $root.AICommon = (function() {
                 default:
                     return "type: enum value expected";
                 case 0:
+                case 1:
                     break;
                 }
+            }
+            if (message.proactiveMessageCampaignId != null && message.hasOwnProperty("proactiveMessageCampaignId")) {
+                properties._proactiveMessageCampaignId = 1;
+                if (!$util.isString(message.proactiveMessageCampaignId))
+                    return "proactiveMessageCampaignId: string expected";
             }
             return null;
         };
@@ -19839,7 +20163,13 @@ $root.AICommon = (function() {
             case 0:
                 message.type = 0;
                 break;
+            case "BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME":
+            case 1:
+                message.type = 1;
+                break;
             }
+            if (object.proactiveMessageCampaignId != null)
+                message.proactiveMessageCampaignId = String(object.proactiveMessageCampaignId);
             return message;
         };
 
@@ -19860,6 +20190,11 @@ $root.AICommon = (function() {
                 object.type = options.enums === String ? $root.AICommon.BotMessageOrigin.BotMessageOriginType[message.type] === undefined ? message.type : $root.AICommon.BotMessageOrigin.BotMessageOriginType[message.type] : message.type;
                 if (options.oneofs)
                     object._type = "type";
+            }
+            if (message.proactiveMessageCampaignId != null && message.hasOwnProperty("proactiveMessageCampaignId")) {
+                object.proactiveMessageCampaignId = message.proactiveMessageCampaignId;
+                if (options.oneofs)
+                    object._proactiveMessageCampaignId = "proactiveMessageCampaignId";
             }
             return object;
         };
@@ -19895,10 +20230,12 @@ $root.AICommon = (function() {
          * @name AICommon.BotMessageOrigin.BotMessageOriginType
          * @enum {number}
          * @property {number} BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED=0 BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED value
+         * @property {number} BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME=1 BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME value
          */
         BotMessageOrigin.BotMessageOriginType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED"] = 0;
+            values[valuesById[1] = "BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME"] = 1;
             return values;
         })();
 
@@ -24181,6 +24518,8 @@ $root.AICommon = (function() {
                     case 80:
                     case 81:
                     case 82:
+                    case 83:
+                    case 84:
                         break;
                     }
             }
@@ -24542,6 +24881,14 @@ $root.AICommon = (function() {
                     case 82:
                         message.capabilities[i] = 82;
                         break;
+                    case "HATCH_CVM_ENABLED":
+                    case 83:
+                        message.capabilities[i] = 83;
+                        break;
+                    case "RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED":
+                    case 84:
+                        message.capabilities[i] = 84;
+                        break;
                     }
             }
             return message;
@@ -24683,6 +25030,8 @@ $root.AICommon = (function() {
          * @property {number} AI_STUDY_CENTER_ENABLED=80 AI_STUDY_CENTER_ENABLED value
          * @property {number} AI_MUSE_JARVIS_SCHEMA_ENABLED=81 AI_MUSE_JARVIS_SCHEMA_ENABLED value
          * @property {number} AI_STUDY_QUIZ_ENABLED=82 AI_STUDY_QUIZ_ENABLED value
+         * @property {number} HATCH_CVM_ENABLED=83 HATCH_CVM_ENABLED value
+         * @property {number} RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED=84 RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -24769,6 +25118,8 @@ $root.AICommon = (function() {
             values[valuesById[80] = "AI_STUDY_CENTER_ENABLED"] = 80;
             values[valuesById[81] = "AI_MUSE_JARVIS_SCHEMA_ENABLED"] = 81;
             values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
+            values[valuesById[83] = "HATCH_CVM_ENABLED"] = 83;
+            values[valuesById[84] = "RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED"] = 84;
             return values;
         })();
 

@@ -23,6 +23,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps isBotJidDbMigrated */
         isBotJidDbMigrated?: (boolean|null);
+
+        /** ClientPairingProps companionAddPeerPayload */
+        companionAddPeerPayload?: (Uint8Array|null);
     }
 
     /** Represents a ClientPairingProps. */
@@ -51,6 +54,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps isBotJidDbMigrated. */
         public isBotJidDbMigrated?: (boolean|null);
+
+        /** ClientPairingProps companionAddPeerPayload. */
+        public companionAddPeerPayload?: (Uint8Array|null);
 
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
@@ -1079,8 +1085,8 @@ export namespace CompanionReg {
             /** HistorySyncConfig supportUniversalReachChat */
             supportUniversalReachChat?: (boolean|null);
 
-            /** HistorySyncConfig supportOmittedConversationIndex */
-            supportOmittedConversationIndex?: (boolean|null);
+            /** HistorySyncConfig supportOmittedConversationMetadata */
+            supportOmittedConversationMetadata?: (boolean|null);
         }
 
         /** Represents a HistorySyncConfig. */
@@ -1170,8 +1176,8 @@ export namespace CompanionReg {
             /** HistorySyncConfig supportUniversalReachChat. */
             public supportUniversalReachChat?: (boolean|null);
 
-            /** HistorySyncConfig supportOmittedConversationIndex. */
-            public supportOmittedConversationIndex?: (boolean|null);
+            /** HistorySyncConfig supportOmittedConversationMetadata. */
+            public supportOmittedConversationMetadata?: (boolean|null);
 
             /**
              * Creates a new HistorySyncConfig instance using the specified properties.

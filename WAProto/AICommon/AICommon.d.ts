@@ -3434,6 +3434,9 @@ export namespace AICommon {
         /** BotMetadata responseStoppedByUser */
         responseStoppedByUser?: (boolean|null);
 
+        /** BotMetadata interjectionMetadata */
+        interjectionMetadata?: (AICommon.IBotInterjectionMetadata|null);
+
         /** BotMetadata internalMetadata */
         internalMetadata?: (Uint8Array|null);
     }
@@ -3576,6 +3579,9 @@ export namespace AICommon {
         /** BotMetadata responseStoppedByUser. */
         public responseStoppedByUser?: (boolean|null);
 
+        /** BotMetadata interjectionMetadata. */
+        public interjectionMetadata?: (AICommon.IBotInterjectionMetadata|null);
+
         /** BotMetadata internalMetadata. */
         public internalMetadata?: (Uint8Array|null);
 
@@ -3651,6 +3657,109 @@ export namespace AICommon {
 
         /**
          * Gets the default type url for BotMetadata
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a BotInterjectionMetadata. */
+    interface IBotInterjectionMetadata {
+
+        /** BotInterjectionMetadata targetPromptMessageId */
+        targetPromptMessageId?: (string|null);
+
+        /** BotInterjectionMetadata foldedPromptMessageIds */
+        foldedPromptMessageIds?: (string[]|null);
+    }
+
+    /** Represents a BotInterjectionMetadata. */
+    class BotInterjectionMetadata implements IBotInterjectionMetadata {
+
+        /**
+         * Constructs a new BotInterjectionMetadata.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: AICommon.IBotInterjectionMetadata);
+
+        /** BotInterjectionMetadata targetPromptMessageId. */
+        public targetPromptMessageId?: (string|null);
+
+        /** BotInterjectionMetadata foldedPromptMessageIds. */
+        public foldedPromptMessageIds: string[];
+
+        /**
+         * Creates a new BotInterjectionMetadata instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns BotInterjectionMetadata instance
+         */
+        public static create(properties?: AICommon.IBotInterjectionMetadata): AICommon.BotInterjectionMetadata;
+
+        /**
+         * Encodes the specified BotInterjectionMetadata message. Does not implicitly {@link AICommon.BotInterjectionMetadata.verify|verify} messages.
+         * @param message BotInterjectionMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: AICommon.IBotInterjectionMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified BotInterjectionMetadata message, length delimited. Does not implicitly {@link AICommon.BotInterjectionMetadata.verify|verify} messages.
+         * @param message BotInterjectionMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: AICommon.IBotInterjectionMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a BotInterjectionMetadata message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns BotInterjectionMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AICommon.BotInterjectionMetadata;
+
+        /**
+         * Decodes a BotInterjectionMetadata message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns BotInterjectionMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AICommon.BotInterjectionMetadata;
+
+        /**
+         * Verifies a BotInterjectionMetadata message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a BotInterjectionMetadata message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns BotInterjectionMetadata
+         */
+        public static fromObject(object: { [k: string]: any }): AICommon.BotInterjectionMetadata;
+
+        /**
+         * Creates a plain object from a BotInterjectionMetadata message. Also converts values to other types if specified.
+         * @param message BotInterjectionMetadata
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: AICommon.BotInterjectionMetadata, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this BotInterjectionMetadata to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for BotInterjectionMetadata
          * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns The default type url
          */
@@ -5031,6 +5140,9 @@ export namespace AICommon {
 
         /** BotMessageOrigin type */
         type?: (AICommon.BotMessageOrigin.BotMessageOriginType|null);
+
+        /** BotMessageOrigin proactiveMessageCampaignId */
+        proactiveMessageCampaignId?: (string|null);
     }
 
     /** Represents a BotMessageOrigin. */
@@ -5044,6 +5156,9 @@ export namespace AICommon {
 
         /** BotMessageOrigin type. */
         public type?: (AICommon.BotMessageOrigin.BotMessageOriginType|null);
+
+        /** BotMessageOrigin proactiveMessageCampaignId. */
+        public proactiveMessageCampaignId?: (string|null);
 
         /**
          * Creates a new BotMessageOrigin instance using the specified properties.
@@ -5127,7 +5242,8 @@ export namespace AICommon {
 
         /** BotMessageOriginType enum. */
         enum BotMessageOriginType {
-            BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED = 0
+            BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED = 0,
+            BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME = 1
         }
     }
 
@@ -6742,7 +6858,9 @@ export namespace AICommon {
             HATCH_ARTIFACT_CARD_ENABLED = 79,
             AI_STUDY_CENTER_ENABLED = 80,
             AI_MUSE_JARVIS_SCHEMA_ENABLED = 81,
-            AI_STUDY_QUIZ_ENABLED = 82
+            AI_STUDY_QUIZ_ENABLED = 82,
+            HATCH_CVM_ENABLED = 83,
+            RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED = 84
         }
     }
 

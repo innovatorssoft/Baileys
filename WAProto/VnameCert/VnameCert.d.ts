@@ -181,6 +181,9 @@ export namespace VnameCert {
 
         /** BizAccountLinkInfo accountType */
         accountType?: (VnameCert.BizAccountLinkInfo.AccountType|null);
+
+        /** BizAccountLinkInfo whatsappAcctEmail */
+        whatsappAcctEmail?: (string|null);
     }
 
     /** Represents a BizAccountLinkInfo. */
@@ -206,6 +209,9 @@ export namespace VnameCert {
 
         /** BizAccountLinkInfo accountType. */
         public accountType?: (VnameCert.BizAccountLinkInfo.AccountType|null);
+
+        /** BizAccountLinkInfo whatsappAcctEmail. */
+        public whatsappAcctEmail?: (string|null);
 
         /**
          * Creates a new BizAccountLinkInfo instance using the specified properties.

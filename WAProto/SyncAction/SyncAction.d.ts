@@ -566,6 +566,12 @@ export namespace SyncAction {
 
         /** SyncActionValue communityNestingStateAction */
         communityNestingStateAction?: (SyncAction.SyncActionValue.ICommunityNestingStateAction|null);
+
+        /** SyncActionValue sharedDeviceSecretAction */
+        sharedDeviceSecretAction?: (SyncAction.SyncActionValue.ISharedDeviceSecretAction|null);
+
+        /** SyncActionValue hatchCvmSecretAction */
+        hatchCvmSecretAction?: (SyncAction.SyncActionValue.IHatchCVMSecretAction|null);
     }
 
     /** Represents a SyncActionValue. */
@@ -846,6 +852,12 @@ export namespace SyncAction {
 
         /** SyncActionValue communityNestingStateAction. */
         public communityNestingStateAction?: (SyncAction.SyncActionValue.ICommunityNestingStateAction|null);
+
+        /** SyncActionValue sharedDeviceSecretAction. */
+        public sharedDeviceSecretAction?: (SyncAction.SyncActionValue.ISharedDeviceSecretAction|null);
+
+        /** SyncActionValue hatchCvmSecretAction. */
+        public hatchCvmSecretAction?: (SyncAction.SyncActionValue.IHatchCVMSecretAction|null);
 
         /**
          * Creates a new SyncActionValue instance using the specified properties.
@@ -3268,9 +3280,9 @@ export namespace SyncAction {
 
             /** NestingState enum. */
             enum NestingState {
-                NESTING_STATE_UNKNOWN = 0,
-                NESTING_STATE_NESTED = 1,
-                NESTING_STATE_UNNESTED = 2
+                PLATFORM_DEFAULT = 0,
+                NESTED = 1,
+                UNNESTED = 2
             }
         }
 
@@ -4969,6 +4981,109 @@ export namespace SyncAction {
                 GROUP_HISTORY_TOGGLE_MODE_ON = 1,
                 GROUP_HISTORY_TOGGLE_MODE_OFF = 2
             }
+        }
+
+        /** Properties of a HatchCVMSecretAction. */
+        interface IHatchCVMSecretAction {
+
+            /** HatchCVMSecretAction secret */
+            secret?: (Uint8Array|null);
+
+            /** HatchCVMSecretAction generation */
+            generation?: (number|Long|null);
+        }
+
+        /** Represents a HatchCVMSecretAction. */
+        class HatchCVMSecretAction implements IHatchCVMSecretAction {
+
+            /**
+             * Constructs a new HatchCVMSecretAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.IHatchCVMSecretAction);
+
+            /** HatchCVMSecretAction secret. */
+            public secret?: (Uint8Array|null);
+
+            /** HatchCVMSecretAction generation. */
+            public generation?: (number|Long|null);
+
+            /**
+             * Creates a new HatchCVMSecretAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns HatchCVMSecretAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.IHatchCVMSecretAction): SyncAction.SyncActionValue.HatchCVMSecretAction;
+
+            /**
+             * Encodes the specified HatchCVMSecretAction message. Does not implicitly {@link SyncAction.SyncActionValue.HatchCVMSecretAction.verify|verify} messages.
+             * @param message HatchCVMSecretAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.IHatchCVMSecretAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified HatchCVMSecretAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.HatchCVMSecretAction.verify|verify} messages.
+             * @param message HatchCVMSecretAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.IHatchCVMSecretAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a HatchCVMSecretAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns HatchCVMSecretAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.HatchCVMSecretAction;
+
+            /**
+             * Decodes a HatchCVMSecretAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns HatchCVMSecretAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.HatchCVMSecretAction;
+
+            /**
+             * Verifies a HatchCVMSecretAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a HatchCVMSecretAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns HatchCVMSecretAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.HatchCVMSecretAction;
+
+            /**
+             * Creates a plain object from a HatchCVMSecretAction message. Also converts values to other types if specified.
+             * @param message HatchCVMSecretAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.HatchCVMSecretAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this HatchCVMSecretAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for HatchCVMSecretAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
         /** Properties of an InteractiveMessageAction. */
@@ -8909,6 +9024,9 @@ export namespace SyncAction {
 
             /** SettingsSyncAction stockWallpaperImageId */
             stockWallpaperImageId?: (string|null);
+
+            /** SettingsSyncAction mediaAutoDownloadQuality */
+            mediaAutoDownloadQuality?: (SyncAction.SyncActionValue.SettingsSyncAction.MediaAutoDownloadQualitySetting|null);
         }
 
         /** Represents a SettingsSyncAction. */
@@ -9022,6 +9140,9 @@ export namespace SyncAction {
             /** SettingsSyncAction stockWallpaperImageId. */
             public stockWallpaperImageId?: (string|null);
 
+            /** SettingsSyncAction mediaAutoDownloadQuality. */
+            public mediaAutoDownloadQuality?: (SyncAction.SyncActionValue.SettingsSyncAction.MediaAutoDownloadQualitySetting|null);
+
             /**
              * Creates a new SettingsSyncAction instance using the specified properties.
              * @param [properties] Properties to set
@@ -9110,6 +9231,14 @@ export namespace SyncAction {
                 ONLY_WHEN_APP_IS_OPEN = 3
             }
 
+            /** MediaAutoDownloadQualitySetting enum. */
+            enum MediaAutoDownloadQualitySetting {
+                MEDIA_AUTO_DOWNLOAD_QUALITY_UNKNOWN = 0,
+                MEDIA_AUTO_DOWNLOAD_QUALITY_STANDARD = 1,
+                MEDIA_AUTO_DOWNLOAD_QUALITY_HD = 2,
+                MEDIA_AUTO_DOWNLOAD_QUALITY_AUTO = 3
+            }
+
             /** MediaQualitySetting enum. */
             enum MediaQualitySetting {
                 MEDIA_QUALITY_UNKNOWN = 0,
@@ -9153,7 +9282,8 @@ export namespace SyncAction {
                 SHOULD_PLAY_SOUND_FOR_CALL_NOTIFICATION = 31,
                 CHAT_THEME_ID = 32,
                 COLOR_SCHEME_ID = 33,
-                STOCK_WALLPAPER_IMAGE_ID = 34
+                STOCK_WALLPAPER_IMAGE_ID = 34,
+                MEDIA_AUTO_DOWNLOAD_QUALITY = 35
             }
 
             /** SettingPlatform enum. */
@@ -9257,6 +9387,109 @@ export namespace SyncAction {
 
             /**
              * Gets the default type url for SharedDeviceAllowlistAction
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a SharedDeviceSecretAction. */
+        interface ISharedDeviceSecretAction {
+
+            /** SharedDeviceSecretAction secret */
+            secret?: (Uint8Array|null);
+
+            /** SharedDeviceSecretAction ttlMs */
+            ttlMs?: (number|Long|null);
+        }
+
+        /** Represents a SharedDeviceSecretAction. */
+        class SharedDeviceSecretAction implements ISharedDeviceSecretAction {
+
+            /**
+             * Constructs a new SharedDeviceSecretAction.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: SyncAction.SyncActionValue.ISharedDeviceSecretAction);
+
+            /** SharedDeviceSecretAction secret. */
+            public secret?: (Uint8Array|null);
+
+            /** SharedDeviceSecretAction ttlMs. */
+            public ttlMs?: (number|Long|null);
+
+            /**
+             * Creates a new SharedDeviceSecretAction instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns SharedDeviceSecretAction instance
+             */
+            public static create(properties?: SyncAction.SyncActionValue.ISharedDeviceSecretAction): SyncAction.SyncActionValue.SharedDeviceSecretAction;
+
+            /**
+             * Encodes the specified SharedDeviceSecretAction message. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceSecretAction.verify|verify} messages.
+             * @param message SharedDeviceSecretAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: SyncAction.SyncActionValue.ISharedDeviceSecretAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified SharedDeviceSecretAction message, length delimited. Does not implicitly {@link SyncAction.SyncActionValue.SharedDeviceSecretAction.verify|verify} messages.
+             * @param message SharedDeviceSecretAction message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: SyncAction.SyncActionValue.ISharedDeviceSecretAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a SharedDeviceSecretAction message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns SharedDeviceSecretAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): SyncAction.SyncActionValue.SharedDeviceSecretAction;
+
+            /**
+             * Decodes a SharedDeviceSecretAction message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns SharedDeviceSecretAction
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): SyncAction.SyncActionValue.SharedDeviceSecretAction;
+
+            /**
+             * Verifies a SharedDeviceSecretAction message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a SharedDeviceSecretAction message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns SharedDeviceSecretAction
+             */
+            public static fromObject(object: { [k: string]: any }): SyncAction.SyncActionValue.SharedDeviceSecretAction;
+
+            /**
+             * Creates a plain object from a SharedDeviceSecretAction message. Also converts values to other types if specified.
+             * @param message SharedDeviceSecretAction
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: SyncAction.SyncActionValue.SharedDeviceSecretAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this SharedDeviceSecretAction to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for SharedDeviceSecretAction
              * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
              * @returns The default type url
              */
@@ -12205,6 +12438,8 @@ export namespace SyncAction {
         GROUP_HISTORY_TOGGLE_ACTION = 97,
         BB_PRO_PENDING_CUSTOMER_BASE_ACTION = 98,
         COMMUNITY_NESTING_STATE_ACTION = 99,
+        SHARED_DEVICE_SECRET_ACTION = 100,
+        HATCH_CVM_SECRET_ACTION = 101,
         SHARE_OWN_PN = 10001,
         BUSINESS_BROADCAST_ACTION = 10002,
         AI_THREAD_DELETE_ACTION = 10003
@@ -13073,6 +13308,12 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities newsletterChatsMigration */
         newsletterChatsMigration?: (DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null);
+
+        /** DeviceCapabilities hostWriteMutationSupport */
+        hostWriteMutationSupport?: (DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport|null);
+
+        /** DeviceCapabilities bizAiWebOnboarding */
+        bizAiWebOnboarding?: (DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding|null);
     }
 
     /** Represents a DeviceCapabilities. */
@@ -13116,6 +13357,12 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities newsletterChatsMigration. */
         public newsletterChatsMigration?: (DeviceCapabilities.DeviceCapabilities.INewsletterChatsMigration|null);
+
+        /** DeviceCapabilities hostWriteMutationSupport. */
+        public hostWriteMutationSupport?: (DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport|null);
+
+        /** DeviceCapabilities bizAiWebOnboarding. */
+        public bizAiWebOnboarding?: (DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding|null);
 
         /**
          * Creates a new DeviceCapabilities instance using the specified properties.
@@ -13504,6 +13751,103 @@ export namespace DeviceCapabilities {
             public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
+        /** Properties of a BizAiWebOnboarding. */
+        interface IBizAiWebOnboarding {
+
+            /** BizAiWebOnboarding version */
+            version?: (number|null);
+        }
+
+        /** Represents a BizAiWebOnboarding. */
+        class BizAiWebOnboarding implements IBizAiWebOnboarding {
+
+            /**
+             * Constructs a new BizAiWebOnboarding.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding);
+
+            /** BizAiWebOnboarding version. */
+            public version?: (number|null);
+
+            /**
+             * Creates a new BizAiWebOnboarding instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BizAiWebOnboarding instance
+             */
+            public static create(properties?: DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding): DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding;
+
+            /**
+             * Encodes the specified BizAiWebOnboarding message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.verify|verify} messages.
+             * @param message BizAiWebOnboarding message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BizAiWebOnboarding message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding.verify|verify} messages.
+             * @param message BizAiWebOnboarding message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BizAiWebOnboarding message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BizAiWebOnboarding
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding;
+
+            /**
+             * Decodes a BizAiWebOnboarding message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BizAiWebOnboarding
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding;
+
+            /**
+             * Verifies a BizAiWebOnboarding message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BizAiWebOnboarding message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BizAiWebOnboarding
+             */
+            public static fromObject(object: { [k: string]: any }): DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding;
+
+            /**
+             * Creates a plain object from a BizAiWebOnboarding message. Also converts values to other types if specified.
+             * @param message BizAiWebOnboarding
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: DeviceCapabilities.DeviceCapabilities.BizAiWebOnboarding, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BizAiWebOnboarding to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for BizAiWebOnboarding
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Properties of a BusinessBroadcast. */
         interface IBusinessBroadcast {
 
@@ -13729,6 +14073,103 @@ export namespace DeviceCapabilities {
 
             /**
              * Gets the default type url for ContactRefresh
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a HostWriteMutationSupport. */
+        interface IHostWriteMutationSupport {
+
+            /** HostWriteMutationSupport mutationNames */
+            mutationNames?: (string[]|null);
+        }
+
+        /** Represents a HostWriteMutationSupport. */
+        class HostWriteMutationSupport implements IHostWriteMutationSupport {
+
+            /**
+             * Constructs a new HostWriteMutationSupport.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport);
+
+            /** HostWriteMutationSupport mutationNames. */
+            public mutationNames: string[];
+
+            /**
+             * Creates a new HostWriteMutationSupport instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns HostWriteMutationSupport instance
+             */
+            public static create(properties?: DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport): DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport;
+
+            /**
+             * Encodes the specified HostWriteMutationSupport message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.verify|verify} messages.
+             * @param message HostWriteMutationSupport message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified HostWriteMutationSupport message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport.verify|verify} messages.
+             * @param message HostWriteMutationSupport message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: DeviceCapabilities.DeviceCapabilities.IHostWriteMutationSupport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a HostWriteMutationSupport message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns HostWriteMutationSupport
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport;
+
+            /**
+             * Decodes a HostWriteMutationSupport message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns HostWriteMutationSupport
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport;
+
+            /**
+             * Verifies a HostWriteMutationSupport message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a HostWriteMutationSupport message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns HostWriteMutationSupport
+             */
+            public static fromObject(object: { [k: string]: any }): DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport;
+
+            /**
+             * Creates a plain object from a HostWriteMutationSupport message. Also converts values to other types if specified.
+             * @param message HostWriteMutationSupport
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: DeviceCapabilities.DeviceCapabilities.HostWriteMutationSupport, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this HostWriteMutationSupport to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for HostWriteMutationSupport
              * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
              * @returns The default type url
              */
