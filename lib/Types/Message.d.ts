@@ -435,6 +435,10 @@ export type MessageRelayOptions = MinimalRelayOptions & {
         [_: string]: string
     }
     additionalNodes?: BinaryNode[]
+    /** whether to wait for WhatsApp server acknowledgement before resolving sendMessage */
+    waitForAck?: boolean
+    /** timeout in milliseconds to wait for server acknowledgement */
+    waitForAckTimeoutMs?: number
     /** should we use the devices cache, or fetch afresh from the server default assumed to be "true" */
     useUserDevicesCache?: boolean
     /** jid list of participants for status@broadcast */
@@ -461,6 +465,10 @@ export type MiscMessageGenerationOptions = MinimalRelayOptions & {
     broadcast?: boolean
     newsletter?: boolean
     additionalNodes?: BinaryNode[]
+    /** whether to wait for WhatsApp server acknowledgement before resolving sendMessage */
+    waitForAck?: boolean
+    /** timeout in milliseconds to wait for server acknowledgement */
+    waitForAckTimeoutMs?: number
 }
 
 export type MessageGenerationOptionsFromContent = MiscMessageGenerationOptions & {

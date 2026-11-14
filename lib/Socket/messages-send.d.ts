@@ -28,6 +28,8 @@ export declare const makeMessagesSocket: (config: SocketConfig) => {
     updateMediaMessage: (message: proto.IWebMessageInfo) => Promise<proto.IWebMessageInfo>
     sendStatusMentions: (content: import("../Types").WAProto.IMessage, jid: string, Private?: boolean) => Promise<string>
     sendMessage: (jid: MessageTarget, content: AnyMessageContent, options?: MiscMessageGenerationOptions) => Promise<proto.WebMessageInfo | undefined>
+    waitForMessageAck: (messageId: string, timeoutMs?: number) => Promise<BinaryNode | null>
+    waitForDelivery: (messageId: string, timeoutMs?: number) => Promise<{ status: number; timestamp?: number }>
     subscribeNewsletterUpdates: (jid: string) => Promise<{
         duration: string
     }>
