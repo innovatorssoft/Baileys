@@ -44,6 +44,9 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities bizAiWebOnboarding */
         bizAiWebOnboarding?: (DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding|null);
+
+        /** DeviceCapabilities phoneNumberSharing */
+        phoneNumberSharing?: (DeviceCapabilities.DeviceCapabilities.IPhoneNumberSharing|null);
     }
 
     /** Represents a DeviceCapabilities. */
@@ -93,6 +96,9 @@ export namespace DeviceCapabilities {
 
         /** DeviceCapabilities bizAiWebOnboarding. */
         public bizAiWebOnboarding?: (DeviceCapabilities.DeviceCapabilities.IBizAiWebOnboarding|null);
+
+        /** DeviceCapabilities phoneNumberSharing. */
+        public phoneNumberSharing?: (DeviceCapabilities.DeviceCapabilities.IPhoneNumberSharing|null);
 
         /**
          * Creates a new DeviceCapabilities instance using the specified properties.
@@ -1113,6 +1119,103 @@ export namespace DeviceCapabilities {
 
             /**
              * Gets the default type url for NewsletterChatsMigration
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a PhoneNumberSharing. */
+        interface IPhoneNumberSharing {
+
+            /** PhoneNumberSharing phoneSharingSupported */
+            phoneSharingSupported?: (boolean|null);
+        }
+
+        /** Represents a PhoneNumberSharing. */
+        class PhoneNumberSharing implements IPhoneNumberSharing {
+
+            /**
+             * Constructs a new PhoneNumberSharing.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: DeviceCapabilities.DeviceCapabilities.IPhoneNumberSharing);
+
+            /** PhoneNumberSharing phoneSharingSupported. */
+            public phoneSharingSupported?: (boolean|null);
+
+            /**
+             * Creates a new PhoneNumberSharing instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns PhoneNumberSharing instance
+             */
+            public static create(properties?: DeviceCapabilities.DeviceCapabilities.IPhoneNumberSharing): DeviceCapabilities.DeviceCapabilities.PhoneNumberSharing;
+
+            /**
+             * Encodes the specified PhoneNumberSharing message. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.PhoneNumberSharing.verify|verify} messages.
+             * @param message PhoneNumberSharing message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: DeviceCapabilities.DeviceCapabilities.IPhoneNumberSharing, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified PhoneNumberSharing message, length delimited. Does not implicitly {@link DeviceCapabilities.DeviceCapabilities.PhoneNumberSharing.verify|verify} messages.
+             * @param message PhoneNumberSharing message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: DeviceCapabilities.DeviceCapabilities.IPhoneNumberSharing, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a PhoneNumberSharing message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns PhoneNumberSharing
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DeviceCapabilities.DeviceCapabilities.PhoneNumberSharing;
+
+            /**
+             * Decodes a PhoneNumberSharing message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns PhoneNumberSharing
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DeviceCapabilities.DeviceCapabilities.PhoneNumberSharing;
+
+            /**
+             * Verifies a PhoneNumberSharing message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a PhoneNumberSharing message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns PhoneNumberSharing
+             */
+            public static fromObject(object: { [k: string]: any }): DeviceCapabilities.DeviceCapabilities.PhoneNumberSharing;
+
+            /**
+             * Creates a plain object from a PhoneNumberSharing message. Also converts values to other types if specified.
+             * @param message PhoneNumberSharing
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: DeviceCapabilities.DeviceCapabilities.PhoneNumberSharing, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this PhoneNumberSharing to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for PhoneNumberSharing
              * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
              * @returns The default type url
              */

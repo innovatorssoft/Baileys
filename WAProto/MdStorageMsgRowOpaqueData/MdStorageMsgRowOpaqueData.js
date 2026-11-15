@@ -83,6 +83,10 @@ $root.MdStorageMsgRowOpaqueData = (function() {
          * @property {string|null} [qrUrl] MsgOpaqueData qrUrl
          * @property {MdStorageMsgRowOpaqueData.MsgOpaqueData.IMusicData|null} [musicData] MsgOpaqueData musicData
          * @property {string|null} [pollAddedOptionName] MsgOpaqueData pollAddedOptionName
+         * @property {string|null} [sharableEventInviteStatus] MsgOpaqueData sharableEventInviteStatus
+         * @property {string|null} [sharableEventInviteLocationName] MsgOpaqueData sharableEventInviteLocationName
+         * @property {string|null} [sharableEventInviteCoverImageHandle] MsgOpaqueData sharableEventInviteCoverImageHandle
+         * @property {number|Long|null} [sharableEventInviteLastUpdatedTsUsec] MsgOpaqueData sharableEventInviteLastUpdatedTsUsec
          */
 
         /**
@@ -573,6 +577,38 @@ $root.MdStorageMsgRowOpaqueData = (function() {
          */
         MsgOpaqueData.prototype.pollAddedOptionName = null;
 
+        /**
+         * MsgOpaqueData sharableEventInviteStatus.
+         * @member {string|null|undefined} sharableEventInviteStatus
+         * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+         * @instance
+         */
+        MsgOpaqueData.prototype.sharableEventInviteStatus = null;
+
+        /**
+         * MsgOpaqueData sharableEventInviteLocationName.
+         * @member {string|null|undefined} sharableEventInviteLocationName
+         * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+         * @instance
+         */
+        MsgOpaqueData.prototype.sharableEventInviteLocationName = null;
+
+        /**
+         * MsgOpaqueData sharableEventInviteCoverImageHandle.
+         * @member {string|null|undefined} sharableEventInviteCoverImageHandle
+         * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+         * @instance
+         */
+        MsgOpaqueData.prototype.sharableEventInviteCoverImageHandle = null;
+
+        /**
+         * MsgOpaqueData sharableEventInviteLastUpdatedTsUsec.
+         * @member {number|Long|null|undefined} sharableEventInviteLastUpdatedTsUsec
+         * @memberof MdStorageMsgRowOpaqueData.MsgOpaqueData
+         * @instance
+         */
+        MsgOpaqueData.prototype.sharableEventInviteLastUpdatedTsUsec = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -924,6 +960,30 @@ $root.MdStorageMsgRowOpaqueData = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MsgOpaqueData.prototype, "_sharableEventInviteStatus", {
+            get: $util.oneOfGetter($oneOfFields = ["sharableEventInviteStatus"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MsgOpaqueData.prototype, "_sharableEventInviteLocationName", {
+            get: $util.oneOfGetter($oneOfFields = ["sharableEventInviteLocationName"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MsgOpaqueData.prototype, "_sharableEventInviteCoverImageHandle", {
+            get: $util.oneOfGetter($oneOfFields = ["sharableEventInviteCoverImageHandle"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MsgOpaqueData.prototype, "_sharableEventInviteLastUpdatedTsUsec", {
+            get: $util.oneOfGetter($oneOfFields = ["sharableEventInviteLastUpdatedTsUsec"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new MsgOpaqueData instance using the specified properties.
          * @function create
@@ -1067,6 +1127,14 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                 $root.MdStorageMsgRowOpaqueData.MsgOpaqueData.MusicData.encode(message.musicData, writer.uint32(/* id 63, wireType 2 =*/506).fork()).ldelim();
             if (message.pollAddedOptionName != null && Object.hasOwnProperty.call(message, "pollAddedOptionName"))
                 writer.uint32(/* id 64, wireType 2 =*/514).string(message.pollAddedOptionName);
+            if (message.sharableEventInviteStatus != null && Object.hasOwnProperty.call(message, "sharableEventInviteStatus"))
+                writer.uint32(/* id 65, wireType 2 =*/522).string(message.sharableEventInviteStatus);
+            if (message.sharableEventInviteLocationName != null && Object.hasOwnProperty.call(message, "sharableEventInviteLocationName"))
+                writer.uint32(/* id 66, wireType 2 =*/530).string(message.sharableEventInviteLocationName);
+            if (message.sharableEventInviteCoverImageHandle != null && Object.hasOwnProperty.call(message, "sharableEventInviteCoverImageHandle"))
+                writer.uint32(/* id 67, wireType 2 =*/538).string(message.sharableEventInviteCoverImageHandle);
+            if (message.sharableEventInviteLastUpdatedTsUsec != null && Object.hasOwnProperty.call(message, "sharableEventInviteLastUpdatedTsUsec"))
+                writer.uint32(/* id 68, wireType 0 =*/544).int64(message.sharableEventInviteLastUpdatedTsUsec);
             return writer;
         };
 
@@ -1339,6 +1407,22 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                     }
                 case 64: {
                         message.pollAddedOptionName = reader.string();
+                        break;
+                    }
+                case 65: {
+                        message.sharableEventInviteStatus = reader.string();
+                        break;
+                    }
+                case 66: {
+                        message.sharableEventInviteLocationName = reader.string();
+                        break;
+                    }
+                case 67: {
+                        message.sharableEventInviteCoverImageHandle = reader.string();
+                        break;
+                    }
+                case 68: {
+                        message.sharableEventInviteLastUpdatedTsUsec = reader.int64();
                         break;
                     }
                 default:
@@ -1699,6 +1783,26 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                 if (!$util.isString(message.pollAddedOptionName))
                     return "pollAddedOptionName: string expected";
             }
+            if (message.sharableEventInviteStatus != null && message.hasOwnProperty("sharableEventInviteStatus")) {
+                properties._sharableEventInviteStatus = 1;
+                if (!$util.isString(message.sharableEventInviteStatus))
+                    return "sharableEventInviteStatus: string expected";
+            }
+            if (message.sharableEventInviteLocationName != null && message.hasOwnProperty("sharableEventInviteLocationName")) {
+                properties._sharableEventInviteLocationName = 1;
+                if (!$util.isString(message.sharableEventInviteLocationName))
+                    return "sharableEventInviteLocationName: string expected";
+            }
+            if (message.sharableEventInviteCoverImageHandle != null && message.hasOwnProperty("sharableEventInviteCoverImageHandle")) {
+                properties._sharableEventInviteCoverImageHandle = 1;
+                if (!$util.isString(message.sharableEventInviteCoverImageHandle))
+                    return "sharableEventInviteCoverImageHandle: string expected";
+            }
+            if (message.sharableEventInviteLastUpdatedTsUsec != null && message.hasOwnProperty("sharableEventInviteLastUpdatedTsUsec")) {
+                properties._sharableEventInviteLastUpdatedTsUsec = 1;
+                if (!$util.isInteger(message.sharableEventInviteLastUpdatedTsUsec) && !(message.sharableEventInviteLastUpdatedTsUsec && $util.isInteger(message.sharableEventInviteLastUpdatedTsUsec.low) && $util.isInteger(message.sharableEventInviteLastUpdatedTsUsec.high)))
+                    return "sharableEventInviteLastUpdatedTsUsec: integer|Long expected";
+            }
             return null;
         };
 
@@ -1953,6 +2057,21 @@ $root.MdStorageMsgRowOpaqueData = (function() {
             }
             if (object.pollAddedOptionName != null)
                 message.pollAddedOptionName = String(object.pollAddedOptionName);
+            if (object.sharableEventInviteStatus != null)
+                message.sharableEventInviteStatus = String(object.sharableEventInviteStatus);
+            if (object.sharableEventInviteLocationName != null)
+                message.sharableEventInviteLocationName = String(object.sharableEventInviteLocationName);
+            if (object.sharableEventInviteCoverImageHandle != null)
+                message.sharableEventInviteCoverImageHandle = String(object.sharableEventInviteCoverImageHandle);
+            if (object.sharableEventInviteLastUpdatedTsUsec != null)
+                if ($util.Long)
+                    (message.sharableEventInviteLastUpdatedTsUsec = $util.Long.fromValue(object.sharableEventInviteLastUpdatedTsUsec)).unsigned = false;
+                else if (typeof object.sharableEventInviteLastUpdatedTsUsec === "string")
+                    message.sharableEventInviteLastUpdatedTsUsec = parseInt(object.sharableEventInviteLastUpdatedTsUsec, 10);
+                else if (typeof object.sharableEventInviteLastUpdatedTsUsec === "number")
+                    message.sharableEventInviteLastUpdatedTsUsec = object.sharableEventInviteLastUpdatedTsUsec;
+                else if (typeof object.sharableEventInviteLastUpdatedTsUsec === "object")
+                    message.sharableEventInviteLastUpdatedTsUsec = new $util.LongBits(object.sharableEventInviteLastUpdatedTsUsec.low >>> 0, object.sharableEventInviteLastUpdatedTsUsec.high >>> 0).toNumber();
             return message;
         };
 
@@ -2283,6 +2402,29 @@ $root.MdStorageMsgRowOpaqueData = (function() {
                 object.pollAddedOptionName = message.pollAddedOptionName;
                 if (options.oneofs)
                     object._pollAddedOptionName = "pollAddedOptionName";
+            }
+            if (message.sharableEventInviteStatus != null && message.hasOwnProperty("sharableEventInviteStatus")) {
+                object.sharableEventInviteStatus = message.sharableEventInviteStatus;
+                if (options.oneofs)
+                    object._sharableEventInviteStatus = "sharableEventInviteStatus";
+            }
+            if (message.sharableEventInviteLocationName != null && message.hasOwnProperty("sharableEventInviteLocationName")) {
+                object.sharableEventInviteLocationName = message.sharableEventInviteLocationName;
+                if (options.oneofs)
+                    object._sharableEventInviteLocationName = "sharableEventInviteLocationName";
+            }
+            if (message.sharableEventInviteCoverImageHandle != null && message.hasOwnProperty("sharableEventInviteCoverImageHandle")) {
+                object.sharableEventInviteCoverImageHandle = message.sharableEventInviteCoverImageHandle;
+                if (options.oneofs)
+                    object._sharableEventInviteCoverImageHandle = "sharableEventInviteCoverImageHandle";
+            }
+            if (message.sharableEventInviteLastUpdatedTsUsec != null && message.hasOwnProperty("sharableEventInviteLastUpdatedTsUsec")) {
+                if (typeof message.sharableEventInviteLastUpdatedTsUsec === "number")
+                    object.sharableEventInviteLastUpdatedTsUsec = options.longs === String ? String(message.sharableEventInviteLastUpdatedTsUsec) : message.sharableEventInviteLastUpdatedTsUsec;
+                else
+                    object.sharableEventInviteLastUpdatedTsUsec = options.longs === String ? $util.Long.prototype.toString.call(message.sharableEventInviteLastUpdatedTsUsec) : options.longs === Number ? new $util.LongBits(message.sharableEventInviteLastUpdatedTsUsec.low >>> 0, message.sharableEventInviteLastUpdatedTsUsec.high >>> 0).toNumber() : message.sharableEventInviteLastUpdatedTsUsec;
+                if (options.oneofs)
+                    object._sharableEventInviteLastUpdatedTsUsec = "sharableEventInviteLastUpdatedTsUsec";
             }
             return object;
         };
@@ -5632,6 +5774,511 @@ $root.E2E = (function() {
      */
     var E2E = {};
 
+    E2E.GroupRootKeyRequest = (function() {
+
+        /**
+         * Properties of a GroupRootKeyRequest.
+         * @memberof E2E
+         * @interface IGroupRootKeyRequest
+         * @property {string|null} [keyId] GroupRootKeyRequest keyId
+         */
+
+        /**
+         * Constructs a new GroupRootKeyRequest.
+         * @memberof E2E
+         * @classdesc Represents a GroupRootKeyRequest.
+         * @implements IGroupRootKeyRequest
+         * @constructor
+         * @param {E2E.IGroupRootKeyRequest=} [properties] Properties to set
+         */
+        function GroupRootKeyRequest(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GroupRootKeyRequest keyId.
+         * @member {string|null|undefined} keyId
+         * @memberof E2E.GroupRootKeyRequest
+         * @instance
+         */
+        GroupRootKeyRequest.prototype.keyId = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(GroupRootKeyRequest.prototype, "_keyId", {
+            get: $util.oneOfGetter($oneOfFields = ["keyId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new GroupRootKeyRequest instance using the specified properties.
+         * @function create
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.IGroupRootKeyRequest=} [properties] Properties to set
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest instance
+         */
+        GroupRootKeyRequest.create = function create(properties) {
+            return new GroupRootKeyRequest(properties);
+        };
+
+        /**
+         * Encodes the specified GroupRootKeyRequest message. Does not implicitly {@link E2E.GroupRootKeyRequest.verify|verify} messages.
+         * @function encode
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.IGroupRootKeyRequest} message GroupRootKeyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupRootKeyRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.keyId != null && Object.hasOwnProperty.call(message, "keyId"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.keyId);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GroupRootKeyRequest message, length delimited. Does not implicitly {@link E2E.GroupRootKeyRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.IGroupRootKeyRequest} message GroupRootKeyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupRootKeyRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GroupRootKeyRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupRootKeyRequest.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.GroupRootKeyRequest();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.keyId = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GroupRootKeyRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupRootKeyRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GroupRootKeyRequest message.
+         * @function verify
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GroupRootKeyRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                properties._keyId = 1;
+                if (!$util.isString(message.keyId))
+                    return "keyId: string expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a GroupRootKeyRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest
+         */
+        GroupRootKeyRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.E2E.GroupRootKeyRequest)
+                return object;
+            var message = new $root.E2E.GroupRootKeyRequest();
+            if (object.keyId != null)
+                message.keyId = String(object.keyId);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GroupRootKeyRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.GroupRootKeyRequest} message GroupRootKeyRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GroupRootKeyRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                object.keyId = message.keyId;
+                if (options.oneofs)
+                    object._keyId = "keyId";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this GroupRootKeyRequest to JSON.
+         * @function toJSON
+         * @memberof E2E.GroupRootKeyRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GroupRootKeyRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GroupRootKeyRequest
+         * @function getTypeUrl
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GroupRootKeyRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/E2E.GroupRootKeyRequest";
+        };
+
+        return GroupRootKeyRequest;
+    })();
+
+    E2E.MembershipFormKeyFingerprintVerification = (function() {
+
+        /**
+         * Properties of a MembershipFormKeyFingerprintVerification.
+         * @memberof E2E
+         * @interface IMembershipFormKeyFingerprintVerification
+         * @property {string|null} [requestId] MembershipFormKeyFingerprintVerification requestId
+         * @property {string|null} [keyId] MembershipFormKeyFingerprintVerification keyId
+         * @property {Uint8Array|null} [keyFingerprint] MembershipFormKeyFingerprintVerification keyFingerprint
+         */
+
+        /**
+         * Constructs a new MembershipFormKeyFingerprintVerification.
+         * @memberof E2E
+         * @classdesc Represents a MembershipFormKeyFingerprintVerification.
+         * @implements IMembershipFormKeyFingerprintVerification
+         * @constructor
+         * @param {E2E.IMembershipFormKeyFingerprintVerification=} [properties] Properties to set
+         */
+        function MembershipFormKeyFingerprintVerification(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * MembershipFormKeyFingerprintVerification requestId.
+         * @member {string|null|undefined} requestId
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         */
+        MembershipFormKeyFingerprintVerification.prototype.requestId = null;
+
+        /**
+         * MembershipFormKeyFingerprintVerification keyId.
+         * @member {string|null|undefined} keyId
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         */
+        MembershipFormKeyFingerprintVerification.prototype.keyId = null;
+
+        /**
+         * MembershipFormKeyFingerprintVerification keyFingerprint.
+         * @member {Uint8Array|null|undefined} keyFingerprint
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         */
+        MembershipFormKeyFingerprintVerification.prototype.keyFingerprint = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MembershipFormKeyFingerprintVerification.prototype, "_requestId", {
+            get: $util.oneOfGetter($oneOfFields = ["requestId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MembershipFormKeyFingerprintVerification.prototype, "_keyId", {
+            get: $util.oneOfGetter($oneOfFields = ["keyId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MembershipFormKeyFingerprintVerification.prototype, "_keyFingerprint", {
+            get: $util.oneOfGetter($oneOfFields = ["keyFingerprint"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new MembershipFormKeyFingerprintVerification instance using the specified properties.
+         * @function create
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.IMembershipFormKeyFingerprintVerification=} [properties] Properties to set
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification instance
+         */
+        MembershipFormKeyFingerprintVerification.create = function create(properties) {
+            return new MembershipFormKeyFingerprintVerification(properties);
+        };
+
+        /**
+         * Encodes the specified MembershipFormKeyFingerprintVerification message. Does not implicitly {@link E2E.MembershipFormKeyFingerprintVerification.verify|verify} messages.
+         * @function encode
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.IMembershipFormKeyFingerprintVerification} message MembershipFormKeyFingerprintVerification message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MembershipFormKeyFingerprintVerification.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.requestId != null && Object.hasOwnProperty.call(message, "requestId"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.requestId);
+            if (message.keyId != null && Object.hasOwnProperty.call(message, "keyId"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.keyId);
+            if (message.keyFingerprint != null && Object.hasOwnProperty.call(message, "keyFingerprint"))
+                writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.keyFingerprint);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MembershipFormKeyFingerprintVerification message, length delimited. Does not implicitly {@link E2E.MembershipFormKeyFingerprintVerification.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.IMembershipFormKeyFingerprintVerification} message MembershipFormKeyFingerprintVerification message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MembershipFormKeyFingerprintVerification.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a MembershipFormKeyFingerprintVerification message from the specified reader or buffer.
+         * @function decode
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MembershipFormKeyFingerprintVerification.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.MembershipFormKeyFingerprintVerification();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.requestId = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.keyId = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.keyFingerprint = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a MembershipFormKeyFingerprintVerification message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MembershipFormKeyFingerprintVerification.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MembershipFormKeyFingerprintVerification message.
+         * @function verify
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MembershipFormKeyFingerprintVerification.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                properties._requestId = 1;
+                if (!$util.isString(message.requestId))
+                    return "requestId: string expected";
+            }
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                properties._keyId = 1;
+                if (!$util.isString(message.keyId))
+                    return "keyId: string expected";
+            }
+            if (message.keyFingerprint != null && message.hasOwnProperty("keyFingerprint")) {
+                properties._keyFingerprint = 1;
+                if (!(message.keyFingerprint && typeof message.keyFingerprint.length === "number" || $util.isString(message.keyFingerprint)))
+                    return "keyFingerprint: buffer expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a MembershipFormKeyFingerprintVerification message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification
+         */
+        MembershipFormKeyFingerprintVerification.fromObject = function fromObject(object) {
+            if (object instanceof $root.E2E.MembershipFormKeyFingerprintVerification)
+                return object;
+            var message = new $root.E2E.MembershipFormKeyFingerprintVerification();
+            if (object.requestId != null)
+                message.requestId = String(object.requestId);
+            if (object.keyId != null)
+                message.keyId = String(object.keyId);
+            if (object.keyFingerprint != null)
+                if (typeof object.keyFingerprint === "string")
+                    $util.base64.decode(object.keyFingerprint, message.keyFingerprint = $util.newBuffer($util.base64.length(object.keyFingerprint)), 0);
+                else if (object.keyFingerprint.length >= 0)
+                    message.keyFingerprint = object.keyFingerprint;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MembershipFormKeyFingerprintVerification message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.MembershipFormKeyFingerprintVerification} message MembershipFormKeyFingerprintVerification
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MembershipFormKeyFingerprintVerification.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                object.requestId = message.requestId;
+                if (options.oneofs)
+                    object._requestId = "requestId";
+            }
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                object.keyId = message.keyId;
+                if (options.oneofs)
+                    object._keyId = "keyId";
+            }
+            if (message.keyFingerprint != null && message.hasOwnProperty("keyFingerprint")) {
+                object.keyFingerprint = options.bytes === String ? $util.base64.encode(message.keyFingerprint, 0, message.keyFingerprint.length) : options.bytes === Array ? Array.prototype.slice.call(message.keyFingerprint) : message.keyFingerprint;
+                if (options.oneofs)
+                    object._keyFingerprint = "keyFingerprint";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this MembershipFormKeyFingerprintVerification to JSON.
+         * @function toJSON
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MembershipFormKeyFingerprintVerification.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for MembershipFormKeyFingerprintVerification
+         * @function getTypeUrl
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        MembershipFormKeyFingerprintVerification.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/E2E.MembershipFormKeyFingerprintVerification";
+        };
+
+        return MembershipFormKeyFingerprintVerification;
+    })();
+
     E2E.GroupRootKeyShareEntry = (function() {
 
         /**
@@ -6911,6 +7558,7 @@ $root.E2E = (function() {
          * @interface IMemberLabel
          * @property {string|null} [label] MemberLabel label
          * @property {number|Long|null} [labelTimestamp] MemberLabel labelTimestamp
+         * @property {boolean|null} [showAdminBadge] MemberLabel showAdminBadge
          */
 
         /**
@@ -6944,6 +7592,14 @@ $root.E2E = (function() {
          */
         MemberLabel.prototype.labelTimestamp = null;
 
+        /**
+         * MemberLabel showAdminBadge.
+         * @member {boolean|null|undefined} showAdminBadge
+         * @memberof E2E.MemberLabel
+         * @instance
+         */
+        MemberLabel.prototype.showAdminBadge = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -6956,6 +7612,12 @@ $root.E2E = (function() {
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(MemberLabel.prototype, "_labelTimestamp", {
             get: $util.oneOfGetter($oneOfFields = ["labelTimestamp"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MemberLabel.prototype, "_showAdminBadge", {
+            get: $util.oneOfGetter($oneOfFields = ["showAdminBadge"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -6987,6 +7649,8 @@ $root.E2E = (function() {
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.label);
             if (message.labelTimestamp != null && Object.hasOwnProperty.call(message, "labelTimestamp"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int64(message.labelTimestamp);
+            if (message.showAdminBadge != null && Object.hasOwnProperty.call(message, "showAdminBadge"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.showAdminBadge);
             return writer;
         };
 
@@ -7029,6 +7693,10 @@ $root.E2E = (function() {
                     }
                 case 2: {
                         message.labelTimestamp = reader.int64();
+                        break;
+                    }
+                case 3: {
+                        message.showAdminBadge = reader.bool();
                         break;
                     }
                 default:
@@ -7077,6 +7745,11 @@ $root.E2E = (function() {
                 if (!$util.isInteger(message.labelTimestamp) && !(message.labelTimestamp && $util.isInteger(message.labelTimestamp.low) && $util.isInteger(message.labelTimestamp.high)))
                     return "labelTimestamp: integer|Long expected";
             }
+            if (message.showAdminBadge != null && message.hasOwnProperty("showAdminBadge")) {
+                properties._showAdminBadge = 1;
+                if (typeof message.showAdminBadge !== "boolean")
+                    return "showAdminBadge: boolean expected";
+            }
             return null;
         };
 
@@ -7103,6 +7776,8 @@ $root.E2E = (function() {
                     message.labelTimestamp = object.labelTimestamp;
                 else if (typeof object.labelTimestamp === "object")
                     message.labelTimestamp = new $util.LongBits(object.labelTimestamp.low >>> 0, object.labelTimestamp.high >>> 0).toNumber();
+            if (object.showAdminBadge != null)
+                message.showAdminBadge = Boolean(object.showAdminBadge);
             return message;
         };
 
@@ -7131,6 +7806,11 @@ $root.E2E = (function() {
                     object.labelTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.labelTimestamp) : options.longs === Number ? new $util.LongBits(message.labelTimestamp.low >>> 0, message.labelTimestamp.high >>> 0).toNumber() : message.labelTimestamp;
                 if (options.oneofs)
                     object._labelTimestamp = "labelTimestamp";
+            }
+            if (message.showAdminBadge != null && message.hasOwnProperty("showAdminBadge")) {
+                object.showAdminBadge = message.showAdminBadge;
+                if (options.oneofs)
+                    object._showAdminBadge = "showAdminBadge";
             }
             return object;
         };
@@ -18166,6 +18846,8 @@ $root.E2E = (function() {
                 case 20:
                 case 21:
                 case 22:
+                case 23:
+                case 24:
                     break;
                 }
             }
@@ -18296,6 +18978,14 @@ $root.E2E = (function() {
             case 22:
                 message.associationType = 22;
                 break;
+            case "ORIGINAL_VIDEO_DUAL_UPLOAD":
+            case 23:
+                message.associationType = 23;
+                break;
+            case "ORIGINAL_IMAGE_DUAL_UPLOAD":
+            case 24:
+                message.associationType = 24;
+                break;
             }
             if (object.parentMessageKey != null) {
                 if (typeof object.parentMessageKey !== "object")
@@ -18391,6 +19081,8 @@ $root.E2E = (function() {
          * @property {number} POLL_ADD_OPTION=20 POLL_ADD_OPTION value
          * @property {number} AV1_VIDEO_DUAL_UPLOAD=21 AV1_VIDEO_DUAL_UPLOAD value
          * @property {number} STREAMED_HD_VIDEO_DUAL_UPLOAD=22 STREAMED_HD_VIDEO_DUAL_UPLOAD value
+         * @property {number} ORIGINAL_VIDEO_DUAL_UPLOAD=23 ORIGINAL_VIDEO_DUAL_UPLOAD value
+         * @property {number} ORIGINAL_IMAGE_DUAL_UPLOAD=24 ORIGINAL_IMAGE_DUAL_UPLOAD value
          */
         MessageAssociation.AssociationType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -18417,6 +19109,8 @@ $root.E2E = (function() {
             values[valuesById[20] = "POLL_ADD_OPTION"] = 20;
             values[valuesById[21] = "AV1_VIDEO_DUAL_UPLOAD"] = 21;
             values[valuesById[22] = "STREAMED_HD_VIDEO_DUAL_UPLOAD"] = 22;
+            values[valuesById[23] = "ORIGINAL_VIDEO_DUAL_UPLOAD"] = 23;
+            values[valuesById[24] = "ORIGINAL_IMAGE_DUAL_UPLOAD"] = 24;
             return values;
         })();
 
@@ -18497,6 +19191,8 @@ $root.E2E = (function() {
          * @property {string|null} [partnerDeepLinkToken] ContextInfo partnerDeepLinkToken
          * @property {number|null} [sourceExperienceId] ContextInfo sourceExperienceId
          * @property {Array.<number>|null} [sourceExperienceIds] ContextInfo sourceExperienceIds
+         * @property {Uint8Array|null} [foaMutualsSignature] ContextInfo foaMutualsSignature
+         * @property {number|null} [forwardReachScore] ContextInfo forwardReachScore
          */
 
         /**
@@ -19063,6 +19759,22 @@ $root.E2E = (function() {
          */
         ContextInfo.prototype.sourceExperienceIds = $util.emptyArray;
 
+        /**
+         * ContextInfo foaMutualsSignature.
+         * @member {Uint8Array|null|undefined} foaMutualsSignature
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.foaMutualsSignature = null;
+
+        /**
+         * ContextInfo forwardReachScore.
+         * @member {number|null|undefined} forwardReachScore
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.forwardReachScore = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -19444,6 +20156,18 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ContextInfo.prototype, "_foaMutualsSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["foaMutualsSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ContextInfo.prototype, "_forwardReachScore", {
+            get: $util.oneOfGetter($oneOfFields = ["forwardReachScore"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ContextInfo instance using the specified properties.
          * @function create
@@ -19615,6 +20339,10 @@ $root.E2E = (function() {
                     writer.uint32(message.sourceExperienceIds[i]);
                 writer.ldelim();
             }
+            if (message.foaMutualsSignature != null && Object.hasOwnProperty.call(message, "foaMutualsSignature"))
+                writer.uint32(/* id 86, wireType 2 =*/690).bytes(message.foaMutualsSignature);
+            if (message.forwardReachScore != null && Object.hasOwnProperty.call(message, "forwardReachScore"))
+                writer.uint32(/* id 87, wireType 5 =*/701).fixed32(message.forwardReachScore);
             return writer;
         };
 
@@ -19943,6 +20671,14 @@ $root.E2E = (function() {
                             message.sourceExperienceIds.push(reader.uint32());
                         break;
                     }
+                case 86: {
+                        message.foaMutualsSignature = reader.bytes();
+                        break;
+                    }
+                case 87: {
+                        message.forwardReachScore = reader.fixed32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -20260,6 +20996,8 @@ $root.E2E = (function() {
                 case 10:
                 case 11:
                 case 12:
+                case 13:
+                case 14:
                     break;
                 }
             }
@@ -20451,6 +21189,16 @@ $root.E2E = (function() {
                 for (var i = 0; i < message.sourceExperienceIds.length; ++i)
                     if (!$util.isInteger(message.sourceExperienceIds[i]))
                         return "sourceExperienceIds: integer[] expected";
+            }
+            if (message.foaMutualsSignature != null && message.hasOwnProperty("foaMutualsSignature")) {
+                properties._foaMutualsSignature = 1;
+                if (!(message.foaMutualsSignature && typeof message.foaMutualsSignature.length === "number" || $util.isString(message.foaMutualsSignature)))
+                    return "foaMutualsSignature: buffer expected";
+            }
+            if (message.forwardReachScore != null && message.hasOwnProperty("forwardReachScore")) {
+                properties._forwardReachScore = 1;
+                if (!$util.isInteger(message.forwardReachScore))
+                    return "forwardReachScore: integer expected";
             }
             return null;
         };
@@ -20704,6 +21452,14 @@ $root.E2E = (function() {
             case 12:
                 message.pairedMediaType = 12;
                 break;
+            case "ORIGINAL_VIDEO_CHILD":
+            case 13:
+                message.pairedMediaType = 13;
+                break;
+            case "ORIGINAL_IMAGE_CHILD":
+            case 14:
+                message.pairedMediaType = 14;
+                break;
             }
             if (object.rankingVersion != null)
                 message.rankingVersion = object.rankingVersion >>> 0;
@@ -20892,6 +21648,13 @@ $root.E2E = (function() {
                 for (var i = 0; i < object.sourceExperienceIds.length; ++i)
                     message.sourceExperienceIds[i] = object.sourceExperienceIds[i] >>> 0;
             }
+            if (object.foaMutualsSignature != null)
+                if (typeof object.foaMutualsSignature === "string")
+                    $util.base64.decode(object.foaMutualsSignature, message.foaMutualsSignature = $util.newBuffer($util.base64.length(object.foaMutualsSignature)), 0);
+                else if (object.foaMutualsSignature.length >= 0)
+                    message.foaMutualsSignature = object.foaMutualsSignature;
+            if (object.forwardReachScore != null)
+                message.forwardReachScore = object.forwardReachScore >>> 0;
             return message;
         };
 
@@ -21257,6 +22020,16 @@ $root.E2E = (function() {
                 object.sourceExperienceIds = [];
                 for (var j = 0; j < message.sourceExperienceIds.length; ++j)
                     object.sourceExperienceIds[j] = message.sourceExperienceIds[j];
+            }
+            if (message.foaMutualsSignature != null && message.hasOwnProperty("foaMutualsSignature")) {
+                object.foaMutualsSignature = options.bytes === String ? $util.base64.encode(message.foaMutualsSignature, 0, message.foaMutualsSignature.length) : options.bytes === Array ? Array.prototype.slice.call(message.foaMutualsSignature) : message.foaMutualsSignature;
+                if (options.oneofs)
+                    object._foaMutualsSignature = "foaMutualsSignature";
+            }
+            if (message.forwardReachScore != null && message.hasOwnProperty("forwardReachScore")) {
+                object.forwardReachScore = message.forwardReachScore;
+                if (options.oneofs)
+                    object._forwardReachScore = "forwardReachScore";
             }
             return object;
         };
@@ -26666,6 +27439,8 @@ $root.E2E = (function() {
          * @property {number} AV1_VIDEO_CHILD=10 AV1_VIDEO_CHILD value
          * @property {number} STREAMED_VIDEO_PARENT=11 STREAMED_VIDEO_PARENT value
          * @property {number} STREAMED_VIDEO_CHILD=12 STREAMED_VIDEO_CHILD value
+         * @property {number} ORIGINAL_VIDEO_CHILD=13 ORIGINAL_VIDEO_CHILD value
+         * @property {number} ORIGINAL_IMAGE_CHILD=14 ORIGINAL_IMAGE_CHILD value
          */
         ContextInfo.PairedMediaType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -26682,6 +27457,8 @@ $root.E2E = (function() {
             values[valuesById[10] = "AV1_VIDEO_CHILD"] = 10;
             values[valuesById[11] = "STREAMED_VIDEO_PARENT"] = 11;
             values[valuesById[12] = "STREAMED_VIDEO_CHILD"] = 12;
+            values[valuesById[13] = "ORIGINAL_VIDEO_CHILD"] = 13;
+            values[valuesById[14] = "ORIGINAL_IMAGE_CHILD"] = 14;
             return values;
         })();
 
@@ -28274,6 +29051,9 @@ $root.E2E = (function() {
          * @property {E2E.Message.IRequestLocationMessage|null} [requestLocationMessage] Message requestLocationMessage
          * @property {E2E.Message.IFutureProofMessage|null} [botGroupParticipantMessage] Message botGroupParticipantMessage
          * @property {E2E.Message.IRequestLocationUpdateMessage|null} [requestLocationUpdateMessage] Message requestLocationUpdateMessage
+         * @property {E2E.Message.IVpcRequestMessage|null} [vpcRequestMessage] Message vpcRequestMessage
+         * @property {E2E.Message.IVideoMessage|null} [instantVideoMessage] Message instantVideoMessage
+         * @property {E2E.Message.IPaymentDetailsMessage|null} [paymentDetailsMessage] Message paymentDetailsMessage
          */
 
         /**
@@ -29227,6 +30007,30 @@ $root.E2E = (function() {
          */
         Message.prototype.requestLocationUpdateMessage = null;
 
+        /**
+         * Message vpcRequestMessage.
+         * @member {E2E.Message.IVpcRequestMessage|null|undefined} vpcRequestMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.vpcRequestMessage = null;
+
+        /**
+         * Message instantVideoMessage.
+         * @member {E2E.Message.IVideoMessage|null|undefined} instantVideoMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.instantVideoMessage = null;
+
+        /**
+         * Message paymentDetailsMessage.
+         * @member {E2E.Message.IPaymentDetailsMessage|null|undefined} paymentDetailsMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.paymentDetailsMessage = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -29932,6 +30736,24 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_vpcRequestMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["vpcRequestMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_instantVideoMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["instantVideoMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_paymentDetailsMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["paymentDetailsMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new Message instance using the specified properties.
          * @function create
@@ -30190,6 +31012,12 @@ $root.E2E = (function() {
                 $root.E2E.Message.FutureProofMessage.encode(message.botGroupParticipantMessage, writer.uint32(/* id 137, wireType 2 =*/1098).fork()).ldelim();
             if (message.requestLocationUpdateMessage != null && Object.hasOwnProperty.call(message, "requestLocationUpdateMessage"))
                 $root.E2E.Message.RequestLocationUpdateMessage.encode(message.requestLocationUpdateMessage, writer.uint32(/* id 138, wireType 2 =*/1106).fork()).ldelim();
+            if (message.vpcRequestMessage != null && Object.hasOwnProperty.call(message, "vpcRequestMessage"))
+                $root.E2E.Message.VpcRequestMessage.encode(message.vpcRequestMessage, writer.uint32(/* id 139, wireType 2 =*/1114).fork()).ldelim();
+            if (message.instantVideoMessage != null && Object.hasOwnProperty.call(message, "instantVideoMessage"))
+                $root.E2E.Message.VideoMessage.encode(message.instantVideoMessage, writer.uint32(/* id 140, wireType 2 =*/1122).fork()).ldelim();
+            if (message.paymentDetailsMessage != null && Object.hasOwnProperty.call(message, "paymentDetailsMessage"))
+                $root.E2E.Message.PaymentDetailsMessage.encode(message.paymentDetailsMessage, writer.uint32(/* id 141, wireType 2 =*/1130).fork()).ldelim();
             return writer;
         };
 
@@ -30692,6 +31520,18 @@ $root.E2E = (function() {
                     }
                 case 138: {
                         message.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 139: {
+                        message.vpcRequestMessage = $root.E2E.Message.VpcRequestMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 140: {
+                        message.instantVideoMessage = $root.E2E.Message.VideoMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 141: {
+                        message.paymentDetailsMessage = $root.E2E.Message.PaymentDetailsMessage.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -31663,6 +32503,30 @@ $root.E2E = (function() {
                         return "requestLocationUpdateMessage." + error;
                 }
             }
+            if (message.vpcRequestMessage != null && message.hasOwnProperty("vpcRequestMessage")) {
+                properties._vpcRequestMessage = 1;
+                {
+                    var error = $root.E2E.Message.VpcRequestMessage.verify(message.vpcRequestMessage);
+                    if (error)
+                        return "vpcRequestMessage." + error;
+                }
+            }
+            if (message.instantVideoMessage != null && message.hasOwnProperty("instantVideoMessage")) {
+                properties._instantVideoMessage = 1;
+                {
+                    var error = $root.E2E.Message.VideoMessage.verify(message.instantVideoMessage);
+                    if (error)
+                        return "instantVideoMessage." + error;
+                }
+            }
+            if (message.paymentDetailsMessage != null && message.hasOwnProperty("paymentDetailsMessage")) {
+                properties._paymentDetailsMessage = 1;
+                {
+                    var error = $root.E2E.Message.PaymentDetailsMessage.verify(message.paymentDetailsMessage);
+                    if (error)
+                        return "paymentDetailsMessage." + error;
+                }
+            }
             return null;
         };
 
@@ -32259,6 +33123,21 @@ $root.E2E = (function() {
                 if (typeof object.requestLocationUpdateMessage !== "object")
                     throw TypeError(".E2E.Message.requestLocationUpdateMessage: object expected");
                 message.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.fromObject(object.requestLocationUpdateMessage);
+            }
+            if (object.vpcRequestMessage != null) {
+                if (typeof object.vpcRequestMessage !== "object")
+                    throw TypeError(".E2E.Message.vpcRequestMessage: object expected");
+                message.vpcRequestMessage = $root.E2E.Message.VpcRequestMessage.fromObject(object.vpcRequestMessage);
+            }
+            if (object.instantVideoMessage != null) {
+                if (typeof object.instantVideoMessage !== "object")
+                    throw TypeError(".E2E.Message.instantVideoMessage: object expected");
+                message.instantVideoMessage = $root.E2E.Message.VideoMessage.fromObject(object.instantVideoMessage);
+            }
+            if (object.paymentDetailsMessage != null) {
+                if (typeof object.paymentDetailsMessage !== "object")
+                    throw TypeError(".E2E.Message.paymentDetailsMessage: object expected");
+                message.paymentDetailsMessage = $root.E2E.Message.PaymentDetailsMessage.fromObject(object.paymentDetailsMessage);
             }
             return message;
         };
@@ -32860,6 +33739,21 @@ $root.E2E = (function() {
                 object.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.toObject(message.requestLocationUpdateMessage, options);
                 if (options.oneofs)
                     object._requestLocationUpdateMessage = "requestLocationUpdateMessage";
+            }
+            if (message.vpcRequestMessage != null && message.hasOwnProperty("vpcRequestMessage")) {
+                object.vpcRequestMessage = $root.E2E.Message.VpcRequestMessage.toObject(message.vpcRequestMessage, options);
+                if (options.oneofs)
+                    object._vpcRequestMessage = "vpcRequestMessage";
+            }
+            if (message.instantVideoMessage != null && message.hasOwnProperty("instantVideoMessage")) {
+                object.instantVideoMessage = $root.E2E.Message.VideoMessage.toObject(message.instantVideoMessage, options);
+                if (options.oneofs)
+                    object._instantVideoMessage = "instantVideoMessage";
+            }
+            if (message.paymentDetailsMessage != null && message.hasOwnProperty("paymentDetailsMessage")) {
+                object.paymentDetailsMessage = $root.E2E.Message.PaymentDetailsMessage.toObject(message.paymentDetailsMessage, options);
+                if (options.oneofs)
+                    object._paymentDetailsMessage = "paymentDetailsMessage";
             }
             return object;
         };
@@ -44733,6 +45627,7 @@ $root.E2E = (function() {
              * @property {number|null} [thumbnailWidth] DocumentMessage thumbnailWidth
              * @property {string|null} [caption] DocumentMessage caption
              * @property {string|null} [accessibilityLabel] DocumentMessage accessibilityLabel
+             * @property {string|null} [qrUrl] DocumentMessage qrUrl
              */
 
             /**
@@ -44918,6 +45813,14 @@ $root.E2E = (function() {
              */
             DocumentMessage.prototype.accessibilityLabel = null;
 
+            /**
+             * DocumentMessage qrUrl.
+             * @member {string|null|undefined} qrUrl
+             * @memberof E2E.Message.DocumentMessage
+             * @instance
+             */
+            DocumentMessage.prototype.qrUrl = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -45047,6 +45950,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(DocumentMessage.prototype, "_qrUrl", {
+                get: $util.oneOfGetter($oneOfFields = ["qrUrl"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new DocumentMessage instance using the specified properties.
              * @function create
@@ -45113,6 +46022,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 20, wireType 2 =*/162).string(message.caption);
                 if (message.accessibilityLabel != null && Object.hasOwnProperty.call(message, "accessibilityLabel"))
                     writer.uint32(/* id 21, wireType 2 =*/170).string(message.accessibilityLabel);
+                if (message.qrUrl != null && Object.hasOwnProperty.call(message, "qrUrl"))
+                    writer.uint32(/* id 23, wireType 2 =*/186).string(message.qrUrl);
                 return writer;
             };
 
@@ -45231,6 +46142,10 @@ $root.E2E = (function() {
                         }
                     case 21: {
                             message.accessibilityLabel = reader.string();
+                            break;
+                        }
+                    case 23: {
+                            message.qrUrl = reader.string();
                             break;
                         }
                     default:
@@ -45377,6 +46292,11 @@ $root.E2E = (function() {
                     if (!$util.isString(message.accessibilityLabel))
                         return "accessibilityLabel: string expected";
                 }
+                if (message.qrUrl != null && message.hasOwnProperty("qrUrl")) {
+                    properties._qrUrl = 1;
+                    if (!$util.isString(message.qrUrl))
+                        return "qrUrl: string expected";
+                }
                 return null;
             };
 
@@ -45469,6 +46389,8 @@ $root.E2E = (function() {
                     message.caption = String(object.caption);
                 if (object.accessibilityLabel != null)
                     message.accessibilityLabel = String(object.accessibilityLabel);
+                if (object.qrUrl != null)
+                    message.qrUrl = String(object.qrUrl);
                 return message;
             };
 
@@ -45595,6 +46517,11 @@ $root.E2E = (function() {
                     object.accessibilityLabel = message.accessibilityLabel;
                     if (options.oneofs)
                         object._accessibilityLabel = "accessibilityLabel";
+                }
+                if (message.qrUrl != null && message.hasOwnProperty("qrUrl")) {
+                    object.qrUrl = message.qrUrl;
+                    if (options.oneofs)
+                        object._qrUrl = "qrUrl";
                 }
                 return object;
             };
@@ -61171,6 +62098,7 @@ $root.E2E = (function() {
              * @property {string|null} [videoContentUrl] LinkPreviewMetadata videoContentUrl
              * @property {E2E.IEmbeddedMusic|null} [musicMetadata] LinkPreviewMetadata musicMetadata
              * @property {string|null} [videoContentCaption] LinkPreviewMetadata videoContentCaption
+             * @property {string|null} [videoId] LinkPreviewMetadata videoId
              */
 
             /**
@@ -61260,6 +62188,14 @@ $root.E2E = (function() {
              */
             LinkPreviewMetadata.prototype.videoContentCaption = null;
 
+            /**
+             * LinkPreviewMetadata videoId.
+             * @member {string|null|undefined} videoId
+             * @memberof E2E.Message.LinkPreviewMetadata
+             * @instance
+             */
+            LinkPreviewMetadata.prototype.videoId = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -61317,6 +62253,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(LinkPreviewMetadata.prototype, "_videoId", {
+                get: $util.oneOfGetter($oneOfFields = ["videoId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new LinkPreviewMetadata instance using the specified properties.
              * @function create
@@ -61359,6 +62301,8 @@ $root.E2E = (function() {
                     $root.E2E.EmbeddedMusic.encode(message.musicMetadata, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                 if (message.videoContentCaption != null && Object.hasOwnProperty.call(message, "videoContentCaption"))
                     writer.uint32(/* id 9, wireType 2 =*/74).string(message.videoContentCaption);
+                if (message.videoId != null && Object.hasOwnProperty.call(message, "videoId"))
+                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.videoId);
                 return writer;
             };
 
@@ -61429,6 +62373,10 @@ $root.E2E = (function() {
                         }
                     case 9: {
                             message.videoContentCaption = reader.string();
+                            break;
+                        }
+                    case 10: {
+                            message.videoId = reader.string();
                             break;
                         }
                     default:
@@ -61530,6 +62478,11 @@ $root.E2E = (function() {
                     if (!$util.isString(message.videoContentCaption))
                         return "videoContentCaption: string expected";
                 }
+                if (message.videoId != null && message.hasOwnProperty("videoId")) {
+                    properties._videoId = 1;
+                    if (!$util.isString(message.videoId))
+                        return "videoId: string expected";
+                }
                 return null;
             };
 
@@ -61602,6 +62555,8 @@ $root.E2E = (function() {
                 }
                 if (object.videoContentCaption != null)
                     message.videoContentCaption = String(object.videoContentCaption);
+                if (object.videoId != null)
+                    message.videoId = String(object.videoId);
                 return message;
             };
 
@@ -61662,6 +62617,11 @@ $root.E2E = (function() {
                     object.videoContentCaption = message.videoContentCaption;
                     if (options.oneofs)
                         object._videoContentCaption = "videoContentCaption";
+                }
+                if (message.videoId != null && message.hasOwnProperty("videoId")) {
+                    object.videoId = message.videoId;
+                    if (options.oneofs)
+                        object._videoId = "videoId";
                 }
                 return object;
             };
@@ -70386,6 +71346,543 @@ $root.E2E = (function() {
             })();
 
             return OrderMessage;
+        })();
+
+        Message.PaymentDetailsMessage = (function() {
+
+            /**
+             * Properties of a PaymentDetailsMessage.
+             * @memberof E2E.Message
+             * @interface IPaymentDetailsMessage
+             * @property {E2E.Message.PaymentDetailsMessage.ServiceType|null} [serviceType] PaymentDetailsMessage serviceType
+             * @property {E2E.IMoney|null} [amount] PaymentDetailsMessage amount
+             * @property {string|null} [payeeName] PaymentDetailsMessage payeeName
+             * @property {string|null} [payerName] PaymentDetailsMessage payerName
+             * @property {number|Long|null} [transactionTimestampMs] PaymentDetailsMessage transactionTimestampMs
+             * @property {string|null} [transactionId] PaymentDetailsMessage transactionId
+             * @property {E2E.Message.PaymentDetailsMessage.Status|null} [status] PaymentDetailsMessage status
+             * @property {E2E.IContextInfo|null} [contextInfo] PaymentDetailsMessage contextInfo
+             */
+
+            /**
+             * Constructs a new PaymentDetailsMessage.
+             * @memberof E2E.Message
+             * @classdesc Represents a PaymentDetailsMessage.
+             * @implements IPaymentDetailsMessage
+             * @constructor
+             * @param {E2E.Message.IPaymentDetailsMessage=} [properties] Properties to set
+             */
+            function PaymentDetailsMessage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * PaymentDetailsMessage serviceType.
+             * @member {E2E.Message.PaymentDetailsMessage.ServiceType|null|undefined} serviceType
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.serviceType = null;
+
+            /**
+             * PaymentDetailsMessage amount.
+             * @member {E2E.IMoney|null|undefined} amount
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.amount = null;
+
+            /**
+             * PaymentDetailsMessage payeeName.
+             * @member {string|null|undefined} payeeName
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.payeeName = null;
+
+            /**
+             * PaymentDetailsMessage payerName.
+             * @member {string|null|undefined} payerName
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.payerName = null;
+
+            /**
+             * PaymentDetailsMessage transactionTimestampMs.
+             * @member {number|Long|null|undefined} transactionTimestampMs
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.transactionTimestampMs = null;
+
+            /**
+             * PaymentDetailsMessage transactionId.
+             * @member {string|null|undefined} transactionId
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.transactionId = null;
+
+            /**
+             * PaymentDetailsMessage status.
+             * @member {E2E.Message.PaymentDetailsMessage.Status|null|undefined} status
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.status = null;
+
+            /**
+             * PaymentDetailsMessage contextInfo.
+             * @member {E2E.IContextInfo|null|undefined} contextInfo
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.contextInfo = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_serviceType", {
+                get: $util.oneOfGetter($oneOfFields = ["serviceType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_amount", {
+                get: $util.oneOfGetter($oneOfFields = ["amount"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_payeeName", {
+                get: $util.oneOfGetter($oneOfFields = ["payeeName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_payerName", {
+                get: $util.oneOfGetter($oneOfFields = ["payerName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_transactionTimestampMs", {
+                get: $util.oneOfGetter($oneOfFields = ["transactionTimestampMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_transactionId", {
+                get: $util.oneOfGetter($oneOfFields = ["transactionId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_status", {
+                get: $util.oneOfGetter($oneOfFields = ["status"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_contextInfo", {
+                get: $util.oneOfGetter($oneOfFields = ["contextInfo"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new PaymentDetailsMessage instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.IPaymentDetailsMessage=} [properties] Properties to set
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage instance
+             */
+            PaymentDetailsMessage.create = function create(properties) {
+                return new PaymentDetailsMessage(properties);
+            };
+
+            /**
+             * Encodes the specified PaymentDetailsMessage message. Does not implicitly {@link E2E.Message.PaymentDetailsMessage.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.IPaymentDetailsMessage} message PaymentDetailsMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PaymentDetailsMessage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.serviceType != null && Object.hasOwnProperty.call(message, "serviceType"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.serviceType);
+                if (message.amount != null && Object.hasOwnProperty.call(message, "amount"))
+                    $root.E2E.Money.encode(message.amount, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.payeeName != null && Object.hasOwnProperty.call(message, "payeeName"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.payeeName);
+                if (message.payerName != null && Object.hasOwnProperty.call(message, "payerName"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.payerName);
+                if (message.transactionTimestampMs != null && Object.hasOwnProperty.call(message, "transactionTimestampMs"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).int64(message.transactionTimestampMs);
+                if (message.transactionId != null && Object.hasOwnProperty.call(message, "transactionId"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.transactionId);
+                if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).int32(message.status);
+                if (message.contextInfo != null && Object.hasOwnProperty.call(message, "contextInfo"))
+                    $root.E2E.ContextInfo.encode(message.contextInfo, writer.uint32(/* id 17, wireType 2 =*/138).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified PaymentDetailsMessage message, length delimited. Does not implicitly {@link E2E.Message.PaymentDetailsMessage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.IPaymentDetailsMessage} message PaymentDetailsMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PaymentDetailsMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a PaymentDetailsMessage message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PaymentDetailsMessage.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.PaymentDetailsMessage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.serviceType = reader.int32();
+                            break;
+                        }
+                    case 2: {
+                            message.amount = $root.E2E.Money.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 3: {
+                            message.payeeName = reader.string();
+                            break;
+                        }
+                    case 4: {
+                            message.payerName = reader.string();
+                            break;
+                        }
+                    case 5: {
+                            message.transactionTimestampMs = reader.int64();
+                            break;
+                        }
+                    case 6: {
+                            message.transactionId = reader.string();
+                            break;
+                        }
+                    case 7: {
+                            message.status = reader.int32();
+                            break;
+                        }
+                    case 17: {
+                            message.contextInfo = $root.E2E.ContextInfo.decode(reader, reader.uint32());
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a PaymentDetailsMessage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PaymentDetailsMessage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a PaymentDetailsMessage message.
+             * @function verify
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            PaymentDetailsMessage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.serviceType != null && message.hasOwnProperty("serviceType")) {
+                    properties._serviceType = 1;
+                    switch (message.serviceType) {
+                    default:
+                        return "serviceType: enum value expected";
+                    case 0:
+                    case 1:
+                        break;
+                    }
+                }
+                if (message.amount != null && message.hasOwnProperty("amount")) {
+                    properties._amount = 1;
+                    {
+                        var error = $root.E2E.Money.verify(message.amount);
+                        if (error)
+                            return "amount." + error;
+                    }
+                }
+                if (message.payeeName != null && message.hasOwnProperty("payeeName")) {
+                    properties._payeeName = 1;
+                    if (!$util.isString(message.payeeName))
+                        return "payeeName: string expected";
+                }
+                if (message.payerName != null && message.hasOwnProperty("payerName")) {
+                    properties._payerName = 1;
+                    if (!$util.isString(message.payerName))
+                        return "payerName: string expected";
+                }
+                if (message.transactionTimestampMs != null && message.hasOwnProperty("transactionTimestampMs")) {
+                    properties._transactionTimestampMs = 1;
+                    if (!$util.isInteger(message.transactionTimestampMs) && !(message.transactionTimestampMs && $util.isInteger(message.transactionTimestampMs.low) && $util.isInteger(message.transactionTimestampMs.high)))
+                        return "transactionTimestampMs: integer|Long expected";
+                }
+                if (message.transactionId != null && message.hasOwnProperty("transactionId")) {
+                    properties._transactionId = 1;
+                    if (!$util.isString(message.transactionId))
+                        return "transactionId: string expected";
+                }
+                if (message.status != null && message.hasOwnProperty("status")) {
+                    properties._status = 1;
+                    switch (message.status) {
+                    default:
+                        return "status: enum value expected";
+                    case 0:
+                    case 1:
+                        break;
+                    }
+                }
+                if (message.contextInfo != null && message.hasOwnProperty("contextInfo")) {
+                    properties._contextInfo = 1;
+                    {
+                        var error = $root.E2E.ContextInfo.verify(message.contextInfo);
+                        if (error)
+                            return "contextInfo." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a PaymentDetailsMessage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage
+             */
+            PaymentDetailsMessage.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.PaymentDetailsMessage)
+                    return object;
+                var message = new $root.E2E.Message.PaymentDetailsMessage();
+                switch (object.serviceType) {
+                default:
+                    if (typeof object.serviceType === "number") {
+                        message.serviceType = object.serviceType;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.serviceType = 0;
+                    break;
+                case "UPI":
+                case 1:
+                    message.serviceType = 1;
+                    break;
+                }
+                if (object.amount != null) {
+                    if (typeof object.amount !== "object")
+                        throw TypeError(".E2E.Message.PaymentDetailsMessage.amount: object expected");
+                    message.amount = $root.E2E.Money.fromObject(object.amount);
+                }
+                if (object.payeeName != null)
+                    message.payeeName = String(object.payeeName);
+                if (object.payerName != null)
+                    message.payerName = String(object.payerName);
+                if (object.transactionTimestampMs != null)
+                    if ($util.Long)
+                        (message.transactionTimestampMs = $util.Long.fromValue(object.transactionTimestampMs)).unsigned = false;
+                    else if (typeof object.transactionTimestampMs === "string")
+                        message.transactionTimestampMs = parseInt(object.transactionTimestampMs, 10);
+                    else if (typeof object.transactionTimestampMs === "number")
+                        message.transactionTimestampMs = object.transactionTimestampMs;
+                    else if (typeof object.transactionTimestampMs === "object")
+                        message.transactionTimestampMs = new $util.LongBits(object.transactionTimestampMs.low >>> 0, object.transactionTimestampMs.high >>> 0).toNumber();
+                if (object.transactionId != null)
+                    message.transactionId = String(object.transactionId);
+                switch (object.status) {
+                default:
+                    if (typeof object.status === "number") {
+                        message.status = object.status;
+                        break;
+                    }
+                    break;
+                case "STATUS_UNKNOWN":
+                case 0:
+                    message.status = 0;
+                    break;
+                case "SUCCESS":
+                case 1:
+                    message.status = 1;
+                    break;
+                }
+                if (object.contextInfo != null) {
+                    if (typeof object.contextInfo !== "object")
+                        throw TypeError(".E2E.Message.PaymentDetailsMessage.contextInfo: object expected");
+                    message.contextInfo = $root.E2E.ContextInfo.fromObject(object.contextInfo);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a PaymentDetailsMessage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.PaymentDetailsMessage} message PaymentDetailsMessage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            PaymentDetailsMessage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.serviceType != null && message.hasOwnProperty("serviceType")) {
+                    object.serviceType = options.enums === String ? $root.E2E.Message.PaymentDetailsMessage.ServiceType[message.serviceType] === undefined ? message.serviceType : $root.E2E.Message.PaymentDetailsMessage.ServiceType[message.serviceType] : message.serviceType;
+                    if (options.oneofs)
+                        object._serviceType = "serviceType";
+                }
+                if (message.amount != null && message.hasOwnProperty("amount")) {
+                    object.amount = $root.E2E.Money.toObject(message.amount, options);
+                    if (options.oneofs)
+                        object._amount = "amount";
+                }
+                if (message.payeeName != null && message.hasOwnProperty("payeeName")) {
+                    object.payeeName = message.payeeName;
+                    if (options.oneofs)
+                        object._payeeName = "payeeName";
+                }
+                if (message.payerName != null && message.hasOwnProperty("payerName")) {
+                    object.payerName = message.payerName;
+                    if (options.oneofs)
+                        object._payerName = "payerName";
+                }
+                if (message.transactionTimestampMs != null && message.hasOwnProperty("transactionTimestampMs")) {
+                    if (typeof message.transactionTimestampMs === "number")
+                        object.transactionTimestampMs = options.longs === String ? String(message.transactionTimestampMs) : message.transactionTimestampMs;
+                    else
+                        object.transactionTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.transactionTimestampMs) : options.longs === Number ? new $util.LongBits(message.transactionTimestampMs.low >>> 0, message.transactionTimestampMs.high >>> 0).toNumber() : message.transactionTimestampMs;
+                    if (options.oneofs)
+                        object._transactionTimestampMs = "transactionTimestampMs";
+                }
+                if (message.transactionId != null && message.hasOwnProperty("transactionId")) {
+                    object.transactionId = message.transactionId;
+                    if (options.oneofs)
+                        object._transactionId = "transactionId";
+                }
+                if (message.status != null && message.hasOwnProperty("status")) {
+                    object.status = options.enums === String ? $root.E2E.Message.PaymentDetailsMessage.Status[message.status] === undefined ? message.status : $root.E2E.Message.PaymentDetailsMessage.Status[message.status] : message.status;
+                    if (options.oneofs)
+                        object._status = "status";
+                }
+                if (message.contextInfo != null && message.hasOwnProperty("contextInfo")) {
+                    object.contextInfo = $root.E2E.ContextInfo.toObject(message.contextInfo, options);
+                    if (options.oneofs)
+                        object._contextInfo = "contextInfo";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this PaymentDetailsMessage to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            PaymentDetailsMessage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for PaymentDetailsMessage
+             * @function getTypeUrl
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            PaymentDetailsMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.PaymentDetailsMessage";
+            };
+
+            /**
+             * ServiceType enum.
+             * @name E2E.Message.PaymentDetailsMessage.ServiceType
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} UPI=1 UPI value
+             */
+            PaymentDetailsMessage.ServiceType = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "UPI"] = 1;
+                return values;
+            })();
+
+            /**
+             * Status enum.
+             * @name E2E.Message.PaymentDetailsMessage.Status
+             * @enum {number}
+             * @property {number} STATUS_UNKNOWN=0 STATUS_UNKNOWN value
+             * @property {number} SUCCESS=1 SUCCESS value
+             */
+            PaymentDetailsMessage.Status = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "STATUS_UNKNOWN"] = 0;
+                values[valuesById[1] = "SUCCESS"] = 1;
+                return values;
+            })();
+
+            return PaymentDetailsMessage;
         })();
 
         Message.PaymentExtendedMetadata = (function() {
@@ -87637,6 +89134,9 @@ $root.E2E = (function() {
              * @property {E2E.Message.ISharedDeviceContactHashKeyShare|null} [sharedDeviceContactHashKeyShare] ProtocolMessage sharedDeviceContactHashKeyShare
              * @property {E2E.Message.ISharedDeviceContactHashKeyRequest|null} [sharedDeviceContactHashKeyRequest] ProtocolMessage sharedDeviceContactHashKeyRequest
              * @property {Array.<string>|null} [additionalPromptIds] ProtocolMessage additionalPromptIds
+             * @property {E2E.IGroupRootKeyRequest|null} [groupRootKeyRequest] ProtocolMessage groupRootKeyRequest
+             * @property {E2E.IMembershipFormKeyFingerprintVerification|null} [membershipFormKeyFingerprintVerification] ProtocolMessage membershipFormKeyFingerprintVerification
+             * @property {E2E.IGroupRootKeyShare|null} [groupRootKeyShare] ProtocolMessage groupRootKeyShare
              */
 
             /**
@@ -87927,6 +89427,30 @@ $root.E2E = (function() {
              */
             ProtocolMessage.prototype.additionalPromptIds = $util.emptyArray;
 
+            /**
+             * ProtocolMessage groupRootKeyRequest.
+             * @member {E2E.IGroupRootKeyRequest|null|undefined} groupRootKeyRequest
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.groupRootKeyRequest = null;
+
+            /**
+             * ProtocolMessage membershipFormKeyFingerprintVerification.
+             * @member {E2E.IMembershipFormKeyFingerprintVerification|null|undefined} membershipFormKeyFingerprintVerification
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.membershipFormKeyFingerprintVerification = null;
+
+            /**
+             * ProtocolMessage groupRootKeyShare.
+             * @member {E2E.IGroupRootKeyShare|null|undefined} groupRootKeyShare
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.groupRootKeyShare = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -88128,6 +89652,24 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_groupRootKeyRequest", {
+                get: $util.oneOfGetter($oneOfFields = ["groupRootKeyRequest"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_membershipFormKeyFingerprintVerification", {
+                get: $util.oneOfGetter($oneOfFields = ["membershipFormKeyFingerprintVerification"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_groupRootKeyShare", {
+                get: $util.oneOfGetter($oneOfFields = ["groupRootKeyShare"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new ProtocolMessage instance using the specified properties.
              * @function create
@@ -88221,6 +89763,12 @@ $root.E2E = (function() {
                 if (message.additionalPromptIds != null && message.additionalPromptIds.length)
                     for (var i = 0; i < message.additionalPromptIds.length; ++i)
                         writer.uint32(/* id 38, wireType 2 =*/306).string(message.additionalPromptIds[i]);
+                if (message.groupRootKeyRequest != null && Object.hasOwnProperty.call(message, "groupRootKeyRequest"))
+                    $root.E2E.GroupRootKeyRequest.encode(message.groupRootKeyRequest, writer.uint32(/* id 39, wireType 2 =*/314).fork()).ldelim();
+                if (message.membershipFormKeyFingerprintVerification != null && Object.hasOwnProperty.call(message, "membershipFormKeyFingerprintVerification"))
+                    $root.E2E.MembershipFormKeyFingerprintVerification.encode(message.membershipFormKeyFingerprintVerification, writer.uint32(/* id 40, wireType 2 =*/322).fork()).ldelim();
+                if (message.groupRootKeyShare != null && Object.hasOwnProperty.call(message, "groupRootKeyShare"))
+                    $root.E2E.GroupRootKeyShare.encode(message.groupRootKeyShare, writer.uint32(/* id 41, wireType 2 =*/330).fork()).ldelim();
                 return writer;
             };
 
@@ -88395,6 +89943,18 @@ $root.E2E = (function() {
                             message.additionalPromptIds.push(reader.string());
                             break;
                         }
+                    case 39: {
+                            message.groupRootKeyRequest = $root.E2E.GroupRootKeyRequest.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 40: {
+                            message.membershipFormKeyFingerprintVerification = $root.E2E.MembershipFormKeyFingerprintVerification.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 41: {
+                            message.groupRootKeyShare = $root.E2E.GroupRootKeyShare.decode(reader, reader.uint32());
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -88479,6 +90039,9 @@ $root.E2E = (function() {
                     case 39:
                     case 40:
                     case 41:
+                    case 42:
+                    case 43:
+                    case 44:
                         break;
                     }
                 }
@@ -88719,6 +90282,30 @@ $root.E2E = (function() {
                         if (!$util.isString(message.additionalPromptIds[i]))
                             return "additionalPromptIds: string[] expected";
                 }
+                if (message.groupRootKeyRequest != null && message.hasOwnProperty("groupRootKeyRequest")) {
+                    properties._groupRootKeyRequest = 1;
+                    {
+                        var error = $root.E2E.GroupRootKeyRequest.verify(message.groupRootKeyRequest);
+                        if (error)
+                            return "groupRootKeyRequest." + error;
+                    }
+                }
+                if (message.membershipFormKeyFingerprintVerification != null && message.hasOwnProperty("membershipFormKeyFingerprintVerification")) {
+                    properties._membershipFormKeyFingerprintVerification = 1;
+                    {
+                        var error = $root.E2E.MembershipFormKeyFingerprintVerification.verify(message.membershipFormKeyFingerprintVerification);
+                        if (error)
+                            return "membershipFormKeyFingerprintVerification." + error;
+                    }
+                }
+                if (message.groupRootKeyShare != null && message.hasOwnProperty("groupRootKeyShare")) {
+                    properties._groupRootKeyShare = 1;
+                    {
+                        var error = $root.E2E.GroupRootKeyShare.verify(message.groupRootKeyShare);
+                        if (error)
+                            return "groupRootKeyShare." + error;
+                    }
+                }
                 return null;
             };
 
@@ -88886,6 +90473,18 @@ $root.E2E = (function() {
                 case 41:
                     message.type = 41;
                     break;
+                case "GROUP_ROOT_KEY_REQUEST":
+                case 42:
+                    message.type = 42;
+                    break;
+                case "MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION":
+                case 43:
+                    message.type = 43;
+                    break;
+                case "GROUP_ROOT_KEY_SHARE":
+                case 44:
+                    message.type = 44;
+                    break;
                 }
                 if (object.ephemeralExpiration != null)
                     message.ephemeralExpiration = object.ephemeralExpiration >>> 0;
@@ -89047,6 +90646,21 @@ $root.E2E = (function() {
                     message.additionalPromptIds = [];
                     for (var i = 0; i < object.additionalPromptIds.length; ++i)
                         message.additionalPromptIds[i] = String(object.additionalPromptIds[i]);
+                }
+                if (object.groupRootKeyRequest != null) {
+                    if (typeof object.groupRootKeyRequest !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.groupRootKeyRequest: object expected");
+                    message.groupRootKeyRequest = $root.E2E.GroupRootKeyRequest.fromObject(object.groupRootKeyRequest);
+                }
+                if (object.membershipFormKeyFingerprintVerification != null) {
+                    if (typeof object.membershipFormKeyFingerprintVerification !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.membershipFormKeyFingerprintVerification: object expected");
+                    message.membershipFormKeyFingerprintVerification = $root.E2E.MembershipFormKeyFingerprintVerification.fromObject(object.membershipFormKeyFingerprintVerification);
+                }
+                if (object.groupRootKeyShare != null) {
+                    if (typeof object.groupRootKeyShare !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.groupRootKeyShare: object expected");
+                    message.groupRootKeyShare = $root.E2E.GroupRootKeyShare.fromObject(object.groupRootKeyShare);
                 }
                 return message;
             };
@@ -89242,6 +90856,21 @@ $root.E2E = (function() {
                     for (var j = 0; j < message.additionalPromptIds.length; ++j)
                         object.additionalPromptIds[j] = message.additionalPromptIds[j];
                 }
+                if (message.groupRootKeyRequest != null && message.hasOwnProperty("groupRootKeyRequest")) {
+                    object.groupRootKeyRequest = $root.E2E.GroupRootKeyRequest.toObject(message.groupRootKeyRequest, options);
+                    if (options.oneofs)
+                        object._groupRootKeyRequest = "groupRootKeyRequest";
+                }
+                if (message.membershipFormKeyFingerprintVerification != null && message.hasOwnProperty("membershipFormKeyFingerprintVerification")) {
+                    object.membershipFormKeyFingerprintVerification = $root.E2E.MembershipFormKeyFingerprintVerification.toObject(message.membershipFormKeyFingerprintVerification, options);
+                    if (options.oneofs)
+                        object._membershipFormKeyFingerprintVerification = "membershipFormKeyFingerprintVerification";
+                }
+                if (message.groupRootKeyShare != null && message.hasOwnProperty("groupRootKeyShare")) {
+                    object.groupRootKeyShare = $root.E2E.GroupRootKeyShare.toObject(message.groupRootKeyShare, options);
+                    if (options.oneofs)
+                        object._groupRootKeyShare = "groupRootKeyShare";
+                }
                 return object;
             };
 
@@ -89310,6 +90939,9 @@ $root.E2E = (function() {
              * @property {number} ACP2_SETTING=39 ACP2_SETTING value
              * @property {number} SHARED_DEVICE_CONTACT_HASH_KEY_SHARE=40 SHARED_DEVICE_CONTACT_HASH_KEY_SHARE value
              * @property {number} SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST=41 SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST value
+             * @property {number} GROUP_ROOT_KEY_REQUEST=42 GROUP_ROOT_KEY_REQUEST value
+             * @property {number} MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION=43 MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION value
+             * @property {number} GROUP_ROOT_KEY_SHARE=44 GROUP_ROOT_KEY_SHARE value
              */
             ProtocolMessage.Type = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -89348,6 +90980,9 @@ $root.E2E = (function() {
                 values[valuesById[39] = "ACP2_SETTING"] = 39;
                 values[valuesById[40] = "SHARED_DEVICE_CONTACT_HASH_KEY_SHARE"] = 40;
                 values[valuesById[41] = "SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST"] = 41;
+                values[valuesById[42] = "GROUP_ROOT_KEY_REQUEST"] = 42;
+                values[valuesById[43] = "MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION"] = 43;
+                values[valuesById[44] = "GROUP_ROOT_KEY_SHARE"] = 44;
                 return values;
             })();
 
@@ -103231,6 +104866,351 @@ $root.E2E = (function() {
             return VideoMessage;
         })();
 
+        Message.VpcRequestMessage = (function() {
+
+            /**
+             * Properties of a VpcRequestMessage.
+             * @memberof E2E.Message
+             * @interface IVpcRequestMessage
+             * @property {number|null} [payloadSchemaVersion] VpcRequestMessage payloadSchemaVersion
+             * @property {string|null} [requestId] VpcRequestMessage requestId
+             * @property {E2E.Message.VpcRequestMessage.ScopeHint|null} [scopeHint] VpcRequestMessage scopeHint
+             */
+
+            /**
+             * Constructs a new VpcRequestMessage.
+             * @memberof E2E.Message
+             * @classdesc Represents a VpcRequestMessage.
+             * @implements IVpcRequestMessage
+             * @constructor
+             * @param {E2E.Message.IVpcRequestMessage=} [properties] Properties to set
+             */
+            function VpcRequestMessage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * VpcRequestMessage payloadSchemaVersion.
+             * @member {number|null|undefined} payloadSchemaVersion
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             */
+            VpcRequestMessage.prototype.payloadSchemaVersion = null;
+
+            /**
+             * VpcRequestMessage requestId.
+             * @member {string|null|undefined} requestId
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             */
+            VpcRequestMessage.prototype.requestId = null;
+
+            /**
+             * VpcRequestMessage scopeHint.
+             * @member {E2E.Message.VpcRequestMessage.ScopeHint|null|undefined} scopeHint
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             */
+            VpcRequestMessage.prototype.scopeHint = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(VpcRequestMessage.prototype, "_payloadSchemaVersion", {
+                get: $util.oneOfGetter($oneOfFields = ["payloadSchemaVersion"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(VpcRequestMessage.prototype, "_requestId", {
+                get: $util.oneOfGetter($oneOfFields = ["requestId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(VpcRequestMessage.prototype, "_scopeHint", {
+                get: $util.oneOfGetter($oneOfFields = ["scopeHint"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new VpcRequestMessage instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.IVpcRequestMessage=} [properties] Properties to set
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage instance
+             */
+            VpcRequestMessage.create = function create(properties) {
+                return new VpcRequestMessage(properties);
+            };
+
+            /**
+             * Encodes the specified VpcRequestMessage message. Does not implicitly {@link E2E.Message.VpcRequestMessage.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.IVpcRequestMessage} message VpcRequestMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            VpcRequestMessage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.payloadSchemaVersion != null && Object.hasOwnProperty.call(message, "payloadSchemaVersion"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.payloadSchemaVersion);
+                if (message.requestId != null && Object.hasOwnProperty.call(message, "requestId"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.requestId);
+                if (message.scopeHint != null && Object.hasOwnProperty.call(message, "scopeHint"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.scopeHint);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified VpcRequestMessage message, length delimited. Does not implicitly {@link E2E.Message.VpcRequestMessage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.IVpcRequestMessage} message VpcRequestMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            VpcRequestMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a VpcRequestMessage message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            VpcRequestMessage.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.VpcRequestMessage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.payloadSchemaVersion = reader.uint32();
+                            break;
+                        }
+                    case 2: {
+                            message.requestId = reader.string();
+                            break;
+                        }
+                    case 3: {
+                            message.scopeHint = reader.int32();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a VpcRequestMessage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            VpcRequestMessage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a VpcRequestMessage message.
+             * @function verify
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            VpcRequestMessage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.payloadSchemaVersion != null && message.hasOwnProperty("payloadSchemaVersion")) {
+                    properties._payloadSchemaVersion = 1;
+                    if (!$util.isInteger(message.payloadSchemaVersion))
+                        return "payloadSchemaVersion: integer expected";
+                }
+                if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                    properties._requestId = 1;
+                    if (!$util.isString(message.requestId))
+                        return "requestId: string expected";
+                }
+                if (message.scopeHint != null && message.hasOwnProperty("scopeHint")) {
+                    properties._scopeHint = 1;
+                    switch (message.scopeHint) {
+                    default:
+                        return "scopeHint: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        break;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a VpcRequestMessage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage
+             */
+            VpcRequestMessage.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.VpcRequestMessage)
+                    return object;
+                var message = new $root.E2E.Message.VpcRequestMessage();
+                if (object.payloadSchemaVersion != null)
+                    message.payloadSchemaVersion = object.payloadSchemaVersion >>> 0;
+                if (object.requestId != null)
+                    message.requestId = String(object.requestId);
+                switch (object.scopeHint) {
+                default:
+                    if (typeof object.scopeHint === "number") {
+                        message.scopeHint = object.scopeHint;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.scopeHint = 0;
+                    break;
+                case "WA_ONLY":
+                case 1:
+                    message.scopeHint = 1;
+                    break;
+                case "WAFFLE":
+                case 2:
+                    message.scopeHint = 2;
+                    break;
+                case "WA_META_AI":
+                case 3:
+                    message.scopeHint = 3;
+                    break;
+                case "META_AI_ONLY":
+                case 4:
+                    message.scopeHint = 4;
+                    break;
+                case "FOA_ONLY":
+                case 5:
+                    message.scopeHint = 5;
+                    break;
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a VpcRequestMessage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.VpcRequestMessage} message VpcRequestMessage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            VpcRequestMessage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.payloadSchemaVersion != null && message.hasOwnProperty("payloadSchemaVersion")) {
+                    object.payloadSchemaVersion = message.payloadSchemaVersion;
+                    if (options.oneofs)
+                        object._payloadSchemaVersion = "payloadSchemaVersion";
+                }
+                if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                    object.requestId = message.requestId;
+                    if (options.oneofs)
+                        object._requestId = "requestId";
+                }
+                if (message.scopeHint != null && message.hasOwnProperty("scopeHint")) {
+                    object.scopeHint = options.enums === String ? $root.E2E.Message.VpcRequestMessage.ScopeHint[message.scopeHint] === undefined ? message.scopeHint : $root.E2E.Message.VpcRequestMessage.ScopeHint[message.scopeHint] : message.scopeHint;
+                    if (options.oneofs)
+                        object._scopeHint = "scopeHint";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this VpcRequestMessage to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            VpcRequestMessage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for VpcRequestMessage
+             * @function getTypeUrl
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            VpcRequestMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.VpcRequestMessage";
+            };
+
+            /**
+             * ScopeHint enum.
+             * @name E2E.Message.VpcRequestMessage.ScopeHint
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} WA_ONLY=1 WA_ONLY value
+             * @property {number} WAFFLE=2 WAFFLE value
+             * @property {number} WA_META_AI=3 WA_META_AI value
+             * @property {number} META_AI_ONLY=4 META_AI_ONLY value
+             * @property {number} FOA_ONLY=5 FOA_ONLY value
+             */
+            VpcRequestMessage.ScopeHint = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "WA_ONLY"] = 1;
+                values[valuesById[2] = "WAFFLE"] = 2;
+                values[valuesById[3] = "WA_META_AI"] = 3;
+                values[valuesById[4] = "META_AI_ONLY"] = 4;
+                values[valuesById[5] = "FOA_ONLY"] = 5;
+                return values;
+            })();
+
+            return VpcRequestMessage;
+        })();
+
         return Message;
     })();
 
@@ -113894,6 +115874,7 @@ $root.AICommon = (function() {
                 case 57:
                 case 58:
                 case 59:
+                case 60:
                     break;
                 }
             }
@@ -114127,6 +116108,10 @@ $root.AICommon = (function() {
             case "SHARE":
             case 59:
                 message.botEntryPointOrigin = 59;
+                break;
+            case "BIRTHDAY_BANNER":
+            case 60:
+                message.botEntryPointOrigin = 60;
                 break;
             }
             if (object.forwardScore != null)
@@ -128853,6 +130838,11 @@ $root.AICommon = (function() {
                     case 82:
                     case 83:
                     case 84:
+                    case 85:
+                    case 86:
+                    case 87:
+                    case 88:
+                    case 89:
                         break;
                     }
             }
@@ -129222,6 +131212,26 @@ $root.AICommon = (function() {
                     case 84:
                         message.capabilities[i] = 84;
                         break;
+                    case "AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED":
+                    case 85:
+                        message.capabilities[i] = 85;
+                        break;
+                    case "AI_INTERJECTIONS_ENABLED":
+                    case 86:
+                        message.capabilities[i] = 86;
+                        break;
+                    case "AI_RICH_RESPONSE_READ_ALOUD_ENABLED":
+                    case 87:
+                        message.capabilities[i] = 87;
+                        break;
+                    case "AI_RICH_RESPONSE_ITEM_LISTS_ENABLED":
+                    case 88:
+                        message.capabilities[i] = 88;
+                        break;
+                    case "RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH":
+                    case 89:
+                        message.capabilities[i] = 89;
+                        break;
                     }
             }
             return message;
@@ -129365,6 +131375,11 @@ $root.AICommon = (function() {
          * @property {number} AI_STUDY_QUIZ_ENABLED=82 AI_STUDY_QUIZ_ENABLED value
          * @property {number} HATCH_CVM_ENABLED=83 HATCH_CVM_ENABLED value
          * @property {number} RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED=84 RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED value
+         * @property {number} AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED=85 AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED value
+         * @property {number} AI_INTERJECTIONS_ENABLED=86 AI_INTERJECTIONS_ENABLED value
+         * @property {number} AI_RICH_RESPONSE_READ_ALOUD_ENABLED=87 AI_RICH_RESPONSE_READ_ALOUD_ENABLED value
+         * @property {number} AI_RICH_RESPONSE_ITEM_LISTS_ENABLED=88 AI_RICH_RESPONSE_ITEM_LISTS_ENABLED value
+         * @property {number} RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH=89 RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -129453,6 +131468,11 @@ $root.AICommon = (function() {
             values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
             values[valuesById[83] = "HATCH_CVM_ENABLED"] = 83;
             values[valuesById[84] = "RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED"] = 84;
+            values[valuesById[85] = "AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED"] = 85;
+            values[valuesById[86] = "AI_INTERJECTIONS_ENABLED"] = 86;
+            values[valuesById[87] = "AI_RICH_RESPONSE_READ_ALOUD_ENABLED"] = 87;
+            values[valuesById[88] = "AI_RICH_RESPONSE_ITEM_LISTS_ENABLED"] = 88;
+            values[valuesById[89] = "RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH"] = 89;
             return values;
         })();
 
@@ -133312,6 +135332,7 @@ $root.AICommon = (function() {
                 case 57:
                 case 58:
                 case 59:
+                case 60:
                     break;
                 }
             }
@@ -133555,6 +135576,10 @@ $root.AICommon = (function() {
             case "SHARE":
             case 59:
                 message.destinationEntryPoint = 59;
+                break;
+            case "BIRTHDAY_BANNER":
+            case 60:
+                message.destinationEntryPoint = 60;
                 break;
             }
             switch (object.threadOrigin) {
@@ -138142,6 +140167,7 @@ $root.AICommon = (function() {
      * @property {number} CONTACTS_TAB=57 CONTACTS_TAB value
      * @property {number} NEW_3P_AGENT_CREATION=58 NEW_3P_AGENT_CREATION value
      * @property {number} SHARE=59 SHARE value
+     * @property {number} BIRTHDAY_BANNER=60 BIRTHDAY_BANNER value
      */
     AICommon.BotMetricsEntryPoint = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -138196,6 +140222,7 @@ $root.AICommon = (function() {
         values[valuesById[57] = "CONTACTS_TAB"] = 57;
         values[valuesById[58] = "NEW_3P_AGENT_CREATION"] = 58;
         values[valuesById[59] = "SHARE"] = 59;
+        values[valuesById[60] = "BIRTHDAY_BANNER"] = 60;
         return values;
     })();
 
@@ -140266,6 +142293,7 @@ $root.StatusAttributions = (function() {
          * @property {StatusAttributions.StatusAttribution.IGroupStatus|null} [groupStatus] StatusAttribution groupStatus
          * @property {StatusAttributions.StatusAttribution.IRLAttribution|null} [rlAttribution] StatusAttribution rlAttribution
          * @property {StatusAttributions.StatusAttribution.IAiCreatedAttribution|null} [aiCreatedAttribution] StatusAttribution aiCreatedAttribution
+         * @property {StatusAttributions.StatusAttribution.IStatusTemplate|null} [statusTemplate] StatusAttribution statusTemplate
          */
 
         /**
@@ -140347,6 +142375,14 @@ $root.StatusAttributions = (function() {
          */
         StatusAttribution.prototype.aiCreatedAttribution = null;
 
+        /**
+         * StatusAttribution statusTemplate.
+         * @member {StatusAttributions.StatusAttribution.IStatusTemplate|null|undefined} statusTemplate
+         * @memberof StatusAttributions.StatusAttribution
+         * @instance
+         */
+        StatusAttribution.prototype.statusTemplate = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -140364,12 +142400,12 @@ $root.StatusAttributions = (function() {
 
         /**
          * StatusAttribution attributionData.
-         * @member {"statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|undefined} attributionData
+         * @member {"statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|"statusTemplate"|undefined} attributionData
          * @memberof StatusAttributions.StatusAttribution
          * @instance
          */
         Object.defineProperty(StatusAttribution.prototype, "attributionData", {
-            get: $util.oneOfGetter($oneOfFields = ["statusReshare", "externalShare", "music", "groupStatus", "rlAttribution", "aiCreatedAttribution"]),
+            get: $util.oneOfGetter($oneOfFields = ["statusReshare", "externalShare", "music", "groupStatus", "rlAttribution", "aiCreatedAttribution", "statusTemplate"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -140413,6 +142449,8 @@ $root.StatusAttributions = (function() {
                 $root.StatusAttributions.StatusAttribution.RLAttribution.encode(message.rlAttribution, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
             if (message.aiCreatedAttribution != null && Object.hasOwnProperty.call(message, "aiCreatedAttribution"))
                 $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.encode(message.aiCreatedAttribution, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+            if (message.statusTemplate != null && Object.hasOwnProperty.call(message, "statusTemplate"))
+                $root.StatusAttributions.StatusAttribution.StatusTemplate.encode(message.statusTemplate, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
             return writer;
         };
 
@@ -140481,6 +142519,10 @@ $root.StatusAttributions = (function() {
                         message.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.decode(reader, reader.uint32());
                         break;
                     }
+                case 9: {
+                        message.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.decode(reader, reader.uint32());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -140535,6 +142577,7 @@ $root.StatusAttributions = (function() {
                 case 10:
                 case 11:
                 case 12:
+                case 13:
                     break;
                 }
             }
@@ -140599,6 +142642,16 @@ $root.StatusAttributions = (function() {
                     var error = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.verify(message.aiCreatedAttribution);
                     if (error)
                         return "aiCreatedAttribution." + error;
+                }
+            }
+            if (message.statusTemplate != null && message.hasOwnProperty("statusTemplate")) {
+                if (properties.attributionData === 1)
+                    return "attributionData: multiple values";
+                properties.attributionData = 1;
+                {
+                    var error = $root.StatusAttributions.StatusAttribution.StatusTemplate.verify(message.statusTemplate);
+                    if (error)
+                        return "statusTemplate." + error;
                 }
             }
             return null;
@@ -140675,6 +142728,10 @@ $root.StatusAttributions = (function() {
             case 12:
                 message.type = 12;
                 break;
+            case "STATUS_TEMPLATES":
+            case 13:
+                message.type = 13;
+                break;
             }
             if (object.actionUrl != null)
                 message.actionUrl = String(object.actionUrl);
@@ -140707,6 +142764,11 @@ $root.StatusAttributions = (function() {
                 if (typeof object.aiCreatedAttribution !== "object")
                     throw TypeError(".StatusAttributions.StatusAttribution.aiCreatedAttribution: object expected");
                 message.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.fromObject(object.aiCreatedAttribution);
+            }
+            if (object.statusTemplate != null) {
+                if (typeof object.statusTemplate !== "object")
+                    throw TypeError(".StatusAttributions.StatusAttribution.statusTemplate: object expected");
+                message.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.fromObject(object.statusTemplate);
             }
             return message;
         };
@@ -140763,6 +142825,11 @@ $root.StatusAttributions = (function() {
                 object.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.toObject(message.aiCreatedAttribution, options);
                 if (options.oneofs)
                     object.attributionData = "aiCreatedAttribution";
+            }
+            if (message.statusTemplate != null && message.hasOwnProperty("statusTemplate")) {
+                object.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.toObject(message.statusTemplate, options);
+                if (options.oneofs)
+                    object.attributionData = "statusTemplate";
             }
             return object;
         };
@@ -142972,6 +145039,290 @@ $root.StatusAttributions = (function() {
             return StatusReshare;
         })();
 
+        StatusAttribution.StatusTemplate = (function() {
+
+            /**
+             * Properties of a StatusTemplate.
+             * @memberof StatusAttributions.StatusAttribution
+             * @interface IStatusTemplate
+             * @property {string|null} [templateId] StatusTemplate templateId
+             * @property {string|null} [templateName] StatusTemplate templateName
+             * @property {string|null} [thumbnailUrl] StatusTemplate thumbnailUrl
+             */
+
+            /**
+             * Constructs a new StatusTemplate.
+             * @memberof StatusAttributions.StatusAttribution
+             * @classdesc Represents a StatusTemplate.
+             * @implements IStatusTemplate
+             * @constructor
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate=} [properties] Properties to set
+             */
+            function StatusTemplate(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * StatusTemplate templateId.
+             * @member {string|null|undefined} templateId
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.templateId = null;
+
+            /**
+             * StatusTemplate templateName.
+             * @member {string|null|undefined} templateName
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.templateName = null;
+
+            /**
+             * StatusTemplate thumbnailUrl.
+             * @member {string|null|undefined} thumbnailUrl
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.thumbnailUrl = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_templateId", {
+                get: $util.oneOfGetter($oneOfFields = ["templateId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_templateName", {
+                get: $util.oneOfGetter($oneOfFields = ["templateName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_thumbnailUrl", {
+                get: $util.oneOfGetter($oneOfFields = ["thumbnailUrl"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new StatusTemplate instance using the specified properties.
+             * @function create
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate=} [properties] Properties to set
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate instance
+             */
+            StatusTemplate.create = function create(properties) {
+                return new StatusTemplate(properties);
+            };
+
+            /**
+             * Encodes the specified StatusTemplate message. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @function encode
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate} message StatusTemplate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusTemplate.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.templateId != null && Object.hasOwnProperty.call(message, "templateId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.templateId);
+                if (message.templateName != null && Object.hasOwnProperty.call(message, "templateName"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.templateName);
+                if (message.thumbnailUrl != null && Object.hasOwnProperty.call(message, "thumbnailUrl"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.thumbnailUrl);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified StatusTemplate message, length delimited. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate} message StatusTemplate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusTemplate.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer.
+             * @function decode
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusTemplate.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.StatusAttributions.StatusAttribution.StatusTemplate();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.templateId = reader.string();
+                            break;
+                        }
+                    case 2: {
+                            message.templateName = reader.string();
+                            break;
+                        }
+                    case 3: {
+                            message.thumbnailUrl = reader.string();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusTemplate.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a StatusTemplate message.
+             * @function verify
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            StatusTemplate.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.templateId != null && message.hasOwnProperty("templateId")) {
+                    properties._templateId = 1;
+                    if (!$util.isString(message.templateId))
+                        return "templateId: string expected";
+                }
+                if (message.templateName != null && message.hasOwnProperty("templateName")) {
+                    properties._templateName = 1;
+                    if (!$util.isString(message.templateName))
+                        return "templateName: string expected";
+                }
+                if (message.thumbnailUrl != null && message.hasOwnProperty("thumbnailUrl")) {
+                    properties._thumbnailUrl = 1;
+                    if (!$util.isString(message.thumbnailUrl))
+                        return "thumbnailUrl: string expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a StatusTemplate message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             */
+            StatusTemplate.fromObject = function fromObject(object) {
+                if (object instanceof $root.StatusAttributions.StatusAttribution.StatusTemplate)
+                    return object;
+                var message = new $root.StatusAttributions.StatusAttribution.StatusTemplate();
+                if (object.templateId != null)
+                    message.templateId = String(object.templateId);
+                if (object.templateName != null)
+                    message.templateName = String(object.templateName);
+                if (object.thumbnailUrl != null)
+                    message.thumbnailUrl = String(object.thumbnailUrl);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a StatusTemplate message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.StatusTemplate} message StatusTemplate
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            StatusTemplate.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.templateId != null && message.hasOwnProperty("templateId")) {
+                    object.templateId = message.templateId;
+                    if (options.oneofs)
+                        object._templateId = "templateId";
+                }
+                if (message.templateName != null && message.hasOwnProperty("templateName")) {
+                    object.templateName = message.templateName;
+                    if (options.oneofs)
+                        object._templateName = "templateName";
+                }
+                if (message.thumbnailUrl != null && message.hasOwnProperty("thumbnailUrl")) {
+                    object.thumbnailUrl = message.thumbnailUrl;
+                    if (options.oneofs)
+                        object._thumbnailUrl = "thumbnailUrl";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this StatusTemplate to JSON.
+             * @function toJSON
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            StatusTemplate.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for StatusTemplate
+             * @function getTypeUrl
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            StatusTemplate.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/StatusAttributions.StatusAttribution.StatusTemplate";
+            };
+
+            return StatusTemplate;
+        })();
+
         /**
          * Type enum.
          * @name StatusAttributions.StatusAttribution.Type
@@ -142989,6 +145340,7 @@ $root.StatusAttributions = (function() {
          * @property {number} STATUS_CLOSE_SHARING=10 STATUS_CLOSE_SHARING value
          * @property {number} PAID_PARTNERSHIP=11 PAID_PARTNERSHIP value
          * @property {number} USERNAME_STATUS=12 USERNAME_STATUS value
+         * @property {number} STATUS_TEMPLATES=13 STATUS_TEMPLATES value
          */
         StatusAttribution.Type = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -143005,6 +145357,7 @@ $root.StatusAttributions = (function() {
             values[valuesById[10] = "STATUS_CLOSE_SHARING"] = 10;
             values[valuesById[11] = "PAID_PARTNERSHIP"] = 11;
             values[valuesById[12] = "USERNAME_STATUS"] = 12;
+            values[valuesById[13] = "STATUS_TEMPLATES"] = 13;
             return values;
         })();
 
@@ -147138,6 +149491,7 @@ $root.CompanionReg = (function() {
          * @property {Uint8Array|null} [subscriptionSyncPayload] ClientPairingProps subscriptionSyncPayload
          * @property {boolean|null} [isBotJidDbMigrated] ClientPairingProps isBotJidDbMigrated
          * @property {Uint8Array|null} [companionAddPeerPayload] ClientPairingProps companionAddPeerPayload
+         * @property {boolean|null} [isCompanionRegistrationFgsEnabled] ClientPairingProps isCompanionRegistrationFgsEnabled
          */
 
         /**
@@ -147211,6 +149565,14 @@ $root.CompanionReg = (function() {
          */
         ClientPairingProps.prototype.companionAddPeerPayload = null;
 
+        /**
+         * ClientPairingProps isCompanionRegistrationFgsEnabled.
+         * @member {boolean|null|undefined} isCompanionRegistrationFgsEnabled
+         * @memberof CompanionReg.ClientPairingProps
+         * @instance
+         */
+        ClientPairingProps.prototype.isCompanionRegistrationFgsEnabled = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -147256,6 +149618,12 @@ $root.CompanionReg = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ClientPairingProps.prototype, "_isCompanionRegistrationFgsEnabled", {
+            get: $util.oneOfGetter($oneOfFields = ["isCompanionRegistrationFgsEnabled"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
          * @function create
@@ -147294,6 +149662,8 @@ $root.CompanionReg = (function() {
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.isBotJidDbMigrated);
             if (message.companionAddPeerPayload != null && Object.hasOwnProperty.call(message, "companionAddPeerPayload"))
                 writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.companionAddPeerPayload);
+            if (message.isCompanionRegistrationFgsEnabled != null && Object.hasOwnProperty.call(message, "isCompanionRegistrationFgsEnabled"))
+                writer.uint32(/* id 8, wireType 0 =*/64).bool(message.isCompanionRegistrationFgsEnabled);
             return writer;
         };
 
@@ -147356,6 +149726,10 @@ $root.CompanionReg = (function() {
                     }
                 case 7: {
                         message.companionAddPeerPayload = reader.bytes();
+                        break;
+                    }
+                case 8: {
+                        message.isCompanionRegistrationFgsEnabled = reader.bool();
                         break;
                     }
                 default:
@@ -147429,6 +149803,11 @@ $root.CompanionReg = (function() {
                 if (!(message.companionAddPeerPayload && typeof message.companionAddPeerPayload.length === "number" || $util.isString(message.companionAddPeerPayload)))
                     return "companionAddPeerPayload: buffer expected";
             }
+            if (message.isCompanionRegistrationFgsEnabled != null && message.hasOwnProperty("isCompanionRegistrationFgsEnabled")) {
+                properties._isCompanionRegistrationFgsEnabled = 1;
+                if (typeof message.isCompanionRegistrationFgsEnabled !== "boolean")
+                    return "isCompanionRegistrationFgsEnabled: boolean expected";
+            }
             return null;
         };
 
@@ -147464,6 +149843,8 @@ $root.CompanionReg = (function() {
                     $util.base64.decode(object.companionAddPeerPayload, message.companionAddPeerPayload = $util.newBuffer($util.base64.length(object.companionAddPeerPayload)), 0);
                 else if (object.companionAddPeerPayload.length >= 0)
                     message.companionAddPeerPayload = object.companionAddPeerPayload;
+            if (object.isCompanionRegistrationFgsEnabled != null)
+                message.isCompanionRegistrationFgsEnabled = Boolean(object.isCompanionRegistrationFgsEnabled);
             return message;
         };
 
@@ -147514,6 +149895,11 @@ $root.CompanionReg = (function() {
                 object.companionAddPeerPayload = options.bytes === String ? $util.base64.encode(message.companionAddPeerPayload, 0, message.companionAddPeerPayload.length) : options.bytes === Array ? Array.prototype.slice.call(message.companionAddPeerPayload) : message.companionAddPeerPayload;
                 if (options.oneofs)
                     object._companionAddPeerPayload = "companionAddPeerPayload";
+            }
+            if (message.isCompanionRegistrationFgsEnabled != null && message.hasOwnProperty("isCompanionRegistrationFgsEnabled")) {
+                object.isCompanionRegistrationFgsEnabled = message.isCompanionRegistrationFgsEnabled;
+                if (options.oneofs)
+                    object._isCompanionRegistrationFgsEnabled = "isCompanionRegistrationFgsEnabled";
             }
             return object;
         };
@@ -149297,6 +151683,7 @@ $root.CompanionReg = (function() {
          * @property {CompanionReg.DeviceProps.PlatformType|null} [platformType] DeviceProps platformType
          * @property {boolean|null} [requireFullSync] DeviceProps requireFullSync
          * @property {CompanionReg.DeviceProps.IHistorySyncConfig|null} [historySyncConfig] DeviceProps historySyncConfig
+         * @property {string|null} [deviceName] DeviceProps deviceName
          */
 
         /**
@@ -149354,6 +151741,14 @@ $root.CompanionReg = (function() {
          */
         DeviceProps.prototype.historySyncConfig = null;
 
+        /**
+         * DeviceProps deviceName.
+         * @member {string|null|undefined} deviceName
+         * @memberof CompanionReg.DeviceProps
+         * @instance
+         */
+        DeviceProps.prototype.deviceName = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -149384,6 +151779,12 @@ $root.CompanionReg = (function() {
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(DeviceProps.prototype, "_historySyncConfig", {
             get: $util.oneOfGetter($oneOfFields = ["historySyncConfig"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(DeviceProps.prototype, "_deviceName", {
+            get: $util.oneOfGetter($oneOfFields = ["deviceName"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -149421,6 +151822,8 @@ $root.CompanionReg = (function() {
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.requireFullSync);
             if (message.historySyncConfig != null && Object.hasOwnProperty.call(message, "historySyncConfig"))
                 $root.CompanionReg.DeviceProps.HistorySyncConfig.encode(message.historySyncConfig, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            if (message.deviceName != null && Object.hasOwnProperty.call(message, "deviceName"))
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.deviceName);
             return writer;
         };
 
@@ -149475,6 +151878,10 @@ $root.CompanionReg = (function() {
                     }
                 case 5: {
                         message.historySyncConfig = $root.CompanionReg.DeviceProps.HistorySyncConfig.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 6: {
+                        message.deviceName = reader.string();
                         break;
                     }
                 default:
@@ -149577,6 +151984,11 @@ $root.CompanionReg = (function() {
                     if (error)
                         return "historySyncConfig." + error;
                 }
+            }
+            if (message.deviceName != null && message.hasOwnProperty("deviceName")) {
+                properties._deviceName = 1;
+                if (!$util.isString(message.deviceName))
+                    return "deviceName: string expected";
             }
             return null;
         };
@@ -149739,6 +152151,8 @@ $root.CompanionReg = (function() {
                     throw TypeError(".CompanionReg.DeviceProps.historySyncConfig: object expected");
                 message.historySyncConfig = $root.CompanionReg.DeviceProps.HistorySyncConfig.fromObject(object.historySyncConfig);
             }
+            if (object.deviceName != null)
+                message.deviceName = String(object.deviceName);
             return message;
         };
 
@@ -149779,6 +152193,11 @@ $root.CompanionReg = (function() {
                 object.historySyncConfig = $root.CompanionReg.DeviceProps.HistorySyncConfig.toObject(message.historySyncConfig, options);
                 if (options.oneofs)
                     object._historySyncConfig = "historySyncConfig";
+            }
+            if (message.deviceName != null && message.hasOwnProperty("deviceName")) {
+                object.deviceName = message.deviceName;
+                if (options.oneofs)
+                    object._deviceName = "deviceName";
             }
             return object;
         };

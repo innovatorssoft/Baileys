@@ -9,6 +9,7 @@ message ClientPairingProps {
     optional bytes subscriptionSyncPayload = 5;
     optional bool isBotJidDbMigrated = 6;
     optional bytes companionAddPeerPayload = 7;
+    optional bool isCompanionRegistrationFgsEnabled = 8;
 }
 
 message EncryptedPairingRequest {
@@ -48,6 +49,7 @@ message DeviceProps {
     optional PlatformType platformType = 3;
     optional bool requireFullSync = 4;
     optional HistorySyncConfig historySyncConfig = 5;
+    optional string deviceName = 6;
     message AppVersion {
         optional uint32 primary = 1;
         optional uint32 secondary = 2;

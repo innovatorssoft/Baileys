@@ -108,6 +108,24 @@ message KeepInChat {
 
 message EventInviteAdditionalMetadata {
     optional bool isUpdated = 1;
+    optional AccessStatus selfAccessStatus = 2;
+    optional RsvpStatus selfRsvpStatus = 3;
+    optional uint32 selfAdditionalGuestCount = 4;
+    optional int64 selfInviteeLastUpdatedTsUsec = 5;
+    enum AccessStatus {
+        ACCESS_STATUS_UNKNOWN = 0;
+        HAS_ACCESS = 1;
+        LEFT_EVENT = 2;
+        REMOVED_FROM_INVITE_LIST = 3;
+        UNAVAILABLE = 4;
+    }
+    enum RsvpStatus {
+        RSVP_STATUS_UNKNOWN = 0;
+        GOING = 1;
+        NOT_GOING = 2;
+        MAYBE = 3;
+        NO_RESPONSE = 4;
+    }
 }
 
 message EventAdditionalMetadata {
@@ -122,9 +140,35 @@ message PollAdditionalMetadata {
     optional bool pollInvalidated = 1;
     repeated PollNameHashHistoryEntry pollNameHashHistory = 2;
     repeated E2E.Message.PollCreationMessage.Option originalOptions = 3;
+    repeated PollOptionReplayEntry pollOptionReplayEntries = 4;
+    optional PollOptionReplayBase pollOptionReplayBase = 5;
     message PollNameHashHistoryEntry {
         optional string editStanzaId = 1;
         optional bytes pollNameHash = 2;
+    }
+    message PollOptionReplayBase {
+        optional int64 boundaryTimestampMs = 1;
+        optional int64 editTimestampMs = 2;
+        repeated Option options = 3;
+        message Option {
+            optional bytes optionHash = 1;
+            optional int64 enteredTimestampMs = 2;
+            optional Protocol.MessageKey addMessageKey = 3;
+        }
+    }
+    message PollOptionReplayEntry {
+        optional Type type = 1;
+        optional Protocol.MessageKey messageKey = 2;
+        optional int64 serverTimestampMs = 3;
+        optional int64 editTimestampMs = 4;
+        repeated bytes optionHashes = 5;
+        optional Protocol.MessageKey revokedMessageKey = 6;
+        enum Type {
+            UNKNOWN = 0;
+            EDIT = 1;
+            ADD = 2;
+            REVOKE = 3;
+        }
     }
 }
 
@@ -389,6 +433,7 @@ message WebMessageInfo {
     optional string decisionId = 82;
     repeated string decisionSources = 83;
     optional EventInviteAdditionalMetadata eventInviteAdditionalMetadata = 84;
+    optional uint64 groupHistoryLastCountedMessageTimestamp = 85;
     enum BizPrivacyStatus {
         E2EE = 0;
         FB = 2;
@@ -671,5 +716,6 @@ message WebMessageInfo {
         SPLIT_PAYMENT_MARKED_AS_PAID = 289;
         POLL_OPTIONS_REMOVED = 290;
         POLL_ADDED_OPTION_REMOVED = 291;
+        GROUP_CUSTOM_REACTIONS = 293;
     }
 }

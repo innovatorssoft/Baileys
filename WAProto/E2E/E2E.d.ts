@@ -3,6 +3,212 @@ import Long = require("long");
 /** Namespace E2E. */
 export namespace E2E {
 
+    /** Properties of a GroupRootKeyRequest. */
+    interface IGroupRootKeyRequest {
+
+        /** GroupRootKeyRequest keyId */
+        keyId?: (string|null);
+    }
+
+    /** Represents a GroupRootKeyRequest. */
+    class GroupRootKeyRequest implements IGroupRootKeyRequest {
+
+        /**
+         * Constructs a new GroupRootKeyRequest.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: E2E.IGroupRootKeyRequest);
+
+        /** GroupRootKeyRequest keyId. */
+        public keyId?: (string|null);
+
+        /**
+         * Creates a new GroupRootKeyRequest instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GroupRootKeyRequest instance
+         */
+        public static create(properties?: E2E.IGroupRootKeyRequest): E2E.GroupRootKeyRequest;
+
+        /**
+         * Encodes the specified GroupRootKeyRequest message. Does not implicitly {@link E2E.GroupRootKeyRequest.verify|verify} messages.
+         * @param message GroupRootKeyRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: E2E.IGroupRootKeyRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GroupRootKeyRequest message, length delimited. Does not implicitly {@link E2E.GroupRootKeyRequest.verify|verify} messages.
+         * @param message GroupRootKeyRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: E2E.IGroupRootKeyRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GroupRootKeyRequest message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GroupRootKeyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): E2E.GroupRootKeyRequest;
+
+        /**
+         * Decodes a GroupRootKeyRequest message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GroupRootKeyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): E2E.GroupRootKeyRequest;
+
+        /**
+         * Verifies a GroupRootKeyRequest message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a GroupRootKeyRequest message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GroupRootKeyRequest
+         */
+        public static fromObject(object: { [k: string]: any }): E2E.GroupRootKeyRequest;
+
+        /**
+         * Creates a plain object from a GroupRootKeyRequest message. Also converts values to other types if specified.
+         * @param message GroupRootKeyRequest
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: E2E.GroupRootKeyRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this GroupRootKeyRequest to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for GroupRootKeyRequest
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a MembershipFormKeyFingerprintVerification. */
+    interface IMembershipFormKeyFingerprintVerification {
+
+        /** MembershipFormKeyFingerprintVerification requestId */
+        requestId?: (string|null);
+
+        /** MembershipFormKeyFingerprintVerification keyId */
+        keyId?: (string|null);
+
+        /** MembershipFormKeyFingerprintVerification keyFingerprint */
+        keyFingerprint?: (Uint8Array|null);
+    }
+
+    /** Represents a MembershipFormKeyFingerprintVerification. */
+    class MembershipFormKeyFingerprintVerification implements IMembershipFormKeyFingerprintVerification {
+
+        /**
+         * Constructs a new MembershipFormKeyFingerprintVerification.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: E2E.IMembershipFormKeyFingerprintVerification);
+
+        /** MembershipFormKeyFingerprintVerification requestId. */
+        public requestId?: (string|null);
+
+        /** MembershipFormKeyFingerprintVerification keyId. */
+        public keyId?: (string|null);
+
+        /** MembershipFormKeyFingerprintVerification keyFingerprint. */
+        public keyFingerprint?: (Uint8Array|null);
+
+        /**
+         * Creates a new MembershipFormKeyFingerprintVerification instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns MembershipFormKeyFingerprintVerification instance
+         */
+        public static create(properties?: E2E.IMembershipFormKeyFingerprintVerification): E2E.MembershipFormKeyFingerprintVerification;
+
+        /**
+         * Encodes the specified MembershipFormKeyFingerprintVerification message. Does not implicitly {@link E2E.MembershipFormKeyFingerprintVerification.verify|verify} messages.
+         * @param message MembershipFormKeyFingerprintVerification message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: E2E.IMembershipFormKeyFingerprintVerification, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified MembershipFormKeyFingerprintVerification message, length delimited. Does not implicitly {@link E2E.MembershipFormKeyFingerprintVerification.verify|verify} messages.
+         * @param message MembershipFormKeyFingerprintVerification message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: E2E.IMembershipFormKeyFingerprintVerification, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a MembershipFormKeyFingerprintVerification message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns MembershipFormKeyFingerprintVerification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): E2E.MembershipFormKeyFingerprintVerification;
+
+        /**
+         * Decodes a MembershipFormKeyFingerprintVerification message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns MembershipFormKeyFingerprintVerification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): E2E.MembershipFormKeyFingerprintVerification;
+
+        /**
+         * Verifies a MembershipFormKeyFingerprintVerification message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a MembershipFormKeyFingerprintVerification message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns MembershipFormKeyFingerprintVerification
+         */
+        public static fromObject(object: { [k: string]: any }): E2E.MembershipFormKeyFingerprintVerification;
+
+        /**
+         * Creates a plain object from a MembershipFormKeyFingerprintVerification message. Also converts values to other types if specified.
+         * @param message MembershipFormKeyFingerprintVerification
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: E2E.MembershipFormKeyFingerprintVerification, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this MembershipFormKeyFingerprintVerification to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for MembershipFormKeyFingerprintVerification
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
     /** Properties of a GroupRootKeyShareEntry. */
     interface IGroupRootKeyShareEntry {
 
@@ -453,6 +659,9 @@ export namespace E2E {
 
         /** MemberLabel labelTimestamp */
         labelTimestamp?: (number|Long|null);
+
+        /** MemberLabel showAdminBadge */
+        showAdminBadge?: (boolean|null);
     }
 
     /** Represents a MemberLabel. */
@@ -469,6 +678,9 @@ export namespace E2E {
 
         /** MemberLabel labelTimestamp. */
         public labelTimestamp?: (number|Long|null);
+
+        /** MemberLabel showAdminBadge. */
+        public showAdminBadge?: (boolean|null);
 
         /**
          * Creates a new MemberLabel instance using the specified properties.
@@ -4324,7 +4536,9 @@ export namespace E2E {
             HEVC_VIDEO_DUAL_UPLOAD = 19,
             POLL_ADD_OPTION = 20,
             AV1_VIDEO_DUAL_UPLOAD = 21,
-            STREAMED_HD_VIDEO_DUAL_UPLOAD = 22
+            STREAMED_HD_VIDEO_DUAL_UPLOAD = 22,
+            ORIGINAL_VIDEO_DUAL_UPLOAD = 23,
+            ORIGINAL_IMAGE_DUAL_UPLOAD = 24
         }
     }
 
@@ -4534,6 +4748,12 @@ export namespace E2E {
 
         /** ContextInfo sourceExperienceIds */
         sourceExperienceIds?: (number[]|null);
+
+        /** ContextInfo foaMutualsSignature */
+        foaMutualsSignature?: (Uint8Array|null);
+
+        /** ContextInfo forwardReachScore */
+        forwardReachScore?: (number|null);
     }
 
     /** Represents a ContextInfo. */
@@ -4748,6 +4968,12 @@ export namespace E2E {
 
         /** ContextInfo sourceExperienceIds. */
         public sourceExperienceIds: number[];
+
+        /** ContextInfo foaMutualsSignature. */
+        public foaMutualsSignature?: (Uint8Array|null);
+
+        /** ContextInfo forwardReachScore. */
+        public forwardReachScore?: (number|null);
 
         /**
          * Creates a new ContextInfo instance using the specified properties.
@@ -6513,7 +6739,9 @@ export namespace E2E {
             AV1_VIDEO_PARENT = 9,
             AV1_VIDEO_CHILD = 10,
             STREAMED_VIDEO_PARENT = 11,
-            STREAMED_VIDEO_CHILD = 12
+            STREAMED_VIDEO_CHILD = 12,
+            ORIGINAL_VIDEO_CHILD = 13,
+            ORIGINAL_IMAGE_CHILD = 14
         }
 
         /** Properties of a PartiallySelectedContent. */
@@ -7433,6 +7661,15 @@ export namespace E2E {
 
         /** Message requestLocationUpdateMessage */
         requestLocationUpdateMessage?: (E2E.Message.IRequestLocationUpdateMessage|null);
+
+        /** Message vpcRequestMessage */
+        vpcRequestMessage?: (E2E.Message.IVpcRequestMessage|null);
+
+        /** Message instantVideoMessage */
+        instantVideoMessage?: (E2E.Message.IVideoMessage|null);
+
+        /** Message paymentDetailsMessage */
+        paymentDetailsMessage?: (E2E.Message.IPaymentDetailsMessage|null);
     }
 
     /** Represents a Message. */
@@ -7794,6 +8031,15 @@ export namespace E2E {
 
         /** Message requestLocationUpdateMessage. */
         public requestLocationUpdateMessage?: (E2E.Message.IRequestLocationUpdateMessage|null);
+
+        /** Message vpcRequestMessage. */
+        public vpcRequestMessage?: (E2E.Message.IVpcRequestMessage|null);
+
+        /** Message instantVideoMessage. */
+        public instantVideoMessage?: (E2E.Message.IVideoMessage|null);
+
+        /** Message paymentDetailsMessage. */
+        public paymentDetailsMessage?: (E2E.Message.IPaymentDetailsMessage|null);
 
         /**
          * Creates a new Message instance using the specified properties.
@@ -12102,6 +12348,9 @@ export namespace E2E {
 
             /** DocumentMessage accessibilityLabel */
             accessibilityLabel?: (string|null);
+
+            /** DocumentMessage qrUrl */
+            qrUrl?: (string|null);
         }
 
         /** Represents a DocumentMessage. */
@@ -12175,6 +12424,9 @@ export namespace E2E {
 
             /** DocumentMessage accessibilityLabel. */
             public accessibilityLabel?: (string|null);
+
+            /** DocumentMessage qrUrl. */
+            public qrUrl?: (string|null);
 
             /**
              * Creates a new DocumentMessage instance using the specified properties.
@@ -17166,6 +17418,9 @@ export namespace E2E {
 
             /** LinkPreviewMetadata videoContentCaption */
             videoContentCaption?: (string|null);
+
+            /** LinkPreviewMetadata videoId */
+            videoId?: (string|null);
         }
 
         /** Represents a LinkPreviewMetadata. */
@@ -17203,6 +17458,9 @@ export namespace E2E {
 
             /** LinkPreviewMetadata videoContentCaption. */
             public videoContentCaption?: (string|null);
+
+            /** LinkPreviewMetadata videoId. */
+            public videoId?: (string|null);
 
             /**
              * Creates a new LinkPreviewMetadata instance using the specified properties.
@@ -20144,6 +20402,160 @@ export namespace E2E {
             /** OrderSurface enum. */
             enum OrderSurface {
                 CATALOG = 1
+            }
+        }
+
+        /** Properties of a PaymentDetailsMessage. */
+        interface IPaymentDetailsMessage {
+
+            /** PaymentDetailsMessage serviceType */
+            serviceType?: (E2E.Message.PaymentDetailsMessage.ServiceType|null);
+
+            /** PaymentDetailsMessage amount */
+            amount?: (E2E.IMoney|null);
+
+            /** PaymentDetailsMessage payeeName */
+            payeeName?: (string|null);
+
+            /** PaymentDetailsMessage payerName */
+            payerName?: (string|null);
+
+            /** PaymentDetailsMessage transactionTimestampMs */
+            transactionTimestampMs?: (number|Long|null);
+
+            /** PaymentDetailsMessage transactionId */
+            transactionId?: (string|null);
+
+            /** PaymentDetailsMessage status */
+            status?: (E2E.Message.PaymentDetailsMessage.Status|null);
+
+            /** PaymentDetailsMessage contextInfo */
+            contextInfo?: (E2E.IContextInfo|null);
+        }
+
+        /** Represents a PaymentDetailsMessage. */
+        class PaymentDetailsMessage implements IPaymentDetailsMessage {
+
+            /**
+             * Constructs a new PaymentDetailsMessage.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: E2E.Message.IPaymentDetailsMessage);
+
+            /** PaymentDetailsMessage serviceType. */
+            public serviceType?: (E2E.Message.PaymentDetailsMessage.ServiceType|null);
+
+            /** PaymentDetailsMessage amount. */
+            public amount?: (E2E.IMoney|null);
+
+            /** PaymentDetailsMessage payeeName. */
+            public payeeName?: (string|null);
+
+            /** PaymentDetailsMessage payerName. */
+            public payerName?: (string|null);
+
+            /** PaymentDetailsMessage transactionTimestampMs. */
+            public transactionTimestampMs?: (number|Long|null);
+
+            /** PaymentDetailsMessage transactionId. */
+            public transactionId?: (string|null);
+
+            /** PaymentDetailsMessage status. */
+            public status?: (E2E.Message.PaymentDetailsMessage.Status|null);
+
+            /** PaymentDetailsMessage contextInfo. */
+            public contextInfo?: (E2E.IContextInfo|null);
+
+            /**
+             * Creates a new PaymentDetailsMessage instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns PaymentDetailsMessage instance
+             */
+            public static create(properties?: E2E.Message.IPaymentDetailsMessage): E2E.Message.PaymentDetailsMessage;
+
+            /**
+             * Encodes the specified PaymentDetailsMessage message. Does not implicitly {@link E2E.Message.PaymentDetailsMessage.verify|verify} messages.
+             * @param message PaymentDetailsMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: E2E.Message.IPaymentDetailsMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified PaymentDetailsMessage message, length delimited. Does not implicitly {@link E2E.Message.PaymentDetailsMessage.verify|verify} messages.
+             * @param message PaymentDetailsMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: E2E.Message.IPaymentDetailsMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a PaymentDetailsMessage message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns PaymentDetailsMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): E2E.Message.PaymentDetailsMessage;
+
+            /**
+             * Decodes a PaymentDetailsMessage message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns PaymentDetailsMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): E2E.Message.PaymentDetailsMessage;
+
+            /**
+             * Verifies a PaymentDetailsMessage message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a PaymentDetailsMessage message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns PaymentDetailsMessage
+             */
+            public static fromObject(object: { [k: string]: any }): E2E.Message.PaymentDetailsMessage;
+
+            /**
+             * Creates a plain object from a PaymentDetailsMessage message. Also converts values to other types if specified.
+             * @param message PaymentDetailsMessage
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: E2E.Message.PaymentDetailsMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this PaymentDetailsMessage to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for PaymentDetailsMessage
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace PaymentDetailsMessage {
+
+            /** ServiceType enum. */
+            enum ServiceType {
+                UNKNOWN = 0,
+                UPI = 1
+            }
+
+            /** Status enum. */
+            enum Status {
+                STATUS_UNKNOWN = 0,
+                SUCCESS = 1
             }
         }
 
@@ -26129,6 +26541,15 @@ export namespace E2E {
 
             /** ProtocolMessage additionalPromptIds */
             additionalPromptIds?: (string[]|null);
+
+            /** ProtocolMessage groupRootKeyRequest */
+            groupRootKeyRequest?: (E2E.IGroupRootKeyRequest|null);
+
+            /** ProtocolMessage membershipFormKeyFingerprintVerification */
+            membershipFormKeyFingerprintVerification?: (E2E.IMembershipFormKeyFingerprintVerification|null);
+
+            /** ProtocolMessage groupRootKeyShare */
+            groupRootKeyShare?: (E2E.IGroupRootKeyShare|null);
         }
 
         /** Represents a ProtocolMessage. */
@@ -26241,6 +26662,15 @@ export namespace E2E {
 
             /** ProtocolMessage additionalPromptIds. */
             public additionalPromptIds: string[];
+
+            /** ProtocolMessage groupRootKeyRequest. */
+            public groupRootKeyRequest?: (E2E.IGroupRootKeyRequest|null);
+
+            /** ProtocolMessage membershipFormKeyFingerprintVerification. */
+            public membershipFormKeyFingerprintVerification?: (E2E.IMembershipFormKeyFingerprintVerification|null);
+
+            /** ProtocolMessage groupRootKeyShare. */
+            public groupRootKeyShare?: (E2E.IGroupRootKeyShare|null);
 
             /**
              * Creates a new ProtocolMessage instance using the specified properties.
@@ -26358,7 +26788,10 @@ export namespace E2E {
                 COEX_STATE_SYNC = 37,
                 ACP2_SETTING = 39,
                 SHARED_DEVICE_CONTACT_HASH_KEY_SHARE = 40,
-                SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST = 41
+                SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST = 41,
+                GROUP_ROOT_KEY_REQUEST = 42,
+                MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION = 43,
+                GROUP_ROOT_KEY_SHARE = 44
             }
         }
 
@@ -30835,6 +31268,128 @@ export namespace E2E {
             enum VideoSourceType {
                 USER_VIDEO = 0,
                 AI_GENERATED = 1
+            }
+        }
+
+        /** Properties of a VpcRequestMessage. */
+        interface IVpcRequestMessage {
+
+            /** VpcRequestMessage payloadSchemaVersion */
+            payloadSchemaVersion?: (number|null);
+
+            /** VpcRequestMessage requestId */
+            requestId?: (string|null);
+
+            /** VpcRequestMessage scopeHint */
+            scopeHint?: (E2E.Message.VpcRequestMessage.ScopeHint|null);
+        }
+
+        /** Represents a VpcRequestMessage. */
+        class VpcRequestMessage implements IVpcRequestMessage {
+
+            /**
+             * Constructs a new VpcRequestMessage.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: E2E.Message.IVpcRequestMessage);
+
+            /** VpcRequestMessage payloadSchemaVersion. */
+            public payloadSchemaVersion?: (number|null);
+
+            /** VpcRequestMessage requestId. */
+            public requestId?: (string|null);
+
+            /** VpcRequestMessage scopeHint. */
+            public scopeHint?: (E2E.Message.VpcRequestMessage.ScopeHint|null);
+
+            /**
+             * Creates a new VpcRequestMessage instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns VpcRequestMessage instance
+             */
+            public static create(properties?: E2E.Message.IVpcRequestMessage): E2E.Message.VpcRequestMessage;
+
+            /**
+             * Encodes the specified VpcRequestMessage message. Does not implicitly {@link E2E.Message.VpcRequestMessage.verify|verify} messages.
+             * @param message VpcRequestMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: E2E.Message.IVpcRequestMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified VpcRequestMessage message, length delimited. Does not implicitly {@link E2E.Message.VpcRequestMessage.verify|verify} messages.
+             * @param message VpcRequestMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: E2E.Message.IVpcRequestMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a VpcRequestMessage message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns VpcRequestMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): E2E.Message.VpcRequestMessage;
+
+            /**
+             * Decodes a VpcRequestMessage message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns VpcRequestMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): E2E.Message.VpcRequestMessage;
+
+            /**
+             * Verifies a VpcRequestMessage message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a VpcRequestMessage message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns VpcRequestMessage
+             */
+            public static fromObject(object: { [k: string]: any }): E2E.Message.VpcRequestMessage;
+
+            /**
+             * Creates a plain object from a VpcRequestMessage message. Also converts values to other types if specified.
+             * @param message VpcRequestMessage
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: E2E.Message.VpcRequestMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this VpcRequestMessage to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for VpcRequestMessage
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace VpcRequestMessage {
+
+            /** ScopeHint enum. */
+            enum ScopeHint {
+                UNKNOWN = 0,
+                WA_ONLY = 1,
+                WAFFLE = 2,
+                WA_META_AI = 3,
+                META_AI_ONLY = 4,
+                FOA_ONLY = 5
             }
         }
     }
@@ -39974,7 +40529,12 @@ export namespace AICommon {
             AI_MUSE_JARVIS_SCHEMA_ENABLED = 81,
             AI_STUDY_QUIZ_ENABLED = 82,
             HATCH_CVM_ENABLED = 83,
-            RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED = 84
+            RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED = 84,
+            AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED = 85,
+            AI_INTERJECTIONS_ENABLED = 86,
+            AI_RICH_RESPONSE_READ_ALOUD_ENABLED = 87,
+            AI_RICH_RESPONSE_ITEM_LISTS_ENABLED = 88,
+            RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH = 89
         }
     }
 
@@ -42964,7 +43524,8 @@ export namespace AICommon {
         NEW_CHAT_LIST = 56,
         CONTACTS_TAB = 57,
         NEW_3P_AGENT_CREATION = 58,
-        SHARE = 59
+        SHARE = 59,
+        BIRTHDAY_BANNER = 60
     }
 }
 
@@ -43694,6 +44255,9 @@ export namespace StatusAttributions {
 
         /** StatusAttribution aiCreatedAttribution */
         aiCreatedAttribution?: (StatusAttributions.StatusAttribution.IAiCreatedAttribution|null);
+
+        /** StatusAttribution statusTemplate */
+        statusTemplate?: (StatusAttributions.StatusAttribution.IStatusTemplate|null);
     }
 
     /** Represents a StatusAttribution. */
@@ -43729,8 +44293,11 @@ export namespace StatusAttributions {
         /** StatusAttribution aiCreatedAttribution. */
         public aiCreatedAttribution?: (StatusAttributions.StatusAttribution.IAiCreatedAttribution|null);
 
+        /** StatusAttribution statusTemplate. */
+        public statusTemplate?: (StatusAttributions.StatusAttribution.IStatusTemplate|null);
+
         /** StatusAttribution attributionData. */
-        public attributionData?: ("statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution");
+        public attributionData?: ("statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|"statusTemplate");
 
         /**
          * Creates a new StatusAttribution instance using the specified properties.
@@ -44616,6 +45183,115 @@ export namespace StatusAttributions {
             }
         }
 
+        /** Properties of a StatusTemplate. */
+        interface IStatusTemplate {
+
+            /** StatusTemplate templateId */
+            templateId?: (string|null);
+
+            /** StatusTemplate templateName */
+            templateName?: (string|null);
+
+            /** StatusTemplate thumbnailUrl */
+            thumbnailUrl?: (string|null);
+        }
+
+        /** Represents a StatusTemplate. */
+        class StatusTemplate implements IStatusTemplate {
+
+            /**
+             * Constructs a new StatusTemplate.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: StatusAttributions.StatusAttribution.IStatusTemplate);
+
+            /** StatusTemplate templateId. */
+            public templateId?: (string|null);
+
+            /** StatusTemplate templateName. */
+            public templateName?: (string|null);
+
+            /** StatusTemplate thumbnailUrl. */
+            public thumbnailUrl?: (string|null);
+
+            /**
+             * Creates a new StatusTemplate instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns StatusTemplate instance
+             */
+            public static create(properties?: StatusAttributions.StatusAttribution.IStatusTemplate): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Encodes the specified StatusTemplate message. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @param message StatusTemplate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: StatusAttributions.StatusAttribution.IStatusTemplate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified StatusTemplate message, length delimited. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @param message StatusTemplate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: StatusAttributions.StatusAttribution.IStatusTemplate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Verifies a StatusTemplate message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a StatusTemplate message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns StatusTemplate
+             */
+            public static fromObject(object: { [k: string]: any }): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Creates a plain object from a StatusTemplate message. Also converts values to other types if specified.
+             * @param message StatusTemplate
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: StatusAttributions.StatusAttribution.StatusTemplate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this StatusTemplate to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for StatusTemplate
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Type enum. */
         enum Type {
             UNKNOWN = 0,
@@ -44630,7 +45306,8 @@ export namespace StatusAttributions {
             NEWSLETTER_STATUS = 9,
             STATUS_CLOSE_SHARING = 10,
             PAID_PARTNERSHIP = 11,
-            USERNAME_STATUS = 12
+            USERNAME_STATUS = 12,
+            STATUS_TEMPLATES = 13
         }
     }
 }
@@ -46179,6 +46856,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps companionAddPeerPayload */
         companionAddPeerPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isCompanionRegistrationFgsEnabled */
+        isCompanionRegistrationFgsEnabled?: (boolean|null);
     }
 
     /** Represents a ClientPairingProps. */
@@ -46210,6 +46890,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps companionAddPeerPayload. */
         public companionAddPeerPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isCompanionRegistrationFgsEnabled. */
+        public isCompanionRegistrationFgsEnabled?: (boolean|null);
 
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
@@ -46930,6 +47613,9 @@ export namespace CompanionReg {
 
         /** DeviceProps historySyncConfig */
         historySyncConfig?: (CompanionReg.DeviceProps.IHistorySyncConfig|null);
+
+        /** DeviceProps deviceName */
+        deviceName?: (string|null);
     }
 
     /** Represents a DeviceProps. */
@@ -46955,6 +47641,9 @@ export namespace CompanionReg {
 
         /** DeviceProps historySyncConfig. */
         public historySyncConfig?: (CompanionReg.DeviceProps.IHistorySyncConfig|null);
+
+        /** DeviceProps deviceName. */
+        public deviceName?: (string|null);
 
         /**
          * Creates a new DeviceProps instance using the specified properties.

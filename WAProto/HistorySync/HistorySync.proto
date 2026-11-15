@@ -5,6 +5,7 @@ import "../ChatLockSettings/ChatLockSettings.proto";
 import "../E2E/E2E.proto";
 import "../Web/Web.proto";
 import "../Protocol/Protocol.proto";
+import "../Aea/Aea.proto";
 import "../SyncAction/SyncAction.proto";
 
 message NotificationSettings {
@@ -115,6 +116,12 @@ message Account {
     optional string username = 2;
     optional string countryCode = 3;
     optional bool isUsernameDeleted = 4;
+    optional PnLearnState pnLearnState = 6;
+    enum PnLearnState {
+        UNSET = 0;
+        SHARED = 1;
+        HIDDEN = 2;
+    }
 }
 
 message InlineContact {
@@ -128,6 +135,12 @@ message InlineContact {
 message PhoneNumberToLIDMapping {
     optional string pnJid = 1;
     optional string lidJid = 2;
+}
+
+message GroupRootKey {
+    optional string keyId = 1;
+    optional bytes rootKey = 2;
+    optional bool isCurrent = 3;
 }
 
 message IdentityVerificationState {
@@ -201,6 +214,10 @@ message Conversation {
     optional IdentityVerificationState identityVerification = 63;
     optional Protocol.ACP2Setting acp2Setting = 64;
     optional bool acp2HistoryWithheld = 65;
+    repeated GroupRootKey groupRootKeys = 66;
+    optional bool isWorkGroup = 67;
+    optional int32 nonE2EeType = 68;
+    optional Aea.NonE2EEAttestation.AccountType contactAccountEncryptionAttestationType = 69;
     enum EndOfHistoryTransferType {
         COMPLETE_BUT_MORE_MESSAGES_REMAIN_ON_PRIMARY = 0;
         COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY = 1;

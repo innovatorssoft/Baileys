@@ -4,19 +4,10 @@ package Reporting;
 message Field {
     optional uint32 minVersion = 1;
     optional uint32 maxVersion = 2;
-    optional uint32 notReportableMinVersion = 3;
     optional bool isMessage = 4;
     map<uint32, Field> subfield = 5;
 }
 
 message Config {
     map<uint32, Field> field = 1;
-    optional uint32 version = 2;
-}
-
-message Reportable {
-    optional uint32 minVersion = 1;
-    optional uint32 maxVersion = 2;
-    optional uint32 notReportableMinVersion = 3;
-    optional bool never = 4;
 }
