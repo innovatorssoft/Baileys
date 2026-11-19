@@ -32,6 +32,7 @@ $root.StatusAttributions = (function() {
          * @property {StatusAttributions.StatusAttribution.IGroupStatus|null} [groupStatus] StatusAttribution groupStatus
          * @property {StatusAttributions.StatusAttribution.IRLAttribution|null} [rlAttribution] StatusAttribution rlAttribution
          * @property {StatusAttributions.StatusAttribution.IAiCreatedAttribution|null} [aiCreatedAttribution] StatusAttribution aiCreatedAttribution
+         * @property {StatusAttributions.StatusAttribution.IStatusTemplate|null} [statusTemplate] StatusAttribution statusTemplate
          */
 
         /**
@@ -113,6 +114,14 @@ $root.StatusAttributions = (function() {
          */
         StatusAttribution.prototype.aiCreatedAttribution = null;
 
+        /**
+         * StatusAttribution statusTemplate.
+         * @member {StatusAttributions.StatusAttribution.IStatusTemplate|null|undefined} statusTemplate
+         * @memberof StatusAttributions.StatusAttribution
+         * @instance
+         */
+        StatusAttribution.prototype.statusTemplate = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -130,12 +139,12 @@ $root.StatusAttributions = (function() {
 
         /**
          * StatusAttribution attributionData.
-         * @member {"statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|undefined} attributionData
+         * @member {"statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|"statusTemplate"|undefined} attributionData
          * @memberof StatusAttributions.StatusAttribution
          * @instance
          */
         Object.defineProperty(StatusAttribution.prototype, "attributionData", {
-            get: $util.oneOfGetter($oneOfFields = ["statusReshare", "externalShare", "music", "groupStatus", "rlAttribution", "aiCreatedAttribution"]),
+            get: $util.oneOfGetter($oneOfFields = ["statusReshare", "externalShare", "music", "groupStatus", "rlAttribution", "aiCreatedAttribution", "statusTemplate"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -179,6 +188,8 @@ $root.StatusAttributions = (function() {
                 $root.StatusAttributions.StatusAttribution.RLAttribution.encode(message.rlAttribution, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
             if (message.aiCreatedAttribution != null && Object.hasOwnProperty.call(message, "aiCreatedAttribution"))
                 $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.encode(message.aiCreatedAttribution, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+            if (message.statusTemplate != null && Object.hasOwnProperty.call(message, "statusTemplate"))
+                $root.StatusAttributions.StatusAttribution.StatusTemplate.encode(message.statusTemplate, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
             return writer;
         };
 
@@ -247,6 +258,10 @@ $root.StatusAttributions = (function() {
                         message.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.decode(reader, reader.uint32());
                         break;
                     }
+                case 9: {
+                        message.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.decode(reader, reader.uint32());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -301,6 +316,7 @@ $root.StatusAttributions = (function() {
                 case 10:
                 case 11:
                 case 12:
+                case 13:
                     break;
                 }
             }
@@ -365,6 +381,16 @@ $root.StatusAttributions = (function() {
                     var error = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.verify(message.aiCreatedAttribution);
                     if (error)
                         return "aiCreatedAttribution." + error;
+                }
+            }
+            if (message.statusTemplate != null && message.hasOwnProperty("statusTemplate")) {
+                if (properties.attributionData === 1)
+                    return "attributionData: multiple values";
+                properties.attributionData = 1;
+                {
+                    var error = $root.StatusAttributions.StatusAttribution.StatusTemplate.verify(message.statusTemplate);
+                    if (error)
+                        return "statusTemplate." + error;
                 }
             }
             return null;
@@ -441,6 +467,10 @@ $root.StatusAttributions = (function() {
             case 12:
                 message.type = 12;
                 break;
+            case "STATUS_TEMPLATES":
+            case 13:
+                message.type = 13;
+                break;
             }
             if (object.actionUrl != null)
                 message.actionUrl = String(object.actionUrl);
@@ -473,6 +503,11 @@ $root.StatusAttributions = (function() {
                 if (typeof object.aiCreatedAttribution !== "object")
                     throw TypeError(".StatusAttributions.StatusAttribution.aiCreatedAttribution: object expected");
                 message.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.fromObject(object.aiCreatedAttribution);
+            }
+            if (object.statusTemplate != null) {
+                if (typeof object.statusTemplate !== "object")
+                    throw TypeError(".StatusAttributions.StatusAttribution.statusTemplate: object expected");
+                message.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.fromObject(object.statusTemplate);
             }
             return message;
         };
@@ -529,6 +564,11 @@ $root.StatusAttributions = (function() {
                 object.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.toObject(message.aiCreatedAttribution, options);
                 if (options.oneofs)
                     object.attributionData = "aiCreatedAttribution";
+            }
+            if (message.statusTemplate != null && message.hasOwnProperty("statusTemplate")) {
+                object.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.toObject(message.statusTemplate, options);
+                if (options.oneofs)
+                    object.attributionData = "statusTemplate";
             }
             return object;
         };
@@ -2738,6 +2778,290 @@ $root.StatusAttributions = (function() {
             return StatusReshare;
         })();
 
+        StatusAttribution.StatusTemplate = (function() {
+
+            /**
+             * Properties of a StatusTemplate.
+             * @memberof StatusAttributions.StatusAttribution
+             * @interface IStatusTemplate
+             * @property {string|null} [templateId] StatusTemplate templateId
+             * @property {string|null} [templateName] StatusTemplate templateName
+             * @property {string|null} [thumbnailUrl] StatusTemplate thumbnailUrl
+             */
+
+            /**
+             * Constructs a new StatusTemplate.
+             * @memberof StatusAttributions.StatusAttribution
+             * @classdesc Represents a StatusTemplate.
+             * @implements IStatusTemplate
+             * @constructor
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate=} [properties] Properties to set
+             */
+            function StatusTemplate(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * StatusTemplate templateId.
+             * @member {string|null|undefined} templateId
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.templateId = null;
+
+            /**
+             * StatusTemplate templateName.
+             * @member {string|null|undefined} templateName
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.templateName = null;
+
+            /**
+             * StatusTemplate thumbnailUrl.
+             * @member {string|null|undefined} thumbnailUrl
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.thumbnailUrl = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_templateId", {
+                get: $util.oneOfGetter($oneOfFields = ["templateId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_templateName", {
+                get: $util.oneOfGetter($oneOfFields = ["templateName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_thumbnailUrl", {
+                get: $util.oneOfGetter($oneOfFields = ["thumbnailUrl"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new StatusTemplate instance using the specified properties.
+             * @function create
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate=} [properties] Properties to set
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate instance
+             */
+            StatusTemplate.create = function create(properties) {
+                return new StatusTemplate(properties);
+            };
+
+            /**
+             * Encodes the specified StatusTemplate message. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @function encode
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate} message StatusTemplate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusTemplate.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.templateId != null && Object.hasOwnProperty.call(message, "templateId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.templateId);
+                if (message.templateName != null && Object.hasOwnProperty.call(message, "templateName"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.templateName);
+                if (message.thumbnailUrl != null && Object.hasOwnProperty.call(message, "thumbnailUrl"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.thumbnailUrl);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified StatusTemplate message, length delimited. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate} message StatusTemplate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusTemplate.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer.
+             * @function decode
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusTemplate.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.StatusAttributions.StatusAttribution.StatusTemplate();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.templateId = reader.string();
+                            break;
+                        }
+                    case 2: {
+                            message.templateName = reader.string();
+                            break;
+                        }
+                    case 3: {
+                            message.thumbnailUrl = reader.string();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusTemplate.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a StatusTemplate message.
+             * @function verify
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            StatusTemplate.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.templateId != null && message.hasOwnProperty("templateId")) {
+                    properties._templateId = 1;
+                    if (!$util.isString(message.templateId))
+                        return "templateId: string expected";
+                }
+                if (message.templateName != null && message.hasOwnProperty("templateName")) {
+                    properties._templateName = 1;
+                    if (!$util.isString(message.templateName))
+                        return "templateName: string expected";
+                }
+                if (message.thumbnailUrl != null && message.hasOwnProperty("thumbnailUrl")) {
+                    properties._thumbnailUrl = 1;
+                    if (!$util.isString(message.thumbnailUrl))
+                        return "thumbnailUrl: string expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a StatusTemplate message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             */
+            StatusTemplate.fromObject = function fromObject(object) {
+                if (object instanceof $root.StatusAttributions.StatusAttribution.StatusTemplate)
+                    return object;
+                var message = new $root.StatusAttributions.StatusAttribution.StatusTemplate();
+                if (object.templateId != null)
+                    message.templateId = String(object.templateId);
+                if (object.templateName != null)
+                    message.templateName = String(object.templateName);
+                if (object.thumbnailUrl != null)
+                    message.thumbnailUrl = String(object.thumbnailUrl);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a StatusTemplate message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.StatusTemplate} message StatusTemplate
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            StatusTemplate.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.templateId != null && message.hasOwnProperty("templateId")) {
+                    object.templateId = message.templateId;
+                    if (options.oneofs)
+                        object._templateId = "templateId";
+                }
+                if (message.templateName != null && message.hasOwnProperty("templateName")) {
+                    object.templateName = message.templateName;
+                    if (options.oneofs)
+                        object._templateName = "templateName";
+                }
+                if (message.thumbnailUrl != null && message.hasOwnProperty("thumbnailUrl")) {
+                    object.thumbnailUrl = message.thumbnailUrl;
+                    if (options.oneofs)
+                        object._thumbnailUrl = "thumbnailUrl";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this StatusTemplate to JSON.
+             * @function toJSON
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            StatusTemplate.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for StatusTemplate
+             * @function getTypeUrl
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            StatusTemplate.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/StatusAttributions.StatusAttribution.StatusTemplate";
+            };
+
+            return StatusTemplate;
+        })();
+
         /**
          * Type enum.
          * @name StatusAttributions.StatusAttribution.Type
@@ -2755,6 +3079,7 @@ $root.StatusAttributions = (function() {
          * @property {number} STATUS_CLOSE_SHARING=10 STATUS_CLOSE_SHARING value
          * @property {number} PAID_PARTNERSHIP=11 PAID_PARTNERSHIP value
          * @property {number} USERNAME_STATUS=12 USERNAME_STATUS value
+         * @property {number} STATUS_TEMPLATES=13 STATUS_TEMPLATES value
          */
         StatusAttribution.Type = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -2771,6 +3096,7 @@ $root.StatusAttributions = (function() {
             values[valuesById[10] = "STATUS_CLOSE_SHARING"] = 10;
             values[valuesById[11] = "PAID_PARTNERSHIP"] = 11;
             values[valuesById[12] = "USERNAME_STATUS"] = 12;
+            values[valuesById[13] = "STATUS_TEMPLATES"] = 13;
             return values;
         })();
 

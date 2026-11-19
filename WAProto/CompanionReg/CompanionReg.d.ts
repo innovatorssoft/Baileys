@@ -26,6 +26,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps companionAddPeerPayload */
         companionAddPeerPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isCompanionRegistrationFgsEnabled */
+        isCompanionRegistrationFgsEnabled?: (boolean|null);
     }
 
     /** Represents a ClientPairingProps. */
@@ -57,6 +60,9 @@ export namespace CompanionReg {
 
         /** ClientPairingProps companionAddPeerPayload. */
         public companionAddPeerPayload?: (Uint8Array|null);
+
+        /** ClientPairingProps isCompanionRegistrationFgsEnabled. */
+        public isCompanionRegistrationFgsEnabled?: (boolean|null);
 
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
@@ -777,6 +783,9 @@ export namespace CompanionReg {
 
         /** DeviceProps historySyncConfig */
         historySyncConfig?: (CompanionReg.DeviceProps.IHistorySyncConfig|null);
+
+        /** DeviceProps deviceName */
+        deviceName?: (string|null);
     }
 
     /** Represents a DeviceProps. */
@@ -802,6 +811,9 @@ export namespace CompanionReg {
 
         /** DeviceProps historySyncConfig. */
         public historySyncConfig?: (CompanionReg.DeviceProps.IHistorySyncConfig|null);
+
+        /** DeviceProps deviceName. */
+        public deviceName?: (string|null);
 
         /**
          * Creates a new DeviceProps instance using the specified properties.

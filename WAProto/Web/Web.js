@@ -4240,6 +4240,10 @@ $root.Web = (function() {
          * @memberof Web
          * @interface IEventInviteAdditionalMetadata
          * @property {boolean|null} [isUpdated] EventInviteAdditionalMetadata isUpdated
+         * @property {Web.EventInviteAdditionalMetadata.AccessStatus|null} [selfAccessStatus] EventInviteAdditionalMetadata selfAccessStatus
+         * @property {Web.EventInviteAdditionalMetadata.RsvpStatus|null} [selfRsvpStatus] EventInviteAdditionalMetadata selfRsvpStatus
+         * @property {number|null} [selfAdditionalGuestCount] EventInviteAdditionalMetadata selfAdditionalGuestCount
+         * @property {number|Long|null} [selfInviteeLastUpdatedTsUsec] EventInviteAdditionalMetadata selfInviteeLastUpdatedTsUsec
          */
 
         /**
@@ -4265,12 +4269,68 @@ $root.Web = (function() {
          */
         EventInviteAdditionalMetadata.prototype.isUpdated = null;
 
+        /**
+         * EventInviteAdditionalMetadata selfAccessStatus.
+         * @member {Web.EventInviteAdditionalMetadata.AccessStatus|null|undefined} selfAccessStatus
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @instance
+         */
+        EventInviteAdditionalMetadata.prototype.selfAccessStatus = null;
+
+        /**
+         * EventInviteAdditionalMetadata selfRsvpStatus.
+         * @member {Web.EventInviteAdditionalMetadata.RsvpStatus|null|undefined} selfRsvpStatus
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @instance
+         */
+        EventInviteAdditionalMetadata.prototype.selfRsvpStatus = null;
+
+        /**
+         * EventInviteAdditionalMetadata selfAdditionalGuestCount.
+         * @member {number|null|undefined} selfAdditionalGuestCount
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @instance
+         */
+        EventInviteAdditionalMetadata.prototype.selfAdditionalGuestCount = null;
+
+        /**
+         * EventInviteAdditionalMetadata selfInviteeLastUpdatedTsUsec.
+         * @member {number|Long|null|undefined} selfInviteeLastUpdatedTsUsec
+         * @memberof Web.EventInviteAdditionalMetadata
+         * @instance
+         */
+        EventInviteAdditionalMetadata.prototype.selfInviteeLastUpdatedTsUsec = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(EventInviteAdditionalMetadata.prototype, "_isUpdated", {
             get: $util.oneOfGetter($oneOfFields = ["isUpdated"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(EventInviteAdditionalMetadata.prototype, "_selfAccessStatus", {
+            get: $util.oneOfGetter($oneOfFields = ["selfAccessStatus"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(EventInviteAdditionalMetadata.prototype, "_selfRsvpStatus", {
+            get: $util.oneOfGetter($oneOfFields = ["selfRsvpStatus"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(EventInviteAdditionalMetadata.prototype, "_selfAdditionalGuestCount", {
+            get: $util.oneOfGetter($oneOfFields = ["selfAdditionalGuestCount"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(EventInviteAdditionalMetadata.prototype, "_selfInviteeLastUpdatedTsUsec", {
+            get: $util.oneOfGetter($oneOfFields = ["selfInviteeLastUpdatedTsUsec"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -4300,6 +4360,14 @@ $root.Web = (function() {
                 writer = $Writer.create();
             if (message.isUpdated != null && Object.hasOwnProperty.call(message, "isUpdated"))
                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.isUpdated);
+            if (message.selfAccessStatus != null && Object.hasOwnProperty.call(message, "selfAccessStatus"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.selfAccessStatus);
+            if (message.selfRsvpStatus != null && Object.hasOwnProperty.call(message, "selfRsvpStatus"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.selfRsvpStatus);
+            if (message.selfAdditionalGuestCount != null && Object.hasOwnProperty.call(message, "selfAdditionalGuestCount"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.selfAdditionalGuestCount);
+            if (message.selfInviteeLastUpdatedTsUsec != null && Object.hasOwnProperty.call(message, "selfInviteeLastUpdatedTsUsec"))
+                writer.uint32(/* id 5, wireType 0 =*/40).int64(message.selfInviteeLastUpdatedTsUsec);
             return writer;
         };
 
@@ -4338,6 +4406,22 @@ $root.Web = (function() {
                 switch (tag >>> 3) {
                 case 1: {
                         message.isUpdated = reader.bool();
+                        break;
+                    }
+                case 2: {
+                        message.selfAccessStatus = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.selfRsvpStatus = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.selfAdditionalGuestCount = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.selfInviteeLastUpdatedTsUsec = reader.int64();
                         break;
                     }
                 default:
@@ -4381,6 +4465,42 @@ $root.Web = (function() {
                 if (typeof message.isUpdated !== "boolean")
                     return "isUpdated: boolean expected";
             }
+            if (message.selfAccessStatus != null && message.hasOwnProperty("selfAccessStatus")) {
+                properties._selfAccessStatus = 1;
+                switch (message.selfAccessStatus) {
+                default:
+                    return "selfAccessStatus: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    break;
+                }
+            }
+            if (message.selfRsvpStatus != null && message.hasOwnProperty("selfRsvpStatus")) {
+                properties._selfRsvpStatus = 1;
+                switch (message.selfRsvpStatus) {
+                default:
+                    return "selfRsvpStatus: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    break;
+                }
+            }
+            if (message.selfAdditionalGuestCount != null && message.hasOwnProperty("selfAdditionalGuestCount")) {
+                properties._selfAdditionalGuestCount = 1;
+                if (!$util.isInteger(message.selfAdditionalGuestCount))
+                    return "selfAdditionalGuestCount: integer expected";
+            }
+            if (message.selfInviteeLastUpdatedTsUsec != null && message.hasOwnProperty("selfInviteeLastUpdatedTsUsec")) {
+                properties._selfInviteeLastUpdatedTsUsec = 1;
+                if (!$util.isInteger(message.selfInviteeLastUpdatedTsUsec) && !(message.selfInviteeLastUpdatedTsUsec && $util.isInteger(message.selfInviteeLastUpdatedTsUsec.low) && $util.isInteger(message.selfInviteeLastUpdatedTsUsec.high)))
+                    return "selfInviteeLastUpdatedTsUsec: integer|Long expected";
+            }
             return null;
         };
 
@@ -4398,6 +4518,73 @@ $root.Web = (function() {
             var message = new $root.Web.EventInviteAdditionalMetadata();
             if (object.isUpdated != null)
                 message.isUpdated = Boolean(object.isUpdated);
+            switch (object.selfAccessStatus) {
+            default:
+                if (typeof object.selfAccessStatus === "number") {
+                    message.selfAccessStatus = object.selfAccessStatus;
+                    break;
+                }
+                break;
+            case "ACCESS_STATUS_UNKNOWN":
+            case 0:
+                message.selfAccessStatus = 0;
+                break;
+            case "HAS_ACCESS":
+            case 1:
+                message.selfAccessStatus = 1;
+                break;
+            case "LEFT_EVENT":
+            case 2:
+                message.selfAccessStatus = 2;
+                break;
+            case "REMOVED_FROM_INVITE_LIST":
+            case 3:
+                message.selfAccessStatus = 3;
+                break;
+            case "UNAVAILABLE":
+            case 4:
+                message.selfAccessStatus = 4;
+                break;
+            }
+            switch (object.selfRsvpStatus) {
+            default:
+                if (typeof object.selfRsvpStatus === "number") {
+                    message.selfRsvpStatus = object.selfRsvpStatus;
+                    break;
+                }
+                break;
+            case "RSVP_STATUS_UNKNOWN":
+            case 0:
+                message.selfRsvpStatus = 0;
+                break;
+            case "GOING":
+            case 1:
+                message.selfRsvpStatus = 1;
+                break;
+            case "NOT_GOING":
+            case 2:
+                message.selfRsvpStatus = 2;
+                break;
+            case "MAYBE":
+            case 3:
+                message.selfRsvpStatus = 3;
+                break;
+            case "NO_RESPONSE":
+            case 4:
+                message.selfRsvpStatus = 4;
+                break;
+            }
+            if (object.selfAdditionalGuestCount != null)
+                message.selfAdditionalGuestCount = object.selfAdditionalGuestCount >>> 0;
+            if (object.selfInviteeLastUpdatedTsUsec != null)
+                if ($util.Long)
+                    (message.selfInviteeLastUpdatedTsUsec = $util.Long.fromValue(object.selfInviteeLastUpdatedTsUsec)).unsigned = false;
+                else if (typeof object.selfInviteeLastUpdatedTsUsec === "string")
+                    message.selfInviteeLastUpdatedTsUsec = parseInt(object.selfInviteeLastUpdatedTsUsec, 10);
+                else if (typeof object.selfInviteeLastUpdatedTsUsec === "number")
+                    message.selfInviteeLastUpdatedTsUsec = object.selfInviteeLastUpdatedTsUsec;
+                else if (typeof object.selfInviteeLastUpdatedTsUsec === "object")
+                    message.selfInviteeLastUpdatedTsUsec = new $util.LongBits(object.selfInviteeLastUpdatedTsUsec.low >>> 0, object.selfInviteeLastUpdatedTsUsec.high >>> 0).toNumber();
             return message;
         };
 
@@ -4418,6 +4605,29 @@ $root.Web = (function() {
                 object.isUpdated = message.isUpdated;
                 if (options.oneofs)
                     object._isUpdated = "isUpdated";
+            }
+            if (message.selfAccessStatus != null && message.hasOwnProperty("selfAccessStatus")) {
+                object.selfAccessStatus = options.enums === String ? $root.Web.EventInviteAdditionalMetadata.AccessStatus[message.selfAccessStatus] === undefined ? message.selfAccessStatus : $root.Web.EventInviteAdditionalMetadata.AccessStatus[message.selfAccessStatus] : message.selfAccessStatus;
+                if (options.oneofs)
+                    object._selfAccessStatus = "selfAccessStatus";
+            }
+            if (message.selfRsvpStatus != null && message.hasOwnProperty("selfRsvpStatus")) {
+                object.selfRsvpStatus = options.enums === String ? $root.Web.EventInviteAdditionalMetadata.RsvpStatus[message.selfRsvpStatus] === undefined ? message.selfRsvpStatus : $root.Web.EventInviteAdditionalMetadata.RsvpStatus[message.selfRsvpStatus] : message.selfRsvpStatus;
+                if (options.oneofs)
+                    object._selfRsvpStatus = "selfRsvpStatus";
+            }
+            if (message.selfAdditionalGuestCount != null && message.hasOwnProperty("selfAdditionalGuestCount")) {
+                object.selfAdditionalGuestCount = message.selfAdditionalGuestCount;
+                if (options.oneofs)
+                    object._selfAdditionalGuestCount = "selfAdditionalGuestCount";
+            }
+            if (message.selfInviteeLastUpdatedTsUsec != null && message.hasOwnProperty("selfInviteeLastUpdatedTsUsec")) {
+                if (typeof message.selfInviteeLastUpdatedTsUsec === "number")
+                    object.selfInviteeLastUpdatedTsUsec = options.longs === String ? String(message.selfInviteeLastUpdatedTsUsec) : message.selfInviteeLastUpdatedTsUsec;
+                else
+                    object.selfInviteeLastUpdatedTsUsec = options.longs === String ? $util.Long.prototype.toString.call(message.selfInviteeLastUpdatedTsUsec) : options.longs === Number ? new $util.LongBits(message.selfInviteeLastUpdatedTsUsec.low >>> 0, message.selfInviteeLastUpdatedTsUsec.high >>> 0).toNumber() : message.selfInviteeLastUpdatedTsUsec;
+                if (options.oneofs)
+                    object._selfInviteeLastUpdatedTsUsec = "selfInviteeLastUpdatedTsUsec";
             }
             return object;
         };
@@ -4447,6 +4657,46 @@ $root.Web = (function() {
             }
             return typeUrlPrefix + "/Web.EventInviteAdditionalMetadata";
         };
+
+        /**
+         * AccessStatus enum.
+         * @name Web.EventInviteAdditionalMetadata.AccessStatus
+         * @enum {number}
+         * @property {number} ACCESS_STATUS_UNKNOWN=0 ACCESS_STATUS_UNKNOWN value
+         * @property {number} HAS_ACCESS=1 HAS_ACCESS value
+         * @property {number} LEFT_EVENT=2 LEFT_EVENT value
+         * @property {number} REMOVED_FROM_INVITE_LIST=3 REMOVED_FROM_INVITE_LIST value
+         * @property {number} UNAVAILABLE=4 UNAVAILABLE value
+         */
+        EventInviteAdditionalMetadata.AccessStatus = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "ACCESS_STATUS_UNKNOWN"] = 0;
+            values[valuesById[1] = "HAS_ACCESS"] = 1;
+            values[valuesById[2] = "LEFT_EVENT"] = 2;
+            values[valuesById[3] = "REMOVED_FROM_INVITE_LIST"] = 3;
+            values[valuesById[4] = "UNAVAILABLE"] = 4;
+            return values;
+        })();
+
+        /**
+         * RsvpStatus enum.
+         * @name Web.EventInviteAdditionalMetadata.RsvpStatus
+         * @enum {number}
+         * @property {number} RSVP_STATUS_UNKNOWN=0 RSVP_STATUS_UNKNOWN value
+         * @property {number} GOING=1 GOING value
+         * @property {number} NOT_GOING=2 NOT_GOING value
+         * @property {number} MAYBE=3 MAYBE value
+         * @property {number} NO_RESPONSE=4 NO_RESPONSE value
+         */
+        EventInviteAdditionalMetadata.RsvpStatus = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "RSVP_STATUS_UNKNOWN"] = 0;
+            values[valuesById[1] = "GOING"] = 1;
+            values[valuesById[2] = "NOT_GOING"] = 2;
+            values[valuesById[3] = "MAYBE"] = 3;
+            values[valuesById[4] = "NO_RESPONSE"] = 4;
+            return values;
+        })();
 
         return EventInviteAdditionalMetadata;
     })();
@@ -4896,6 +5146,8 @@ $root.Web = (function() {
          * @property {boolean|null} [pollInvalidated] PollAdditionalMetadata pollInvalidated
          * @property {Array.<Web.PollAdditionalMetadata.IPollNameHashHistoryEntry>|null} [pollNameHashHistory] PollAdditionalMetadata pollNameHashHistory
          * @property {Array.<E2E.Message.PollCreationMessage.IOption>|null} [originalOptions] PollAdditionalMetadata originalOptions
+         * @property {Array.<Web.PollAdditionalMetadata.IPollOptionReplayEntry>|null} [pollOptionReplayEntries] PollAdditionalMetadata pollOptionReplayEntries
+         * @property {Web.PollAdditionalMetadata.IPollOptionReplayBase|null} [pollOptionReplayBase] PollAdditionalMetadata pollOptionReplayBase
          */
 
         /**
@@ -4909,6 +5161,7 @@ $root.Web = (function() {
         function PollAdditionalMetadata(properties) {
             this.pollNameHashHistory = [];
             this.originalOptions = [];
+            this.pollOptionReplayEntries = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -4939,12 +5192,34 @@ $root.Web = (function() {
          */
         PollAdditionalMetadata.prototype.originalOptions = $util.emptyArray;
 
+        /**
+         * PollAdditionalMetadata pollOptionReplayEntries.
+         * @member {Array.<Web.PollAdditionalMetadata.IPollOptionReplayEntry>} pollOptionReplayEntries
+         * @memberof Web.PollAdditionalMetadata
+         * @instance
+         */
+        PollAdditionalMetadata.prototype.pollOptionReplayEntries = $util.emptyArray;
+
+        /**
+         * PollAdditionalMetadata pollOptionReplayBase.
+         * @member {Web.PollAdditionalMetadata.IPollOptionReplayBase|null|undefined} pollOptionReplayBase
+         * @memberof Web.PollAdditionalMetadata
+         * @instance
+         */
+        PollAdditionalMetadata.prototype.pollOptionReplayBase = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(PollAdditionalMetadata.prototype, "_pollInvalidated", {
             get: $util.oneOfGetter($oneOfFields = ["pollInvalidated"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(PollAdditionalMetadata.prototype, "_pollOptionReplayBase", {
+            get: $util.oneOfGetter($oneOfFields = ["pollOptionReplayBase"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -4980,6 +5255,11 @@ $root.Web = (function() {
             if (message.originalOptions != null && message.originalOptions.length)
                 for (var i = 0; i < message.originalOptions.length; ++i)
                     $root.E2E.Message.PollCreationMessage.Option.encode(message.originalOptions[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.pollOptionReplayEntries != null && message.pollOptionReplayEntries.length)
+                for (var i = 0; i < message.pollOptionReplayEntries.length; ++i)
+                    $root.Web.PollAdditionalMetadata.PollOptionReplayEntry.encode(message.pollOptionReplayEntries[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            if (message.pollOptionReplayBase != null && Object.hasOwnProperty.call(message, "pollOptionReplayBase"))
+                $root.Web.PollAdditionalMetadata.PollOptionReplayBase.encode(message.pollOptionReplayBase, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
             return writer;
         };
 
@@ -5030,6 +5310,16 @@ $root.Web = (function() {
                         if (!(message.originalOptions && message.originalOptions.length))
                             message.originalOptions = [];
                         message.originalOptions.push($root.E2E.Message.PollCreationMessage.Option.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 4: {
+                        if (!(message.pollOptionReplayEntries && message.pollOptionReplayEntries.length))
+                            message.pollOptionReplayEntries = [];
+                        message.pollOptionReplayEntries.push($root.Web.PollAdditionalMetadata.PollOptionReplayEntry.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 5: {
+                        message.pollOptionReplayBase = $root.Web.PollAdditionalMetadata.PollOptionReplayBase.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -5091,6 +5381,23 @@ $root.Web = (function() {
                         return "originalOptions." + error;
                 }
             }
+            if (message.pollOptionReplayEntries != null && message.hasOwnProperty("pollOptionReplayEntries")) {
+                if (!Array.isArray(message.pollOptionReplayEntries))
+                    return "pollOptionReplayEntries: array expected";
+                for (var i = 0; i < message.pollOptionReplayEntries.length; ++i) {
+                    var error = $root.Web.PollAdditionalMetadata.PollOptionReplayEntry.verify(message.pollOptionReplayEntries[i]);
+                    if (error)
+                        return "pollOptionReplayEntries." + error;
+                }
+            }
+            if (message.pollOptionReplayBase != null && message.hasOwnProperty("pollOptionReplayBase")) {
+                properties._pollOptionReplayBase = 1;
+                {
+                    var error = $root.Web.PollAdditionalMetadata.PollOptionReplayBase.verify(message.pollOptionReplayBase);
+                    if (error)
+                        return "pollOptionReplayBase." + error;
+                }
+            }
             return null;
         };
 
@@ -5128,6 +5435,21 @@ $root.Web = (function() {
                     message.originalOptions[i] = $root.E2E.Message.PollCreationMessage.Option.fromObject(object.originalOptions[i]);
                 }
             }
+            if (object.pollOptionReplayEntries) {
+                if (!Array.isArray(object.pollOptionReplayEntries))
+                    throw TypeError(".Web.PollAdditionalMetadata.pollOptionReplayEntries: array expected");
+                message.pollOptionReplayEntries = [];
+                for (var i = 0; i < object.pollOptionReplayEntries.length; ++i) {
+                    if (typeof object.pollOptionReplayEntries[i] !== "object")
+                        throw TypeError(".Web.PollAdditionalMetadata.pollOptionReplayEntries: object expected");
+                    message.pollOptionReplayEntries[i] = $root.Web.PollAdditionalMetadata.PollOptionReplayEntry.fromObject(object.pollOptionReplayEntries[i]);
+                }
+            }
+            if (object.pollOptionReplayBase != null) {
+                if (typeof object.pollOptionReplayBase !== "object")
+                    throw TypeError(".Web.PollAdditionalMetadata.pollOptionReplayBase: object expected");
+                message.pollOptionReplayBase = $root.Web.PollAdditionalMetadata.PollOptionReplayBase.fromObject(object.pollOptionReplayBase);
+            }
             return message;
         };
 
@@ -5147,6 +5469,7 @@ $root.Web = (function() {
             if (options.arrays || options.defaults) {
                 object.pollNameHashHistory = [];
                 object.originalOptions = [];
+                object.pollOptionReplayEntries = [];
             }
             if (message.pollInvalidated != null && message.hasOwnProperty("pollInvalidated")) {
                 object.pollInvalidated = message.pollInvalidated;
@@ -5162,6 +5485,16 @@ $root.Web = (function() {
                 object.originalOptions = [];
                 for (var j = 0; j < message.originalOptions.length; ++j)
                     object.originalOptions[j] = $root.E2E.Message.PollCreationMessage.Option.toObject(message.originalOptions[j], options);
+            }
+            if (message.pollOptionReplayEntries && message.pollOptionReplayEntries.length) {
+                object.pollOptionReplayEntries = [];
+                for (var j = 0; j < message.pollOptionReplayEntries.length; ++j)
+                    object.pollOptionReplayEntries[j] = $root.Web.PollAdditionalMetadata.PollOptionReplayEntry.toObject(message.pollOptionReplayEntries[j], options);
+            }
+            if (message.pollOptionReplayBase != null && message.hasOwnProperty("pollOptionReplayBase")) {
+                object.pollOptionReplayBase = $root.Web.PollAdditionalMetadata.PollOptionReplayBase.toObject(message.pollOptionReplayBase, options);
+                if (options.oneofs)
+                    object._pollOptionReplayBase = "pollOptionReplayBase";
             }
             return object;
         };
@@ -5444,6 +5777,1097 @@ $root.Web = (function() {
             };
 
             return PollNameHashHistoryEntry;
+        })();
+
+        PollAdditionalMetadata.PollOptionReplayBase = (function() {
+
+            /**
+             * Properties of a PollOptionReplayBase.
+             * @memberof Web.PollAdditionalMetadata
+             * @interface IPollOptionReplayBase
+             * @property {number|Long|null} [boundaryTimestampMs] PollOptionReplayBase boundaryTimestampMs
+             * @property {number|Long|null} [editTimestampMs] PollOptionReplayBase editTimestampMs
+             * @property {Array.<Web.PollAdditionalMetadata.PollOptionReplayBase.IOption>|null} [options] PollOptionReplayBase options
+             */
+
+            /**
+             * Constructs a new PollOptionReplayBase.
+             * @memberof Web.PollAdditionalMetadata
+             * @classdesc Represents a PollOptionReplayBase.
+             * @implements IPollOptionReplayBase
+             * @constructor
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayBase=} [properties] Properties to set
+             */
+            function PollOptionReplayBase(properties) {
+                this.options = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * PollOptionReplayBase boundaryTimestampMs.
+             * @member {number|Long|null|undefined} boundaryTimestampMs
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @instance
+             */
+            PollOptionReplayBase.prototype.boundaryTimestampMs = null;
+
+            /**
+             * PollOptionReplayBase editTimestampMs.
+             * @member {number|Long|null|undefined} editTimestampMs
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @instance
+             */
+            PollOptionReplayBase.prototype.editTimestampMs = null;
+
+            /**
+             * PollOptionReplayBase options.
+             * @member {Array.<Web.PollAdditionalMetadata.PollOptionReplayBase.IOption>} options
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @instance
+             */
+            PollOptionReplayBase.prototype.options = $util.emptyArray;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOptionReplayBase.prototype, "_boundaryTimestampMs", {
+                get: $util.oneOfGetter($oneOfFields = ["boundaryTimestampMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOptionReplayBase.prototype, "_editTimestampMs", {
+                get: $util.oneOfGetter($oneOfFields = ["editTimestampMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new PollOptionReplayBase instance using the specified properties.
+             * @function create
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayBase=} [properties] Properties to set
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase} PollOptionReplayBase instance
+             */
+            PollOptionReplayBase.create = function create(properties) {
+                return new PollOptionReplayBase(properties);
+            };
+
+            /**
+             * Encodes the specified PollOptionReplayBase message. Does not implicitly {@link Web.PollAdditionalMetadata.PollOptionReplayBase.verify|verify} messages.
+             * @function encode
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayBase} message PollOptionReplayBase message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PollOptionReplayBase.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.boundaryTimestampMs != null && Object.hasOwnProperty.call(message, "boundaryTimestampMs"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.boundaryTimestampMs);
+                if (message.editTimestampMs != null && Object.hasOwnProperty.call(message, "editTimestampMs"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.editTimestampMs);
+                if (message.options != null && message.options.length)
+                    for (var i = 0; i < message.options.length; ++i)
+                        $root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option.encode(message.options[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified PollOptionReplayBase message, length delimited. Does not implicitly {@link Web.PollAdditionalMetadata.PollOptionReplayBase.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayBase} message PollOptionReplayBase message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PollOptionReplayBase.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a PollOptionReplayBase message from the specified reader or buffer.
+             * @function decode
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase} PollOptionReplayBase
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PollOptionReplayBase.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Web.PollAdditionalMetadata.PollOptionReplayBase();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.boundaryTimestampMs = reader.int64();
+                            break;
+                        }
+                    case 2: {
+                            message.editTimestampMs = reader.int64();
+                            break;
+                        }
+                    case 3: {
+                            if (!(message.options && message.options.length))
+                                message.options = [];
+                            message.options.push($root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option.decode(reader, reader.uint32()));
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a PollOptionReplayBase message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase} PollOptionReplayBase
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PollOptionReplayBase.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a PollOptionReplayBase message.
+             * @function verify
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            PollOptionReplayBase.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.boundaryTimestampMs != null && message.hasOwnProperty("boundaryTimestampMs")) {
+                    properties._boundaryTimestampMs = 1;
+                    if (!$util.isInteger(message.boundaryTimestampMs) && !(message.boundaryTimestampMs && $util.isInteger(message.boundaryTimestampMs.low) && $util.isInteger(message.boundaryTimestampMs.high)))
+                        return "boundaryTimestampMs: integer|Long expected";
+                }
+                if (message.editTimestampMs != null && message.hasOwnProperty("editTimestampMs")) {
+                    properties._editTimestampMs = 1;
+                    if (!$util.isInteger(message.editTimestampMs) && !(message.editTimestampMs && $util.isInteger(message.editTimestampMs.low) && $util.isInteger(message.editTimestampMs.high)))
+                        return "editTimestampMs: integer|Long expected";
+                }
+                if (message.options != null && message.hasOwnProperty("options")) {
+                    if (!Array.isArray(message.options))
+                        return "options: array expected";
+                    for (var i = 0; i < message.options.length; ++i) {
+                        var error = $root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option.verify(message.options[i]);
+                        if (error)
+                            return "options." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a PollOptionReplayBase message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase} PollOptionReplayBase
+             */
+            PollOptionReplayBase.fromObject = function fromObject(object) {
+                if (object instanceof $root.Web.PollAdditionalMetadata.PollOptionReplayBase)
+                    return object;
+                var message = new $root.Web.PollAdditionalMetadata.PollOptionReplayBase();
+                if (object.boundaryTimestampMs != null)
+                    if ($util.Long)
+                        (message.boundaryTimestampMs = $util.Long.fromValue(object.boundaryTimestampMs)).unsigned = false;
+                    else if (typeof object.boundaryTimestampMs === "string")
+                        message.boundaryTimestampMs = parseInt(object.boundaryTimestampMs, 10);
+                    else if (typeof object.boundaryTimestampMs === "number")
+                        message.boundaryTimestampMs = object.boundaryTimestampMs;
+                    else if (typeof object.boundaryTimestampMs === "object")
+                        message.boundaryTimestampMs = new $util.LongBits(object.boundaryTimestampMs.low >>> 0, object.boundaryTimestampMs.high >>> 0).toNumber();
+                if (object.editTimestampMs != null)
+                    if ($util.Long)
+                        (message.editTimestampMs = $util.Long.fromValue(object.editTimestampMs)).unsigned = false;
+                    else if (typeof object.editTimestampMs === "string")
+                        message.editTimestampMs = parseInt(object.editTimestampMs, 10);
+                    else if (typeof object.editTimestampMs === "number")
+                        message.editTimestampMs = object.editTimestampMs;
+                    else if (typeof object.editTimestampMs === "object")
+                        message.editTimestampMs = new $util.LongBits(object.editTimestampMs.low >>> 0, object.editTimestampMs.high >>> 0).toNumber();
+                if (object.options) {
+                    if (!Array.isArray(object.options))
+                        throw TypeError(".Web.PollAdditionalMetadata.PollOptionReplayBase.options: array expected");
+                    message.options = [];
+                    for (var i = 0; i < object.options.length; ++i) {
+                        if (typeof object.options[i] !== "object")
+                            throw TypeError(".Web.PollAdditionalMetadata.PollOptionReplayBase.options: object expected");
+                        message.options[i] = $root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option.fromObject(object.options[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a PollOptionReplayBase message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {Web.PollAdditionalMetadata.PollOptionReplayBase} message PollOptionReplayBase
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            PollOptionReplayBase.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.options = [];
+                if (message.boundaryTimestampMs != null && message.hasOwnProperty("boundaryTimestampMs")) {
+                    if (typeof message.boundaryTimestampMs === "number")
+                        object.boundaryTimestampMs = options.longs === String ? String(message.boundaryTimestampMs) : message.boundaryTimestampMs;
+                    else
+                        object.boundaryTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.boundaryTimestampMs) : options.longs === Number ? new $util.LongBits(message.boundaryTimestampMs.low >>> 0, message.boundaryTimestampMs.high >>> 0).toNumber() : message.boundaryTimestampMs;
+                    if (options.oneofs)
+                        object._boundaryTimestampMs = "boundaryTimestampMs";
+                }
+                if (message.editTimestampMs != null && message.hasOwnProperty("editTimestampMs")) {
+                    if (typeof message.editTimestampMs === "number")
+                        object.editTimestampMs = options.longs === String ? String(message.editTimestampMs) : message.editTimestampMs;
+                    else
+                        object.editTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.editTimestampMs) : options.longs === Number ? new $util.LongBits(message.editTimestampMs.low >>> 0, message.editTimestampMs.high >>> 0).toNumber() : message.editTimestampMs;
+                    if (options.oneofs)
+                        object._editTimestampMs = "editTimestampMs";
+                }
+                if (message.options && message.options.length) {
+                    object.options = [];
+                    for (var j = 0; j < message.options.length; ++j)
+                        object.options[j] = $root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option.toObject(message.options[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this PollOptionReplayBase to JSON.
+             * @function toJSON
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            PollOptionReplayBase.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for PollOptionReplayBase
+             * @function getTypeUrl
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            PollOptionReplayBase.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/Web.PollAdditionalMetadata.PollOptionReplayBase";
+            };
+
+            PollOptionReplayBase.Option = (function() {
+
+                /**
+                 * Properties of an Option.
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+                 * @interface IOption
+                 * @property {Uint8Array|null} [optionHash] Option optionHash
+                 * @property {number|Long|null} [enteredTimestampMs] Option enteredTimestampMs
+                 * @property {Protocol.IMessageKey|null} [addMessageKey] Option addMessageKey
+                 */
+
+                /**
+                 * Constructs a new Option.
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase
+                 * @classdesc Represents an Option.
+                 * @implements IOption
+                 * @constructor
+                 * @param {Web.PollAdditionalMetadata.PollOptionReplayBase.IOption=} [properties] Properties to set
+                 */
+                function Option(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Option optionHash.
+                 * @member {Uint8Array|null|undefined} optionHash
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @instance
+                 */
+                Option.prototype.optionHash = null;
+
+                /**
+                 * Option enteredTimestampMs.
+                 * @member {number|Long|null|undefined} enteredTimestampMs
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @instance
+                 */
+                Option.prototype.enteredTimestampMs = null;
+
+                /**
+                 * Option addMessageKey.
+                 * @member {Protocol.IMessageKey|null|undefined} addMessageKey
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @instance
+                 */
+                Option.prototype.addMessageKey = null;
+
+                // OneOf field names bound to virtual getters and setters
+                var $oneOfFields;
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(Option.prototype, "_optionHash", {
+                    get: $util.oneOfGetter($oneOfFields = ["optionHash"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(Option.prototype, "_enteredTimestampMs", {
+                    get: $util.oneOfGetter($oneOfFields = ["enteredTimestampMs"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                // Virtual OneOf for proto3 optional field
+                Object.defineProperty(Option.prototype, "_addMessageKey", {
+                    get: $util.oneOfGetter($oneOfFields = ["addMessageKey"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new Option instance using the specified properties.
+                 * @function create
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {Web.PollAdditionalMetadata.PollOptionReplayBase.IOption=} [properties] Properties to set
+                 * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase.Option} Option instance
+                 */
+                Option.create = function create(properties) {
+                    return new Option(properties);
+                };
+
+                /**
+                 * Encodes the specified Option message. Does not implicitly {@link Web.PollAdditionalMetadata.PollOptionReplayBase.Option.verify|verify} messages.
+                 * @function encode
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {Web.PollAdditionalMetadata.PollOptionReplayBase.IOption} message Option message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Option.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.optionHash != null && Object.hasOwnProperty.call(message, "optionHash"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.optionHash);
+                    if (message.enteredTimestampMs != null && Object.hasOwnProperty.call(message, "enteredTimestampMs"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).int64(message.enteredTimestampMs);
+                    if (message.addMessageKey != null && Object.hasOwnProperty.call(message, "addMessageKey"))
+                        $root.Protocol.MessageKey.encode(message.addMessageKey, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified Option message, length delimited. Does not implicitly {@link Web.PollAdditionalMetadata.PollOptionReplayBase.Option.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {Web.PollAdditionalMetadata.PollOptionReplayBase.IOption} message Option message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Option.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes an Option message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase.Option} Option
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Option.decode = function decode(reader, length, error) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.optionHash = reader.bytes();
+                                break;
+                            }
+                        case 2: {
+                                message.enteredTimestampMs = reader.int64();
+                                break;
+                            }
+                        case 3: {
+                                message.addMessageKey = $root.Protocol.MessageKey.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes an Option message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase.Option} Option
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Option.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies an Option message.
+                 * @function verify
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Option.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    var properties = {};
+                    if (message.optionHash != null && message.hasOwnProperty("optionHash")) {
+                        properties._optionHash = 1;
+                        if (!(message.optionHash && typeof message.optionHash.length === "number" || $util.isString(message.optionHash)))
+                            return "optionHash: buffer expected";
+                    }
+                    if (message.enteredTimestampMs != null && message.hasOwnProperty("enteredTimestampMs")) {
+                        properties._enteredTimestampMs = 1;
+                        if (!$util.isInteger(message.enteredTimestampMs) && !(message.enteredTimestampMs && $util.isInteger(message.enteredTimestampMs.low) && $util.isInteger(message.enteredTimestampMs.high)))
+                            return "enteredTimestampMs: integer|Long expected";
+                    }
+                    if (message.addMessageKey != null && message.hasOwnProperty("addMessageKey")) {
+                        properties._addMessageKey = 1;
+                        {
+                            var error = $root.Protocol.MessageKey.verify(message.addMessageKey);
+                            if (error)
+                                return "addMessageKey." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates an Option message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {Web.PollAdditionalMetadata.PollOptionReplayBase.Option} Option
+                 */
+                Option.fromObject = function fromObject(object) {
+                    if (object instanceof $root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option)
+                        return object;
+                    var message = new $root.Web.PollAdditionalMetadata.PollOptionReplayBase.Option();
+                    if (object.optionHash != null)
+                        if (typeof object.optionHash === "string")
+                            $util.base64.decode(object.optionHash, message.optionHash = $util.newBuffer($util.base64.length(object.optionHash)), 0);
+                        else if (object.optionHash.length >= 0)
+                            message.optionHash = object.optionHash;
+                    if (object.enteredTimestampMs != null)
+                        if ($util.Long)
+                            (message.enteredTimestampMs = $util.Long.fromValue(object.enteredTimestampMs)).unsigned = false;
+                        else if (typeof object.enteredTimestampMs === "string")
+                            message.enteredTimestampMs = parseInt(object.enteredTimestampMs, 10);
+                        else if (typeof object.enteredTimestampMs === "number")
+                            message.enteredTimestampMs = object.enteredTimestampMs;
+                        else if (typeof object.enteredTimestampMs === "object")
+                            message.enteredTimestampMs = new $util.LongBits(object.enteredTimestampMs.low >>> 0, object.enteredTimestampMs.high >>> 0).toNumber();
+                    if (object.addMessageKey != null) {
+                        if (typeof object.addMessageKey !== "object")
+                            throw TypeError(".Web.PollAdditionalMetadata.PollOptionReplayBase.Option.addMessageKey: object expected");
+                        message.addMessageKey = $root.Protocol.MessageKey.fromObject(object.addMessageKey);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from an Option message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {Web.PollAdditionalMetadata.PollOptionReplayBase.Option} message Option
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Option.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (message.optionHash != null && message.hasOwnProperty("optionHash")) {
+                        object.optionHash = options.bytes === String ? $util.base64.encode(message.optionHash, 0, message.optionHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.optionHash) : message.optionHash;
+                        if (options.oneofs)
+                            object._optionHash = "optionHash";
+                    }
+                    if (message.enteredTimestampMs != null && message.hasOwnProperty("enteredTimestampMs")) {
+                        if (typeof message.enteredTimestampMs === "number")
+                            object.enteredTimestampMs = options.longs === String ? String(message.enteredTimestampMs) : message.enteredTimestampMs;
+                        else
+                            object.enteredTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.enteredTimestampMs) : options.longs === Number ? new $util.LongBits(message.enteredTimestampMs.low >>> 0, message.enteredTimestampMs.high >>> 0).toNumber() : message.enteredTimestampMs;
+                        if (options.oneofs)
+                            object._enteredTimestampMs = "enteredTimestampMs";
+                    }
+                    if (message.addMessageKey != null && message.hasOwnProperty("addMessageKey")) {
+                        object.addMessageKey = $root.Protocol.MessageKey.toObject(message.addMessageKey, options);
+                        if (options.oneofs)
+                            object._addMessageKey = "addMessageKey";
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this Option to JSON.
+                 * @function toJSON
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Option.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for Option
+                 * @function getTypeUrl
+                 * @memberof Web.PollAdditionalMetadata.PollOptionReplayBase.Option
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                Option.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/Web.PollAdditionalMetadata.PollOptionReplayBase.Option";
+                };
+
+                return Option;
+            })();
+
+            return PollOptionReplayBase;
+        })();
+
+        PollAdditionalMetadata.PollOptionReplayEntry = (function() {
+
+            /**
+             * Properties of a PollOptionReplayEntry.
+             * @memberof Web.PollAdditionalMetadata
+             * @interface IPollOptionReplayEntry
+             * @property {Web.PollAdditionalMetadata.PollOptionReplayEntry.Type|null} [type] PollOptionReplayEntry type
+             * @property {Protocol.IMessageKey|null} [messageKey] PollOptionReplayEntry messageKey
+             * @property {number|Long|null} [serverTimestampMs] PollOptionReplayEntry serverTimestampMs
+             * @property {number|Long|null} [editTimestampMs] PollOptionReplayEntry editTimestampMs
+             * @property {Array.<Uint8Array>|null} [optionHashes] PollOptionReplayEntry optionHashes
+             * @property {Protocol.IMessageKey|null} [revokedMessageKey] PollOptionReplayEntry revokedMessageKey
+             */
+
+            /**
+             * Constructs a new PollOptionReplayEntry.
+             * @memberof Web.PollAdditionalMetadata
+             * @classdesc Represents a PollOptionReplayEntry.
+             * @implements IPollOptionReplayEntry
+             * @constructor
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayEntry=} [properties] Properties to set
+             */
+            function PollOptionReplayEntry(properties) {
+                this.optionHashes = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * PollOptionReplayEntry type.
+             * @member {Web.PollAdditionalMetadata.PollOptionReplayEntry.Type|null|undefined} type
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @instance
+             */
+            PollOptionReplayEntry.prototype.type = null;
+
+            /**
+             * PollOptionReplayEntry messageKey.
+             * @member {Protocol.IMessageKey|null|undefined} messageKey
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @instance
+             */
+            PollOptionReplayEntry.prototype.messageKey = null;
+
+            /**
+             * PollOptionReplayEntry serverTimestampMs.
+             * @member {number|Long|null|undefined} serverTimestampMs
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @instance
+             */
+            PollOptionReplayEntry.prototype.serverTimestampMs = null;
+
+            /**
+             * PollOptionReplayEntry editTimestampMs.
+             * @member {number|Long|null|undefined} editTimestampMs
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @instance
+             */
+            PollOptionReplayEntry.prototype.editTimestampMs = null;
+
+            /**
+             * PollOptionReplayEntry optionHashes.
+             * @member {Array.<Uint8Array>} optionHashes
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @instance
+             */
+            PollOptionReplayEntry.prototype.optionHashes = $util.emptyArray;
+
+            /**
+             * PollOptionReplayEntry revokedMessageKey.
+             * @member {Protocol.IMessageKey|null|undefined} revokedMessageKey
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @instance
+             */
+            PollOptionReplayEntry.prototype.revokedMessageKey = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOptionReplayEntry.prototype, "_type", {
+                get: $util.oneOfGetter($oneOfFields = ["type"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOptionReplayEntry.prototype, "_messageKey", {
+                get: $util.oneOfGetter($oneOfFields = ["messageKey"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOptionReplayEntry.prototype, "_serverTimestampMs", {
+                get: $util.oneOfGetter($oneOfFields = ["serverTimestampMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOptionReplayEntry.prototype, "_editTimestampMs", {
+                get: $util.oneOfGetter($oneOfFields = ["editTimestampMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PollOptionReplayEntry.prototype, "_revokedMessageKey", {
+                get: $util.oneOfGetter($oneOfFields = ["revokedMessageKey"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new PollOptionReplayEntry instance using the specified properties.
+             * @function create
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayEntry=} [properties] Properties to set
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayEntry} PollOptionReplayEntry instance
+             */
+            PollOptionReplayEntry.create = function create(properties) {
+                return new PollOptionReplayEntry(properties);
+            };
+
+            /**
+             * Encodes the specified PollOptionReplayEntry message. Does not implicitly {@link Web.PollAdditionalMetadata.PollOptionReplayEntry.verify|verify} messages.
+             * @function encode
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayEntry} message PollOptionReplayEntry message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PollOptionReplayEntry.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+                if (message.messageKey != null && Object.hasOwnProperty.call(message, "messageKey"))
+                    $root.Protocol.MessageKey.encode(message.messageKey, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.serverTimestampMs != null && Object.hasOwnProperty.call(message, "serverTimestampMs"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.serverTimestampMs);
+                if (message.editTimestampMs != null && Object.hasOwnProperty.call(message, "editTimestampMs"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).int64(message.editTimestampMs);
+                if (message.optionHashes != null && message.optionHashes.length)
+                    for (var i = 0; i < message.optionHashes.length; ++i)
+                        writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.optionHashes[i]);
+                if (message.revokedMessageKey != null && Object.hasOwnProperty.call(message, "revokedMessageKey"))
+                    $root.Protocol.MessageKey.encode(message.revokedMessageKey, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified PollOptionReplayEntry message, length delimited. Does not implicitly {@link Web.PollAdditionalMetadata.PollOptionReplayEntry.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {Web.PollAdditionalMetadata.IPollOptionReplayEntry} message PollOptionReplayEntry message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PollOptionReplayEntry.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a PollOptionReplayEntry message from the specified reader or buffer.
+             * @function decode
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayEntry} PollOptionReplayEntry
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PollOptionReplayEntry.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Web.PollAdditionalMetadata.PollOptionReplayEntry();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.type = reader.int32();
+                            break;
+                        }
+                    case 2: {
+                            message.messageKey = $root.Protocol.MessageKey.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 3: {
+                            message.serverTimestampMs = reader.int64();
+                            break;
+                        }
+                    case 4: {
+                            message.editTimestampMs = reader.int64();
+                            break;
+                        }
+                    case 5: {
+                            if (!(message.optionHashes && message.optionHashes.length))
+                                message.optionHashes = [];
+                            message.optionHashes.push(reader.bytes());
+                            break;
+                        }
+                    case 6: {
+                            message.revokedMessageKey = $root.Protocol.MessageKey.decode(reader, reader.uint32());
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a PollOptionReplayEntry message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayEntry} PollOptionReplayEntry
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PollOptionReplayEntry.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a PollOptionReplayEntry message.
+             * @function verify
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            PollOptionReplayEntry.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.type != null && message.hasOwnProperty("type")) {
+                    properties._type = 1;
+                    switch (message.type) {
+                    default:
+                        return "type: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        break;
+                    }
+                }
+                if (message.messageKey != null && message.hasOwnProperty("messageKey")) {
+                    properties._messageKey = 1;
+                    {
+                        var error = $root.Protocol.MessageKey.verify(message.messageKey);
+                        if (error)
+                            return "messageKey." + error;
+                    }
+                }
+                if (message.serverTimestampMs != null && message.hasOwnProperty("serverTimestampMs")) {
+                    properties._serverTimestampMs = 1;
+                    if (!$util.isInteger(message.serverTimestampMs) && !(message.serverTimestampMs && $util.isInteger(message.serverTimestampMs.low) && $util.isInteger(message.serverTimestampMs.high)))
+                        return "serverTimestampMs: integer|Long expected";
+                }
+                if (message.editTimestampMs != null && message.hasOwnProperty("editTimestampMs")) {
+                    properties._editTimestampMs = 1;
+                    if (!$util.isInteger(message.editTimestampMs) && !(message.editTimestampMs && $util.isInteger(message.editTimestampMs.low) && $util.isInteger(message.editTimestampMs.high)))
+                        return "editTimestampMs: integer|Long expected";
+                }
+                if (message.optionHashes != null && message.hasOwnProperty("optionHashes")) {
+                    if (!Array.isArray(message.optionHashes))
+                        return "optionHashes: array expected";
+                    for (var i = 0; i < message.optionHashes.length; ++i)
+                        if (!(message.optionHashes[i] && typeof message.optionHashes[i].length === "number" || $util.isString(message.optionHashes[i])))
+                            return "optionHashes: buffer[] expected";
+                }
+                if (message.revokedMessageKey != null && message.hasOwnProperty("revokedMessageKey")) {
+                    properties._revokedMessageKey = 1;
+                    {
+                        var error = $root.Protocol.MessageKey.verify(message.revokedMessageKey);
+                        if (error)
+                            return "revokedMessageKey." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a PollOptionReplayEntry message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {Web.PollAdditionalMetadata.PollOptionReplayEntry} PollOptionReplayEntry
+             */
+            PollOptionReplayEntry.fromObject = function fromObject(object) {
+                if (object instanceof $root.Web.PollAdditionalMetadata.PollOptionReplayEntry)
+                    return object;
+                var message = new $root.Web.PollAdditionalMetadata.PollOptionReplayEntry();
+                switch (object.type) {
+                default:
+                    if (typeof object.type === "number") {
+                        message.type = object.type;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.type = 0;
+                    break;
+                case "EDIT":
+                case 1:
+                    message.type = 1;
+                    break;
+                case "ADD":
+                case 2:
+                    message.type = 2;
+                    break;
+                case "REVOKE":
+                case 3:
+                    message.type = 3;
+                    break;
+                }
+                if (object.messageKey != null) {
+                    if (typeof object.messageKey !== "object")
+                        throw TypeError(".Web.PollAdditionalMetadata.PollOptionReplayEntry.messageKey: object expected");
+                    message.messageKey = $root.Protocol.MessageKey.fromObject(object.messageKey);
+                }
+                if (object.serverTimestampMs != null)
+                    if ($util.Long)
+                        (message.serverTimestampMs = $util.Long.fromValue(object.serverTimestampMs)).unsigned = false;
+                    else if (typeof object.serverTimestampMs === "string")
+                        message.serverTimestampMs = parseInt(object.serverTimestampMs, 10);
+                    else if (typeof object.serverTimestampMs === "number")
+                        message.serverTimestampMs = object.serverTimestampMs;
+                    else if (typeof object.serverTimestampMs === "object")
+                        message.serverTimestampMs = new $util.LongBits(object.serverTimestampMs.low >>> 0, object.serverTimestampMs.high >>> 0).toNumber();
+                if (object.editTimestampMs != null)
+                    if ($util.Long)
+                        (message.editTimestampMs = $util.Long.fromValue(object.editTimestampMs)).unsigned = false;
+                    else if (typeof object.editTimestampMs === "string")
+                        message.editTimestampMs = parseInt(object.editTimestampMs, 10);
+                    else if (typeof object.editTimestampMs === "number")
+                        message.editTimestampMs = object.editTimestampMs;
+                    else if (typeof object.editTimestampMs === "object")
+                        message.editTimestampMs = new $util.LongBits(object.editTimestampMs.low >>> 0, object.editTimestampMs.high >>> 0).toNumber();
+                if (object.optionHashes) {
+                    if (!Array.isArray(object.optionHashes))
+                        throw TypeError(".Web.PollAdditionalMetadata.PollOptionReplayEntry.optionHashes: array expected");
+                    message.optionHashes = [];
+                    for (var i = 0; i < object.optionHashes.length; ++i)
+                        if (typeof object.optionHashes[i] === "string")
+                            $util.base64.decode(object.optionHashes[i], message.optionHashes[i] = $util.newBuffer($util.base64.length(object.optionHashes[i])), 0);
+                        else if (object.optionHashes[i].length >= 0)
+                            message.optionHashes[i] = object.optionHashes[i];
+                }
+                if (object.revokedMessageKey != null) {
+                    if (typeof object.revokedMessageKey !== "object")
+                        throw TypeError(".Web.PollAdditionalMetadata.PollOptionReplayEntry.revokedMessageKey: object expected");
+                    message.revokedMessageKey = $root.Protocol.MessageKey.fromObject(object.revokedMessageKey);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a PollOptionReplayEntry message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {Web.PollAdditionalMetadata.PollOptionReplayEntry} message PollOptionReplayEntry
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            PollOptionReplayEntry.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.optionHashes = [];
+                if (message.type != null && message.hasOwnProperty("type")) {
+                    object.type = options.enums === String ? $root.Web.PollAdditionalMetadata.PollOptionReplayEntry.Type[message.type] === undefined ? message.type : $root.Web.PollAdditionalMetadata.PollOptionReplayEntry.Type[message.type] : message.type;
+                    if (options.oneofs)
+                        object._type = "type";
+                }
+                if (message.messageKey != null && message.hasOwnProperty("messageKey")) {
+                    object.messageKey = $root.Protocol.MessageKey.toObject(message.messageKey, options);
+                    if (options.oneofs)
+                        object._messageKey = "messageKey";
+                }
+                if (message.serverTimestampMs != null && message.hasOwnProperty("serverTimestampMs")) {
+                    if (typeof message.serverTimestampMs === "number")
+                        object.serverTimestampMs = options.longs === String ? String(message.serverTimestampMs) : message.serverTimestampMs;
+                    else
+                        object.serverTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.serverTimestampMs) : options.longs === Number ? new $util.LongBits(message.serverTimestampMs.low >>> 0, message.serverTimestampMs.high >>> 0).toNumber() : message.serverTimestampMs;
+                    if (options.oneofs)
+                        object._serverTimestampMs = "serverTimestampMs";
+                }
+                if (message.editTimestampMs != null && message.hasOwnProperty("editTimestampMs")) {
+                    if (typeof message.editTimestampMs === "number")
+                        object.editTimestampMs = options.longs === String ? String(message.editTimestampMs) : message.editTimestampMs;
+                    else
+                        object.editTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.editTimestampMs) : options.longs === Number ? new $util.LongBits(message.editTimestampMs.low >>> 0, message.editTimestampMs.high >>> 0).toNumber() : message.editTimestampMs;
+                    if (options.oneofs)
+                        object._editTimestampMs = "editTimestampMs";
+                }
+                if (message.optionHashes && message.optionHashes.length) {
+                    object.optionHashes = [];
+                    for (var j = 0; j < message.optionHashes.length; ++j)
+                        object.optionHashes[j] = options.bytes === String ? $util.base64.encode(message.optionHashes[j], 0, message.optionHashes[j].length) : options.bytes === Array ? Array.prototype.slice.call(message.optionHashes[j]) : message.optionHashes[j];
+                }
+                if (message.revokedMessageKey != null && message.hasOwnProperty("revokedMessageKey")) {
+                    object.revokedMessageKey = $root.Protocol.MessageKey.toObject(message.revokedMessageKey, options);
+                    if (options.oneofs)
+                        object._revokedMessageKey = "revokedMessageKey";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this PollOptionReplayEntry to JSON.
+             * @function toJSON
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            PollOptionReplayEntry.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for PollOptionReplayEntry
+             * @function getTypeUrl
+             * @memberof Web.PollAdditionalMetadata.PollOptionReplayEntry
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            PollOptionReplayEntry.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/Web.PollAdditionalMetadata.PollOptionReplayEntry";
+            };
+
+            /**
+             * Type enum.
+             * @name Web.PollAdditionalMetadata.PollOptionReplayEntry.Type
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} EDIT=1 EDIT value
+             * @property {number} ADD=2 ADD value
+             * @property {number} REVOKE=3 REVOKE value
+             */
+            PollOptionReplayEntry.Type = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "EDIT"] = 1;
+                values[valuesById[2] = "ADD"] = 2;
+                values[valuesById[3] = "REVOKE"] = 3;
+                return values;
+            })();
+
+            return PollOptionReplayEntry;
         })();
 
         return PollAdditionalMetadata;
@@ -12754,6 +14178,7 @@ $root.Web = (function() {
          * @property {string|null} [decisionId] WebMessageInfo decisionId
          * @property {Array.<string>|null} [decisionSources] WebMessageInfo decisionSources
          * @property {Web.IEventInviteAdditionalMetadata|null} [eventInviteAdditionalMetadata] WebMessageInfo eventInviteAdditionalMetadata
+         * @property {number|Long|null} [groupHistoryLastCountedMessageTimestamp] WebMessageInfo groupHistoryLastCountedMessageTimestamp
          */
 
         /**
@@ -13366,6 +14791,14 @@ $root.Web = (function() {
          */
         WebMessageInfo.prototype.eventInviteAdditionalMetadata = null;
 
+        /**
+         * WebMessageInfo groupHistoryLastCountedMessageTimestamp.
+         * @member {number|Long|null|undefined} groupHistoryLastCountedMessageTimestamp
+         * @memberof Web.WebMessageInfo
+         * @instance
+         */
+        WebMessageInfo.prototype.groupHistoryLastCountedMessageTimestamp = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -13741,6 +15174,12 @@ $root.Web = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(WebMessageInfo.prototype, "_groupHistoryLastCountedMessageTimestamp", {
+            get: $util.oneOfGetter($oneOfFields = ["groupHistoryLastCountedMessageTimestamp"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new WebMessageInfo instance using the specified properties.
          * @function create
@@ -13922,6 +15361,8 @@ $root.Web = (function() {
                     writer.uint32(/* id 83, wireType 2 =*/666).string(message.decisionSources[i]);
             if (message.eventInviteAdditionalMetadata != null && Object.hasOwnProperty.call(message, "eventInviteAdditionalMetadata"))
                 $root.Web.EventInviteAdditionalMetadata.encode(message.eventInviteAdditionalMetadata, writer.uint32(/* id 84, wireType 2 =*/674).fork()).ldelim();
+            if (message.groupHistoryLastCountedMessageTimestamp != null && Object.hasOwnProperty.call(message, "groupHistoryLastCountedMessageTimestamp"))
+                writer.uint32(/* id 85, wireType 0 =*/680).uint64(message.groupHistoryLastCountedMessageTimestamp);
             return writer;
         };
 
@@ -14270,6 +15711,10 @@ $root.Web = (function() {
                     }
                 case 84: {
                         message.eventInviteAdditionalMetadata = $root.Web.EventInviteAdditionalMetadata.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 85: {
+                        message.groupHistoryLastCountedMessageTimestamp = reader.uint64();
                         break;
                     }
                 default:
@@ -14665,6 +16110,7 @@ $root.Web = (function() {
                 case 289:
                 case 290:
                 case 291:
+                case 293:
                     break;
                 }
             }
@@ -15064,6 +16510,11 @@ $root.Web = (function() {
                     if (error)
                         return "eventInviteAdditionalMetadata." + error;
                 }
+            }
+            if (message.groupHistoryLastCountedMessageTimestamp != null && message.hasOwnProperty("groupHistoryLastCountedMessageTimestamp")) {
+                properties._groupHistoryLastCountedMessageTimestamp = 1;
+                if (!$util.isInteger(message.groupHistoryLastCountedMessageTimestamp) && !(message.groupHistoryLastCountedMessageTimestamp && $util.isInteger(message.groupHistoryLastCountedMessageTimestamp.low) && $util.isInteger(message.groupHistoryLastCountedMessageTimestamp.high)))
+                    return "groupHistoryLastCountedMessageTimestamp: integer|Long expected";
             }
             return null;
         };
@@ -16236,6 +17687,10 @@ $root.Web = (function() {
             case 291:
                 message.messageStubType = 291;
                 break;
+            case "GROUP_CUSTOM_REACTIONS":
+            case 293:
+                message.messageStubType = 293;
+                break;
             }
             if (object.clearMedia != null)
                 message.clearMedia = Boolean(object.clearMedia);
@@ -16548,6 +18003,15 @@ $root.Web = (function() {
                     throw TypeError(".Web.WebMessageInfo.eventInviteAdditionalMetadata: object expected");
                 message.eventInviteAdditionalMetadata = $root.Web.EventInviteAdditionalMetadata.fromObject(object.eventInviteAdditionalMetadata);
             }
+            if (object.groupHistoryLastCountedMessageTimestamp != null)
+                if ($util.Long)
+                    (message.groupHistoryLastCountedMessageTimestamp = $util.Long.fromValue(object.groupHistoryLastCountedMessageTimestamp)).unsigned = true;
+                else if (typeof object.groupHistoryLastCountedMessageTimestamp === "string")
+                    message.groupHistoryLastCountedMessageTimestamp = parseInt(object.groupHistoryLastCountedMessageTimestamp, 10);
+                else if (typeof object.groupHistoryLastCountedMessageTimestamp === "number")
+                    message.groupHistoryLastCountedMessageTimestamp = object.groupHistoryLastCountedMessageTimestamp;
+                else if (typeof object.groupHistoryLastCountedMessageTimestamp === "object")
+                    message.groupHistoryLastCountedMessageTimestamp = new $util.LongBits(object.groupHistoryLastCountedMessageTimestamp.low >>> 0, object.groupHistoryLastCountedMessageTimestamp.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -16960,6 +18424,14 @@ $root.Web = (function() {
                 if (options.oneofs)
                     object._eventInviteAdditionalMetadata = "eventInviteAdditionalMetadata";
             }
+            if (message.groupHistoryLastCountedMessageTimestamp != null && message.hasOwnProperty("groupHistoryLastCountedMessageTimestamp")) {
+                if (typeof message.groupHistoryLastCountedMessageTimestamp === "number")
+                    object.groupHistoryLastCountedMessageTimestamp = options.longs === String ? String(message.groupHistoryLastCountedMessageTimestamp) : message.groupHistoryLastCountedMessageTimestamp;
+                else
+                    object.groupHistoryLastCountedMessageTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.groupHistoryLastCountedMessageTimestamp) : options.longs === Number ? new $util.LongBits(message.groupHistoryLastCountedMessageTimestamp.low >>> 0, message.groupHistoryLastCountedMessageTimestamp.high >>> 0).toNumber(true) : message.groupHistoryLastCountedMessageTimestamp;
+                if (options.oneofs)
+                    object._groupHistoryLastCountedMessageTimestamp = "groupHistoryLastCountedMessageTimestamp";
+            }
             return object;
         };
 
@@ -17300,6 +18772,7 @@ $root.Web = (function() {
          * @property {number} SPLIT_PAYMENT_MARKED_AS_PAID=289 SPLIT_PAYMENT_MARKED_AS_PAID value
          * @property {number} POLL_OPTIONS_REMOVED=290 POLL_OPTIONS_REMOVED value
          * @property {number} POLL_ADDED_OPTION_REMOVED=291 POLL_ADDED_OPTION_REMOVED value
+         * @property {number} GROUP_CUSTOM_REACTIONS=293 GROUP_CUSTOM_REACTIONS value
          */
         WebMessageInfo.StubType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -17570,6 +19043,7 @@ $root.Web = (function() {
             values[valuesById[289] = "SPLIT_PAYMENT_MARKED_AS_PAID"] = 289;
             values[valuesById[290] = "POLL_OPTIONS_REMOVED"] = 290;
             values[valuesById[291] = "POLL_ADDED_OPTION_REMOVED"] = 291;
+            values[valuesById[293] = "GROUP_CUSTOM_REACTIONS"] = 293;
             return values;
         })();
 
@@ -17587,6 +19061,511 @@ $root.E2E = (function() {
      * @namespace
      */
     var E2E = {};
+
+    E2E.GroupRootKeyRequest = (function() {
+
+        /**
+         * Properties of a GroupRootKeyRequest.
+         * @memberof E2E
+         * @interface IGroupRootKeyRequest
+         * @property {string|null} [keyId] GroupRootKeyRequest keyId
+         */
+
+        /**
+         * Constructs a new GroupRootKeyRequest.
+         * @memberof E2E
+         * @classdesc Represents a GroupRootKeyRequest.
+         * @implements IGroupRootKeyRequest
+         * @constructor
+         * @param {E2E.IGroupRootKeyRequest=} [properties] Properties to set
+         */
+        function GroupRootKeyRequest(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GroupRootKeyRequest keyId.
+         * @member {string|null|undefined} keyId
+         * @memberof E2E.GroupRootKeyRequest
+         * @instance
+         */
+        GroupRootKeyRequest.prototype.keyId = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(GroupRootKeyRequest.prototype, "_keyId", {
+            get: $util.oneOfGetter($oneOfFields = ["keyId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new GroupRootKeyRequest instance using the specified properties.
+         * @function create
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.IGroupRootKeyRequest=} [properties] Properties to set
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest instance
+         */
+        GroupRootKeyRequest.create = function create(properties) {
+            return new GroupRootKeyRequest(properties);
+        };
+
+        /**
+         * Encodes the specified GroupRootKeyRequest message. Does not implicitly {@link E2E.GroupRootKeyRequest.verify|verify} messages.
+         * @function encode
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.IGroupRootKeyRequest} message GroupRootKeyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupRootKeyRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.keyId != null && Object.hasOwnProperty.call(message, "keyId"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.keyId);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GroupRootKeyRequest message, length delimited. Does not implicitly {@link E2E.GroupRootKeyRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.IGroupRootKeyRequest} message GroupRootKeyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupRootKeyRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GroupRootKeyRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupRootKeyRequest.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.GroupRootKeyRequest();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.keyId = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GroupRootKeyRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupRootKeyRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GroupRootKeyRequest message.
+         * @function verify
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GroupRootKeyRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                properties._keyId = 1;
+                if (!$util.isString(message.keyId))
+                    return "keyId: string expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a GroupRootKeyRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {E2E.GroupRootKeyRequest} GroupRootKeyRequest
+         */
+        GroupRootKeyRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.E2E.GroupRootKeyRequest)
+                return object;
+            var message = new $root.E2E.GroupRootKeyRequest();
+            if (object.keyId != null)
+                message.keyId = String(object.keyId);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GroupRootKeyRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {E2E.GroupRootKeyRequest} message GroupRootKeyRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GroupRootKeyRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                object.keyId = message.keyId;
+                if (options.oneofs)
+                    object._keyId = "keyId";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this GroupRootKeyRequest to JSON.
+         * @function toJSON
+         * @memberof E2E.GroupRootKeyRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GroupRootKeyRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GroupRootKeyRequest
+         * @function getTypeUrl
+         * @memberof E2E.GroupRootKeyRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GroupRootKeyRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/E2E.GroupRootKeyRequest";
+        };
+
+        return GroupRootKeyRequest;
+    })();
+
+    E2E.MembershipFormKeyFingerprintVerification = (function() {
+
+        /**
+         * Properties of a MembershipFormKeyFingerprintVerification.
+         * @memberof E2E
+         * @interface IMembershipFormKeyFingerprintVerification
+         * @property {string|null} [requestId] MembershipFormKeyFingerprintVerification requestId
+         * @property {string|null} [keyId] MembershipFormKeyFingerprintVerification keyId
+         * @property {Uint8Array|null} [keyFingerprint] MembershipFormKeyFingerprintVerification keyFingerprint
+         */
+
+        /**
+         * Constructs a new MembershipFormKeyFingerprintVerification.
+         * @memberof E2E
+         * @classdesc Represents a MembershipFormKeyFingerprintVerification.
+         * @implements IMembershipFormKeyFingerprintVerification
+         * @constructor
+         * @param {E2E.IMembershipFormKeyFingerprintVerification=} [properties] Properties to set
+         */
+        function MembershipFormKeyFingerprintVerification(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * MembershipFormKeyFingerprintVerification requestId.
+         * @member {string|null|undefined} requestId
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         */
+        MembershipFormKeyFingerprintVerification.prototype.requestId = null;
+
+        /**
+         * MembershipFormKeyFingerprintVerification keyId.
+         * @member {string|null|undefined} keyId
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         */
+        MembershipFormKeyFingerprintVerification.prototype.keyId = null;
+
+        /**
+         * MembershipFormKeyFingerprintVerification keyFingerprint.
+         * @member {Uint8Array|null|undefined} keyFingerprint
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         */
+        MembershipFormKeyFingerprintVerification.prototype.keyFingerprint = null;
+
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MembershipFormKeyFingerprintVerification.prototype, "_requestId", {
+            get: $util.oneOfGetter($oneOfFields = ["requestId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MembershipFormKeyFingerprintVerification.prototype, "_keyId", {
+            get: $util.oneOfGetter($oneOfFields = ["keyId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MembershipFormKeyFingerprintVerification.prototype, "_keyFingerprint", {
+            get: $util.oneOfGetter($oneOfFields = ["keyFingerprint"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new MembershipFormKeyFingerprintVerification instance using the specified properties.
+         * @function create
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.IMembershipFormKeyFingerprintVerification=} [properties] Properties to set
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification instance
+         */
+        MembershipFormKeyFingerprintVerification.create = function create(properties) {
+            return new MembershipFormKeyFingerprintVerification(properties);
+        };
+
+        /**
+         * Encodes the specified MembershipFormKeyFingerprintVerification message. Does not implicitly {@link E2E.MembershipFormKeyFingerprintVerification.verify|verify} messages.
+         * @function encode
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.IMembershipFormKeyFingerprintVerification} message MembershipFormKeyFingerprintVerification message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MembershipFormKeyFingerprintVerification.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.requestId != null && Object.hasOwnProperty.call(message, "requestId"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.requestId);
+            if (message.keyId != null && Object.hasOwnProperty.call(message, "keyId"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.keyId);
+            if (message.keyFingerprint != null && Object.hasOwnProperty.call(message, "keyFingerprint"))
+                writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.keyFingerprint);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MembershipFormKeyFingerprintVerification message, length delimited. Does not implicitly {@link E2E.MembershipFormKeyFingerprintVerification.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.IMembershipFormKeyFingerprintVerification} message MembershipFormKeyFingerprintVerification message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MembershipFormKeyFingerprintVerification.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a MembershipFormKeyFingerprintVerification message from the specified reader or buffer.
+         * @function decode
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MembershipFormKeyFingerprintVerification.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.MembershipFormKeyFingerprintVerification();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.requestId = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.keyId = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.keyFingerprint = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a MembershipFormKeyFingerprintVerification message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MembershipFormKeyFingerprintVerification.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MembershipFormKeyFingerprintVerification message.
+         * @function verify
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MembershipFormKeyFingerprintVerification.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            var properties = {};
+            if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                properties._requestId = 1;
+                if (!$util.isString(message.requestId))
+                    return "requestId: string expected";
+            }
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                properties._keyId = 1;
+                if (!$util.isString(message.keyId))
+                    return "keyId: string expected";
+            }
+            if (message.keyFingerprint != null && message.hasOwnProperty("keyFingerprint")) {
+                properties._keyFingerprint = 1;
+                if (!(message.keyFingerprint && typeof message.keyFingerprint.length === "number" || $util.isString(message.keyFingerprint)))
+                    return "keyFingerprint: buffer expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a MembershipFormKeyFingerprintVerification message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {E2E.MembershipFormKeyFingerprintVerification} MembershipFormKeyFingerprintVerification
+         */
+        MembershipFormKeyFingerprintVerification.fromObject = function fromObject(object) {
+            if (object instanceof $root.E2E.MembershipFormKeyFingerprintVerification)
+                return object;
+            var message = new $root.E2E.MembershipFormKeyFingerprintVerification();
+            if (object.requestId != null)
+                message.requestId = String(object.requestId);
+            if (object.keyId != null)
+                message.keyId = String(object.keyId);
+            if (object.keyFingerprint != null)
+                if (typeof object.keyFingerprint === "string")
+                    $util.base64.decode(object.keyFingerprint, message.keyFingerprint = $util.newBuffer($util.base64.length(object.keyFingerprint)), 0);
+                else if (object.keyFingerprint.length >= 0)
+                    message.keyFingerprint = object.keyFingerprint;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MembershipFormKeyFingerprintVerification message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {E2E.MembershipFormKeyFingerprintVerification} message MembershipFormKeyFingerprintVerification
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MembershipFormKeyFingerprintVerification.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                object.requestId = message.requestId;
+                if (options.oneofs)
+                    object._requestId = "requestId";
+            }
+            if (message.keyId != null && message.hasOwnProperty("keyId")) {
+                object.keyId = message.keyId;
+                if (options.oneofs)
+                    object._keyId = "keyId";
+            }
+            if (message.keyFingerprint != null && message.hasOwnProperty("keyFingerprint")) {
+                object.keyFingerprint = options.bytes === String ? $util.base64.encode(message.keyFingerprint, 0, message.keyFingerprint.length) : options.bytes === Array ? Array.prototype.slice.call(message.keyFingerprint) : message.keyFingerprint;
+                if (options.oneofs)
+                    object._keyFingerprint = "keyFingerprint";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this MembershipFormKeyFingerprintVerification to JSON.
+         * @function toJSON
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MembershipFormKeyFingerprintVerification.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for MembershipFormKeyFingerprintVerification
+         * @function getTypeUrl
+         * @memberof E2E.MembershipFormKeyFingerprintVerification
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        MembershipFormKeyFingerprintVerification.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/E2E.MembershipFormKeyFingerprintVerification";
+        };
+
+        return MembershipFormKeyFingerprintVerification;
+    })();
 
     E2E.GroupRootKeyShareEntry = (function() {
 
@@ -18867,6 +20846,7 @@ $root.E2E = (function() {
          * @interface IMemberLabel
          * @property {string|null} [label] MemberLabel label
          * @property {number|Long|null} [labelTimestamp] MemberLabel labelTimestamp
+         * @property {boolean|null} [showAdminBadge] MemberLabel showAdminBadge
          */
 
         /**
@@ -18900,6 +20880,14 @@ $root.E2E = (function() {
          */
         MemberLabel.prototype.labelTimestamp = null;
 
+        /**
+         * MemberLabel showAdminBadge.
+         * @member {boolean|null|undefined} showAdminBadge
+         * @memberof E2E.MemberLabel
+         * @instance
+         */
+        MemberLabel.prototype.showAdminBadge = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -18912,6 +20900,12 @@ $root.E2E = (function() {
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(MemberLabel.prototype, "_labelTimestamp", {
             get: $util.oneOfGetter($oneOfFields = ["labelTimestamp"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(MemberLabel.prototype, "_showAdminBadge", {
+            get: $util.oneOfGetter($oneOfFields = ["showAdminBadge"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -18943,6 +20937,8 @@ $root.E2E = (function() {
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.label);
             if (message.labelTimestamp != null && Object.hasOwnProperty.call(message, "labelTimestamp"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int64(message.labelTimestamp);
+            if (message.showAdminBadge != null && Object.hasOwnProperty.call(message, "showAdminBadge"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.showAdminBadge);
             return writer;
         };
 
@@ -18985,6 +20981,10 @@ $root.E2E = (function() {
                     }
                 case 2: {
                         message.labelTimestamp = reader.int64();
+                        break;
+                    }
+                case 3: {
+                        message.showAdminBadge = reader.bool();
                         break;
                     }
                 default:
@@ -19033,6 +21033,11 @@ $root.E2E = (function() {
                 if (!$util.isInteger(message.labelTimestamp) && !(message.labelTimestamp && $util.isInteger(message.labelTimestamp.low) && $util.isInteger(message.labelTimestamp.high)))
                     return "labelTimestamp: integer|Long expected";
             }
+            if (message.showAdminBadge != null && message.hasOwnProperty("showAdminBadge")) {
+                properties._showAdminBadge = 1;
+                if (typeof message.showAdminBadge !== "boolean")
+                    return "showAdminBadge: boolean expected";
+            }
             return null;
         };
 
@@ -19059,6 +21064,8 @@ $root.E2E = (function() {
                     message.labelTimestamp = object.labelTimestamp;
                 else if (typeof object.labelTimestamp === "object")
                     message.labelTimestamp = new $util.LongBits(object.labelTimestamp.low >>> 0, object.labelTimestamp.high >>> 0).toNumber();
+            if (object.showAdminBadge != null)
+                message.showAdminBadge = Boolean(object.showAdminBadge);
             return message;
         };
 
@@ -19087,6 +21094,11 @@ $root.E2E = (function() {
                     object.labelTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.labelTimestamp) : options.longs === Number ? new $util.LongBits(message.labelTimestamp.low >>> 0, message.labelTimestamp.high >>> 0).toNumber() : message.labelTimestamp;
                 if (options.oneofs)
                     object._labelTimestamp = "labelTimestamp";
+            }
+            if (message.showAdminBadge != null && message.hasOwnProperty("showAdminBadge")) {
+                object.showAdminBadge = message.showAdminBadge;
+                if (options.oneofs)
+                    object._showAdminBadge = "showAdminBadge";
             }
             return object;
         };
@@ -30122,6 +32134,8 @@ $root.E2E = (function() {
                 case 20:
                 case 21:
                 case 22:
+                case 23:
+                case 24:
                     break;
                 }
             }
@@ -30252,6 +32266,14 @@ $root.E2E = (function() {
             case 22:
                 message.associationType = 22;
                 break;
+            case "ORIGINAL_VIDEO_DUAL_UPLOAD":
+            case 23:
+                message.associationType = 23;
+                break;
+            case "ORIGINAL_IMAGE_DUAL_UPLOAD":
+            case 24:
+                message.associationType = 24;
+                break;
             }
             if (object.parentMessageKey != null) {
                 if (typeof object.parentMessageKey !== "object")
@@ -30347,6 +32369,8 @@ $root.E2E = (function() {
          * @property {number} POLL_ADD_OPTION=20 POLL_ADD_OPTION value
          * @property {number} AV1_VIDEO_DUAL_UPLOAD=21 AV1_VIDEO_DUAL_UPLOAD value
          * @property {number} STREAMED_HD_VIDEO_DUAL_UPLOAD=22 STREAMED_HD_VIDEO_DUAL_UPLOAD value
+         * @property {number} ORIGINAL_VIDEO_DUAL_UPLOAD=23 ORIGINAL_VIDEO_DUAL_UPLOAD value
+         * @property {number} ORIGINAL_IMAGE_DUAL_UPLOAD=24 ORIGINAL_IMAGE_DUAL_UPLOAD value
          */
         MessageAssociation.AssociationType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -30373,6 +32397,8 @@ $root.E2E = (function() {
             values[valuesById[20] = "POLL_ADD_OPTION"] = 20;
             values[valuesById[21] = "AV1_VIDEO_DUAL_UPLOAD"] = 21;
             values[valuesById[22] = "STREAMED_HD_VIDEO_DUAL_UPLOAD"] = 22;
+            values[valuesById[23] = "ORIGINAL_VIDEO_DUAL_UPLOAD"] = 23;
+            values[valuesById[24] = "ORIGINAL_IMAGE_DUAL_UPLOAD"] = 24;
             return values;
         })();
 
@@ -30453,6 +32479,8 @@ $root.E2E = (function() {
          * @property {string|null} [partnerDeepLinkToken] ContextInfo partnerDeepLinkToken
          * @property {number|null} [sourceExperienceId] ContextInfo sourceExperienceId
          * @property {Array.<number>|null} [sourceExperienceIds] ContextInfo sourceExperienceIds
+         * @property {Uint8Array|null} [foaMutualsSignature] ContextInfo foaMutualsSignature
+         * @property {number|null} [forwardReachScore] ContextInfo forwardReachScore
          */
 
         /**
@@ -31019,6 +33047,22 @@ $root.E2E = (function() {
          */
         ContextInfo.prototype.sourceExperienceIds = $util.emptyArray;
 
+        /**
+         * ContextInfo foaMutualsSignature.
+         * @member {Uint8Array|null|undefined} foaMutualsSignature
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.foaMutualsSignature = null;
+
+        /**
+         * ContextInfo forwardReachScore.
+         * @member {number|null|undefined} forwardReachScore
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.forwardReachScore = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -31400,6 +33444,18 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ContextInfo.prototype, "_foaMutualsSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["foaMutualsSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ContextInfo.prototype, "_forwardReachScore", {
+            get: $util.oneOfGetter($oneOfFields = ["forwardReachScore"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ContextInfo instance using the specified properties.
          * @function create
@@ -31571,6 +33627,10 @@ $root.E2E = (function() {
                     writer.uint32(message.sourceExperienceIds[i]);
                 writer.ldelim();
             }
+            if (message.foaMutualsSignature != null && Object.hasOwnProperty.call(message, "foaMutualsSignature"))
+                writer.uint32(/* id 86, wireType 2 =*/690).bytes(message.foaMutualsSignature);
+            if (message.forwardReachScore != null && Object.hasOwnProperty.call(message, "forwardReachScore"))
+                writer.uint32(/* id 87, wireType 5 =*/701).fixed32(message.forwardReachScore);
             return writer;
         };
 
@@ -31899,6 +33959,14 @@ $root.E2E = (function() {
                             message.sourceExperienceIds.push(reader.uint32());
                         break;
                     }
+                case 86: {
+                        message.foaMutualsSignature = reader.bytes();
+                        break;
+                    }
+                case 87: {
+                        message.forwardReachScore = reader.fixed32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -32216,6 +34284,8 @@ $root.E2E = (function() {
                 case 10:
                 case 11:
                 case 12:
+                case 13:
+                case 14:
                     break;
                 }
             }
@@ -32407,6 +34477,16 @@ $root.E2E = (function() {
                 for (var i = 0; i < message.sourceExperienceIds.length; ++i)
                     if (!$util.isInteger(message.sourceExperienceIds[i]))
                         return "sourceExperienceIds: integer[] expected";
+            }
+            if (message.foaMutualsSignature != null && message.hasOwnProperty("foaMutualsSignature")) {
+                properties._foaMutualsSignature = 1;
+                if (!(message.foaMutualsSignature && typeof message.foaMutualsSignature.length === "number" || $util.isString(message.foaMutualsSignature)))
+                    return "foaMutualsSignature: buffer expected";
+            }
+            if (message.forwardReachScore != null && message.hasOwnProperty("forwardReachScore")) {
+                properties._forwardReachScore = 1;
+                if (!$util.isInteger(message.forwardReachScore))
+                    return "forwardReachScore: integer expected";
             }
             return null;
         };
@@ -32660,6 +34740,14 @@ $root.E2E = (function() {
             case 12:
                 message.pairedMediaType = 12;
                 break;
+            case "ORIGINAL_VIDEO_CHILD":
+            case 13:
+                message.pairedMediaType = 13;
+                break;
+            case "ORIGINAL_IMAGE_CHILD":
+            case 14:
+                message.pairedMediaType = 14;
+                break;
             }
             if (object.rankingVersion != null)
                 message.rankingVersion = object.rankingVersion >>> 0;
@@ -32848,6 +34936,13 @@ $root.E2E = (function() {
                 for (var i = 0; i < object.sourceExperienceIds.length; ++i)
                     message.sourceExperienceIds[i] = object.sourceExperienceIds[i] >>> 0;
             }
+            if (object.foaMutualsSignature != null)
+                if (typeof object.foaMutualsSignature === "string")
+                    $util.base64.decode(object.foaMutualsSignature, message.foaMutualsSignature = $util.newBuffer($util.base64.length(object.foaMutualsSignature)), 0);
+                else if (object.foaMutualsSignature.length >= 0)
+                    message.foaMutualsSignature = object.foaMutualsSignature;
+            if (object.forwardReachScore != null)
+                message.forwardReachScore = object.forwardReachScore >>> 0;
             return message;
         };
 
@@ -33213,6 +35308,16 @@ $root.E2E = (function() {
                 object.sourceExperienceIds = [];
                 for (var j = 0; j < message.sourceExperienceIds.length; ++j)
                     object.sourceExperienceIds[j] = message.sourceExperienceIds[j];
+            }
+            if (message.foaMutualsSignature != null && message.hasOwnProperty("foaMutualsSignature")) {
+                object.foaMutualsSignature = options.bytes === String ? $util.base64.encode(message.foaMutualsSignature, 0, message.foaMutualsSignature.length) : options.bytes === Array ? Array.prototype.slice.call(message.foaMutualsSignature) : message.foaMutualsSignature;
+                if (options.oneofs)
+                    object._foaMutualsSignature = "foaMutualsSignature";
+            }
+            if (message.forwardReachScore != null && message.hasOwnProperty("forwardReachScore")) {
+                object.forwardReachScore = message.forwardReachScore;
+                if (options.oneofs)
+                    object._forwardReachScore = "forwardReachScore";
             }
             return object;
         };
@@ -38622,6 +40727,8 @@ $root.E2E = (function() {
          * @property {number} AV1_VIDEO_CHILD=10 AV1_VIDEO_CHILD value
          * @property {number} STREAMED_VIDEO_PARENT=11 STREAMED_VIDEO_PARENT value
          * @property {number} STREAMED_VIDEO_CHILD=12 STREAMED_VIDEO_CHILD value
+         * @property {number} ORIGINAL_VIDEO_CHILD=13 ORIGINAL_VIDEO_CHILD value
+         * @property {number} ORIGINAL_IMAGE_CHILD=14 ORIGINAL_IMAGE_CHILD value
          */
         ContextInfo.PairedMediaType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -38638,6 +40745,8 @@ $root.E2E = (function() {
             values[valuesById[10] = "AV1_VIDEO_CHILD"] = 10;
             values[valuesById[11] = "STREAMED_VIDEO_PARENT"] = 11;
             values[valuesById[12] = "STREAMED_VIDEO_CHILD"] = 12;
+            values[valuesById[13] = "ORIGINAL_VIDEO_CHILD"] = 13;
+            values[valuesById[14] = "ORIGINAL_IMAGE_CHILD"] = 14;
             return values;
         })();
 
@@ -40230,6 +42339,9 @@ $root.E2E = (function() {
          * @property {E2E.Message.IRequestLocationMessage|null} [requestLocationMessage] Message requestLocationMessage
          * @property {E2E.Message.IFutureProofMessage|null} [botGroupParticipantMessage] Message botGroupParticipantMessage
          * @property {E2E.Message.IRequestLocationUpdateMessage|null} [requestLocationUpdateMessage] Message requestLocationUpdateMessage
+         * @property {E2E.Message.IVpcRequestMessage|null} [vpcRequestMessage] Message vpcRequestMessage
+         * @property {E2E.Message.IVideoMessage|null} [instantVideoMessage] Message instantVideoMessage
+         * @property {E2E.Message.IPaymentDetailsMessage|null} [paymentDetailsMessage] Message paymentDetailsMessage
          */
 
         /**
@@ -41183,6 +43295,30 @@ $root.E2E = (function() {
          */
         Message.prototype.requestLocationUpdateMessage = null;
 
+        /**
+         * Message vpcRequestMessage.
+         * @member {E2E.Message.IVpcRequestMessage|null|undefined} vpcRequestMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.vpcRequestMessage = null;
+
+        /**
+         * Message instantVideoMessage.
+         * @member {E2E.Message.IVideoMessage|null|undefined} instantVideoMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.instantVideoMessage = null;
+
+        /**
+         * Message paymentDetailsMessage.
+         * @member {E2E.Message.IPaymentDetailsMessage|null|undefined} paymentDetailsMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.paymentDetailsMessage = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -41888,6 +44024,24 @@ $root.E2E = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_vpcRequestMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["vpcRequestMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_instantVideoMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["instantVideoMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(Message.prototype, "_paymentDetailsMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["paymentDetailsMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new Message instance using the specified properties.
          * @function create
@@ -42146,6 +44300,12 @@ $root.E2E = (function() {
                 $root.E2E.Message.FutureProofMessage.encode(message.botGroupParticipantMessage, writer.uint32(/* id 137, wireType 2 =*/1098).fork()).ldelim();
             if (message.requestLocationUpdateMessage != null && Object.hasOwnProperty.call(message, "requestLocationUpdateMessage"))
                 $root.E2E.Message.RequestLocationUpdateMessage.encode(message.requestLocationUpdateMessage, writer.uint32(/* id 138, wireType 2 =*/1106).fork()).ldelim();
+            if (message.vpcRequestMessage != null && Object.hasOwnProperty.call(message, "vpcRequestMessage"))
+                $root.E2E.Message.VpcRequestMessage.encode(message.vpcRequestMessage, writer.uint32(/* id 139, wireType 2 =*/1114).fork()).ldelim();
+            if (message.instantVideoMessage != null && Object.hasOwnProperty.call(message, "instantVideoMessage"))
+                $root.E2E.Message.VideoMessage.encode(message.instantVideoMessage, writer.uint32(/* id 140, wireType 2 =*/1122).fork()).ldelim();
+            if (message.paymentDetailsMessage != null && Object.hasOwnProperty.call(message, "paymentDetailsMessage"))
+                $root.E2E.Message.PaymentDetailsMessage.encode(message.paymentDetailsMessage, writer.uint32(/* id 141, wireType 2 =*/1130).fork()).ldelim();
             return writer;
         };
 
@@ -42648,6 +44808,18 @@ $root.E2E = (function() {
                     }
                 case 138: {
                         message.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 139: {
+                        message.vpcRequestMessage = $root.E2E.Message.VpcRequestMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 140: {
+                        message.instantVideoMessage = $root.E2E.Message.VideoMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 141: {
+                        message.paymentDetailsMessage = $root.E2E.Message.PaymentDetailsMessage.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -43619,6 +45791,30 @@ $root.E2E = (function() {
                         return "requestLocationUpdateMessage." + error;
                 }
             }
+            if (message.vpcRequestMessage != null && message.hasOwnProperty("vpcRequestMessage")) {
+                properties._vpcRequestMessage = 1;
+                {
+                    var error = $root.E2E.Message.VpcRequestMessage.verify(message.vpcRequestMessage);
+                    if (error)
+                        return "vpcRequestMessage." + error;
+                }
+            }
+            if (message.instantVideoMessage != null && message.hasOwnProperty("instantVideoMessage")) {
+                properties._instantVideoMessage = 1;
+                {
+                    var error = $root.E2E.Message.VideoMessage.verify(message.instantVideoMessage);
+                    if (error)
+                        return "instantVideoMessage." + error;
+                }
+            }
+            if (message.paymentDetailsMessage != null && message.hasOwnProperty("paymentDetailsMessage")) {
+                properties._paymentDetailsMessage = 1;
+                {
+                    var error = $root.E2E.Message.PaymentDetailsMessage.verify(message.paymentDetailsMessage);
+                    if (error)
+                        return "paymentDetailsMessage." + error;
+                }
+            }
             return null;
         };
 
@@ -44215,6 +46411,21 @@ $root.E2E = (function() {
                 if (typeof object.requestLocationUpdateMessage !== "object")
                     throw TypeError(".E2E.Message.requestLocationUpdateMessage: object expected");
                 message.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.fromObject(object.requestLocationUpdateMessage);
+            }
+            if (object.vpcRequestMessage != null) {
+                if (typeof object.vpcRequestMessage !== "object")
+                    throw TypeError(".E2E.Message.vpcRequestMessage: object expected");
+                message.vpcRequestMessage = $root.E2E.Message.VpcRequestMessage.fromObject(object.vpcRequestMessage);
+            }
+            if (object.instantVideoMessage != null) {
+                if (typeof object.instantVideoMessage !== "object")
+                    throw TypeError(".E2E.Message.instantVideoMessage: object expected");
+                message.instantVideoMessage = $root.E2E.Message.VideoMessage.fromObject(object.instantVideoMessage);
+            }
+            if (object.paymentDetailsMessage != null) {
+                if (typeof object.paymentDetailsMessage !== "object")
+                    throw TypeError(".E2E.Message.paymentDetailsMessage: object expected");
+                message.paymentDetailsMessage = $root.E2E.Message.PaymentDetailsMessage.fromObject(object.paymentDetailsMessage);
             }
             return message;
         };
@@ -44816,6 +47027,21 @@ $root.E2E = (function() {
                 object.requestLocationUpdateMessage = $root.E2E.Message.RequestLocationUpdateMessage.toObject(message.requestLocationUpdateMessage, options);
                 if (options.oneofs)
                     object._requestLocationUpdateMessage = "requestLocationUpdateMessage";
+            }
+            if (message.vpcRequestMessage != null && message.hasOwnProperty("vpcRequestMessage")) {
+                object.vpcRequestMessage = $root.E2E.Message.VpcRequestMessage.toObject(message.vpcRequestMessage, options);
+                if (options.oneofs)
+                    object._vpcRequestMessage = "vpcRequestMessage";
+            }
+            if (message.instantVideoMessage != null && message.hasOwnProperty("instantVideoMessage")) {
+                object.instantVideoMessage = $root.E2E.Message.VideoMessage.toObject(message.instantVideoMessage, options);
+                if (options.oneofs)
+                    object._instantVideoMessage = "instantVideoMessage";
+            }
+            if (message.paymentDetailsMessage != null && message.hasOwnProperty("paymentDetailsMessage")) {
+                object.paymentDetailsMessage = $root.E2E.Message.PaymentDetailsMessage.toObject(message.paymentDetailsMessage, options);
+                if (options.oneofs)
+                    object._paymentDetailsMessage = "paymentDetailsMessage";
             }
             return object;
         };
@@ -56689,6 +58915,7 @@ $root.E2E = (function() {
              * @property {number|null} [thumbnailWidth] DocumentMessage thumbnailWidth
              * @property {string|null} [caption] DocumentMessage caption
              * @property {string|null} [accessibilityLabel] DocumentMessage accessibilityLabel
+             * @property {string|null} [qrUrl] DocumentMessage qrUrl
              */
 
             /**
@@ -56874,6 +59101,14 @@ $root.E2E = (function() {
              */
             DocumentMessage.prototype.accessibilityLabel = null;
 
+            /**
+             * DocumentMessage qrUrl.
+             * @member {string|null|undefined} qrUrl
+             * @memberof E2E.Message.DocumentMessage
+             * @instance
+             */
+            DocumentMessage.prototype.qrUrl = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -57003,6 +59238,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(DocumentMessage.prototype, "_qrUrl", {
+                get: $util.oneOfGetter($oneOfFields = ["qrUrl"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new DocumentMessage instance using the specified properties.
              * @function create
@@ -57069,6 +59310,8 @@ $root.E2E = (function() {
                     writer.uint32(/* id 20, wireType 2 =*/162).string(message.caption);
                 if (message.accessibilityLabel != null && Object.hasOwnProperty.call(message, "accessibilityLabel"))
                     writer.uint32(/* id 21, wireType 2 =*/170).string(message.accessibilityLabel);
+                if (message.qrUrl != null && Object.hasOwnProperty.call(message, "qrUrl"))
+                    writer.uint32(/* id 23, wireType 2 =*/186).string(message.qrUrl);
                 return writer;
             };
 
@@ -57187,6 +59430,10 @@ $root.E2E = (function() {
                         }
                     case 21: {
                             message.accessibilityLabel = reader.string();
+                            break;
+                        }
+                    case 23: {
+                            message.qrUrl = reader.string();
                             break;
                         }
                     default:
@@ -57333,6 +59580,11 @@ $root.E2E = (function() {
                     if (!$util.isString(message.accessibilityLabel))
                         return "accessibilityLabel: string expected";
                 }
+                if (message.qrUrl != null && message.hasOwnProperty("qrUrl")) {
+                    properties._qrUrl = 1;
+                    if (!$util.isString(message.qrUrl))
+                        return "qrUrl: string expected";
+                }
                 return null;
             };
 
@@ -57425,6 +59677,8 @@ $root.E2E = (function() {
                     message.caption = String(object.caption);
                 if (object.accessibilityLabel != null)
                     message.accessibilityLabel = String(object.accessibilityLabel);
+                if (object.qrUrl != null)
+                    message.qrUrl = String(object.qrUrl);
                 return message;
             };
 
@@ -57551,6 +59805,11 @@ $root.E2E = (function() {
                     object.accessibilityLabel = message.accessibilityLabel;
                     if (options.oneofs)
                         object._accessibilityLabel = "accessibilityLabel";
+                }
+                if (message.qrUrl != null && message.hasOwnProperty("qrUrl")) {
+                    object.qrUrl = message.qrUrl;
+                    if (options.oneofs)
+                        object._qrUrl = "qrUrl";
                 }
                 return object;
             };
@@ -73127,6 +75386,7 @@ $root.E2E = (function() {
              * @property {string|null} [videoContentUrl] LinkPreviewMetadata videoContentUrl
              * @property {E2E.IEmbeddedMusic|null} [musicMetadata] LinkPreviewMetadata musicMetadata
              * @property {string|null} [videoContentCaption] LinkPreviewMetadata videoContentCaption
+             * @property {string|null} [videoId] LinkPreviewMetadata videoId
              */
 
             /**
@@ -73216,6 +75476,14 @@ $root.E2E = (function() {
              */
             LinkPreviewMetadata.prototype.videoContentCaption = null;
 
+            /**
+             * LinkPreviewMetadata videoId.
+             * @member {string|null|undefined} videoId
+             * @memberof E2E.Message.LinkPreviewMetadata
+             * @instance
+             */
+            LinkPreviewMetadata.prototype.videoId = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -73273,6 +75541,12 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(LinkPreviewMetadata.prototype, "_videoId", {
+                get: $util.oneOfGetter($oneOfFields = ["videoId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new LinkPreviewMetadata instance using the specified properties.
              * @function create
@@ -73315,6 +75589,8 @@ $root.E2E = (function() {
                     $root.E2E.EmbeddedMusic.encode(message.musicMetadata, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                 if (message.videoContentCaption != null && Object.hasOwnProperty.call(message, "videoContentCaption"))
                     writer.uint32(/* id 9, wireType 2 =*/74).string(message.videoContentCaption);
+                if (message.videoId != null && Object.hasOwnProperty.call(message, "videoId"))
+                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.videoId);
                 return writer;
             };
 
@@ -73385,6 +75661,10 @@ $root.E2E = (function() {
                         }
                     case 9: {
                             message.videoContentCaption = reader.string();
+                            break;
+                        }
+                    case 10: {
+                            message.videoId = reader.string();
                             break;
                         }
                     default:
@@ -73486,6 +75766,11 @@ $root.E2E = (function() {
                     if (!$util.isString(message.videoContentCaption))
                         return "videoContentCaption: string expected";
                 }
+                if (message.videoId != null && message.hasOwnProperty("videoId")) {
+                    properties._videoId = 1;
+                    if (!$util.isString(message.videoId))
+                        return "videoId: string expected";
+                }
                 return null;
             };
 
@@ -73558,6 +75843,8 @@ $root.E2E = (function() {
                 }
                 if (object.videoContentCaption != null)
                     message.videoContentCaption = String(object.videoContentCaption);
+                if (object.videoId != null)
+                    message.videoId = String(object.videoId);
                 return message;
             };
 
@@ -73618,6 +75905,11 @@ $root.E2E = (function() {
                     object.videoContentCaption = message.videoContentCaption;
                     if (options.oneofs)
                         object._videoContentCaption = "videoContentCaption";
+                }
+                if (message.videoId != null && message.hasOwnProperty("videoId")) {
+                    object.videoId = message.videoId;
+                    if (options.oneofs)
+                        object._videoId = "videoId";
                 }
                 return object;
             };
@@ -82342,6 +84634,543 @@ $root.E2E = (function() {
             })();
 
             return OrderMessage;
+        })();
+
+        Message.PaymentDetailsMessage = (function() {
+
+            /**
+             * Properties of a PaymentDetailsMessage.
+             * @memberof E2E.Message
+             * @interface IPaymentDetailsMessage
+             * @property {E2E.Message.PaymentDetailsMessage.ServiceType|null} [serviceType] PaymentDetailsMessage serviceType
+             * @property {E2E.IMoney|null} [amount] PaymentDetailsMessage amount
+             * @property {string|null} [payeeName] PaymentDetailsMessage payeeName
+             * @property {string|null} [payerName] PaymentDetailsMessage payerName
+             * @property {number|Long|null} [transactionTimestampMs] PaymentDetailsMessage transactionTimestampMs
+             * @property {string|null} [transactionId] PaymentDetailsMessage transactionId
+             * @property {E2E.Message.PaymentDetailsMessage.Status|null} [status] PaymentDetailsMessage status
+             * @property {E2E.IContextInfo|null} [contextInfo] PaymentDetailsMessage contextInfo
+             */
+
+            /**
+             * Constructs a new PaymentDetailsMessage.
+             * @memberof E2E.Message
+             * @classdesc Represents a PaymentDetailsMessage.
+             * @implements IPaymentDetailsMessage
+             * @constructor
+             * @param {E2E.Message.IPaymentDetailsMessage=} [properties] Properties to set
+             */
+            function PaymentDetailsMessage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * PaymentDetailsMessage serviceType.
+             * @member {E2E.Message.PaymentDetailsMessage.ServiceType|null|undefined} serviceType
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.serviceType = null;
+
+            /**
+             * PaymentDetailsMessage amount.
+             * @member {E2E.IMoney|null|undefined} amount
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.amount = null;
+
+            /**
+             * PaymentDetailsMessage payeeName.
+             * @member {string|null|undefined} payeeName
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.payeeName = null;
+
+            /**
+             * PaymentDetailsMessage payerName.
+             * @member {string|null|undefined} payerName
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.payerName = null;
+
+            /**
+             * PaymentDetailsMessage transactionTimestampMs.
+             * @member {number|Long|null|undefined} transactionTimestampMs
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.transactionTimestampMs = null;
+
+            /**
+             * PaymentDetailsMessage transactionId.
+             * @member {string|null|undefined} transactionId
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.transactionId = null;
+
+            /**
+             * PaymentDetailsMessage status.
+             * @member {E2E.Message.PaymentDetailsMessage.Status|null|undefined} status
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.status = null;
+
+            /**
+             * PaymentDetailsMessage contextInfo.
+             * @member {E2E.IContextInfo|null|undefined} contextInfo
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             */
+            PaymentDetailsMessage.prototype.contextInfo = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_serviceType", {
+                get: $util.oneOfGetter($oneOfFields = ["serviceType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_amount", {
+                get: $util.oneOfGetter($oneOfFields = ["amount"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_payeeName", {
+                get: $util.oneOfGetter($oneOfFields = ["payeeName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_payerName", {
+                get: $util.oneOfGetter($oneOfFields = ["payerName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_transactionTimestampMs", {
+                get: $util.oneOfGetter($oneOfFields = ["transactionTimestampMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_transactionId", {
+                get: $util.oneOfGetter($oneOfFields = ["transactionId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_status", {
+                get: $util.oneOfGetter($oneOfFields = ["status"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(PaymentDetailsMessage.prototype, "_contextInfo", {
+                get: $util.oneOfGetter($oneOfFields = ["contextInfo"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new PaymentDetailsMessage instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.IPaymentDetailsMessage=} [properties] Properties to set
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage instance
+             */
+            PaymentDetailsMessage.create = function create(properties) {
+                return new PaymentDetailsMessage(properties);
+            };
+
+            /**
+             * Encodes the specified PaymentDetailsMessage message. Does not implicitly {@link E2E.Message.PaymentDetailsMessage.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.IPaymentDetailsMessage} message PaymentDetailsMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PaymentDetailsMessage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.serviceType != null && Object.hasOwnProperty.call(message, "serviceType"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.serviceType);
+                if (message.amount != null && Object.hasOwnProperty.call(message, "amount"))
+                    $root.E2E.Money.encode(message.amount, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.payeeName != null && Object.hasOwnProperty.call(message, "payeeName"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.payeeName);
+                if (message.payerName != null && Object.hasOwnProperty.call(message, "payerName"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.payerName);
+                if (message.transactionTimestampMs != null && Object.hasOwnProperty.call(message, "transactionTimestampMs"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).int64(message.transactionTimestampMs);
+                if (message.transactionId != null && Object.hasOwnProperty.call(message, "transactionId"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.transactionId);
+                if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).int32(message.status);
+                if (message.contextInfo != null && Object.hasOwnProperty.call(message, "contextInfo"))
+                    $root.E2E.ContextInfo.encode(message.contextInfo, writer.uint32(/* id 17, wireType 2 =*/138).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified PaymentDetailsMessage message, length delimited. Does not implicitly {@link E2E.Message.PaymentDetailsMessage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.IPaymentDetailsMessage} message PaymentDetailsMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PaymentDetailsMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a PaymentDetailsMessage message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PaymentDetailsMessage.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.PaymentDetailsMessage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.serviceType = reader.int32();
+                            break;
+                        }
+                    case 2: {
+                            message.amount = $root.E2E.Money.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 3: {
+                            message.payeeName = reader.string();
+                            break;
+                        }
+                    case 4: {
+                            message.payerName = reader.string();
+                            break;
+                        }
+                    case 5: {
+                            message.transactionTimestampMs = reader.int64();
+                            break;
+                        }
+                    case 6: {
+                            message.transactionId = reader.string();
+                            break;
+                        }
+                    case 7: {
+                            message.status = reader.int32();
+                            break;
+                        }
+                    case 17: {
+                            message.contextInfo = $root.E2E.ContextInfo.decode(reader, reader.uint32());
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a PaymentDetailsMessage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            PaymentDetailsMessage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a PaymentDetailsMessage message.
+             * @function verify
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            PaymentDetailsMessage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.serviceType != null && message.hasOwnProperty("serviceType")) {
+                    properties._serviceType = 1;
+                    switch (message.serviceType) {
+                    default:
+                        return "serviceType: enum value expected";
+                    case 0:
+                    case 1:
+                        break;
+                    }
+                }
+                if (message.amount != null && message.hasOwnProperty("amount")) {
+                    properties._amount = 1;
+                    {
+                        var error = $root.E2E.Money.verify(message.amount);
+                        if (error)
+                            return "amount." + error;
+                    }
+                }
+                if (message.payeeName != null && message.hasOwnProperty("payeeName")) {
+                    properties._payeeName = 1;
+                    if (!$util.isString(message.payeeName))
+                        return "payeeName: string expected";
+                }
+                if (message.payerName != null && message.hasOwnProperty("payerName")) {
+                    properties._payerName = 1;
+                    if (!$util.isString(message.payerName))
+                        return "payerName: string expected";
+                }
+                if (message.transactionTimestampMs != null && message.hasOwnProperty("transactionTimestampMs")) {
+                    properties._transactionTimestampMs = 1;
+                    if (!$util.isInteger(message.transactionTimestampMs) && !(message.transactionTimestampMs && $util.isInteger(message.transactionTimestampMs.low) && $util.isInteger(message.transactionTimestampMs.high)))
+                        return "transactionTimestampMs: integer|Long expected";
+                }
+                if (message.transactionId != null && message.hasOwnProperty("transactionId")) {
+                    properties._transactionId = 1;
+                    if (!$util.isString(message.transactionId))
+                        return "transactionId: string expected";
+                }
+                if (message.status != null && message.hasOwnProperty("status")) {
+                    properties._status = 1;
+                    switch (message.status) {
+                    default:
+                        return "status: enum value expected";
+                    case 0:
+                    case 1:
+                        break;
+                    }
+                }
+                if (message.contextInfo != null && message.hasOwnProperty("contextInfo")) {
+                    properties._contextInfo = 1;
+                    {
+                        var error = $root.E2E.ContextInfo.verify(message.contextInfo);
+                        if (error)
+                            return "contextInfo." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a PaymentDetailsMessage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.PaymentDetailsMessage} PaymentDetailsMessage
+             */
+            PaymentDetailsMessage.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.PaymentDetailsMessage)
+                    return object;
+                var message = new $root.E2E.Message.PaymentDetailsMessage();
+                switch (object.serviceType) {
+                default:
+                    if (typeof object.serviceType === "number") {
+                        message.serviceType = object.serviceType;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.serviceType = 0;
+                    break;
+                case "UPI":
+                case 1:
+                    message.serviceType = 1;
+                    break;
+                }
+                if (object.amount != null) {
+                    if (typeof object.amount !== "object")
+                        throw TypeError(".E2E.Message.PaymentDetailsMessage.amount: object expected");
+                    message.amount = $root.E2E.Money.fromObject(object.amount);
+                }
+                if (object.payeeName != null)
+                    message.payeeName = String(object.payeeName);
+                if (object.payerName != null)
+                    message.payerName = String(object.payerName);
+                if (object.transactionTimestampMs != null)
+                    if ($util.Long)
+                        (message.transactionTimestampMs = $util.Long.fromValue(object.transactionTimestampMs)).unsigned = false;
+                    else if (typeof object.transactionTimestampMs === "string")
+                        message.transactionTimestampMs = parseInt(object.transactionTimestampMs, 10);
+                    else if (typeof object.transactionTimestampMs === "number")
+                        message.transactionTimestampMs = object.transactionTimestampMs;
+                    else if (typeof object.transactionTimestampMs === "object")
+                        message.transactionTimestampMs = new $util.LongBits(object.transactionTimestampMs.low >>> 0, object.transactionTimestampMs.high >>> 0).toNumber();
+                if (object.transactionId != null)
+                    message.transactionId = String(object.transactionId);
+                switch (object.status) {
+                default:
+                    if (typeof object.status === "number") {
+                        message.status = object.status;
+                        break;
+                    }
+                    break;
+                case "STATUS_UNKNOWN":
+                case 0:
+                    message.status = 0;
+                    break;
+                case "SUCCESS":
+                case 1:
+                    message.status = 1;
+                    break;
+                }
+                if (object.contextInfo != null) {
+                    if (typeof object.contextInfo !== "object")
+                        throw TypeError(".E2E.Message.PaymentDetailsMessage.contextInfo: object expected");
+                    message.contextInfo = $root.E2E.ContextInfo.fromObject(object.contextInfo);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a PaymentDetailsMessage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {E2E.Message.PaymentDetailsMessage} message PaymentDetailsMessage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            PaymentDetailsMessage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.serviceType != null && message.hasOwnProperty("serviceType")) {
+                    object.serviceType = options.enums === String ? $root.E2E.Message.PaymentDetailsMessage.ServiceType[message.serviceType] === undefined ? message.serviceType : $root.E2E.Message.PaymentDetailsMessage.ServiceType[message.serviceType] : message.serviceType;
+                    if (options.oneofs)
+                        object._serviceType = "serviceType";
+                }
+                if (message.amount != null && message.hasOwnProperty("amount")) {
+                    object.amount = $root.E2E.Money.toObject(message.amount, options);
+                    if (options.oneofs)
+                        object._amount = "amount";
+                }
+                if (message.payeeName != null && message.hasOwnProperty("payeeName")) {
+                    object.payeeName = message.payeeName;
+                    if (options.oneofs)
+                        object._payeeName = "payeeName";
+                }
+                if (message.payerName != null && message.hasOwnProperty("payerName")) {
+                    object.payerName = message.payerName;
+                    if (options.oneofs)
+                        object._payerName = "payerName";
+                }
+                if (message.transactionTimestampMs != null && message.hasOwnProperty("transactionTimestampMs")) {
+                    if (typeof message.transactionTimestampMs === "number")
+                        object.transactionTimestampMs = options.longs === String ? String(message.transactionTimestampMs) : message.transactionTimestampMs;
+                    else
+                        object.transactionTimestampMs = options.longs === String ? $util.Long.prototype.toString.call(message.transactionTimestampMs) : options.longs === Number ? new $util.LongBits(message.transactionTimestampMs.low >>> 0, message.transactionTimestampMs.high >>> 0).toNumber() : message.transactionTimestampMs;
+                    if (options.oneofs)
+                        object._transactionTimestampMs = "transactionTimestampMs";
+                }
+                if (message.transactionId != null && message.hasOwnProperty("transactionId")) {
+                    object.transactionId = message.transactionId;
+                    if (options.oneofs)
+                        object._transactionId = "transactionId";
+                }
+                if (message.status != null && message.hasOwnProperty("status")) {
+                    object.status = options.enums === String ? $root.E2E.Message.PaymentDetailsMessage.Status[message.status] === undefined ? message.status : $root.E2E.Message.PaymentDetailsMessage.Status[message.status] : message.status;
+                    if (options.oneofs)
+                        object._status = "status";
+                }
+                if (message.contextInfo != null && message.hasOwnProperty("contextInfo")) {
+                    object.contextInfo = $root.E2E.ContextInfo.toObject(message.contextInfo, options);
+                    if (options.oneofs)
+                        object._contextInfo = "contextInfo";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this PaymentDetailsMessage to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            PaymentDetailsMessage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for PaymentDetailsMessage
+             * @function getTypeUrl
+             * @memberof E2E.Message.PaymentDetailsMessage
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            PaymentDetailsMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.PaymentDetailsMessage";
+            };
+
+            /**
+             * ServiceType enum.
+             * @name E2E.Message.PaymentDetailsMessage.ServiceType
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} UPI=1 UPI value
+             */
+            PaymentDetailsMessage.ServiceType = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "UPI"] = 1;
+                return values;
+            })();
+
+            /**
+             * Status enum.
+             * @name E2E.Message.PaymentDetailsMessage.Status
+             * @enum {number}
+             * @property {number} STATUS_UNKNOWN=0 STATUS_UNKNOWN value
+             * @property {number} SUCCESS=1 SUCCESS value
+             */
+            PaymentDetailsMessage.Status = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "STATUS_UNKNOWN"] = 0;
+                values[valuesById[1] = "SUCCESS"] = 1;
+                return values;
+            })();
+
+            return PaymentDetailsMessage;
         })();
 
         Message.PaymentExtendedMetadata = (function() {
@@ -99593,6 +102422,9 @@ $root.E2E = (function() {
              * @property {E2E.Message.ISharedDeviceContactHashKeyShare|null} [sharedDeviceContactHashKeyShare] ProtocolMessage sharedDeviceContactHashKeyShare
              * @property {E2E.Message.ISharedDeviceContactHashKeyRequest|null} [sharedDeviceContactHashKeyRequest] ProtocolMessage sharedDeviceContactHashKeyRequest
              * @property {Array.<string>|null} [additionalPromptIds] ProtocolMessage additionalPromptIds
+             * @property {E2E.IGroupRootKeyRequest|null} [groupRootKeyRequest] ProtocolMessage groupRootKeyRequest
+             * @property {E2E.IMembershipFormKeyFingerprintVerification|null} [membershipFormKeyFingerprintVerification] ProtocolMessage membershipFormKeyFingerprintVerification
+             * @property {E2E.IGroupRootKeyShare|null} [groupRootKeyShare] ProtocolMessage groupRootKeyShare
              */
 
             /**
@@ -99883,6 +102715,30 @@ $root.E2E = (function() {
              */
             ProtocolMessage.prototype.additionalPromptIds = $util.emptyArray;
 
+            /**
+             * ProtocolMessage groupRootKeyRequest.
+             * @member {E2E.IGroupRootKeyRequest|null|undefined} groupRootKeyRequest
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.groupRootKeyRequest = null;
+
+            /**
+             * ProtocolMessage membershipFormKeyFingerprintVerification.
+             * @member {E2E.IMembershipFormKeyFingerprintVerification|null|undefined} membershipFormKeyFingerprintVerification
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.membershipFormKeyFingerprintVerification = null;
+
+            /**
+             * ProtocolMessage groupRootKeyShare.
+             * @member {E2E.IGroupRootKeyShare|null|undefined} groupRootKeyShare
+             * @memberof E2E.Message.ProtocolMessage
+             * @instance
+             */
+            ProtocolMessage.prototype.groupRootKeyShare = null;
+
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
 
@@ -100084,6 +102940,24 @@ $root.E2E = (function() {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_groupRootKeyRequest", {
+                get: $util.oneOfGetter($oneOfFields = ["groupRootKeyRequest"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_membershipFormKeyFingerprintVerification", {
+                get: $util.oneOfGetter($oneOfFields = ["membershipFormKeyFingerprintVerification"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(ProtocolMessage.prototype, "_groupRootKeyShare", {
+                get: $util.oneOfGetter($oneOfFields = ["groupRootKeyShare"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             /**
              * Creates a new ProtocolMessage instance using the specified properties.
              * @function create
@@ -100177,6 +103051,12 @@ $root.E2E = (function() {
                 if (message.additionalPromptIds != null && message.additionalPromptIds.length)
                     for (var i = 0; i < message.additionalPromptIds.length; ++i)
                         writer.uint32(/* id 38, wireType 2 =*/306).string(message.additionalPromptIds[i]);
+                if (message.groupRootKeyRequest != null && Object.hasOwnProperty.call(message, "groupRootKeyRequest"))
+                    $root.E2E.GroupRootKeyRequest.encode(message.groupRootKeyRequest, writer.uint32(/* id 39, wireType 2 =*/314).fork()).ldelim();
+                if (message.membershipFormKeyFingerprintVerification != null && Object.hasOwnProperty.call(message, "membershipFormKeyFingerprintVerification"))
+                    $root.E2E.MembershipFormKeyFingerprintVerification.encode(message.membershipFormKeyFingerprintVerification, writer.uint32(/* id 40, wireType 2 =*/322).fork()).ldelim();
+                if (message.groupRootKeyShare != null && Object.hasOwnProperty.call(message, "groupRootKeyShare"))
+                    $root.E2E.GroupRootKeyShare.encode(message.groupRootKeyShare, writer.uint32(/* id 41, wireType 2 =*/330).fork()).ldelim();
                 return writer;
             };
 
@@ -100351,6 +103231,18 @@ $root.E2E = (function() {
                             message.additionalPromptIds.push(reader.string());
                             break;
                         }
+                    case 39: {
+                            message.groupRootKeyRequest = $root.E2E.GroupRootKeyRequest.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 40: {
+                            message.membershipFormKeyFingerprintVerification = $root.E2E.MembershipFormKeyFingerprintVerification.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 41: {
+                            message.groupRootKeyShare = $root.E2E.GroupRootKeyShare.decode(reader, reader.uint32());
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -100435,6 +103327,9 @@ $root.E2E = (function() {
                     case 39:
                     case 40:
                     case 41:
+                    case 42:
+                    case 43:
+                    case 44:
                         break;
                     }
                 }
@@ -100675,6 +103570,30 @@ $root.E2E = (function() {
                         if (!$util.isString(message.additionalPromptIds[i]))
                             return "additionalPromptIds: string[] expected";
                 }
+                if (message.groupRootKeyRequest != null && message.hasOwnProperty("groupRootKeyRequest")) {
+                    properties._groupRootKeyRequest = 1;
+                    {
+                        var error = $root.E2E.GroupRootKeyRequest.verify(message.groupRootKeyRequest);
+                        if (error)
+                            return "groupRootKeyRequest." + error;
+                    }
+                }
+                if (message.membershipFormKeyFingerprintVerification != null && message.hasOwnProperty("membershipFormKeyFingerprintVerification")) {
+                    properties._membershipFormKeyFingerprintVerification = 1;
+                    {
+                        var error = $root.E2E.MembershipFormKeyFingerprintVerification.verify(message.membershipFormKeyFingerprintVerification);
+                        if (error)
+                            return "membershipFormKeyFingerprintVerification." + error;
+                    }
+                }
+                if (message.groupRootKeyShare != null && message.hasOwnProperty("groupRootKeyShare")) {
+                    properties._groupRootKeyShare = 1;
+                    {
+                        var error = $root.E2E.GroupRootKeyShare.verify(message.groupRootKeyShare);
+                        if (error)
+                            return "groupRootKeyShare." + error;
+                    }
+                }
                 return null;
             };
 
@@ -100842,6 +103761,18 @@ $root.E2E = (function() {
                 case 41:
                     message.type = 41;
                     break;
+                case "GROUP_ROOT_KEY_REQUEST":
+                case 42:
+                    message.type = 42;
+                    break;
+                case "MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION":
+                case 43:
+                    message.type = 43;
+                    break;
+                case "GROUP_ROOT_KEY_SHARE":
+                case 44:
+                    message.type = 44;
+                    break;
                 }
                 if (object.ephemeralExpiration != null)
                     message.ephemeralExpiration = object.ephemeralExpiration >>> 0;
@@ -101003,6 +103934,21 @@ $root.E2E = (function() {
                     message.additionalPromptIds = [];
                     for (var i = 0; i < object.additionalPromptIds.length; ++i)
                         message.additionalPromptIds[i] = String(object.additionalPromptIds[i]);
+                }
+                if (object.groupRootKeyRequest != null) {
+                    if (typeof object.groupRootKeyRequest !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.groupRootKeyRequest: object expected");
+                    message.groupRootKeyRequest = $root.E2E.GroupRootKeyRequest.fromObject(object.groupRootKeyRequest);
+                }
+                if (object.membershipFormKeyFingerprintVerification != null) {
+                    if (typeof object.membershipFormKeyFingerprintVerification !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.membershipFormKeyFingerprintVerification: object expected");
+                    message.membershipFormKeyFingerprintVerification = $root.E2E.MembershipFormKeyFingerprintVerification.fromObject(object.membershipFormKeyFingerprintVerification);
+                }
+                if (object.groupRootKeyShare != null) {
+                    if (typeof object.groupRootKeyShare !== "object")
+                        throw TypeError(".E2E.Message.ProtocolMessage.groupRootKeyShare: object expected");
+                    message.groupRootKeyShare = $root.E2E.GroupRootKeyShare.fromObject(object.groupRootKeyShare);
                 }
                 return message;
             };
@@ -101198,6 +104144,21 @@ $root.E2E = (function() {
                     for (var j = 0; j < message.additionalPromptIds.length; ++j)
                         object.additionalPromptIds[j] = message.additionalPromptIds[j];
                 }
+                if (message.groupRootKeyRequest != null && message.hasOwnProperty("groupRootKeyRequest")) {
+                    object.groupRootKeyRequest = $root.E2E.GroupRootKeyRequest.toObject(message.groupRootKeyRequest, options);
+                    if (options.oneofs)
+                        object._groupRootKeyRequest = "groupRootKeyRequest";
+                }
+                if (message.membershipFormKeyFingerprintVerification != null && message.hasOwnProperty("membershipFormKeyFingerprintVerification")) {
+                    object.membershipFormKeyFingerprintVerification = $root.E2E.MembershipFormKeyFingerprintVerification.toObject(message.membershipFormKeyFingerprintVerification, options);
+                    if (options.oneofs)
+                        object._membershipFormKeyFingerprintVerification = "membershipFormKeyFingerprintVerification";
+                }
+                if (message.groupRootKeyShare != null && message.hasOwnProperty("groupRootKeyShare")) {
+                    object.groupRootKeyShare = $root.E2E.GroupRootKeyShare.toObject(message.groupRootKeyShare, options);
+                    if (options.oneofs)
+                        object._groupRootKeyShare = "groupRootKeyShare";
+                }
                 return object;
             };
 
@@ -101266,6 +104227,9 @@ $root.E2E = (function() {
              * @property {number} ACP2_SETTING=39 ACP2_SETTING value
              * @property {number} SHARED_DEVICE_CONTACT_HASH_KEY_SHARE=40 SHARED_DEVICE_CONTACT_HASH_KEY_SHARE value
              * @property {number} SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST=41 SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST value
+             * @property {number} GROUP_ROOT_KEY_REQUEST=42 GROUP_ROOT_KEY_REQUEST value
+             * @property {number} MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION=43 MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION value
+             * @property {number} GROUP_ROOT_KEY_SHARE=44 GROUP_ROOT_KEY_SHARE value
              */
             ProtocolMessage.Type = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -101304,6 +104268,9 @@ $root.E2E = (function() {
                 values[valuesById[39] = "ACP2_SETTING"] = 39;
                 values[valuesById[40] = "SHARED_DEVICE_CONTACT_HASH_KEY_SHARE"] = 40;
                 values[valuesById[41] = "SHARED_DEVICE_CONTACT_HASH_KEY_REQUEST"] = 41;
+                values[valuesById[42] = "GROUP_ROOT_KEY_REQUEST"] = 42;
+                values[valuesById[43] = "MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION"] = 43;
+                values[valuesById[44] = "GROUP_ROOT_KEY_SHARE"] = 44;
                 return values;
             })();
 
@@ -115187,6 +118154,351 @@ $root.E2E = (function() {
             return VideoMessage;
         })();
 
+        Message.VpcRequestMessage = (function() {
+
+            /**
+             * Properties of a VpcRequestMessage.
+             * @memberof E2E.Message
+             * @interface IVpcRequestMessage
+             * @property {number|null} [payloadSchemaVersion] VpcRequestMessage payloadSchemaVersion
+             * @property {string|null} [requestId] VpcRequestMessage requestId
+             * @property {E2E.Message.VpcRequestMessage.ScopeHint|null} [scopeHint] VpcRequestMessage scopeHint
+             */
+
+            /**
+             * Constructs a new VpcRequestMessage.
+             * @memberof E2E.Message
+             * @classdesc Represents a VpcRequestMessage.
+             * @implements IVpcRequestMessage
+             * @constructor
+             * @param {E2E.Message.IVpcRequestMessage=} [properties] Properties to set
+             */
+            function VpcRequestMessage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * VpcRequestMessage payloadSchemaVersion.
+             * @member {number|null|undefined} payloadSchemaVersion
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             */
+            VpcRequestMessage.prototype.payloadSchemaVersion = null;
+
+            /**
+             * VpcRequestMessage requestId.
+             * @member {string|null|undefined} requestId
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             */
+            VpcRequestMessage.prototype.requestId = null;
+
+            /**
+             * VpcRequestMessage scopeHint.
+             * @member {E2E.Message.VpcRequestMessage.ScopeHint|null|undefined} scopeHint
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             */
+            VpcRequestMessage.prototype.scopeHint = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(VpcRequestMessage.prototype, "_payloadSchemaVersion", {
+                get: $util.oneOfGetter($oneOfFields = ["payloadSchemaVersion"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(VpcRequestMessage.prototype, "_requestId", {
+                get: $util.oneOfGetter($oneOfFields = ["requestId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(VpcRequestMessage.prototype, "_scopeHint", {
+                get: $util.oneOfGetter($oneOfFields = ["scopeHint"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new VpcRequestMessage instance using the specified properties.
+             * @function create
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.IVpcRequestMessage=} [properties] Properties to set
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage instance
+             */
+            VpcRequestMessage.create = function create(properties) {
+                return new VpcRequestMessage(properties);
+            };
+
+            /**
+             * Encodes the specified VpcRequestMessage message. Does not implicitly {@link E2E.Message.VpcRequestMessage.verify|verify} messages.
+             * @function encode
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.IVpcRequestMessage} message VpcRequestMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            VpcRequestMessage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.payloadSchemaVersion != null && Object.hasOwnProperty.call(message, "payloadSchemaVersion"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.payloadSchemaVersion);
+                if (message.requestId != null && Object.hasOwnProperty.call(message, "requestId"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.requestId);
+                if (message.scopeHint != null && Object.hasOwnProperty.call(message, "scopeHint"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.scopeHint);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified VpcRequestMessage message, length delimited. Does not implicitly {@link E2E.Message.VpcRequestMessage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.IVpcRequestMessage} message VpcRequestMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            VpcRequestMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a VpcRequestMessage message from the specified reader or buffer.
+             * @function decode
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            VpcRequestMessage.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.E2E.Message.VpcRequestMessage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.payloadSchemaVersion = reader.uint32();
+                            break;
+                        }
+                    case 2: {
+                            message.requestId = reader.string();
+                            break;
+                        }
+                    case 3: {
+                            message.scopeHint = reader.int32();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a VpcRequestMessage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            VpcRequestMessage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a VpcRequestMessage message.
+             * @function verify
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            VpcRequestMessage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.payloadSchemaVersion != null && message.hasOwnProperty("payloadSchemaVersion")) {
+                    properties._payloadSchemaVersion = 1;
+                    if (!$util.isInteger(message.payloadSchemaVersion))
+                        return "payloadSchemaVersion: integer expected";
+                }
+                if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                    properties._requestId = 1;
+                    if (!$util.isString(message.requestId))
+                        return "requestId: string expected";
+                }
+                if (message.scopeHint != null && message.hasOwnProperty("scopeHint")) {
+                    properties._scopeHint = 1;
+                    switch (message.scopeHint) {
+                    default:
+                        return "scopeHint: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        break;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a VpcRequestMessage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {E2E.Message.VpcRequestMessage} VpcRequestMessage
+             */
+            VpcRequestMessage.fromObject = function fromObject(object) {
+                if (object instanceof $root.E2E.Message.VpcRequestMessage)
+                    return object;
+                var message = new $root.E2E.Message.VpcRequestMessage();
+                if (object.payloadSchemaVersion != null)
+                    message.payloadSchemaVersion = object.payloadSchemaVersion >>> 0;
+                if (object.requestId != null)
+                    message.requestId = String(object.requestId);
+                switch (object.scopeHint) {
+                default:
+                    if (typeof object.scopeHint === "number") {
+                        message.scopeHint = object.scopeHint;
+                        break;
+                    }
+                    break;
+                case "UNKNOWN":
+                case 0:
+                    message.scopeHint = 0;
+                    break;
+                case "WA_ONLY":
+                case 1:
+                    message.scopeHint = 1;
+                    break;
+                case "WAFFLE":
+                case 2:
+                    message.scopeHint = 2;
+                    break;
+                case "WA_META_AI":
+                case 3:
+                    message.scopeHint = 3;
+                    break;
+                case "META_AI_ONLY":
+                case 4:
+                    message.scopeHint = 4;
+                    break;
+                case "FOA_ONLY":
+                case 5:
+                    message.scopeHint = 5;
+                    break;
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a VpcRequestMessage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {E2E.Message.VpcRequestMessage} message VpcRequestMessage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            VpcRequestMessage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.payloadSchemaVersion != null && message.hasOwnProperty("payloadSchemaVersion")) {
+                    object.payloadSchemaVersion = message.payloadSchemaVersion;
+                    if (options.oneofs)
+                        object._payloadSchemaVersion = "payloadSchemaVersion";
+                }
+                if (message.requestId != null && message.hasOwnProperty("requestId")) {
+                    object.requestId = message.requestId;
+                    if (options.oneofs)
+                        object._requestId = "requestId";
+                }
+                if (message.scopeHint != null && message.hasOwnProperty("scopeHint")) {
+                    object.scopeHint = options.enums === String ? $root.E2E.Message.VpcRequestMessage.ScopeHint[message.scopeHint] === undefined ? message.scopeHint : $root.E2E.Message.VpcRequestMessage.ScopeHint[message.scopeHint] : message.scopeHint;
+                    if (options.oneofs)
+                        object._scopeHint = "scopeHint";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this VpcRequestMessage to JSON.
+             * @function toJSON
+             * @memberof E2E.Message.VpcRequestMessage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            VpcRequestMessage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for VpcRequestMessage
+             * @function getTypeUrl
+             * @memberof E2E.Message.VpcRequestMessage
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            VpcRequestMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/E2E.Message.VpcRequestMessage";
+            };
+
+            /**
+             * ScopeHint enum.
+             * @name E2E.Message.VpcRequestMessage.ScopeHint
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} WA_ONLY=1 WA_ONLY value
+             * @property {number} WAFFLE=2 WAFFLE value
+             * @property {number} WA_META_AI=3 WA_META_AI value
+             * @property {number} META_AI_ONLY=4 META_AI_ONLY value
+             * @property {number} FOA_ONLY=5 FOA_ONLY value
+             */
+            VpcRequestMessage.ScopeHint = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "WA_ONLY"] = 1;
+                values[valuesById[2] = "WAFFLE"] = 2;
+                values[valuesById[3] = "WA_META_AI"] = 3;
+                values[valuesById[4] = "META_AI_ONLY"] = 4;
+                values[valuesById[5] = "FOA_ONLY"] = 5;
+                return values;
+            })();
+
+            return VpcRequestMessage;
+        })();
+
         return Message;
     })();
 
@@ -125850,6 +129162,7 @@ $root.AICommon = (function() {
                 case 57:
                 case 58:
                 case 59:
+                case 60:
                     break;
                 }
             }
@@ -126083,6 +129396,10 @@ $root.AICommon = (function() {
             case "SHARE":
             case 59:
                 message.botEntryPointOrigin = 59;
+                break;
+            case "BIRTHDAY_BANNER":
+            case 60:
+                message.botEntryPointOrigin = 60;
                 break;
             }
             if (object.forwardScore != null)
@@ -140809,6 +144126,11 @@ $root.AICommon = (function() {
                     case 82:
                     case 83:
                     case 84:
+                    case 85:
+                    case 86:
+                    case 87:
+                    case 88:
+                    case 89:
                         break;
                     }
             }
@@ -141178,6 +144500,26 @@ $root.AICommon = (function() {
                     case 84:
                         message.capabilities[i] = 84;
                         break;
+                    case "AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED":
+                    case 85:
+                        message.capabilities[i] = 85;
+                        break;
+                    case "AI_INTERJECTIONS_ENABLED":
+                    case 86:
+                        message.capabilities[i] = 86;
+                        break;
+                    case "AI_RICH_RESPONSE_READ_ALOUD_ENABLED":
+                    case 87:
+                        message.capabilities[i] = 87;
+                        break;
+                    case "AI_RICH_RESPONSE_ITEM_LISTS_ENABLED":
+                    case 88:
+                        message.capabilities[i] = 88;
+                        break;
+                    case "RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH":
+                    case 89:
+                        message.capabilities[i] = 89;
+                        break;
                     }
             }
             return message;
@@ -141321,6 +144663,11 @@ $root.AICommon = (function() {
          * @property {number} AI_STUDY_QUIZ_ENABLED=82 AI_STUDY_QUIZ_ENABLED value
          * @property {number} HATCH_CVM_ENABLED=83 HATCH_CVM_ENABLED value
          * @property {number} RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED=84 RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED value
+         * @property {number} AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED=85 AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED value
+         * @property {number} AI_INTERJECTIONS_ENABLED=86 AI_INTERJECTIONS_ENABLED value
+         * @property {number} AI_RICH_RESPONSE_READ_ALOUD_ENABLED=87 AI_RICH_RESPONSE_READ_ALOUD_ENABLED value
+         * @property {number} AI_RICH_RESPONSE_ITEM_LISTS_ENABLED=88 AI_RICH_RESPONSE_ITEM_LISTS_ENABLED value
+         * @property {number} RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH=89 RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH value
          */
         BotCapabilityMetadata.BotCapabilityType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -141409,6 +144756,11 @@ $root.AICommon = (function() {
             values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
             values[valuesById[83] = "HATCH_CVM_ENABLED"] = 83;
             values[valuesById[84] = "RICH_RESPONSE_SOCIAL_ENTITY_PREFETCH_SCHEDULER_ENABLED"] = 84;
+            values[valuesById[85] = "AI_MUSE_JARVIS_EXTENDED_CARDS_ENABLED"] = 85;
+            values[valuesById[86] = "AI_INTERJECTIONS_ENABLED"] = 86;
+            values[valuesById[87] = "AI_RICH_RESPONSE_READ_ALOUD_ENABLED"] = 87;
+            values[valuesById[88] = "AI_RICH_RESPONSE_ITEM_LISTS_ENABLED"] = 88;
+            values[valuesById[89] = "RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH"] = 89;
             return values;
         })();
 
@@ -145268,6 +148620,7 @@ $root.AICommon = (function() {
                 case 57:
                 case 58:
                 case 59:
+                case 60:
                     break;
                 }
             }
@@ -145511,6 +148864,10 @@ $root.AICommon = (function() {
             case "SHARE":
             case 59:
                 message.destinationEntryPoint = 59;
+                break;
+            case "BIRTHDAY_BANNER":
+            case 60:
+                message.destinationEntryPoint = 60;
                 break;
             }
             switch (object.threadOrigin) {
@@ -150098,6 +153455,7 @@ $root.AICommon = (function() {
      * @property {number} CONTACTS_TAB=57 CONTACTS_TAB value
      * @property {number} NEW_3P_AGENT_CREATION=58 NEW_3P_AGENT_CREATION value
      * @property {number} SHARE=59 SHARE value
+     * @property {number} BIRTHDAY_BANNER=60 BIRTHDAY_BANNER value
      */
     AICommon.BotMetricsEntryPoint = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -150152,6 +153510,7 @@ $root.AICommon = (function() {
         values[valuesById[57] = "CONTACTS_TAB"] = 57;
         values[valuesById[58] = "NEW_3P_AGENT_CREATION"] = 58;
         values[valuesById[59] = "SHARE"] = 59;
+        values[valuesById[60] = "BIRTHDAY_BANNER"] = 60;
         return values;
     })();
 
@@ -152222,6 +155581,7 @@ $root.StatusAttributions = (function() {
          * @property {StatusAttributions.StatusAttribution.IGroupStatus|null} [groupStatus] StatusAttribution groupStatus
          * @property {StatusAttributions.StatusAttribution.IRLAttribution|null} [rlAttribution] StatusAttribution rlAttribution
          * @property {StatusAttributions.StatusAttribution.IAiCreatedAttribution|null} [aiCreatedAttribution] StatusAttribution aiCreatedAttribution
+         * @property {StatusAttributions.StatusAttribution.IStatusTemplate|null} [statusTemplate] StatusAttribution statusTemplate
          */
 
         /**
@@ -152303,6 +155663,14 @@ $root.StatusAttributions = (function() {
          */
         StatusAttribution.prototype.aiCreatedAttribution = null;
 
+        /**
+         * StatusAttribution statusTemplate.
+         * @member {StatusAttributions.StatusAttribution.IStatusTemplate|null|undefined} statusTemplate
+         * @memberof StatusAttributions.StatusAttribution
+         * @instance
+         */
+        StatusAttribution.prototype.statusTemplate = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -152320,12 +155688,12 @@ $root.StatusAttributions = (function() {
 
         /**
          * StatusAttribution attributionData.
-         * @member {"statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|undefined} attributionData
+         * @member {"statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|"statusTemplate"|undefined} attributionData
          * @memberof StatusAttributions.StatusAttribution
          * @instance
          */
         Object.defineProperty(StatusAttribution.prototype, "attributionData", {
-            get: $util.oneOfGetter($oneOfFields = ["statusReshare", "externalShare", "music", "groupStatus", "rlAttribution", "aiCreatedAttribution"]),
+            get: $util.oneOfGetter($oneOfFields = ["statusReshare", "externalShare", "music", "groupStatus", "rlAttribution", "aiCreatedAttribution", "statusTemplate"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -152369,6 +155737,8 @@ $root.StatusAttributions = (function() {
                 $root.StatusAttributions.StatusAttribution.RLAttribution.encode(message.rlAttribution, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
             if (message.aiCreatedAttribution != null && Object.hasOwnProperty.call(message, "aiCreatedAttribution"))
                 $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.encode(message.aiCreatedAttribution, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+            if (message.statusTemplate != null && Object.hasOwnProperty.call(message, "statusTemplate"))
+                $root.StatusAttributions.StatusAttribution.StatusTemplate.encode(message.statusTemplate, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
             return writer;
         };
 
@@ -152437,6 +155807,10 @@ $root.StatusAttributions = (function() {
                         message.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.decode(reader, reader.uint32());
                         break;
                     }
+                case 9: {
+                        message.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.decode(reader, reader.uint32());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -152491,6 +155865,7 @@ $root.StatusAttributions = (function() {
                 case 10:
                 case 11:
                 case 12:
+                case 13:
                     break;
                 }
             }
@@ -152555,6 +155930,16 @@ $root.StatusAttributions = (function() {
                     var error = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.verify(message.aiCreatedAttribution);
                     if (error)
                         return "aiCreatedAttribution." + error;
+                }
+            }
+            if (message.statusTemplate != null && message.hasOwnProperty("statusTemplate")) {
+                if (properties.attributionData === 1)
+                    return "attributionData: multiple values";
+                properties.attributionData = 1;
+                {
+                    var error = $root.StatusAttributions.StatusAttribution.StatusTemplate.verify(message.statusTemplate);
+                    if (error)
+                        return "statusTemplate." + error;
                 }
             }
             return null;
@@ -152631,6 +156016,10 @@ $root.StatusAttributions = (function() {
             case 12:
                 message.type = 12;
                 break;
+            case "STATUS_TEMPLATES":
+            case 13:
+                message.type = 13;
+                break;
             }
             if (object.actionUrl != null)
                 message.actionUrl = String(object.actionUrl);
@@ -152663,6 +156052,11 @@ $root.StatusAttributions = (function() {
                 if (typeof object.aiCreatedAttribution !== "object")
                     throw TypeError(".StatusAttributions.StatusAttribution.aiCreatedAttribution: object expected");
                 message.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.fromObject(object.aiCreatedAttribution);
+            }
+            if (object.statusTemplate != null) {
+                if (typeof object.statusTemplate !== "object")
+                    throw TypeError(".StatusAttributions.StatusAttribution.statusTemplate: object expected");
+                message.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.fromObject(object.statusTemplate);
             }
             return message;
         };
@@ -152719,6 +156113,11 @@ $root.StatusAttributions = (function() {
                 object.aiCreatedAttribution = $root.StatusAttributions.StatusAttribution.AiCreatedAttribution.toObject(message.aiCreatedAttribution, options);
                 if (options.oneofs)
                     object.attributionData = "aiCreatedAttribution";
+            }
+            if (message.statusTemplate != null && message.hasOwnProperty("statusTemplate")) {
+                object.statusTemplate = $root.StatusAttributions.StatusAttribution.StatusTemplate.toObject(message.statusTemplate, options);
+                if (options.oneofs)
+                    object.attributionData = "statusTemplate";
             }
             return object;
         };
@@ -154928,6 +158327,290 @@ $root.StatusAttributions = (function() {
             return StatusReshare;
         })();
 
+        StatusAttribution.StatusTemplate = (function() {
+
+            /**
+             * Properties of a StatusTemplate.
+             * @memberof StatusAttributions.StatusAttribution
+             * @interface IStatusTemplate
+             * @property {string|null} [templateId] StatusTemplate templateId
+             * @property {string|null} [templateName] StatusTemplate templateName
+             * @property {string|null} [thumbnailUrl] StatusTemplate thumbnailUrl
+             */
+
+            /**
+             * Constructs a new StatusTemplate.
+             * @memberof StatusAttributions.StatusAttribution
+             * @classdesc Represents a StatusTemplate.
+             * @implements IStatusTemplate
+             * @constructor
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate=} [properties] Properties to set
+             */
+            function StatusTemplate(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * StatusTemplate templateId.
+             * @member {string|null|undefined} templateId
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.templateId = null;
+
+            /**
+             * StatusTemplate templateName.
+             * @member {string|null|undefined} templateName
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.templateName = null;
+
+            /**
+             * StatusTemplate thumbnailUrl.
+             * @member {string|null|undefined} thumbnailUrl
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             */
+            StatusTemplate.prototype.thumbnailUrl = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_templateId", {
+                get: $util.oneOfGetter($oneOfFields = ["templateId"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_templateName", {
+                get: $util.oneOfGetter($oneOfFields = ["templateName"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            Object.defineProperty(StatusTemplate.prototype, "_thumbnailUrl", {
+                get: $util.oneOfGetter($oneOfFields = ["thumbnailUrl"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new StatusTemplate instance using the specified properties.
+             * @function create
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate=} [properties] Properties to set
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate instance
+             */
+            StatusTemplate.create = function create(properties) {
+                return new StatusTemplate(properties);
+            };
+
+            /**
+             * Encodes the specified StatusTemplate message. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @function encode
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate} message StatusTemplate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusTemplate.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.templateId != null && Object.hasOwnProperty.call(message, "templateId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.templateId);
+                if (message.templateName != null && Object.hasOwnProperty.call(message, "templateName"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.templateName);
+                if (message.thumbnailUrl != null && Object.hasOwnProperty.call(message, "thumbnailUrl"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.thumbnailUrl);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified StatusTemplate message, length delimited. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.IStatusTemplate} message StatusTemplate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusTemplate.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer.
+             * @function decode
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusTemplate.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.StatusAttributions.StatusAttribution.StatusTemplate();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.templateId = reader.string();
+                            break;
+                        }
+                    case 2: {
+                            message.templateName = reader.string();
+                            break;
+                        }
+                    case 3: {
+                            message.thumbnailUrl = reader.string();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusTemplate.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a StatusTemplate message.
+             * @function verify
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            StatusTemplate.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.templateId != null && message.hasOwnProperty("templateId")) {
+                    properties._templateId = 1;
+                    if (!$util.isString(message.templateId))
+                        return "templateId: string expected";
+                }
+                if (message.templateName != null && message.hasOwnProperty("templateName")) {
+                    properties._templateName = 1;
+                    if (!$util.isString(message.templateName))
+                        return "templateName: string expected";
+                }
+                if (message.thumbnailUrl != null && message.hasOwnProperty("thumbnailUrl")) {
+                    properties._thumbnailUrl = 1;
+                    if (!$util.isString(message.thumbnailUrl))
+                        return "thumbnailUrl: string expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a StatusTemplate message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {StatusAttributions.StatusAttribution.StatusTemplate} StatusTemplate
+             */
+            StatusTemplate.fromObject = function fromObject(object) {
+                if (object instanceof $root.StatusAttributions.StatusAttribution.StatusTemplate)
+                    return object;
+                var message = new $root.StatusAttributions.StatusAttribution.StatusTemplate();
+                if (object.templateId != null)
+                    message.templateId = String(object.templateId);
+                if (object.templateName != null)
+                    message.templateName = String(object.templateName);
+                if (object.thumbnailUrl != null)
+                    message.thumbnailUrl = String(object.thumbnailUrl);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a StatusTemplate message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {StatusAttributions.StatusAttribution.StatusTemplate} message StatusTemplate
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            StatusTemplate.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (message.templateId != null && message.hasOwnProperty("templateId")) {
+                    object.templateId = message.templateId;
+                    if (options.oneofs)
+                        object._templateId = "templateId";
+                }
+                if (message.templateName != null && message.hasOwnProperty("templateName")) {
+                    object.templateName = message.templateName;
+                    if (options.oneofs)
+                        object._templateName = "templateName";
+                }
+                if (message.thumbnailUrl != null && message.hasOwnProperty("thumbnailUrl")) {
+                    object.thumbnailUrl = message.thumbnailUrl;
+                    if (options.oneofs)
+                        object._thumbnailUrl = "thumbnailUrl";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this StatusTemplate to JSON.
+             * @function toJSON
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            StatusTemplate.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the default type url for StatusTemplate
+             * @function getTypeUrl
+             * @memberof StatusAttributions.StatusAttribution.StatusTemplate
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            StatusTemplate.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/StatusAttributions.StatusAttribution.StatusTemplate";
+            };
+
+            return StatusTemplate;
+        })();
+
         /**
          * Type enum.
          * @name StatusAttributions.StatusAttribution.Type
@@ -154945,6 +158628,7 @@ $root.StatusAttributions = (function() {
          * @property {number} STATUS_CLOSE_SHARING=10 STATUS_CLOSE_SHARING value
          * @property {number} PAID_PARTNERSHIP=11 PAID_PARTNERSHIP value
          * @property {number} USERNAME_STATUS=12 USERNAME_STATUS value
+         * @property {number} STATUS_TEMPLATES=13 STATUS_TEMPLATES value
          */
         StatusAttribution.Type = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -154961,6 +158645,7 @@ $root.StatusAttributions = (function() {
             values[valuesById[10] = "STATUS_CLOSE_SHARING"] = 10;
             values[valuesById[11] = "PAID_PARTNERSHIP"] = 11;
             values[valuesById[12] = "USERNAME_STATUS"] = 12;
+            values[valuesById[13] = "STATUS_TEMPLATES"] = 13;
             return values;
         })();
 
@@ -159094,6 +162779,7 @@ $root.CompanionReg = (function() {
          * @property {Uint8Array|null} [subscriptionSyncPayload] ClientPairingProps subscriptionSyncPayload
          * @property {boolean|null} [isBotJidDbMigrated] ClientPairingProps isBotJidDbMigrated
          * @property {Uint8Array|null} [companionAddPeerPayload] ClientPairingProps companionAddPeerPayload
+         * @property {boolean|null} [isCompanionRegistrationFgsEnabled] ClientPairingProps isCompanionRegistrationFgsEnabled
          */
 
         /**
@@ -159167,6 +162853,14 @@ $root.CompanionReg = (function() {
          */
         ClientPairingProps.prototype.companionAddPeerPayload = null;
 
+        /**
+         * ClientPairingProps isCompanionRegistrationFgsEnabled.
+         * @member {boolean|null|undefined} isCompanionRegistrationFgsEnabled
+         * @memberof CompanionReg.ClientPairingProps
+         * @instance
+         */
+        ClientPairingProps.prototype.isCompanionRegistrationFgsEnabled = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -159212,6 +162906,12 @@ $root.CompanionReg = (function() {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(ClientPairingProps.prototype, "_isCompanionRegistrationFgsEnabled", {
+            get: $util.oneOfGetter($oneOfFields = ["isCompanionRegistrationFgsEnabled"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new ClientPairingProps instance using the specified properties.
          * @function create
@@ -159250,6 +162950,8 @@ $root.CompanionReg = (function() {
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.isBotJidDbMigrated);
             if (message.companionAddPeerPayload != null && Object.hasOwnProperty.call(message, "companionAddPeerPayload"))
                 writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.companionAddPeerPayload);
+            if (message.isCompanionRegistrationFgsEnabled != null && Object.hasOwnProperty.call(message, "isCompanionRegistrationFgsEnabled"))
+                writer.uint32(/* id 8, wireType 0 =*/64).bool(message.isCompanionRegistrationFgsEnabled);
             return writer;
         };
 
@@ -159312,6 +163014,10 @@ $root.CompanionReg = (function() {
                     }
                 case 7: {
                         message.companionAddPeerPayload = reader.bytes();
+                        break;
+                    }
+                case 8: {
+                        message.isCompanionRegistrationFgsEnabled = reader.bool();
                         break;
                     }
                 default:
@@ -159385,6 +163091,11 @@ $root.CompanionReg = (function() {
                 if (!(message.companionAddPeerPayload && typeof message.companionAddPeerPayload.length === "number" || $util.isString(message.companionAddPeerPayload)))
                     return "companionAddPeerPayload: buffer expected";
             }
+            if (message.isCompanionRegistrationFgsEnabled != null && message.hasOwnProperty("isCompanionRegistrationFgsEnabled")) {
+                properties._isCompanionRegistrationFgsEnabled = 1;
+                if (typeof message.isCompanionRegistrationFgsEnabled !== "boolean")
+                    return "isCompanionRegistrationFgsEnabled: boolean expected";
+            }
             return null;
         };
 
@@ -159420,6 +163131,8 @@ $root.CompanionReg = (function() {
                     $util.base64.decode(object.companionAddPeerPayload, message.companionAddPeerPayload = $util.newBuffer($util.base64.length(object.companionAddPeerPayload)), 0);
                 else if (object.companionAddPeerPayload.length >= 0)
                     message.companionAddPeerPayload = object.companionAddPeerPayload;
+            if (object.isCompanionRegistrationFgsEnabled != null)
+                message.isCompanionRegistrationFgsEnabled = Boolean(object.isCompanionRegistrationFgsEnabled);
             return message;
         };
 
@@ -159470,6 +163183,11 @@ $root.CompanionReg = (function() {
                 object.companionAddPeerPayload = options.bytes === String ? $util.base64.encode(message.companionAddPeerPayload, 0, message.companionAddPeerPayload.length) : options.bytes === Array ? Array.prototype.slice.call(message.companionAddPeerPayload) : message.companionAddPeerPayload;
                 if (options.oneofs)
                     object._companionAddPeerPayload = "companionAddPeerPayload";
+            }
+            if (message.isCompanionRegistrationFgsEnabled != null && message.hasOwnProperty("isCompanionRegistrationFgsEnabled")) {
+                object.isCompanionRegistrationFgsEnabled = message.isCompanionRegistrationFgsEnabled;
+                if (options.oneofs)
+                    object._isCompanionRegistrationFgsEnabled = "isCompanionRegistrationFgsEnabled";
             }
             return object;
         };
@@ -161253,6 +164971,7 @@ $root.CompanionReg = (function() {
          * @property {CompanionReg.DeviceProps.PlatformType|null} [platformType] DeviceProps platformType
          * @property {boolean|null} [requireFullSync] DeviceProps requireFullSync
          * @property {CompanionReg.DeviceProps.IHistorySyncConfig|null} [historySyncConfig] DeviceProps historySyncConfig
+         * @property {string|null} [deviceName] DeviceProps deviceName
          */
 
         /**
@@ -161310,6 +165029,14 @@ $root.CompanionReg = (function() {
          */
         DeviceProps.prototype.historySyncConfig = null;
 
+        /**
+         * DeviceProps deviceName.
+         * @member {string|null|undefined} deviceName
+         * @memberof CompanionReg.DeviceProps
+         * @instance
+         */
+        DeviceProps.prototype.deviceName = null;
+
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
@@ -161340,6 +165067,12 @@ $root.CompanionReg = (function() {
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(DeviceProps.prototype, "_historySyncConfig", {
             get: $util.oneOfGetter($oneOfFields = ["historySyncConfig"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(DeviceProps.prototype, "_deviceName", {
+            get: $util.oneOfGetter($oneOfFields = ["deviceName"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -161377,6 +165110,8 @@ $root.CompanionReg = (function() {
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.requireFullSync);
             if (message.historySyncConfig != null && Object.hasOwnProperty.call(message, "historySyncConfig"))
                 $root.CompanionReg.DeviceProps.HistorySyncConfig.encode(message.historySyncConfig, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            if (message.deviceName != null && Object.hasOwnProperty.call(message, "deviceName"))
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.deviceName);
             return writer;
         };
 
@@ -161431,6 +165166,10 @@ $root.CompanionReg = (function() {
                     }
                 case 5: {
                         message.historySyncConfig = $root.CompanionReg.DeviceProps.HistorySyncConfig.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 6: {
+                        message.deviceName = reader.string();
                         break;
                     }
                 default:
@@ -161533,6 +165272,11 @@ $root.CompanionReg = (function() {
                     if (error)
                         return "historySyncConfig." + error;
                 }
+            }
+            if (message.deviceName != null && message.hasOwnProperty("deviceName")) {
+                properties._deviceName = 1;
+                if (!$util.isString(message.deviceName))
+                    return "deviceName: string expected";
             }
             return null;
         };
@@ -161695,6 +165439,8 @@ $root.CompanionReg = (function() {
                     throw TypeError(".CompanionReg.DeviceProps.historySyncConfig: object expected");
                 message.historySyncConfig = $root.CompanionReg.DeviceProps.HistorySyncConfig.fromObject(object.historySyncConfig);
             }
+            if (object.deviceName != null)
+                message.deviceName = String(object.deviceName);
             return message;
         };
 
@@ -161735,6 +165481,11 @@ $root.CompanionReg = (function() {
                 object.historySyncConfig = $root.CompanionReg.DeviceProps.HistorySyncConfig.toObject(message.historySyncConfig, options);
                 if (options.oneofs)
                     object._historySyncConfig = "historySyncConfig";
+            }
+            if (message.deviceName != null && message.hasOwnProperty("deviceName")) {
+                object.deviceName = message.deviceName;
+                if (options.oneofs)
+                    object._deviceName = "deviceName";
             }
             return object;
         };

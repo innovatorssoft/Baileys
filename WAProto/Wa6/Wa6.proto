@@ -39,6 +39,7 @@ message ClientPayload {
     repeated string pairedPeripherals = 47;
     optional bytes testIsolationId = 48;
     optional int64 messageSts = 49;
+    optional IntegrationAttestation integrationAttestation = 50;
     enum AccountType {
         DEFAULT = 0;
         GUEST = 1;
@@ -98,6 +99,10 @@ message ClientPayload {
         SERVICE_EXTENSION = 1;
         INTENTS_EXTENSION = 2;
     }
+    message IntegrationAttestation {
+        optional string staticUnbound = 1;
+        optional string onlineSigned = 3;
+    }
     message InteropData {
         optional uint64 accountId = 1;
         optional bytes token = 2;
@@ -147,6 +152,7 @@ message ClientPayload {
             VR = 4;
             SMART_DISPLAY = 5;
             SMART_SPEAKER = 6;
+            AGENT = 7;
         }
         enum DistributionChannel {
             APPSTORE = 0;

@@ -12,9 +12,6 @@ export namespace Reporting {
         /** Field maxVersion */
         maxVersion?: (number|null);
 
-        /** Field notReportableMinVersion */
-        notReportableMinVersion?: (number|null);
-
         /** Field isMessage */
         isMessage?: (boolean|null);
 
@@ -36,9 +33,6 @@ export namespace Reporting {
 
         /** Field maxVersion. */
         public maxVersion?: (number|null);
-
-        /** Field notReportableMinVersion. */
-        public notReportableMinVersion?: (number|null);
 
         /** Field isMessage. */
         public isMessage?: (boolean|null);
@@ -129,9 +123,6 @@ export namespace Reporting {
 
         /** Config field */
         field?: ({ [k: string]: Reporting.IField }|null);
-
-        /** Config version */
-        version?: (number|null);
     }
 
     /** Represents a Config. */
@@ -145,9 +136,6 @@ export namespace Reporting {
 
         /** Config field. */
         public field: { [k: string]: Reporting.IField };
-
-        /** Config version. */
-        public version?: (number|null);
 
         /**
          * Creates a new Config instance using the specified properties.
@@ -221,121 +209,6 @@ export namespace Reporting {
 
         /**
          * Gets the default type url for Config
-         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns The default type url
-         */
-        public static getTypeUrl(typeUrlPrefix?: string): string;
-    }
-
-    /** Properties of a Reportable. */
-    interface IReportable {
-
-        /** Reportable minVersion */
-        minVersion?: (number|null);
-
-        /** Reportable maxVersion */
-        maxVersion?: (number|null);
-
-        /** Reportable notReportableMinVersion */
-        notReportableMinVersion?: (number|null);
-
-        /** Reportable never */
-        never?: (boolean|null);
-    }
-
-    /** Represents a Reportable. */
-    class Reportable implements IReportable {
-
-        /**
-         * Constructs a new Reportable.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: Reporting.IReportable);
-
-        /** Reportable minVersion. */
-        public minVersion?: (number|null);
-
-        /** Reportable maxVersion. */
-        public maxVersion?: (number|null);
-
-        /** Reportable notReportableMinVersion. */
-        public notReportableMinVersion?: (number|null);
-
-        /** Reportable never. */
-        public never?: (boolean|null);
-
-        /**
-         * Creates a new Reportable instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Reportable instance
-         */
-        public static create(properties?: Reporting.IReportable): Reporting.Reportable;
-
-        /**
-         * Encodes the specified Reportable message. Does not implicitly {@link Reporting.Reportable.verify|verify} messages.
-         * @param message Reportable message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: Reporting.IReportable, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Reportable message, length delimited. Does not implicitly {@link Reporting.Reportable.verify|verify} messages.
-         * @param message Reportable message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: Reporting.IReportable, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Reportable message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Reportable
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Reporting.Reportable;
-
-        /**
-         * Decodes a Reportable message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Reportable
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Reporting.Reportable;
-
-        /**
-         * Verifies a Reportable message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Reportable message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Reportable
-         */
-        public static fromObject(object: { [k: string]: any }): Reporting.Reportable;
-
-        /**
-         * Creates a plain object from a Reportable message. Also converts values to other types if specified.
-         * @param message Reportable
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: Reporting.Reportable, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Reportable to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-
-        /**
-         * Gets the default type url for Reportable
          * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns The default type url
          */

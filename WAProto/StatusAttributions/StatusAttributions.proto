@@ -11,6 +11,7 @@ message StatusAttribution {
         StatusAttribution.GroupStatus groupStatus = 6;
         StatusAttribution.RLAttribution rlAttribution = 7;
         StatusAttribution.AiCreatedAttribution aiCreatedAttribution = 8;
+        StatusAttribution.StatusTemplate statusTemplate = 9;
     }
     message AiCreatedAttribution {
         optional Source source = 1;
@@ -78,6 +79,11 @@ message StatusAttribution {
             FORWARD = 4;
         }
     }
+    message StatusTemplate {
+        optional string templateId = 1;
+        optional string templateName = 2;
+        optional string thumbnailUrl = 3;
+    }
     enum Type {
         UNKNOWN = 0;
         RESHARE = 1;
@@ -92,5 +98,6 @@ message StatusAttribution {
         STATUS_CLOSE_SHARING = 10;
         PAID_PARTNERSHIP = 11;
         USERNAME_STATUS = 12;
+        STATUS_TEMPLATES = 13;
     }
 }

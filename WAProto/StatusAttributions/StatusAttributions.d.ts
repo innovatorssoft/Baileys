@@ -29,6 +29,9 @@ export namespace StatusAttributions {
 
         /** StatusAttribution aiCreatedAttribution */
         aiCreatedAttribution?: (StatusAttributions.StatusAttribution.IAiCreatedAttribution|null);
+
+        /** StatusAttribution statusTemplate */
+        statusTemplate?: (StatusAttributions.StatusAttribution.IStatusTemplate|null);
     }
 
     /** Represents a StatusAttribution. */
@@ -64,8 +67,11 @@ export namespace StatusAttributions {
         /** StatusAttribution aiCreatedAttribution. */
         public aiCreatedAttribution?: (StatusAttributions.StatusAttribution.IAiCreatedAttribution|null);
 
+        /** StatusAttribution statusTemplate. */
+        public statusTemplate?: (StatusAttributions.StatusAttribution.IStatusTemplate|null);
+
         /** StatusAttribution attributionData. */
-        public attributionData?: ("statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution");
+        public attributionData?: ("statusReshare"|"externalShare"|"music"|"groupStatus"|"rlAttribution"|"aiCreatedAttribution"|"statusTemplate");
 
         /**
          * Creates a new StatusAttribution instance using the specified properties.
@@ -951,6 +957,115 @@ export namespace StatusAttributions {
             }
         }
 
+        /** Properties of a StatusTemplate. */
+        interface IStatusTemplate {
+
+            /** StatusTemplate templateId */
+            templateId?: (string|null);
+
+            /** StatusTemplate templateName */
+            templateName?: (string|null);
+
+            /** StatusTemplate thumbnailUrl */
+            thumbnailUrl?: (string|null);
+        }
+
+        /** Represents a StatusTemplate. */
+        class StatusTemplate implements IStatusTemplate {
+
+            /**
+             * Constructs a new StatusTemplate.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: StatusAttributions.StatusAttribution.IStatusTemplate);
+
+            /** StatusTemplate templateId. */
+            public templateId?: (string|null);
+
+            /** StatusTemplate templateName. */
+            public templateName?: (string|null);
+
+            /** StatusTemplate thumbnailUrl. */
+            public thumbnailUrl?: (string|null);
+
+            /**
+             * Creates a new StatusTemplate instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns StatusTemplate instance
+             */
+            public static create(properties?: StatusAttributions.StatusAttribution.IStatusTemplate): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Encodes the specified StatusTemplate message. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @param message StatusTemplate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: StatusAttributions.StatusAttribution.IStatusTemplate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified StatusTemplate message, length delimited. Does not implicitly {@link StatusAttributions.StatusAttribution.StatusTemplate.verify|verify} messages.
+             * @param message StatusTemplate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: StatusAttributions.StatusAttribution.IStatusTemplate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Decodes a StatusTemplate message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns StatusTemplate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Verifies a StatusTemplate message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a StatusTemplate message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns StatusTemplate
+             */
+            public static fromObject(object: { [k: string]: any }): StatusAttributions.StatusAttribution.StatusTemplate;
+
+            /**
+             * Creates a plain object from a StatusTemplate message. Also converts values to other types if specified.
+             * @param message StatusTemplate
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: StatusAttributions.StatusAttribution.StatusTemplate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this StatusTemplate to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for StatusTemplate
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
         /** Type enum. */
         enum Type {
             UNKNOWN = 0,
@@ -965,7 +1080,8 @@ export namespace StatusAttributions {
             NEWSLETTER_STATUS = 9,
             STATUS_CLOSE_SHARING = 10,
             PAID_PARTNERSHIP = 11,
-            USERNAME_STATUS = 12
+            USERNAME_STATUS = 12,
+            STATUS_TEMPLATES = 13
         }
     }
 }
