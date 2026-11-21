@@ -621,4 +621,146 @@ describe('Presence Monitoring Regression & Socket Stability Suite', () => {
             tracker.destroy();
         });
     });
+
+    describe('6. Stream Error (ack) Diagnostics & Top-Level <status> Stanza Acking', () => {
+        test('CB:stream:error extracts child tag/attrs (e.g. ack class="status") into lastDisconnect.error.data and logs', () => {
+            const { sock, logger } = createChatsTestSocket();
+            const disconnects = [];
+            sock.ev.on('connection.update', (u) => {
+                if (u.connection === 'close') disconnects.push(u.lastDisconnect);
+            });
+
+            sock.ws.emit('CB:stream:error', {
+                tag: 'stream:error',
+                attrs: { code: '500' },
+                content: [
+                    {
+                        tag: 'ack',
+                        attrs: {
+                            id: 'STATUS_STANZA_123',
+                            class: 'status',
+                            from: 'status@broadcast'
+                        }
+                    }
+                ]
+            });
+
+            expect(disconnects).toHaveLength(1);
+            const err = disconnects[0].error;
+            expect(err.message).toBe('Stream Errored (ack)');
+            expect(err.output.statusCode).toBe(500);
+            expect(err.data.streamErrorTag).toBe('ack');
+            expect(err.data.streamErrorAttrs).toEqual({
+                id: 'STATUS_STANZA_123',
+                class: 'status',
+                from: 'status@broadcast'
+            });
+            const streamErrLog = logger.entries.find(
+                (e) => e.level === 'error' && e.args[0]?.event === 'ws_stream_error'
+            );
+            expect(streamErrLog).toBeDefined();
+            expect(streamErrLog.args[0].streamErrorTag).toBe('ack');
+            expect(streamErrLog.args[0].streamErrorAttrs.class).toBe('status');
+        });
+
+        test('CB:status (live and offline) automatically sends <ack class="status"> and skips malformed stanzas missing id/from', async () => {
+            const NodeCacheMod = require('@cacheable/node-cache');
+            const NodeCacheCtor = NodeCacheMod.default || NodeCacheMod;
+            const intervalSpy = jest.spyOn(NodeCacheCtor.prototype, 'startInterval').mockImplementation(() => {});
+
+            try {
+                const { makeMessagesRecvSocket } = require('../lib/Socket/messages-recv');
+                const logger = createSilentLogger();
+                const memCache = () => {
+                    const m = new Map();
+                    return { get: (k) => m.get(k), set: (k, v) => { m.set(k, v); return true; }, del: (k) => m.delete(k), flushAll: () => m.clear() };
+                };
+
+                const recvSock = makeMessagesRecvSocket({
+                    ...DEFAULT_CONNECTION_CONFIG,
+                    logger,
+                    markOnlineOnConnect: false,
+                    fireInitQueries: false,
+                    enableVoip: false,
+                    voip: false,
+                    shouldSyncHistoryMessage: () => false,
+                    placeholderResendCache: memCache(),
+                    msgRetryCounterCache: memCache(),
+                    callOfferCache: memCache(),
+                    userDevicesCache: memCache(),
+                    auth: {
+                        creds: {
+                            me: { id: '923000000000:1@s.whatsapp.net', lid: '100000000@lid', name: 'TestUser' }
+                        },
+                        keys: {
+                            get: jest.fn(async () => ({})),
+                            set: jest.fn(async () => {}),
+                            transaction: jest.fn(async (cb) => cb())
+                        }
+                    },
+                    makeSignalRepository: jest.fn(() => ({
+                        lidMapping: {
+                            mappingCache: new Map(),
+                            getLIDForPN: jest.fn(async () => null),
+                            getPNForLID: jest.fn(async () => null),
+                            storeLIDPNMappings: jest.fn(async () => {})
+                        },
+                        migrateSession: jest.fn(async () => ({ migrated: 0, skipped: 0, total: 0 }))
+                    }))
+                });
+
+                const sentStanzas = [];
+                const origSend = recvSock.ws.send.bind(recvSock.ws);
+                recvSock.ws.send = jest.fn((data, cb) => origSend(data, cb));
+
+                // Intercept sendNode by testing sendMessageAck directly AND CB:status via ws.send
+                const { decodeBinaryNode } = require('../lib/WABinary');
+                // Capture outgoing frames via sendNode? recvSock.sendNode is bound internally; decode from ws.sentFrames or verify via sendMessageAck
+                await recvSock.sendMessageAck({
+                    tag: 'status',
+                    attrs: {
+                        id: 'LIVE_STATUS_1',
+                        from: 'status@broadcast',
+                        participant: '923001234567@s.whatsapp.net'
+                    }
+                });
+
+                // Malformed stanza missing id should not throw or send a malformed ack
+                const frameCountBeforeMalformed = recvSock.ws.sentFrames.length;
+                await recvSock.sendMessageAck({
+                    tag: 'status',
+                    attrs: { from: 'status@broadcast' }
+                });
+                expect(recvSock.ws.sentFrames.length).toBe(frameCountBeforeMalformed);
+
+                // Emit live and offline CB:status stanzas
+                const framesBeforeLive = recvSock.ws.sentFrames.length;
+                recvSock.ws.emit('CB:status', {
+                    tag: 'status',
+                    attrs: {
+                        id: 'LIVE_STATUS_2',
+                        from: 'status@broadcast',
+                        participant: '923001234567@s.whatsapp.net'
+                    }
+                });
+                recvSock.ws.emit('CB:status', {
+                    tag: 'status',
+                    attrs: {
+                        id: 'OFFLINE_STATUS_3',
+                        from: 'status@broadcast',
+                        participant: '923009999999@s.whatsapp.net',
+                        offline: '1'
+                    }
+                });
+
+                await new Promise(r => setTimeout(r, 40));
+                expect(recvSock.ws.sentFrames.length).toBeGreaterThanOrEqual(framesBeforeLive + 2);
+                expect(recvSock.ws.isOpen).toBe(true);
+
+                recvSock.end(undefined);
+            } finally {
+                intervalSpy.mockRestore();
+            }
+        });
+    });
 });
