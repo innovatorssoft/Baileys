@@ -6,6 +6,41 @@ export interface PresenceTrackerLogger {
     error?: (...args: any[]) => void;
     debug?: (...args: any[]) => void;
 }
+export interface PresenceSocketStateSnapshot {
+    isConnected: boolean;
+    wsIsOpen?: boolean;
+    wsIsConnecting?: boolean;
+    wsIsClosing?: boolean;
+    wsIsClosed?: boolean;
+    hasWs: boolean;
+}
+export interface PresenceDiagnosticEvent {
+    timestamp: string;
+    trackerId: string;
+    operationId: string;
+    level: 'debug' | 'info' | 'warn' | 'error';
+    event: string;
+    contactJid?: string;
+    resolvedPn?: string;
+    resolvedLid?: string;
+    previousStatus?: 'online' | 'offline' | 'unknown';
+    currentStatus?: 'online' | 'offline' | 'unknown';
+    previousPresence?: WAPresence;
+    currentPresence?: WAPresence;
+    socketStateBefore?: PresenceSocketStateSnapshot;
+    socketStateAfter?: PresenceSocketStateSnapshot;
+    reason?: string;
+    errorMessage?: string;
+    details?: Record<string, any>;
+}
+export interface PresenceChatstateEventData {
+    jid: string;
+    lid?: string;
+    status: 'online';
+    previousPresence?: WAPresence;
+    rawPresence: WAPresence;
+    timestamp: Date;
+}
 export interface PresenceTrackerOptions {
     /** Enable console logging for presence transitions according to specification (default: true) */
     logToConsole?: boolean;
@@ -19,6 +54,14 @@ export interface PresenceTrackerOptions {
     timeZone?: string | number;
     /** Alias for timeZone */
     timezone?: string | number;
+    /** Optional periodic heartbeat resubscription interval in ms (default: 0 = disabled; resubscribes on genuine reconnects) */
+    resubscribeIntervalMs?: number;
+    /** Opt-in: announce own presence as available during subscribe() (default: false to avoid mutating connection state) */
+    announceAvailable?: boolean;
+    /** Emit structured JSON diagnostic logs to logger (default: false; auto-enabled when custom logger is passed or BAILEYS_PRESENCE_DEBUG=1) */
+    diagnosticLogging?: boolean;
+    /** Optional structured diagnostic callback */
+    onDiagnostic?: (entry: PresenceDiagnosticEvent) => void;
     /** Custom logger */
     logger?: PresenceTrackerLogger;
 }
@@ -62,6 +105,13 @@ export interface PresenceEventData {
 export interface PresenceTrackerSocket {
     ev: BaileysEventEmitter;
     presenceSubscribe: (toJid: string, tcToken?: Buffer) => Promise<void>;
+    sendPresenceUpdate?: (type: WAPresence, toJid?: string) => Promise<void>;
+    ws?: {
+        isOpen?: boolean;
+        isConnecting?: boolean;
+        isClosing?: boolean;
+        isClosed?: boolean;
+    };
     onWhatsApp?: (...jids: string[]) => Promise<{
         jid: string;
         exists: boolean;
@@ -129,16 +179,55 @@ export declare function isOfflinePresence(presence?: WAPresence): boolean;
 export declare class PresenceTracker extends EventEmitter {
     private sock;
     private options;
+    private hasCustomLogger;
     private monitoredJids;
+    private activeSubscribedJids;
+    private inFlightSubscriptions;
+    private inFlightLidLookups;
     private contactStates;
     private aliasMap;
     private isDestroyed;
+    private isConnected;
+    private listenersAttached;
+    private resubscribeInProgress;
     private timeZone;
+    private trackerId;
+    private opSeq;
+    private diagnosticHistory;
+    private readonly maxDiagnosticHistory;
     private boundPresenceUpdate;
     private boundConnectionUpdate;
     private boundLidMappingUpdate?;
     private boundMessagesUpsert?;
+    private resubscribeTimer?;
     constructor(sock: PresenceTrackerSocket, targetsOrOptions?: PresenceTrackerOptions | string | string[], options?: PresenceTrackerOptions);
+    private nextOpId;
+    private getSocketState;
+    private isSocketOpen;
+    private resolveIdentityPair;
+    private recordDiagnostic;
+    /**
+     * Safely invoke all listeners for an event without letting a listener
+     * exception escape back into sock.ev / WebSocket frame processing.
+     */
+    private safeEmit;
+    private attachSocketListeners;
+    private detachSocketListeners;
+    private startResubscribeTimer;
+    private stopResubscribeTimer;
+    /**
+     * Get recent structured diagnostic log entries for inspection and testing.
+     */
+    getDiagnostics(): PresenceDiagnosticEvent[];
+    /**
+     * Get unique tracker identifier for log correlation.
+     */
+    getTrackerId(): string;
+    /**
+     * Reattach this tracker to a new socket instance after a genuine WhatsApp
+     * reconnection without creating duplicate trackers or monitoring loops.
+     */
+    reattach(newSock: PresenceTrackerSocket): void;
     /**
      * Link Phone Number JID and LID aliases together.
      * Strictly verifies that one is a LID and one is a Phone Number to prevent cross-linking contacts.
@@ -149,6 +238,16 @@ export declare class PresenceTracker extends EventEmitter {
      */
     resolveCanonicalJid(jid: string): string | undefined;
     /**
+     * Deduplicated, error-isolated single JID presence subscription.
+     * Never modifies socket connection lifecycle.
+     */
+    private subscribeTarget;
+    /**
+     * Collect unique target JIDs (PN + resolved LID) for a given list of JIDs
+     * so each target is subscribed at most once per cycle.
+     */
+    private collectUniqueTargets;
+    /**
      * Subscribe to presence updates for one or more contacts
      */
     subscribe(jid: string | string[]): Promise<void>;
@@ -157,9 +256,14 @@ export declare class PresenceTracker extends EventEmitter {
      */
     private discoverLid;
     /**
-     * Force a presence subscription request to refresh current state on demand
+     * Force a deduplicated presence subscription request to refresh current state on demand
      */
     resubscribe(jid: string): Promise<void>;
+    /**
+     * Sequentially and deduplicatedly re-subscribe all monitored contacts.
+     * Guarded against overlapping invocations.
+     */
+    private resubscribeAll;
     /**
      * Unsubscribe and stop monitoring presence for one or more contacts
      */
@@ -197,7 +301,7 @@ export declare class PresenceTracker extends EventEmitter {
      */
     formatTimeAgo(date: Date | number): string;
     /**
-     * Stop tracking and clean up event listeners
+     * Stop tracking and clean up event listeners and timers
      */
     destroy(): void;
     stop(): void;
@@ -210,7 +314,7 @@ export declare class PresenceTracker extends EventEmitter {
      */
     getState(jid?: string): ContactPresenceState | {
         [key: string]: ContactPresenceState;
-    };
+    } | undefined;
     /**
      * Compatibility helper to get the latest session for a contact
      */
@@ -223,6 +327,7 @@ export declare class PresenceTracker extends EventEmitter {
      * Check if a contact JID is currently being monitored
      */
     isMonitoring(jid: string): boolean;
+    private handleLidMappingUpdate;
     private handleConnectionUpdate;
     private handleMessagesUpsert;
     private handlePresenceUpdate;

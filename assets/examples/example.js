@@ -216,6 +216,9 @@ async function startBot() {
         console.log(`[lid-mapping.update] LID: ${lid} mapped to PN: ${pn}`);
     });
 
+    let presenceMonitor = null;
+    const targetJid = ['923001234567@s.whatsapp.net', '923021234567@s.whatsapp.net'];
+
     sock.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect, qr, reachoutTimeLock } = update;
 
@@ -229,17 +232,25 @@ async function startBot() {
         }
 
         if (connection === 'close') {
-            console.log('Connection closed due to:', lastDisconnect?.error, '. Auto-reconnecting...');
-            startBot();
+            if (presenceMonitor) {
+                presenceMonitor.destroy();
+                presenceMonitor = null;
+            }
+            const statusCode = lastDisconnect?.error?.output?.statusCode;
+            const closeCode = lastDisconnect?.error?.data?.closeCode;
+            const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+            console.log(
+                `Connection closed (statusCode=${statusCode}, closeCode=${closeCode}, reason=${lastDisconnect?.error?.message || 'unknown'}). Reconnecting: ${shouldReconnect}`
+            );
+            if (shouldReconnect) {
+                startBot();
+            }
         } else if (connection === 'open') {
             console.log('\n======================================');
             console.log('WhatsApp Bot is successfully connected!');
             console.log('======================================\n');
 
-            let presenceMonitor = null;
-            const targetJid = ['923001234567@s.whatsapp.net', '923021234567@s.whatsapp.net'];
-
-            // Start presence tracking for target JIDs
+            // Start presence tracking for target JIDs without creating duplicate monitors
             if (!presenceMonitor) {
                 console.log(`[Presence] Starting presence tracking for: ${targetJid.join(', ')}`);
                 presenceMonitor = monitorPresence(sock, targetJid, {

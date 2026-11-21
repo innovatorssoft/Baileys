@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import { jidNormalizedUser, isLidUser, isJidUser } from '../WABinary/jid-utils'
+import { jidNormalizedUser } from '../WABinary/jid-utils'
 import type { BaileysEventEmitter, WAPresence, PresenceData, ConnectionState, WAMessage } from '../Types'
 
 export interface PresenceTrackerLogger {
@@ -7,6 +7,44 @@ export interface PresenceTrackerLogger {
     warn?: (...args: any[]) => void
     error?: (...args: any[]) => void
     debug?: (...args: any[]) => void
+}
+
+export interface PresenceSocketStateSnapshot {
+    isConnected: boolean
+    wsIsOpen?: boolean
+    wsIsConnecting?: boolean
+    wsIsClosing?: boolean
+    wsIsClosed?: boolean
+    hasWs: boolean
+}
+
+export interface PresenceDiagnosticEvent {
+    timestamp: string
+    trackerId: string
+    operationId: string
+    level: 'debug' | 'info' | 'warn' | 'error'
+    event: string
+    contactJid?: string
+    resolvedPn?: string
+    resolvedLid?: string
+    previousStatus?: 'online' | 'offline' | 'unknown'
+    currentStatus?: 'online' | 'offline' | 'unknown'
+    previousPresence?: WAPresence
+    currentPresence?: WAPresence
+    socketStateBefore?: PresenceSocketStateSnapshot
+    socketStateAfter?: PresenceSocketStateSnapshot
+    reason?: string
+    errorMessage?: string
+    details?: Record<string, any>
+}
+
+export interface PresenceChatstateEventData {
+    jid: string
+    lid?: string
+    status: 'online'
+    previousPresence?: WAPresence
+    rawPresence: WAPresence
+    timestamp: Date
 }
 
 export interface PresenceTrackerOptions {
@@ -22,8 +60,14 @@ export interface PresenceTrackerOptions {
     timeZone?: string | number
     /** Alias for timeZone */
     timezone?: string | number
-    /** Periodic heartbeat subscription interval in ms (default: 25000) */
+    /** Optional periodic heartbeat resubscription interval in ms (default: 0 = disabled; resubscribes on genuine reconnects) */
     resubscribeIntervalMs?: number
+    /** Opt-in: announce own presence as available during subscribe() (default: false to avoid mutating connection state) */
+    announceAvailable?: boolean
+    /** Emit structured JSON diagnostic logs to logger (default: false; auto-enabled when custom logger is passed or BAILEYS_PRESENCE_DEBUG=1) */
+    diagnosticLogging?: boolean
+    /** Optional structured diagnostic callback */
+    onDiagnostic?: (entry: PresenceDiagnosticEvent) => void
     /** Custom logger */
     logger?: PresenceTrackerLogger
 }
@@ -71,6 +115,13 @@ export interface PresenceEventData {
 export interface PresenceTrackerSocket {
     ev: BaileysEventEmitter
     presenceSubscribe: (toJid: string, tcToken?: Buffer) => Promise<void>
+    sendPresenceUpdate?: (type: WAPresence, toJid?: string) => Promise<void>
+    ws?: {
+        isOpen?: boolean
+        isConnecting?: boolean
+        isClosing?: boolean
+        isClosed?: boolean
+    }
     onWhatsApp?: (...jids: string[]) => Promise<{ jid: string; exists: boolean; lid?: string; pn?: string }[] | undefined>
     signalRepository?: {
         lidMapping?: {
@@ -81,6 +132,7 @@ export interface PresenceTrackerSocket {
 }
 
 let defaultTimeZone: string | number = '+05:00'
+let trackerCounter = 0
 
 /**
  * Get current default timezone
@@ -263,12 +315,35 @@ export function isOfflinePresence(presence?: WAPresence): boolean {
  */
 export class PresenceTracker extends EventEmitter {
     private sock: PresenceTrackerSocket
-    private options: Required<PresenceTrackerOptions>
+    private options: {
+        logToConsole: boolean
+        autoResubscribe: boolean
+        resolveLid: boolean
+        trackMessagesAsPresence: boolean
+        resubscribeIntervalMs: number
+        announceAvailable: boolean
+        diagnosticLogging: boolean
+        onDiagnostic?: (entry: PresenceDiagnosticEvent) => void
+        timeZone: string | number
+        timezone: string | number
+        logger: PresenceTrackerLogger
+    }
+    private hasCustomLogger: boolean
     private monitoredJids = new Set<string>()
+    private activeSubscribedJids = new Set<string>()
+    private inFlightSubscriptions = new Map<string, Promise<void>>()
+    private inFlightLidLookups = new Map<string, Promise<string | undefined>>()
     private contactStates = new Map<string, ContactPresenceState>()
     private aliasMap = new Map<string, string>() // Bidirectional: PN <-> LID
     private isDestroyed = false
+    private isConnected = true
+    private listenersAttached = false
+    private resubscribeInProgress = false
     private timeZone: string | number
+    private trackerId: string
+    private opSeq = 0
+    private diagnosticHistory: PresenceDiagnosticEvent[] = []
+    private readonly maxDiagnosticHistory = 200
 
     private boundPresenceUpdate: (update: { id: string; presences: { [participant: string]: PresenceData } }) => void
     private boundConnectionUpdate: (update: Partial<ConnectionState>) => void
@@ -279,6 +354,8 @@ export class PresenceTracker extends EventEmitter {
     constructor(sock: PresenceTrackerSocket, targetsOrOptions?: PresenceTrackerOptions | string | string[], options?: PresenceTrackerOptions) {
         super()
         this.sock = sock
+        this.trackerId = `pt-${Date.now().toString(36)}-${++trackerCounter}`
+
         let resolvedOptions: PresenceTrackerOptions = {}
         let initialTargets: string | string[] | undefined
         if (typeof targetsOrOptions === 'string' || Array.isArray(targetsOrOptions)) {
@@ -288,55 +365,290 @@ export class PresenceTracker extends EventEmitter {
             resolvedOptions = targetsOrOptions
         }
 
+        this.hasCustomLogger = !!resolvedOptions.logger
         this.timeZone = resolvedOptions.timeZone ?? resolvedOptions.timezone ?? defaultTimeZone
+        const envDebug = typeof process !== 'undefined' && process?.env?.BAILEYS_PRESENCE_DEBUG === '1'
         this.options = {
             logToConsole: resolvedOptions.logToConsole !== false,
             autoResubscribe: resolvedOptions.autoResubscribe !== false,
             resolveLid: resolvedOptions.resolveLid !== false,
             trackMessagesAsPresence: resolvedOptions.trackMessagesAsPresence !== false,
-            resubscribeIntervalMs: resolvedOptions.resubscribeIntervalMs !== undefined ? resolvedOptions.resubscribeIntervalMs : 25000,
+            resubscribeIntervalMs: resolvedOptions.resubscribeIntervalMs !== undefined ? resolvedOptions.resubscribeIntervalMs : 0,
+            announceAvailable: resolvedOptions.announceAvailable === true,
+            diagnosticLogging: resolvedOptions.diagnosticLogging !== undefined ? resolvedOptions.diagnosticLogging : (this.hasCustomLogger || envDebug),
+            onDiagnostic: resolvedOptions.onDiagnostic,
             timeZone: this.timeZone,
             timezone: this.timeZone,
             logger: resolvedOptions.logger || console
         }
 
+        // Derive initial connectivity state from socket's ws if present
+        this.isConnected = this.sock?.ws ? this.sock.ws.isOpen !== false : true
+
         this.boundPresenceUpdate = this.handlePresenceUpdate.bind(this)
         this.boundConnectionUpdate = this.handleConnectionUpdate.bind(this)
-
-        this.sock.ev.on('presence.update', this.boundPresenceUpdate)
-        this.sock.ev.on('connection.update', this.boundConnectionUpdate)
-
-        // Listen to LID mapping updates if supported
-        this.boundLidMappingUpdate = (({ lid, pn }: { lid: string; pn: string }) => {
-            if (lid && pn) {
-                this.linkAliases(normalizeContactJid(pn), normalizeContactJid(lid))
-            }
-        }).bind(this)
-        this.sock.ev.on('lid-mapping.update' as any, this.boundLidMappingUpdate as any)
-
-        // Track incoming messages as active presence signals
+        this.boundLidMappingUpdate = this.handleLidMappingUpdate.bind(this)
         if (this.options.trackMessagesAsPresence) {
             this.boundMessagesUpsert = this.handleMessagesUpsert.bind(this)
-            this.sock.ev.on('messages.upsert' as any, this.boundMessagesUpsert as any)
         }
 
-        // Periodic presence resubscription heartbeat to prevent WhatsApp multi-device subscription expiration
-        if (this.options.autoResubscribe && (this.options.resubscribeIntervalMs ?? 0) > 0) {
-            this.resubscribeTimer = setInterval(() => {
-                if (this.isDestroyed) return
-                for (const jid of this.monitoredJids) {
-                    this.resubscribe(jid).catch(() => { })
-                }
-            }, this.options.resubscribeIntervalMs)
-            if (this.resubscribeTimer && typeof (this.resubscribeTimer as any).unref === 'function') {
-                (this.resubscribeTimer as any).unref()
+        this.attachSocketListeners()
+        this.startResubscribeTimer()
+
+        this.recordDiagnostic('debug', 'tracker_initialized', {
+            operationId: this.nextOpId('init'),
+            socketStateAfter: this.getSocketState(),
+            details: {
+                autoResubscribe: this.options.autoResubscribe,
+                resolveLid: this.options.resolveLid,
+                trackMessagesAsPresence: this.options.trackMessagesAsPresence,
+                resubscribeIntervalMs: this.options.resubscribeIntervalMs,
+                announceAvailable: this.options.announceAvailable
             }
-        }
+        })
 
         if (initialTargets) {
             this.subscribe(initialTargets).catch(err => {
+                this.recordDiagnostic('error', 'initial_subscribe_error', {
+                    operationId: this.nextOpId('init-sub'),
+                    errorMessage: err?.message || String(err),
+                    socketStateAfter: this.getSocketState()
+                })
                 this.options.logger?.error?.({ err }, 'Failed initial presence subscription')
             })
+        }
+    }
+
+    private nextOpId(prefix: string): string {
+        return `${prefix}-${this.trackerId}-${++this.opSeq}`
+    }
+
+    private getSocketState(): PresenceSocketStateSnapshot {
+        const ws = this.sock?.ws
+        return {
+            isConnected: this.isConnected,
+            hasWs: !!ws,
+            ...(ws ? {
+                wsIsOpen: !!ws.isOpen,
+                wsIsConnecting: !!ws.isConnecting,
+                wsIsClosing: !!ws.isClosing,
+                wsIsClosed: !!ws.isClosed
+            } : {})
+        }
+    }
+
+    private isSocketOpen(): boolean {
+        if (this.isDestroyed || !this.isConnected || !this.sock) return false
+        if (this.sock.ws) {
+            return !!this.sock.ws.isOpen
+        }
+        return true
+    }
+
+    private resolveIdentityPair(jid: string): { pn?: string; lid?: string } {
+        const norm = normalizeContactJid(jid)
+        if (!norm) return {}
+        if (norm.endsWith('@lid')) {
+            return { lid: norm, pn: this.aliasMap.get(norm) }
+        }
+        if (norm.endsWith('@s.whatsapp.net')) {
+            const state = this.contactStates.get(norm)
+            return { pn: norm, lid: state?.lid || this.aliasMap.get(norm) }
+        }
+        return {}
+    }
+
+    private recordDiagnostic(
+        level: 'debug' | 'info' | 'warn' | 'error',
+        event: string,
+        fields: Partial<Omit<PresenceDiagnosticEvent, 'timestamp' | 'trackerId' | 'level' | 'event'>> = {}
+    ): PresenceDiagnosticEvent {
+        const entry: PresenceDiagnosticEvent = {
+            timestamp: new Date().toISOString(),
+            trackerId: this.trackerId,
+            operationId: fields.operationId || this.nextOpId('op'),
+            level,
+            event,
+            ...fields
+        }
+
+        this.diagnosticHistory.push(entry)
+        if (this.diagnosticHistory.length > this.maxDiagnosticHistory) {
+            this.diagnosticHistory.shift()
+        }
+
+        if (this.options.onDiagnostic) {
+            try {
+                this.options.onDiagnostic(entry)
+            } catch { }
+        }
+
+        if (this.listenerCount('diagnostic') > 0) {
+            this.safeEmit('diagnostic', entry, entry.operationId)
+        }
+
+        if (this.options.diagnosticLogging) {
+            const logFn = this.options.logger?.[level] || this.options.logger?.info
+            if (typeof logFn === 'function') {
+                try {
+                    if (this.hasCustomLogger) {
+                        logFn.call(this.options.logger, entry, `[PresenceTracker] ${event}`)
+                    } else {
+                        logFn.call(this.options.logger, JSON.stringify(entry))
+                    }
+                } catch { }
+            }
+        }
+
+        return entry
+    }
+
+    /**
+     * Safely invoke all listeners for an event without letting a listener
+     * exception escape back into sock.ev / WebSocket frame processing.
+     */
+    private safeEmit(event: string, payload: any, operationId?: string): boolean {
+        const listeners = this.rawListeners(event)
+        if (!listeners.length) return false
+
+        for (const listener of listeners) {
+            try {
+                (listener as (...args: any[]) => void).call(this, payload)
+            } catch (err: any) {
+                const errMsg = err?.message || String(err)
+                if (event !== 'diagnostic') {
+                    this.recordDiagnostic('error', 'presence_listener_exception', {
+                        operationId: operationId || this.nextOpId('emit-err'),
+                        contactJid: payload?.jid,
+                        errorMessage: errMsg,
+                        socketStateAfter: this.getSocketState(),
+                        details: { listenerEvent: event }
+                    })
+                }
+                if (event !== 'error') {
+                    const errorListeners = this.rawListeners('error')
+                    for (const errListener of errorListeners) {
+                        try {
+                            (errListener as (...args: any[]) => void).call(this, err)
+                        } catch { }
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    private attachSocketListeners(): void {
+        if (this.listenersAttached || !this.sock?.ev) return
+        this.listenersAttached = true
+
+        this.sock.ev.on('presence.update', this.boundPresenceUpdate)
+        this.sock.ev.on('connection.update', this.boundConnectionUpdate)
+        if (this.boundLidMappingUpdate) {
+            this.sock.ev.on('lid-mapping.update' as any, this.boundLidMappingUpdate as any)
+        }
+        if (this.boundMessagesUpsert) {
+            this.sock.ev.on('messages.upsert' as any, this.boundMessagesUpsert as any)
+        }
+    }
+
+    private detachSocketListeners(): void {
+        if (!this.listenersAttached || !this.sock?.ev) return
+        this.listenersAttached = false
+
+        this.sock.ev.off('presence.update', this.boundPresenceUpdate)
+        this.sock.ev.off('connection.update', this.boundConnectionUpdate)
+        if (this.boundLidMappingUpdate) {
+            this.sock.ev.off('lid-mapping.update' as any, this.boundLidMappingUpdate as any)
+        }
+        if (this.boundMessagesUpsert) {
+            this.sock.ev.off('messages.upsert' as any, this.boundMessagesUpsert as any)
+        }
+    }
+
+    private startResubscribeTimer(): void {
+        this.stopResubscribeTimer()
+        if (this.isDestroyed || !this.options.autoResubscribe || !(this.options.resubscribeIntervalMs > 0)) {
+            return
+        }
+        if (!this.isSocketOpen()) {
+            return
+        }
+
+        this.resubscribeTimer = setInterval(() => {
+            if (this.isDestroyed || !this.isSocketOpen()) return
+            this.resubscribeAll('periodic_heartbeat').catch(err => {
+                this.recordDiagnostic('warn', 'periodic_resubscribe_error', {
+                    operationId: this.nextOpId('hb-err'),
+                    errorMessage: err?.message || String(err),
+                    socketStateAfter: this.getSocketState()
+                })
+            })
+        }, this.options.resubscribeIntervalMs)
+
+        if (this.resubscribeTimer && typeof (this.resubscribeTimer as any).unref === 'function') {
+            (this.resubscribeTimer as any).unref()
+        }
+    }
+
+    private stopResubscribeTimer(): void {
+        if (this.resubscribeTimer) {
+            clearInterval(this.resubscribeTimer)
+            this.resubscribeTimer = undefined
+        }
+    }
+
+    /**
+     * Get recent structured diagnostic log entries for inspection and testing.
+     */
+    getDiagnostics(): PresenceDiagnosticEvent[] {
+        return this.diagnosticHistory.slice()
+    }
+
+    /**
+     * Get unique tracker identifier for log correlation.
+     */
+    getTrackerId(): string {
+        return this.trackerId
+    }
+
+    /**
+     * Reattach this tracker to a new socket instance after a genuine WhatsApp
+     * reconnection without creating duplicate trackers or monitoring loops.
+     */
+    reattach(newSock: PresenceTrackerSocket): void {
+        if (this.isDestroyed || !newSock || !newSock.ev) return
+        const opId = this.nextOpId('reattach')
+        const socketStateBefore = this.getSocketState()
+
+        this.stopResubscribeTimer()
+        this.detachSocketListeners()
+        this.activeSubscribedJids.clear()
+        this.inFlightSubscriptions.clear()
+        this.inFlightLidLookups.clear()
+
+        this.sock = newSock
+        this.isConnected = this.sock.ws ? this.sock.ws.isOpen !== false : true
+        this.attachSocketListeners()
+
+        this.recordDiagnostic('info', 'tracker_reattached', {
+            operationId: opId,
+            socketStateBefore,
+            socketStateAfter: this.getSocketState(),
+            details: { monitoredCount: this.monitoredJids.size }
+        })
+
+        if (this.isSocketOpen() && this.options.autoResubscribe) {
+            this.startResubscribeTimer()
+            if (this.monitoredJids.size > 0) {
+                this.resubscribeAll('socket_reattached').catch(err => {
+                    this.recordDiagnostic('warn', 'reattach_resubscribe_error', {
+                        operationId: opId,
+                        errorMessage: err?.message || String(err),
+                        socketStateAfter: this.getSocketState()
+                    })
+                })
+            }
         }
     }
 
@@ -391,7 +703,7 @@ export class PresenceTracker extends EventEmitter {
 
         this.contactStates.set(lid, state)
 
-        // If PN was monitored, ensure LID is also in monitoredJids
+        // If PN was monitored, ensure LID is also tracked in monitoredJids
         if (this.monitoredJids.has(pn)) {
             this.monitoredJids.add(lid)
         }
@@ -420,24 +732,149 @@ export class PresenceTracker extends EventEmitter {
     }
 
     /**
+     * Deduplicated, error-isolated single JID presence subscription.
+     * Never modifies socket connection lifecycle.
+     */
+    private async subscribeTarget(targetJid: string, operationId: string, force = false): Promise<void> {
+        const normalized = normalizeContactJid(targetJid)
+        if (!normalized || this.isDestroyed) return
+
+        const identity = this.resolveIdentityPair(normalized)
+        const socketStateBefore = this.getSocketState()
+
+        if (!this.isSocketOpen()) {
+            this.recordDiagnostic('debug', 'presence_subscribe_deferred_socket_closed', {
+                operationId,
+                contactJid: normalized,
+                resolvedPn: identity.pn,
+                resolvedLid: identity.lid,
+                socketStateBefore
+            })
+            return
+        }
+
+        if (!force && this.activeSubscribedJids.has(normalized)) {
+            this.recordDiagnostic('debug', 'presence_subscribe_deduplicated', {
+                operationId,
+                contactJid: normalized,
+                resolvedPn: identity.pn,
+                resolvedLid: identity.lid,
+                socketStateBefore
+            })
+            return
+        }
+
+        const existingInFlight = this.inFlightSubscriptions.get(normalized)
+        if (existingInFlight) {
+            await existingInFlight
+            return
+        }
+
+        const subPromise = (async () => {
+            this.recordDiagnostic('debug', 'presence_subscribe_request', {
+                operationId,
+                contactJid: normalized,
+                resolvedPn: identity.pn,
+                resolvedLid: identity.lid,
+                socketStateBefore,
+                details: { force }
+            })
+
+            try {
+                await this.sock.presenceSubscribe(normalized)
+                if (!this.isDestroyed && this.isConnected) {
+                    this.activeSubscribedJids.add(normalized)
+                }
+                this.recordDiagnostic('debug', 'presence_subscribe_response', {
+                    operationId,
+                    contactJid: normalized,
+                    resolvedPn: identity.pn,
+                    resolvedLid: identity.lid,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState(),
+                    details: { success: true }
+                })
+            } catch (err: any) {
+                const errMsg = err?.message || String(err)
+                this.recordDiagnostic('warn', 'presence_subscribe_failed', {
+                    operationId,
+                    contactJid: normalized,
+                    resolvedPn: identity.pn,
+                    resolvedLid: identity.lid,
+                    errorMessage: errMsg,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState()
+                })
+                if (normalized.endsWith('@lid')) {
+                    this.options.logger?.debug?.({ err, lid: normalized }, 'Failed to subscribe to contact LID presence')
+                } else {
+                    this.options.logger?.error?.({ err, jid: normalized }, 'Failed to subscribe to contact presence')
+                }
+            }
+        })()
+
+        this.inFlightSubscriptions.set(normalized, subPromise)
+        try {
+            await subPromise
+        } finally {
+            if (this.inFlightSubscriptions.get(normalized) === subPromise) {
+                this.inFlightSubscriptions.delete(normalized)
+            }
+        }
+    }
+
+    /**
+     * Collect unique target JIDs (PN + resolved LID) for a given list of JIDs
+     * so each target is subscribed at most once per cycle.
+     */
+    private collectUniqueTargets(jids: Iterable<string>): string[] {
+        const unique = new Set<string>()
+        for (const raw of jids) {
+            const normalized = normalizeContactJid(raw)
+            if (!normalized) continue
+            unique.add(normalized)
+
+            const alias = this.aliasMap.get(normalized)
+            if (alias) unique.add(alias)
+
+            const state = this.contactStates.get(normalized)
+            if (state?.lid) unique.add(state.lid)
+        }
+        return Array.from(unique)
+    }
+
+    /**
      * Subscribe to presence updates for one or more contacts
      */
     async subscribe(jid: string | string[]): Promise<void> {
         if (this.isDestroyed) return
 
-        // Ensure client presence is announced as available so WhatsApp delivers presence stanzas
-        if (this.sock && typeof (this.sock as any).sendPresenceUpdate === 'function') {
+        const opId = this.nextOpId('sub')
+        const socketStateBefore = this.getSocketState()
+
+        // Opt-in only: do not emit connection.update / mutate socket presence unless explicitly requested
+        if (this.options.announceAvailable && this.isSocketOpen() && this.sock && typeof this.sock.sendPresenceUpdate === 'function') {
             try {
-                await (this.sock as any).sendPresenceUpdate('available')
-            } catch { }
+                await this.sock.sendPresenceUpdate('available')
+            } catch (err: any) {
+                this.recordDiagnostic('warn', 'announce_available_failed', {
+                    operationId: opId,
+                    errorMessage: err?.message || String(err),
+                    socketStateAfter: this.getSocketState()
+                })
+            }
         }
 
         const jids = Array.isArray(jid) ? jid : [jid]
+        const seenInBatch = new Set<string>()
 
         for (const rawJid of jids) {
+            if (this.isDestroyed) return
             const normalized = normalizeContactJid(rawJid)
-            if (!normalized) continue
+            if (!normalized || seenInBatch.has(normalized)) continue
+            seenInBatch.add(normalized)
 
+            const wasMonitored = this.monitoredJids.has(normalized)
             this.monitoredJids.add(normalized)
 
             let state = this.contactStates.get(normalized)
@@ -450,25 +887,27 @@ export class PresenceTracker extends EventEmitter {
                 this.contactStates.set(normalized, state)
             }
 
-            // Attempt to resolve LID for phone number accounts
-            if (this.options.resolveLid && normalized.endsWith('@s.whatsapp.net')) {
-                await this.discoverLid(normalized, state)
+            if (!wasMonitored) {
+                this.recordDiagnostic('info', 'subscription_created', {
+                    operationId: opId,
+                    contactJid: normalized,
+                    resolvedPn: normalized.endsWith('@s.whatsapp.net') ? normalized : this.aliasMap.get(normalized),
+                    resolvedLid: state.lid || (normalized.endsWith('@lid') ? normalized : this.aliasMap.get(normalized)),
+                    socketStateBefore
+                })
             }
 
-            // Subscribe to primary JID
-            try {
-                await this.sock.presenceSubscribe(normalized)
-            } catch (err) {
-                this.options.logger?.error?.({ err, jid: normalized }, 'Failed to subscribe to contact presence')
+            // Attempt to resolve LID for phone number accounts when socket is open
+            if (this.options.resolveLid && normalized.endsWith('@s.whatsapp.net') && !state.lid && this.isSocketOpen()) {
+                await this.discoverLid(normalized, state, opId)
             }
 
-            // If LID is known, subscribe to LID as well
-            if (state.lid) {
-                try {
-                    await this.sock.presenceSubscribe(state.lid)
-                } catch (err) {
-                    this.options.logger?.debug?.({ err, lid: state.lid }, 'Failed to subscribe to contact LID presence')
-                }
+            // Subscribe to primary JID (deduplicated)
+            await this.subscribeTarget(normalized, opId, false)
+
+            // If LID is known, subscribe to LID as well (deduplicated)
+            if (state.lid && state.lid !== normalized) {
+                await this.subscribeTarget(state.lid, opId, false)
             }
         }
     }
@@ -476,60 +915,150 @@ export class PresenceTracker extends EventEmitter {
     /**
      * Discover and link LID for a given phone number JID
      */
-    private async discoverLid(pnJid: string, state: ContactPresenceState): Promise<void> {
-        let lid: string | undefined
-
-        // 1. Check signalRepository lidMapping store
-        if (this.sock.signalRepository?.lidMapping?.getLIDForPN) {
-            try {
-                const res = await this.sock.signalRepository.lidMapping.getLIDForPN(pnJid)
-                if (res) lid = normalizeContactJid(res)
-            } catch { }
+    private async discoverLid(pnJid: string, state: ContactPresenceState, operationId?: string): Promise<void> {
+        const opId = operationId || this.nextOpId('lid')
+        const existingLookup = this.inFlightLidLookups.get(pnJid)
+        if (existingLookup) {
+            const resolved = await existingLookup
+            if (resolved && !state.lid) {
+                state.lid = resolved
+                this.linkAliases(pnJid, resolved)
+            }
+            return
         }
 
-        // 2. Query via USync onWhatsApp if not yet in cache
-        if (!lid && this.sock.onWhatsApp) {
-            try {
-                const res = await this.sock.onWhatsApp(pnJid)
-                const entry = res?.find(r => normalizeContactJid(r.jid) === pnJid || normalizeContactJid(r.pn || '') === pnJid)
-                if (entry?.lid) {
-                    lid = normalizeContactJid(entry.lid)
+        const lookupPromise = (async (): Promise<string | undefined> => {
+            let lid: string | undefined
+
+            // 1. Check signalRepository lidMapping store
+            if (this.sock.signalRepository?.lidMapping?.getLIDForPN) {
+                try {
+                    const res = await this.sock.signalRepository.lidMapping.getLIDForPN(pnJid)
+                    if (res) lid = normalizeContactJid(res)
+                } catch (err: any) {
+                    this.recordDiagnostic('debug', 'lid_cache_lookup_failed', {
+                        operationId: opId,
+                        contactJid: pnJid,
+                        errorMessage: err?.message || String(err)
+                    })
                 }
-            } catch { }
-        }
+            }
 
-        if (lid && lid.endsWith('@lid')) {
-            state.lid = lid
-            this.linkAliases(pnJid, lid)
-            if (this.options.logToConsole) {
-                console.log(`[Presence] Resolved LID for ${pnJid} -> ${lid} (monitoring both)`)
+            // 2. Query via USync onWhatsApp if not yet in cache
+            if (!lid && this.sock.onWhatsApp && this.isSocketOpen()) {
+                try {
+                    const res = await this.sock.onWhatsApp(pnJid)
+                    const cleanPn = normalizeContactJid(pnJid)
+                    const entry = res?.find(r => {
+                        const rJid = normalizeContactJid(r?.jid || '')
+                        const rPn = normalizeContactJid(r?.pn || '')
+                        return rJid === cleanPn || rPn === cleanPn
+                    })
+                    if (entry?.lid) {
+                        lid = normalizeContactJid(entry.lid)
+                    }
+                } catch (err: any) {
+                    this.recordDiagnostic('debug', 'lid_usync_lookup_failed', {
+                        operationId: opId,
+                        contactJid: pnJid,
+                        errorMessage: err?.message || String(err)
+                    })
+                }
+            }
+
+            if (lid && lid.endsWith('@lid')) {
+                state.lid = lid
+                this.linkAliases(pnJid, lid)
+                this.recordDiagnostic('info', 'lid_resolved', {
+                    operationId: opId,
+                    contactJid: pnJid,
+                    resolvedPn: pnJid,
+                    resolvedLid: lid,
+                    socketStateAfter: this.getSocketState()
+                })
+                if (this.options.logToConsole) {
+                    console.log(`[Presence] Resolved LID for ${pnJid} -> ${lid} (monitoring both)`)
+                }
+                return lid
+            }
+
+            return undefined
+        })()
+
+        this.inFlightLidLookups.set(pnJid, lookupPromise)
+        try {
+            await lookupPromise
+        } finally {
+            if (this.inFlightLidLookups.get(pnJid) === lookupPromise) {
+                this.inFlightLidLookups.delete(pnJid)
             }
         }
     }
 
     /**
-     * Force a presence subscription request to refresh current state on demand
+     * Force a deduplicated presence subscription request to refresh current state on demand
      */
     async resubscribe(jid: string): Promise<void> {
+        if (this.isDestroyed) return
         const normalized = normalizeContactJid(jid)
         if (!normalized) return
 
-        try {
-            await this.sock.presenceSubscribe(normalized)
-        } catch { }
+        const opId = this.nextOpId('resub')
+        const targets = this.collectUniqueTargets([normalized])
+        for (const target of targets) {
+            if (this.isDestroyed || !this.isSocketOpen()) break
+            await this.subscribeTarget(target, opId, true)
+        }
+    }
 
-        const alias = this.aliasMap.get(normalized)
-        if (alias) {
-            try {
-                await this.sock.presenceSubscribe(alias)
-            } catch { }
+    /**
+     * Sequentially and deduplicatedly re-subscribe all monitored contacts.
+     * Guarded against overlapping invocations.
+     */
+    private async resubscribeAll(reason: string): Promise<void> {
+        if (this.isDestroyed || !this.isSocketOpen() || this.resubscribeInProgress) {
+            return
         }
 
-        const state = this.contactStates.get(normalized)
-        if (state && state.lid && state.lid !== alias) {
-            try {
-                await this.sock.presenceSubscribe(state.lid)
-            } catch { }
+        this.resubscribeInProgress = true
+        const opId = this.nextOpId('resub-all')
+        const socketStateBefore = this.getSocketState()
+
+        try {
+            // Resolve any missing LIDs for monitored PN contacts first
+            if (this.options.resolveLid) {
+                const pnSnapshot = Array.from(this.monitoredJids).filter(j => j.endsWith('@s.whatsapp.net'))
+                for (const pn of pnSnapshot) {
+                    if (this.isDestroyed || !this.isSocketOpen()) return
+                    const state = this.contactStates.get(pn)
+                    if (state && !state.lid) {
+                        await this.discoverLid(pn, state, opId)
+                    }
+                }
+            }
+
+            const targets = this.collectUniqueTargets(this.monitoredJids)
+            this.recordDiagnostic('info', 'resubscribe_all_started', {
+                operationId: opId,
+                reason,
+                socketStateBefore,
+                details: { targetCount: targets.length }
+            })
+
+            for (const target of targets) {
+                if (this.isDestroyed || !this.isSocketOpen()) break
+                await this.subscribeTarget(target, opId, true)
+            }
+
+            this.recordDiagnostic('info', 'resubscribe_all_completed', {
+                operationId: opId,
+                reason,
+                socketStateBefore,
+                socketStateAfter: this.getSocketState(),
+                details: { targetCount: targets.length }
+            })
+        } finally {
+            this.resubscribeInProgress = false
         }
     }
 
@@ -537,12 +1066,38 @@ export class PresenceTracker extends EventEmitter {
      * Unsubscribe and stop monitoring presence for one or more contacts
      */
     unsubscribe(jid: string | string[]): void {
+        const opId = this.nextOpId('unsub')
+        const socketStateBefore = this.getSocketState()
         const jids = Array.isArray(jid) ? jid : [jid]
+
         for (const rawJid of jids) {
             const normalized = normalizeContactJid(rawJid)
-            this.monitoredJids.delete(normalized)
+            if (!normalized) continue
+
             const alias = this.aliasMap.get(normalized)
-            if (alias) this.monitoredJids.delete(alias)
+            const state = this.contactStates.get(normalized) || (alias ? this.contactStates.get(alias) : undefined)
+            const lid = state?.lid || (normalized.endsWith('@lid') ? normalized : alias)
+            const pn = normalized.endsWith('@s.whatsapp.net') ? normalized : (alias && alias.endsWith('@s.whatsapp.net') ? alias : undefined)
+
+            this.monitoredJids.delete(normalized)
+            this.activeSubscribedJids.delete(normalized)
+            if (alias) {
+                this.monitoredJids.delete(alias)
+                this.activeSubscribedJids.delete(alias)
+            }
+            if (lid) {
+                this.monitoredJids.delete(lid)
+                this.activeSubscribedJids.delete(lid)
+            }
+
+            this.recordDiagnostic('info', 'subscription_removed', {
+                operationId: opId,
+                contactJid: normalized,
+                resolvedPn: pn,
+                resolvedLid: lid,
+                socketStateBefore,
+                socketStateAfter: this.getSocketState()
+            })
         }
     }
 
@@ -559,7 +1114,7 @@ export class PresenceTracker extends EventEmitter {
      */
     getAllStatuses(): Map<string, ContactPresenceState> {
         const unique = new Map<string, ContactPresenceState>()
-        for (const [key, state] of this.contactStates.entries()) {
+        for (const [, state] of this.contactStates.entries()) {
             if (!unique.has(state.jid)) {
                 unique.set(state.jid, state)
             }
@@ -612,25 +1167,30 @@ export class PresenceTracker extends EventEmitter {
     }
 
     /**
-     * Stop tracking and clean up event listeners
+     * Stop tracking and clean up event listeners and timers
      */
     destroy(): void {
         if (this.isDestroyed) return
-        this.isDestroyed = true
+        const opId = this.nextOpId('destroy')
+        const socketStateBefore = this.getSocketState()
 
-        this.sock.ev.off('presence.update', this.boundPresenceUpdate)
-        this.sock.ev.off('connection.update', this.boundConnectionUpdate)
-        if (this.boundLidMappingUpdate) {
-            this.sock.ev.off('lid-mapping.update' as any, this.boundLidMappingUpdate as any)
-        }
-        if (this.boundMessagesUpsert) {
-            this.sock.ev.off('messages.upsert' as any, this.boundMessagesUpsert as any)
-        }
-        if (this.resubscribeTimer) {
-            clearInterval(this.resubscribeTimer)
-            this.resubscribeTimer = undefined
-        }
+        this.isDestroyed = true
+        this.isConnected = false
+
+        this.detachSocketListeners()
+        this.stopResubscribeTimer()
+
         this.monitoredJids.clear()
+        this.activeSubscribedJids.clear()
+        this.inFlightSubscriptions.clear()
+        this.inFlightLidLookups.clear()
+
+        this.recordDiagnostic('info', 'tracker_destroyed', {
+            operationId: opId,
+            socketStateBefore,
+            socketStateAfter: this.getSocketState()
+        })
+
         this.removeAllListeners()
     }
 
@@ -678,7 +1238,10 @@ export class PresenceTracker extends EventEmitter {
             return state ? state.sessions : []
         }
         const all: PresenceSession[] = []
+        const seen = new Set<ContactPresenceState>()
         for (const state of this.contactStates.values()) {
+            if (seen.has(state)) continue
+            seen.add(state)
             all.push(...state.sessions)
         }
         return all
@@ -689,66 +1252,175 @@ export class PresenceTracker extends EventEmitter {
      */
     isMonitoring(jid: string): boolean {
         const norm = normalizeContactJid(jid)
-        return this.monitoredJids.has(norm) || this.aliasMap.has(norm)
+        if (!norm) return false
+        if (this.monitoredJids.has(norm)) return true
+        const alias = this.aliasMap.get(norm)
+        return !!alias && this.monitoredJids.has(alias)
     }
 
-    private async handleConnectionUpdate({ connection }: Partial<ConnectionState>): Promise<void> {
-        if (connection === 'open' && this.options.autoResubscribe && !this.isDestroyed) {
-            for (const jid of this.monitoredJids) {
-                try {
-                    await this.sock.presenceSubscribe(jid)
-                } catch (err) {
-                    this.options.logger?.warn?.({ err, jid }, 'Failed to re-subscribe presence after reconnect')
+    private handleLidMappingUpdate(mapping: { lid: string; pn: string }): void {
+        try {
+            if (this.isDestroyed || !mapping?.lid || !mapping?.pn) return
+            const pn = normalizeContactJid(mapping.pn)
+            const lid = normalizeContactJid(mapping.lid)
+            const wasLidMonitored = this.monitoredJids.has(lid)
+            this.linkAliases(pn, lid)
+
+            // If PN is actively monitored and we just learned its LID, subscribe to LID once
+            if (this.isMonitoring(pn) && !wasLidMonitored && !this.activeSubscribedJids.has(lid) && this.isSocketOpen()) {
+                const opId = this.nextOpId('lid-map')
+                this.subscribeTarget(lid, opId, false).catch(() => { })
+            }
+        } catch (err: any) {
+            this.recordDiagnostic('error', 'lid_mapping_handler_error', {
+                operationId: this.nextOpId('lid-err'),
+                errorMessage: err?.message || String(err),
+                socketStateAfter: this.getSocketState()
+            })
+        }
+    }
+
+    private handleConnectionUpdate(update: Partial<ConnectionState>): void {
+        try {
+            if (this.isDestroyed || !update) return
+            const { connection, lastDisconnect } = update
+            if (!connection) return
+
+            const opId = this.nextOpId('conn')
+            const socketStateBefore = this.getSocketState()
+
+            if (connection === 'close') {
+                this.isConnected = false
+                this.activeSubscribedJids.clear()
+                this.stopResubscribeTimer()
+
+                const err = lastDisconnect?.error as any
+                this.recordDiagnostic('info', 'connection_closed_monitoring_paused', {
+                    operationId: opId,
+                    reason: err?.message || 'connection closed',
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState(),
+                    details: {
+                        statusCode: err?.output?.statusCode,
+                        closeCode: err?.data?.closeCode,
+                        closeReason: err?.data?.closeReason
+                    }
+                })
+                return
+            }
+
+            if (connection === 'connecting') {
+                this.isConnected = false
+                this.stopResubscribeTimer()
+                this.recordDiagnostic('debug', 'connection_connecting', {
+                    operationId: opId,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState()
+                })
+                return
+            }
+
+            if (connection === 'open') {
+                this.isConnected = true
+                this.recordDiagnostic('info', 'connection_opened_monitoring_resuming', {
+                    operationId: opId,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState(),
+                    details: {
+                        autoResubscribe: this.options.autoResubscribe,
+                        monitoredCount: this.monitoredJids.size
+                    }
+                })
+
+                if (this.options.autoResubscribe) {
+                    this.startResubscribeTimer()
+                    if (this.monitoredJids.size > 0) {
+                        this.resubscribeAll('connection_open').catch(err => {
+                            this.recordDiagnostic('warn', 'reconnect_resubscribe_error', {
+                                operationId: opId,
+                                errorMessage: err?.message || String(err),
+                                socketStateAfter: this.getSocketState()
+                            })
+                            this.options.logger?.warn?.({ err }, 'Failed to re-subscribe presence after reconnect')
+                        })
+                    }
                 }
             }
+        } catch (err: any) {
+            this.recordDiagnostic('error', 'connection_update_handler_error', {
+                operationId: this.nextOpId('conn-err'),
+                errorMessage: err?.message || String(err),
+                socketStateAfter: this.getSocketState()
+            })
         }
     }
 
     private handleMessagesUpsert({ messages }: { messages: WAMessage[] }): void {
-        if (!messages || this.isDestroyed) return
+        try {
+            if (!messages || this.isDestroyed) return
 
-        for (const msg of messages) {
-            if (msg.key?.fromMe) continue
+            for (const msg of messages) {
+                if (!msg || msg.key?.fromMe) continue
 
-            const remoteJid = normalizeContactJid(msg.key?.remoteJid || '')
-            const altJid = normalizeContactJid((msg.key as any)?.remoteJidAlt || '')
-            const participant = normalizeContactJid(msg.key?.participant || '')
-            const participantAlt = normalizeContactJid((msg.key as any)?.participantAlt || '')
+                const remoteJid = normalizeContactJid(msg.key?.remoteJid || '')
+                const altJid = normalizeContactJid((msg.key as any)?.remoteJidAlt || '')
+                const participant = normalizeContactJid(msg.key?.participant || '')
+                const participantAlt = normalizeContactJid((msg.key as any)?.participantAlt || '')
 
-            // Link any LID <-> PN mappings present in the message envelope
-            if (remoteJid && altJid) this.linkAliases(remoteJid, altJid)
-            if (participant && participantAlt) this.linkAliases(participant, participantAlt)
+                // Link any LID <-> PN mappings present in the message envelope
+                if (remoteJid && altJid) this.linkAliases(remoteJid, altJid)
+                if (participant && participantAlt) this.linkAliases(participant, participantAlt)
 
-            // Determine if message is from a monitored contact
-            const candidates = [remoteJid, altJid, participant, participantAlt].filter(Boolean)
-            for (const c of candidates) {
-                const canonical = this.resolveCanonicalJid(c)
-                if (canonical) {
-                    // Contact actively sent a message -> Definitely ONLINE
-                    this.processContactPresence(canonical, { lastKnownPresence: 'available' })
-                    break
+                // Determine if message is from a monitored contact
+                const candidates = [remoteJid, altJid, participant, participantAlt].filter(Boolean)
+                for (const c of candidates) {
+                    const canonical = this.resolveCanonicalJid(c)
+                    if (canonical && this.isMonitoring(canonical)) {
+                        // Contact actively sent a message -> Definitely ONLINE
+                        this.processContactPresence(canonical, { lastKnownPresence: 'available' })
+                        break
+                    }
                 }
             }
+        } catch (err: any) {
+            this.recordDiagnostic('error', 'messages_upsert_handler_error', {
+                operationId: this.nextOpId('msg-err'),
+                errorMessage: err?.message || String(err),
+                socketStateAfter: this.getSocketState()
+            })
         }
     }
 
-    private handlePresenceUpdate({ id, presences }: { id: string; presences: { [participant: string]: PresenceData } }): void {
-        if (this.isDestroyed || !presences) return
+    private handlePresenceUpdate(update: { id: string; presences: { [participant: string]: PresenceData } }): void {
+        try {
+            if (this.isDestroyed || !update || !update.presences) return
+            const { id, presences } = update
 
-        for (const [participant, data] of Object.entries(presences)) {
-            const normParticipant = normalizeContactJid(participant)
-            const normId = normalizeContactJid(id)
+            for (const [participant, data] of Object.entries(presences)) {
+                if (!data) continue
+                const normParticipant = normalizeContactJid(participant)
+                const normId = normalizeContactJid(id)
 
-            // Find matching monitored JID (checking participant first, then chat id, resolving aliases)
-            let matchedJid = this.resolveCanonicalJid(normParticipant) || this.resolveCanonicalJid(normId)
+                // Find matching monitored JID (checking participant first, then chat id, resolving aliases)
+                const matchedJid = this.resolveCanonicalJid(normParticipant) || this.resolveCanonicalJid(normId)
+                if (!matchedJid || !this.isMonitoring(matchedJid)) continue
 
-            if (!matchedJid) continue
-
-            this.processContactPresence(matchedJid, data)
+                this.processContactPresence(matchedJid, data)
+            }
+        } catch (err: any) {
+            this.recordDiagnostic('error', 'presence_update_handler_error', {
+                operationId: this.nextOpId('pres-err'),
+                contactJid: update?.id,
+                errorMessage: err?.message || String(err),
+                socketStateAfter: this.getSocketState()
+            })
         }
     }
 
     private processContactPresence(jid: string, data: PresenceData): void {
+        const opId = this.nextOpId('pres')
+        const socketStateBefore = this.getSocketState()
+
         let state = this.contactStates.get(jid)
         if (!state) {
             state = {
@@ -759,9 +1431,24 @@ export class PresenceTracker extends EventEmitter {
             this.contactStates.set(jid, state)
         }
 
+        const previousStatus = state.currentStatus
+        const previousPresence = state.lastKnownPresence
         const rawPresence = data.lastKnownPresence
         const rawLastSeen = data.lastSeen
         const hasExplicitLastSeen = typeof rawLastSeen === 'number' && !isNaN(rawLastSeen) && rawLastSeen > 0
+        const identity = this.resolveIdentityPair(state.jid)
+
+        this.recordDiagnostic('debug', 'presence_update_incoming', {
+            operationId: opId,
+            contactJid: state.jid,
+            resolvedPn: identity.pn,
+            resolvedLid: state.lid || identity.lid,
+            previousStatus,
+            previousPresence,
+            currentPresence: rawPresence,
+            socketStateBefore,
+            details: hasExplicitLastSeen ? { rawLastSeen } : undefined
+        })
 
         if (hasExplicitLastSeen) {
             const ms = rawLastSeen > 1e11 ? rawLastSeen : rawLastSeen * 1000
@@ -772,9 +1459,32 @@ export class PresenceTracker extends EventEmitter {
         }
 
         if (isOnlinePresence(rawPresence)) {
-            // Guard: Duplicate online events (e.g. available followed by composing or repeated available)
+            // Guard: Duplicate online events (e.g. available followed by composing/recording/paused or repeated available)
             if (state.currentStatus === 'online') {
                 state.lastKnownPresence = rawPresence
+                if (previousPresence !== rawPresence && rawPresence) {
+                    const chatstateEvent: PresenceChatstateEventData = {
+                        jid: state.jid,
+                        lid: state.lid,
+                        status: 'online',
+                        previousPresence,
+                        rawPresence,
+                        timestamp: new Date()
+                    }
+                    this.safeEmit('chatstate', chatstateEvent, opId)
+                }
+                this.recordDiagnostic('debug', 'presence_active_state_updated', {
+                    operationId: opId,
+                    contactJid: state.jid,
+                    resolvedPn: identity.pn,
+                    resolvedLid: state.lid || identity.lid,
+                    previousStatus,
+                    currentStatus: state.currentStatus,
+                    previousPresence,
+                    currentPresence: rawPresence,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState()
+                })
                 return
             }
 
@@ -808,12 +1518,47 @@ export class PresenceTracker extends EventEmitter {
                 } : {})
             }
 
-            this.emit('online', eventData)
-            this.emit('presence', eventData)
+            this.safeEmit('online', eventData, opId)
+            this.safeEmit('presence', eventData, opId)
+            if (rawPresence && rawPresence !== 'available') {
+                this.safeEmit('chatstate', {
+                    jid: state.jid,
+                    lid: state.lid,
+                    status: 'online',
+                    previousPresence,
+                    rawPresence,
+                    timestamp: now
+                } as PresenceChatstateEventData, opId)
+            }
+
+            this.recordDiagnostic('info', 'presence_transition_online', {
+                operationId: opId,
+                contactJid: state.jid,
+                resolvedPn: identity.pn,
+                resolvedLid: state.lid || identity.lid,
+                previousStatus,
+                currentStatus: state.currentStatus,
+                previousPresence,
+                currentPresence: rawPresence,
+                socketStateBefore,
+                socketStateAfter: this.getSocketState()
+            })
         } else if (isOfflinePresence(rawPresence)) {
             // Guard: Duplicate offline events
             if (state.currentStatus === 'offline') {
                 state.lastKnownPresence = rawPresence
+                this.recordDiagnostic('debug', 'presence_duplicate_offline_ignored', {
+                    operationId: opId,
+                    contactJid: state.jid,
+                    resolvedPn: identity.pn,
+                    resolvedLid: state.lid || identity.lid,
+                    previousStatus,
+                    currentStatus: state.currentStatus,
+                    previousPresence,
+                    currentPresence: rawPresence,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState()
+                })
                 return
             }
 
@@ -873,9 +1618,23 @@ export class PresenceTracker extends EventEmitter {
                     } : {})
                 }
 
-                this.emit('offline', eventData)
-                this.emit('session', { ...session, jid: state.jid })
-                this.emit('presence', eventData)
+                this.safeEmit('offline', eventData, opId)
+                this.safeEmit('session', { ...session, jid: state.jid }, opId)
+                this.safeEmit('presence', eventData, opId)
+
+                this.recordDiagnostic('info', 'presence_transition_offline', {
+                    operationId: opId,
+                    contactJid: state.jid,
+                    resolvedPn: identity.pn,
+                    resolvedLid: state.lid || identity.lid,
+                    previousStatus,
+                    currentStatus: state.currentStatus,
+                    previousPresence,
+                    currentPresence: rawPresence,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState(),
+                    details: { duration, durationMs }
+                })
             } else {
                 // Initial offline state received without a prior tracked online start
                 state.currentStatus = 'offline'
@@ -905,8 +1664,21 @@ export class PresenceTracker extends EventEmitter {
                     } : {})
                 }
 
-                this.emit('offline', eventData)
-                this.emit('presence', eventData)
+                this.safeEmit('offline', eventData, opId)
+                this.safeEmit('presence', eventData, opId)
+
+                this.recordDiagnostic('info', 'presence_initial_offline', {
+                    operationId: opId,
+                    contactJid: state.jid,
+                    resolvedPn: identity.pn,
+                    resolvedLid: state.lid || identity.lid,
+                    previousStatus,
+                    currentStatus: state.currentStatus,
+                    previousPresence,
+                    currentPresence: rawPresence,
+                    socketStateBefore,
+                    socketStateAfter: this.getSocketState()
+                })
             }
         }
     }
@@ -926,7 +1698,6 @@ export class PresenceTracker extends EventEmitter {
  *     console.log(data)
  * })
  */
-
 export function monitorPresence(
     sock: PresenceTrackerSocket,
     jid?: string | string[],
@@ -947,4 +1718,3 @@ export const createPresenceTracker = monitorPresence
 export const PresenceMonitor = PresenceTracker
 export type PresenceMonitor = PresenceTracker
 export type PresenceMonitorOptions = PresenceTrackerOptions
-

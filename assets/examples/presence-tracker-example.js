@@ -20,6 +20,8 @@ async function startPresenceMonitorBot() {
 
     sock.ev.on('creds.update', saveCreds);
 
+    let monitor = null;
+
     sock.ev.on('connection.update', (update) => {
         const { connection, lastDisconnect, qr } = update;
 
@@ -29,43 +31,51 @@ async function startPresenceMonitorBot() {
         }
 
         if (connection === 'close') {
-            const shouldReconnect = new Boom(lastDisconnect?.error)?.output?.statusCode !== DisconnectReason.loggedOut;
-            console.log('Connection closed. Reconnecting:', shouldReconnect);
+            if (monitor) {
+                monitor.destroy();
+                monitor = null;
+            }
+            const statusCode = new Boom(lastDisconnect?.error)?.output?.statusCode;
+            const closeCode = lastDisconnect?.error?.data?.closeCode;
+            const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+            console.log(`Connection closed (statusCode=${statusCode}, closeCode=${closeCode}). Reconnecting:`, shouldReconnect);
             if (shouldReconnect) startPresenceMonitorBot();
         } else if (connection === 'open') {
             console.log('[Presence Monitor] WhatsApp connection opened successfully.');
 
-            // Target contact JID to monitor
-            const targetJid = '923001234567@s.whatsapp.net';
+            if (!monitor) {
+                // Target contact JID to monitor
+                const targetJid = '923001234567@s.whatsapp.net';
 
-            // Initialize presence monitoring
-            const monitor = monitorPresence(sock, targetJid, {
-                logToConsole: true,   // Automatically logs in exact format required
-                autoResubscribe: true // Automatically re-subscribes after socket reconnects
-            });
-
-            monitor.on('online', (data) => {
-                console.log('==> Online Event Received:', {
-                    jid: data.jid,
-                    status: data.status,
-                    onlineAt: data.onlineAt
+                // Initialize presence monitoring
+                monitor = monitorPresence(sock, targetJid, {
+                    logToConsole: true,   // Automatically logs in exact format required
+                    autoResubscribe: true // Automatically re-subscribes after socket reconnects
                 });
-            });
 
-            monitor.on('offline', (data) => {
-                console.log('==> Offline Event Received:', {
-                    jid: data.jid,
-                    status: data.status,
-                    onlineAt: data.onlineAt,
-                    offlineAt: data.offlineAt,
-                    duration: data.duration,
-                    lastSeen: data.lastSeen
+                monitor.on('online', (data) => {
+                    console.log('==> Online Event Received:', {
+                        jid: data.jid,
+                        status: data.status,
+                        onlineAt: data.onlineAt
+                    });
                 });
-            });
 
-            monitor.on('session', (session) => {
-                console.log('==> Session Summary Recorded:', session);
-            });
+                monitor.on('offline', (data) => {
+                    console.log('==> Offline Event Received:', {
+                        jid: data.jid,
+                        status: data.status,
+                        onlineAt: data.onlineAt,
+                        offlineAt: data.offlineAt,
+                        duration: data.duration,
+                        lastSeen: data.lastSeen
+                    });
+                });
+
+                monitor.on('session', (session) => {
+                    console.log('==> Session Summary Recorded:', session);
+                });
+            }
         }
     });
 }
