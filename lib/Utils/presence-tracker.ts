@@ -27,6 +27,8 @@ export interface PresenceDiagnosticEvent {
     contactJid?: string
     resolvedPn?: string
     resolvedLid?: string
+    isLocked?: boolean
+    subscriptionState?: 'pending' | 'subscribed' | 'failed'
     previousStatus?: 'online' | 'offline' | 'unknown'
     currentStatus?: 'online' | 'offline' | 'unknown'
     previousPresence?: WAPresence
@@ -82,6 +84,8 @@ export interface PresenceSession {
 export interface ContactPresenceState {
     jid: string
     lid?: string
+    isLocked?: boolean
+    subscriptionState?: 'pending' | 'subscribed' | 'failed'
     currentStatus: 'online' | 'offline' | 'unknown'
     lastKnownPresence?: WAPresence
     currentSessionStart?: Date
@@ -116,6 +120,7 @@ export interface PresenceTrackerSocket {
     ev: BaileysEventEmitter
     presenceSubscribe: (toJid: string, tcToken?: Buffer) => Promise<void>
     sendPresenceUpdate?: (type: WAPresence, toJid?: string) => Promise<void>
+    isChatLocked?: (jid: string) => boolean
     ws?: {
         isOpen?: boolean
         isConnecting?: boolean
@@ -127,6 +132,10 @@ export interface PresenceTrackerSocket {
         lidMapping?: {
             getLIDForPN?: (pn: string) => Promise<string | null>
             getPNForLID?: (lid: string) => Promise<string | null>
+            storeLIDPNMappings?: (pairs: { lid: string; pn: string }[]) => Promise<void>
+            mappingCache?: {
+                get?: (key: string) => string | undefined
+            }
         }
     }
 }
@@ -335,6 +344,7 @@ export class PresenceTracker extends EventEmitter {
     private inFlightLidLookups = new Map<string, Promise<string | undefined>>()
     private contactStates = new Map<string, ContactPresenceState>()
     private aliasMap = new Map<string, string>() // Bidirectional: PN <-> LID
+    private lockedJids = new Set<string>()
     private isDestroyed = false
     private isConnected = true
     private listenersAttached = false
@@ -349,6 +359,8 @@ export class PresenceTracker extends EventEmitter {
     private boundConnectionUpdate: (update: Partial<ConnectionState>) => void
     private boundLidMappingUpdate?: (mapping: { lid: string; pn: string }) => void
     private boundMessagesUpsert?: (update: { messages: WAMessage[] }) => void
+    private boundChatsLock: (update: { id: string; locked: boolean }) => void
+    private boundChatsUpdate: (updates: { id?: string; locked?: boolean }[]) => void
     private resubscribeTimer?: ReturnType<typeof setInterval>
 
     constructor(sock: PresenceTrackerSocket, targetsOrOptions?: PresenceTrackerOptions | string | string[], options?: PresenceTrackerOptions) {
@@ -388,6 +400,8 @@ export class PresenceTracker extends EventEmitter {
         this.boundPresenceUpdate = this.handlePresenceUpdate.bind(this)
         this.boundConnectionUpdate = this.handleConnectionUpdate.bind(this)
         this.boundLidMappingUpdate = this.handleLidMappingUpdate.bind(this)
+        this.boundChatsLock = this.handleChatsLock.bind(this)
+        this.boundChatsUpdate = this.handleChatsUpdate.bind(this)
         if (this.options.trackMessagesAsPresence) {
             this.boundMessagesUpsert = this.handleMessagesUpsert.bind(this)
         }
@@ -538,12 +552,31 @@ export class PresenceTracker extends EventEmitter {
         return true
     }
 
+    private isContactLocked(jid: string): boolean {
+        const norm = normalizeContactJid(jid)
+        if (!norm) return false
+        if (this.lockedJids.has(norm)) return true
+        const alias = this.aliasMap.get(norm)
+        if (alias && this.lockedJids.has(alias)) return true
+        const state = this.contactStates.get(norm)
+        if (state?.isLocked) return true
+        if (state?.lid && this.lockedJids.has(state.lid)) return true
+        try {
+            if (this.sock?.isChatLocked?.(norm)) return true
+            if (alias && this.sock?.isChatLocked?.(alias)) return true
+            if (state?.lid && this.sock?.isChatLocked?.(state.lid)) return true
+        } catch { }
+        return false
+    }
+
     private attachSocketListeners(): void {
         if (this.listenersAttached || !this.sock?.ev) return
         this.listenersAttached = true
 
         this.sock.ev.on('presence.update', this.boundPresenceUpdate)
         this.sock.ev.on('connection.update', this.boundConnectionUpdate)
+        ;(this.sock.ev as any).on('chats.lock', this.boundChatsLock)
+        ;(this.sock.ev as any).on('chats.update', this.boundChatsUpdate)
         if (this.boundLidMappingUpdate) {
             this.sock.ev.on('lid-mapping.update' as any, this.boundLidMappingUpdate as any)
         }
@@ -558,6 +591,8 @@ export class PresenceTracker extends EventEmitter {
 
         this.sock.ev.off('presence.update', this.boundPresenceUpdate)
         this.sock.ev.off('connection.update', this.boundConnectionUpdate)
+        ;(this.sock.ev as any).off('chats.lock', this.boundChatsLock)
+        ;(this.sock.ev as any).off('chats.update', this.boundChatsUpdate)
         if (this.boundLidMappingUpdate) {
             this.sock.ev.off('lid-mapping.update' as any, this.boundLidMappingUpdate as any)
         }
@@ -687,25 +722,37 @@ export class PresenceTracker extends EventEmitter {
         this.aliasMap.set(lid, pn)
         this.aliasMap.set(pn, lid)
 
+        const existingLidState = this.contactStates.get(lid)
+
         // Find or create dedicated state for the PN
         let state = this.contactStates.get(pn)
         if (!state) {
             state = {
                 jid: pn,
                 lid,
-                currentStatus: 'unknown',
-                sessions: []
+                currentStatus: existingLidState ? existingLidState.currentStatus : 'unknown',
+                ...(existingLidState?.isLocked !== undefined ? { isLocked: existingLidState.isLocked } : {}),
+                ...(existingLidState?.subscriptionState !== undefined ? { subscriptionState: existingLidState.subscriptionState } : {}),
+                sessions: existingLidState ? existingLidState.sessions : []
             }
             this.contactStates.set(pn, state)
         } else {
             state.lid = lid
+            if (existingLidState?.isLocked !== undefined && state.isLocked === undefined) {
+                state.isLocked = existingLidState.isLocked
+            }
+            if (existingLidState?.subscriptionState !== undefined && !state.subscriptionState) {
+                state.subscriptionState = existingLidState.subscriptionState
+            }
         }
 
         this.contactStates.set(lid, state)
 
-        // If PN was monitored, ensure LID is also tracked in monitoredJids
+        // Ensure PN and LID stay paired in monitoredJids when either is monitored
         if (this.monitoredJids.has(pn)) {
             this.monitoredJids.add(lid)
+        } else if (this.monitoredJids.has(lid)) {
+            this.monitoredJids.add(pn)
         }
     }
 
@@ -740,6 +787,12 @@ export class PresenceTracker extends EventEmitter {
         if (!normalized || this.isDestroyed) return
 
         const identity = this.resolveIdentityPair(normalized)
+        const isLocked = this.isContactLocked(normalized)
+        const canonical = this.resolveCanonicalJid(normalized)
+        const targetState = (canonical ? this.contactStates.get(canonical) : undefined) || this.contactStates.get(normalized)
+        if (targetState) {
+            targetState.isLocked = isLocked
+        }
         const socketStateBefore = this.getSocketState()
 
         if (!this.isSocketOpen()) {
@@ -748,6 +801,8 @@ export class PresenceTracker extends EventEmitter {
                 contactJid: normalized,
                 resolvedPn: identity.pn,
                 resolvedLid: identity.lid,
+                isLocked,
+                subscriptionState: targetState?.subscriptionState,
                 socketStateBefore
             })
             return
@@ -759,6 +814,8 @@ export class PresenceTracker extends EventEmitter {
                 contactJid: normalized,
                 resolvedPn: identity.pn,
                 resolvedLid: identity.lid,
+                isLocked,
+                subscriptionState: targetState?.subscriptionState,
                 socketStateBefore
             })
             return
@@ -771,11 +828,16 @@ export class PresenceTracker extends EventEmitter {
         }
 
         const subPromise = (async () => {
-            this.recordDiagnostic('debug', 'presence_subscribe_request', {
+            if (targetState) {
+                targetState.subscriptionState = 'pending'
+            }
+            this.recordDiagnostic(isLocked ? 'info' : 'debug', 'presence_subscribe_request', {
                 operationId,
                 contactJid: normalized,
                 resolvedPn: identity.pn,
                 resolvedLid: identity.lid,
+                isLocked,
+                subscriptionState: 'pending',
                 socketStateBefore,
                 details: { force }
             })
@@ -785,22 +847,32 @@ export class PresenceTracker extends EventEmitter {
                 if (!this.isDestroyed && this.isConnected) {
                     this.activeSubscribedJids.add(normalized)
                 }
-                this.recordDiagnostic('debug', 'presence_subscribe_response', {
+                if (targetState) {
+                    targetState.subscriptionState = 'subscribed'
+                }
+                this.recordDiagnostic(isLocked ? 'info' : 'debug', 'presence_subscribe_response', {
                     operationId,
                     contactJid: normalized,
                     resolvedPn: identity.pn,
                     resolvedLid: identity.lid,
+                    isLocked,
+                    subscriptionState: 'subscribed',
                     socketStateBefore,
                     socketStateAfter: this.getSocketState(),
                     details: { success: true }
                 })
             } catch (err: any) {
                 const errMsg = err?.message || String(err)
+                if (targetState) {
+                    targetState.subscriptionState = 'failed'
+                }
                 this.recordDiagnostic('warn', 'presence_subscribe_failed', {
                     operationId,
                     contactJid: normalized,
                     resolvedPn: identity.pn,
                     resolvedLid: identity.lid,
+                    isLocked,
+                    subscriptionState: 'failed',
                     errorMessage: errMsg,
                     socketStateBefore,
                     socketStateAfter: this.getSocketState()
@@ -881,10 +953,13 @@ export class PresenceTracker extends EventEmitter {
             if (!state) {
                 state = {
                     jid: normalized,
+                    isLocked: this.isContactLocked(normalized),
                     currentStatus: 'unknown',
                     sessions: []
                 }
                 this.contactStates.set(normalized, state)
+            } else {
+                state.isLocked = this.isContactLocked(normalized)
             }
 
             if (!wasMonitored) {
@@ -893,21 +968,34 @@ export class PresenceTracker extends EventEmitter {
                     contactJid: normalized,
                     resolvedPn: normalized.endsWith('@s.whatsapp.net') ? normalized : this.aliasMap.get(normalized),
                     resolvedLid: state.lid || (normalized.endsWith('@lid') ? normalized : this.aliasMap.get(normalized)),
+                    isLocked: state.isLocked,
                     socketStateBefore
                 })
             }
 
-            // Attempt to resolve LID for phone number accounts when socket is open
+            // Attempt bidirectional LID <-> PN resolution when socket is open
+            let resolvedPn: string | undefined
             if (this.options.resolveLid && normalized.endsWith('@s.whatsapp.net') && !state.lid && this.isSocketOpen()) {
                 await this.discoverLid(normalized, state, opId)
+            } else if (this.options.resolveLid && normalized.endsWith('@lid') && !this.aliasMap.get(normalized) && this.isSocketOpen()) {
+                resolvedPn = await this.discoverPn(normalized, state, opId)
+            } else if (normalized.endsWith('@lid')) {
+                const mappedPn = this.aliasMap.get(normalized)
+                if (mappedPn && mappedPn.endsWith('@s.whatsapp.net')) {
+                    resolvedPn = mappedPn
+                }
             }
 
             // Subscribe to primary JID (deduplicated)
             await this.subscribeTarget(normalized, opId, false)
 
-            // If LID is known, subscribe to LID as well (deduplicated)
-            if (state.lid && state.lid !== normalized) {
-                await this.subscribeTarget(state.lid, opId, false)
+            // If paired PN or LID is known, subscribe to it as well (deduplicated)
+            const activeState = this.contactStates.get(this.resolveCanonicalJid(normalized) || normalized) || state
+            if (activeState.lid && activeState.lid !== normalized) {
+                await this.subscribeTarget(activeState.lid, opId, false)
+            }
+            if (resolvedPn && resolvedPn !== normalized) {
+                await this.subscribeTarget(resolvedPn, opId, false)
             }
         }
     }
@@ -968,12 +1056,16 @@ export class PresenceTracker extends EventEmitter {
 
             if (lid && lid.endsWith('@lid')) {
                 state.lid = lid
+                if (this.sock.signalRepository?.lidMapping?.storeLIDPNMappings) {
+                    await this.sock.signalRepository.lidMapping.storeLIDPNMappings([{ pn: pnJid, lid }]).catch(() => { })
+                }
                 this.linkAliases(pnJid, lid)
                 this.recordDiagnostic('info', 'lid_resolved', {
                     operationId: opId,
                     contactJid: pnJid,
                     resolvedPn: pnJid,
                     resolvedLid: lid,
+                    isLocked: this.isContactLocked(pnJid) || this.isContactLocked(lid),
                     socketStateAfter: this.getSocketState()
                 })
                 if (this.options.logToConsole) {
@@ -991,6 +1083,92 @@ export class PresenceTracker extends EventEmitter {
         } finally {
             if (this.inFlightLidLookups.get(pnJid) === lookupPromise) {
                 this.inFlightLidLookups.delete(pnJid)
+            }
+        }
+    }
+
+    /**
+     * Discover and link Phone Number JID for a given LID JID
+     */
+    private async discoverPn(lidJid: string, state: ContactPresenceState, operationId?: string): Promise<string | undefined> {
+        const opId = operationId || this.nextOpId('pn')
+        const existingLookup = this.inFlightLidLookups.get(lidJid)
+        if (existingLookup) {
+            const resolved = await existingLookup
+            if (resolved) {
+                this.linkAliases(resolved, lidJid)
+            }
+            return resolved
+        }
+
+        const lookupPromise = (async (): Promise<string | undefined> => {
+            let pn: string | undefined
+
+            // 1. Check signalRepository lidMapping reverse store
+            if (this.sock.signalRepository?.lidMapping?.getPNForLID) {
+                try {
+                    const res = await this.sock.signalRepository.lidMapping.getPNForLID(lidJid)
+                    if (res) pn = normalizeContactJid(res)
+                } catch (err: any) {
+                    this.recordDiagnostic('debug', 'pn_cache_lookup_failed', {
+                        operationId: opId,
+                        contactJid: lidJid,
+                        isLocked: this.isContactLocked(lidJid),
+                        errorMessage: err?.message || String(err)
+                    })
+                }
+            }
+
+            // 2. Query via USync onWhatsApp if not yet in cache
+            if (!pn && this.sock.onWhatsApp && this.isSocketOpen()) {
+                try {
+                    const res = await this.sock.onWhatsApp(lidJid)
+                    const cleanLid = normalizeContactJid(lidJid)
+                    const entry = res?.find(r => {
+                        const rLid = normalizeContactJid(r?.lid || '')
+                        const rJid = normalizeContactJid(r?.jid || '')
+                        return rLid === cleanLid || rJid === cleanLid
+                    })
+                    const candidate = entry?.pn || (entry?.jid && entry.jid.endsWith('@s.whatsapp.net') ? entry.jid : undefined)
+                    if (candidate) {
+                        pn = normalizeContactJid(candidate)
+                    }
+                } catch (err: any) {
+                    this.recordDiagnostic('debug', 'pn_usync_lookup_failed', {
+                        operationId: opId,
+                        contactJid: lidJid,
+                        isLocked: this.isContactLocked(lidJid),
+                        errorMessage: err?.message || String(err)
+                    })
+                }
+            }
+
+            if (pn && pn.endsWith('@s.whatsapp.net')) {
+                state.lid = normalizeContactJid(lidJid)
+                if (this.sock.signalRepository?.lidMapping?.storeLIDPNMappings) {
+                    await this.sock.signalRepository.lidMapping.storeLIDPNMappings([{ pn, lid: lidJid }]).catch(() => { })
+                }
+                this.linkAliases(pn, lidJid)
+                this.recordDiagnostic('info', 'pn_resolved_for_lid', {
+                    operationId: opId,
+                    contactJid: lidJid,
+                    resolvedPn: pn,
+                    resolvedLid: lidJid,
+                    isLocked: this.isContactLocked(pn) || this.isContactLocked(lidJid),
+                    socketStateAfter: this.getSocketState()
+                })
+                return pn
+            }
+
+            return undefined
+        })()
+
+        this.inFlightLidLookups.set(lidJid, lookupPromise)
+        try {
+            return await lookupPromise
+        } finally {
+            if (this.inFlightLidLookups.get(lidJid) === lookupPromise) {
+                this.inFlightLidLookups.delete(lidJid)
             }
         }
     }
@@ -1025,7 +1203,7 @@ export class PresenceTracker extends EventEmitter {
         const socketStateBefore = this.getSocketState()
 
         try {
-            // Resolve any missing LIDs for monitored PN contacts first
+            // Resolve any missing LIDs or PNs for monitored contacts first
             if (this.options.resolveLid) {
                 const pnSnapshot = Array.from(this.monitoredJids).filter(j => j.endsWith('@s.whatsapp.net'))
                 for (const pn of pnSnapshot) {
@@ -1033,6 +1211,19 @@ export class PresenceTracker extends EventEmitter {
                     const state = this.contactStates.get(pn)
                     if (state && !state.lid) {
                         await this.discoverLid(pn, state, opId)
+                    }
+                }
+                const lidSnapshot = Array.from(this.monitoredJids).filter(j => j.endsWith('@lid'))
+                for (const lid of lidSnapshot) {
+                    if (this.isDestroyed || !this.isSocketOpen()) return
+                    if (!this.aliasMap.get(lid)) {
+                        const state = this.contactStates.get(lid) || {
+                            jid: lid,
+                            lid,
+                            currentStatus: 'unknown',
+                            sessions: []
+                        }
+                        await this.discoverPn(lid, state, opId)
                     }
                 }
             }
@@ -1184,6 +1375,7 @@ export class PresenceTracker extends EventEmitter {
         this.activeSubscribedJids.clear()
         this.inFlightSubscriptions.clear()
         this.inFlightLidLookups.clear()
+        this.lockedJids.clear()
 
         this.recordDiagnostic('info', 'tracker_destroyed', {
             operationId: opId,
@@ -1391,6 +1583,136 @@ export class PresenceTracker extends EventEmitter {
         }
     }
 
+    private updateContactLockState(rawJid: string, locked: boolean): void {
+        const norm = normalizeContactJid(rawJid)
+        if (!norm) return
+        if (locked) {
+            this.lockedJids.add(norm)
+        } else {
+            this.lockedJids.delete(norm)
+        }
+        const alias = this.aliasMap.get(norm)
+        if (alias) {
+            if (locked) this.lockedJids.add(alias)
+            else this.lockedJids.delete(alias)
+        }
+        const canonical = this.resolveCanonicalJid(norm)
+        if (canonical && this.isMonitoring(canonical)) {
+            const state = this.contactStates.get(canonical)
+            if (state) {
+                state.isLocked = locked
+            }
+            const identity = this.resolveIdentityPair(canonical)
+            this.recordDiagnostic('info', 'chat_lock_state_changed', {
+                operationId: this.nextOpId('lock'),
+                contactJid: canonical,
+                resolvedPn: identity.pn,
+                resolvedLid: state?.lid || identity.lid,
+                isLocked: locked,
+                subscriptionState: state?.subscriptionState
+            })
+        }
+    }
+
+    private handleChatsLock(update: { id: string; locked: boolean }): void {
+        try {
+            if (this.isDestroyed || !update?.id || typeof update.locked !== 'boolean') return
+            this.updateContactLockState(update.id, update.locked)
+        } catch { }
+    }
+
+    private handleChatsUpdate(updates: { id?: string; locked?: boolean }[]): void {
+        try {
+            if (this.isDestroyed || !Array.isArray(updates)) return
+            for (const u of updates) {
+                if (u?.id && typeof u.locked === 'boolean') {
+                    this.updateContactLockState(u.id, u.locked)
+                }
+            }
+        } catch { }
+    }
+
+    private resolveViaCacheSync(jid: string): string | undefined {
+        if (!jid) return undefined
+        const mappingCache = this.sock?.signalRepository?.lidMapping?.mappingCache
+        if (!mappingCache?.get) return undefined
+        const atIdx = jid.indexOf('@')
+        if (atIdx <= 0) return undefined
+        const user = jid.slice(0, atIdx)
+        if (jid.endsWith('@lid')) {
+            const pnUser = mappingCache.get(`lid:${user}`)
+            if (pnUser) {
+                const pn = `${pnUser}@s.whatsapp.net`
+                this.linkAliases(pn, jid)
+                return this.resolveCanonicalJid(pn)
+            }
+        } else if (jid.endsWith('@s.whatsapp.net')) {
+            const lidUser = mappingCache.get(`pn:${user}`)
+            if (lidUser) {
+                const lid = `${lidUser}@lid`
+                this.linkAliases(jid, lid)
+                return this.resolveCanonicalJid(lid)
+            }
+        }
+        return undefined
+    }
+
+    private async recoverAndProcessPresence(normParticipant: string, normId: string, data: PresenceData): Promise<void> {
+        try {
+            if (this.isDestroyed) return
+            const lidMapping = this.sock?.signalRepository?.lidMapping
+            let matchedJid: string | undefined
+            const candidates = [normParticipant, normId].filter(Boolean)
+
+            if (lidMapping) {
+                for (const candidate of candidates) {
+                    if (candidate.endsWith('@lid') && typeof lidMapping.getPNForLID === 'function') {
+                        const pn = await lidMapping.getPNForLID(candidate).catch(() => null)
+                        if (pn) {
+                            const normPn = normalizeContactJid(pn)
+                            this.linkAliases(normPn, candidate)
+                            const resolved = this.resolveCanonicalJid(normPn) || this.resolveCanonicalJid(candidate)
+                            if (resolved && this.isMonitoring(resolved)) {
+                                matchedJid = resolved
+                                break
+                            }
+                        }
+                    } else if (candidate.endsWith('@s.whatsapp.net') && lidMapping.mappingCache?.get) {
+                        const user = candidate.split('@')[0]
+                        const lidUser = lidMapping.mappingCache.get(`pn:${user}`)
+                        if (lidUser) {
+                            const lid = `${lidUser}@lid`
+                            this.linkAliases(candidate, lid)
+                            const resolved = this.resolveCanonicalJid(candidate) || this.resolveCanonicalJid(lid)
+                            if (resolved && this.isMonitoring(resolved)) {
+                                matchedJid = resolved
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (this.isDestroyed) return
+
+            if (matchedJid) {
+                this.processContactPresence(matchedJid, data)
+            } else {
+                const sampleJid = normParticipant || normId
+                this.recordDiagnostic('debug', 'presence_update_unmatched', {
+                    operationId: this.nextOpId('unmatched'),
+                    contactJid: sampleJid,
+                    isLocked: this.isContactLocked(sampleJid),
+                    details: {
+                        incomingId: normId,
+                        incomingParticipant: normParticipant,
+                        monitoredCount: this.monitoredJids.size
+                    }
+                })
+            }
+        } catch { }
+    }
+
     private handlePresenceUpdate(update: { id: string; presences: { [participant: string]: PresenceData } }): void {
         try {
             if (this.isDestroyed || !update || !update.presences) return
@@ -1401,9 +1723,31 @@ export class PresenceTracker extends EventEmitter {
                 const normParticipant = normalizeContactJid(participant)
                 const normId = normalizeContactJid(id)
 
-                // Find matching monitored JID (checking participant first, then chat id, resolving aliases)
-                const matchedJid = this.resolveCanonicalJid(normParticipant) || this.resolveCanonicalJid(normId)
-                if (!matchedJid || !this.isMonitoring(matchedJid)) continue
+                // Find matching monitored JID (checking participant first, then chat id, resolving aliases + sync cache)
+                let matchedJid = this.resolveCanonicalJid(normParticipant)
+                    || this.resolveCanonicalJid(normId)
+                    || this.resolveViaCacheSync(normParticipant)
+                    || (normId !== normParticipant ? this.resolveViaCacheSync(normId) : undefined)
+
+                if (!matchedJid || !this.isMonitoring(matchedJid)) {
+                    const lidMapping = this.sock?.signalRepository?.lidMapping
+                    if (lidMapping && (normParticipant.endsWith('@lid') || normId.endsWith('@lid') || lidMapping.mappingCache)) {
+                        void this.recoverAndProcessPresence(normParticipant, normId, data)
+                    } else {
+                        const sampleJid = normParticipant || normId
+                        this.recordDiagnostic('debug', 'presence_update_unmatched', {
+                            operationId: this.nextOpId('unmatched'),
+                            contactJid: sampleJid,
+                            isLocked: this.isContactLocked(sampleJid),
+                            details: {
+                                incomingId: normId,
+                                incomingParticipant: normParticipant,
+                                monitoredCount: this.monitoredJids.size
+                            }
+                        })
+                    }
+                    continue
+                }
 
                 this.processContactPresence(matchedJid, data)
             }
@@ -1425,12 +1769,16 @@ export class PresenceTracker extends EventEmitter {
         if (!state) {
             state = {
                 jid,
+                isLocked: this.isContactLocked(jid),
                 currentStatus: 'unknown',
                 sessions: []
             }
             this.contactStates.set(jid, state)
+        } else if (state.isLocked === undefined) {
+            state.isLocked = this.isContactLocked(jid)
         }
 
+        const isLocked = state.isLocked ?? this.isContactLocked(state.jid)
         const previousStatus = state.currentStatus
         const previousPresence = state.lastKnownPresence
         const rawPresence = data.lastKnownPresence
@@ -1443,6 +1791,8 @@ export class PresenceTracker extends EventEmitter {
             contactJid: state.jid,
             resolvedPn: identity.pn,
             resolvedLid: state.lid || identity.lid,
+            isLocked,
+            subscriptionState: state.subscriptionState,
             previousStatus,
             previousPresence,
             currentPresence: rawPresence,
@@ -1536,6 +1886,8 @@ export class PresenceTracker extends EventEmitter {
                 contactJid: state.jid,
                 resolvedPn: identity.pn,
                 resolvedLid: state.lid || identity.lid,
+                isLocked,
+                subscriptionState: state.subscriptionState,
                 previousStatus,
                 currentStatus: state.currentStatus,
                 previousPresence,
@@ -1627,6 +1979,8 @@ export class PresenceTracker extends EventEmitter {
                     contactJid: state.jid,
                     resolvedPn: identity.pn,
                     resolvedLid: state.lid || identity.lid,
+                    isLocked,
+                    subscriptionState: state.subscriptionState,
                     previousStatus,
                     currentStatus: state.currentStatus,
                     previousPresence,
@@ -1672,6 +2026,8 @@ export class PresenceTracker extends EventEmitter {
                     contactJid: state.jid,
                     resolvedPn: identity.pn,
                     resolvedLid: state.lid || identity.lid,
+                    isLocked,
+                    subscriptionState: state.subscriptionState,
                     previousStatus,
                     currentStatus: state.currentStatus,
                     previousPresence,

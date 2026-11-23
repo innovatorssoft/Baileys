@@ -23,6 +23,8 @@ export interface PresenceDiagnosticEvent {
     contactJid?: string;
     resolvedPn?: string;
     resolvedLid?: string;
+    isLocked?: boolean;
+    subscriptionState?: 'pending' | 'subscribed' | 'failed';
     previousStatus?: 'online' | 'offline' | 'unknown';
     currentStatus?: 'online' | 'offline' | 'unknown';
     previousPresence?: WAPresence;
@@ -74,6 +76,8 @@ export interface PresenceSession {
 export interface ContactPresenceState {
     jid: string;
     lid?: string;
+    isLocked?: boolean;
+    subscriptionState?: 'pending' | 'subscribed' | 'failed';
     currentStatus: 'online' | 'offline' | 'unknown';
     lastKnownPresence?: WAPresence;
     currentSessionStart?: Date;
@@ -106,6 +110,7 @@ export interface PresenceTrackerSocket {
     ev: BaileysEventEmitter;
     presenceSubscribe: (toJid: string, tcToken?: Buffer) => Promise<void>;
     sendPresenceUpdate?: (type: WAPresence, toJid?: string) => Promise<void>;
+    isChatLocked?: (jid: string) => boolean;
     ws?: {
         isOpen?: boolean;
         isConnecting?: boolean;
@@ -122,6 +127,13 @@ export interface PresenceTrackerSocket {
         lidMapping?: {
             getLIDForPN?: (pn: string) => Promise<string | null>;
             getPNForLID?: (lid: string) => Promise<string | null>;
+            storeLIDPNMappings?: (pairs: {
+                lid: string;
+                pn: string;
+            }[]) => Promise<void>;
+            mappingCache?: {
+                get?: (key: string) => string | undefined;
+            };
         };
     };
 }
@@ -186,6 +198,7 @@ export declare class PresenceTracker extends EventEmitter {
     private inFlightLidLookups;
     private contactStates;
     private aliasMap;
+    private lockedJids;
     private isDestroyed;
     private isConnected;
     private listenersAttached;
@@ -199,6 +212,8 @@ export declare class PresenceTracker extends EventEmitter {
     private boundConnectionUpdate;
     private boundLidMappingUpdate?;
     private boundMessagesUpsert?;
+    private boundChatsLock;
+    private boundChatsUpdate;
     private resubscribeTimer?;
     constructor(sock: PresenceTrackerSocket, targetsOrOptions?: PresenceTrackerOptions | string | string[], options?: PresenceTrackerOptions);
     private nextOpId;
@@ -211,6 +226,7 @@ export declare class PresenceTracker extends EventEmitter {
      * exception escape back into sock.ev / WebSocket frame processing.
      */
     private safeEmit;
+    private isContactLocked;
     private attachSocketListeners;
     private detachSocketListeners;
     private startResubscribeTimer;
@@ -255,6 +271,10 @@ export declare class PresenceTracker extends EventEmitter {
      * Discover and link LID for a given phone number JID
      */
     private discoverLid;
+    /**
+     * Discover and link Phone Number JID for a given LID JID
+     */
+    private discoverPn;
     /**
      * Force a deduplicated presence subscription request to refresh current state on demand
      */
@@ -330,6 +350,11 @@ export declare class PresenceTracker extends EventEmitter {
     private handleLidMappingUpdate;
     private handleConnectionUpdate;
     private handleMessagesUpsert;
+    private updateContactLockState;
+    private handleChatsLock;
+    private handleChatsUpdate;
+    private resolveViaCacheSync;
+    private recoverAndProcessPresence;
     private handlePresenceUpdate;
     private processContactPresence;
 }
